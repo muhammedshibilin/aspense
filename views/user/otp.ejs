@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="/user/stylesheets/otpStyle.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+
+<body style="background-color: #777;">
+  <style>
+    .swal2-toast {
+    width: 800px; /* Adjust the width as needed */
+    height: 100px; /* Adjust the height as needed */
+    font-size: 18px;
+    margin-top: 70px;
+  }
+  </style>
+    <div class="container">
+        <form method="post" action="/verify-otp" onsubmit="return validate()" class="otp-form">
+            <h2>OTP Verification</h2>
+
+            
+            <!-- <div id="error-message" class="error-message"></div> -->
+            
+
+            <div class="form-group">
+                <label for="otp">Enter OTP:</label>
+                <input name="otp" type="number" id="otp" maxlength="4" class="form-control" placeholder="Enter your OTP sent to your Email" required>
+                <div id="otp-error" class="error-message"></div>
+            </div>
+            <p id="timeSpan"> Resend OTP in <b class="text-dark"><span id="timer">60 </span></b> Seconds.</p> 
+            <p style="display: none;" id="resendLink">Didn't get the OTP &nbsp; <a href="/resend-otp"><b class="text-dark"> Resend</b></a></p>
+
+
+            <button style="background-color: #777;" onmouseover="this.style.backgroundColor='#dfe1e5'" onmouseout="this.style.backgroundColor='#dfe1e5'" type="submit" id="otpSubmit" onclick="validate()" class="btn">Verify OTP</button>
+            
+            
+            <% if(verifyErr){ %>
+              <div id="myAlert1" data-aos="fade-down" style="top: 6rem;     background-color: #d5d4d4"
+                      class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
+                  role="alert">
+                  <strong>Uh-oh!</strong> Your account is not verified yet, please verify.<a
+                    href=""> <span class="text-info link-underline-light">
+                    </span></a>
+              </div>
+              <% } %>
+              <% if(otpsend){ %>
+                <div id="myAlert1" data-aos="fade-down" style="top: 6rem; background-color: #d5d4d4"
+                        class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
+                    role="alert">
+                    OTP sent successfully! Check your email for the code.<a
+                      href=""> <span class="text-info link-underline-light">
+                      </span></a>
+                </div>
+                <% } %>
+              <% if(typeof resend !== 'undefined'){ %>
+                <div id="myAlert1" data-aos="fade-down" style="top: 6rem; background-color: #d5d4d4"
+                        class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
+                    role="alert">
+                     <%= resend%><a
+                      href=""> <span class="text-info link-underline-light">
+                      </span></a>
+                </div>
+                <% } %>
+
+        </div>
+        </form>
+
+        
+    </div>
+
+    <script>
+
+      const input = document.getElementById('otp')
+      const errorMessage = document.getElementById('otp-error')
+      const alertbox = document.getElementById("myAlert1")
+      
+      
+        input.addEventListener('input',function(){
+          errorMessage.textContent = ""
+          alertbox.style.display="none"
+        })
+
+        function validate() {
+          const otp = document.getElementById("otp").value;
+          if (otp == "") {
+            document.getElementById("otp-error").innerText = "Must fill out this field";
+            return false;
+          }
+        }
+
+    </script>
+  
+  <script>
+    document.getElementById("otpSubmit").addEventListener('click',function(e){
+e.preventDefault()
+
+const otp =document.getElementById("otp").value
+const message = document.getElementById("otp-error")
+
+$.ajax({
+    url:"/verify-otp",
+    data:{
+        otp:otp
+    },
+    method:"post",
+    success:(response)=>{
+        if(response.wrong){
+        message.style.display = "block";
+        message.textContent = "Enter the valid OTP."
+        }else if(response.fill){
+        message.style.display = "block";
+        message.textContent = "Please fill this field"
+        }else if(response.error){
+        message.style.display = "block";
+        message.textContent = "Sorry , Got some technical issues, please enter the otp again."
+        }else{
+            const Toast = swal.mixin({
+                toast: true,
+                position: 'cender',
+                showConfirmButton: false,
+                timer: 3000,
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Your aspens account is verified.'
+              })
+
+              setTimeout(()=>{
+                window.location.href="/login"
+              },3000)
+        }
+    }
+
+
+})
+
+})
+
+var timeleft = 60
+
+var downloadTimer = setInterval(function(){
+    timeleft--;
+    document.getElementById("timer").textContent = timeleft;
+    const resendLink = document.getElementById("resendLink");
+    const timeSpan = document.getElementById("timeSpan");
+
+    if(timeleft <= 0){
+        clearInterval(downloadTimer);
+        resendLink.style.display = "block";
+        timeSpan.style.display = "none";
+    }else{
+        document.getElementById("timer").textContent = timeleft;
+    }
+        
+    },1000);
+
+    
+  </script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+   <script
+   src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+   integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+   crossorigin="anonymous"
+ ></script>
+  </body>
+
+</html>
