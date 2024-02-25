@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const dotenv = require('dotenv').config()
+
 
 module.exports = {
     connectDB:() => {
@@ -6,7 +8,7 @@ module.exports = {
 
         mongoose.set('bufferCommands', true);  
 
-        mongoose.connect("mongodb://127.0.0.1:27017/db_aspens",{
+        mongoose.connect(process.env.mongo,{
             useNewUrlParser: true,
             useUnifiedTopology: true,
             bufferCommands: false 

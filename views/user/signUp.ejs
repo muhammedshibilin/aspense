@@ -1,4 +1,4 @@
-<%- include("../layouts/header.ejs") %>
+<%- include("../layouts/user/header.ejs") %>
 
 <!-- Start Header -->
 <header
@@ -266,6 +266,19 @@
                                         <div class="error-message" id="confirm-password-error"  style="display: none; color: red; font-size: 12px ; font-weight: bold;"></div>
 
                                 </div>
+                                <div class="mb-2 d-flex single-input">
+                                    <div class="mb-2 d-flex">
+                                        <button   onclick="window.location.href='/auth/facebook'" type="button" class="btn btn-facebook auth-form-btn flex-grow mr-1" style="background-color: blue; color: white;">
+                                          <i class="mdi mdi-facebook mr-2"></i>
+                                          Facebook
+                                        </button>
+                                        <button type="button" class="btn btn-google auth-form-btn flex-grow ml-1" style="background-color: blue; color: white;">
+                                          <i class="mdi mdi-google mr-2"></i>
+                                          Google
+                                        </button>
+                                      </div>
+                                      
+                                  </div>
                                 <div class="single-input">
                                     <button type="submit" id="signup-btn" >
                                         sign up
@@ -685,4 +698,4 @@
 <script src="user/js/main.js"></script>
 
 
-<%- include("../layouts/footer.ejs") %>
+<%- include("../layouts/user/footer.ejs") %>

@@ -1,5 +1,6 @@
 
 const nodeMailer = require('nodemailer')
+const dotenv = require('dotenv').config()
 
 
 const sendVerifyMail = async (name,email,otp) => {
@@ -11,8 +12,8 @@ const sendVerifyMail = async (name,email,otp) => {
             secure:false,
             requireTLS:true,
             auth:{
-                user:"nkshibili17@gmail.com",
-                pass:"cogh vbfc dnlr hked"
+                user:process.env.email,
+                pass:process.env.pass
             },   
         })
         const mailOptions = {

@@ -191,15 +191,19 @@ const verifyOtp = async(req,res) => {
         req.session.otpsend= false;
 
         const otpinput =parseInt(req.body.otp)
-        const email = req.body.email
+        const email = req.session.email
+        console.log(req.session.email);
 
 
         if(req.body.otp.trim()==""){
             res.json({fill:true})
         }else{
+
+            
             if(otpinput===otp){
-            const verified = await User.updateOne({email:email},{$set:{is_verified:1}})
-            console.log(verified);
+            const verified = await User.findOneAndUpdate({email:email},{$set:{is_verified:1}},{new:true})
+      
+            
         
         if(verified){
             req.session.regSuccess= true;

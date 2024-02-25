@@ -1,0 +1,100 @@
+<%- include("../layouts/admin/header.ejs") %>
+<!-- partial -->
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4
+                            class="card-title  d-flex  justify-content-center  ">
+                            product
+                            list</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            No
+                                        </th>
+                                        <th>
+                                            product name
+                                        </th>
+                                        <th>
+                                            category
+                                        </th>
+                                        <th>
+                                            price
+                                        </th>
+                                        <th>
+                                            image
+                                        </th>
+                                        <th>
+                                            quantity
+                                        </th>
+                                        <th>
+                                            size
+                                        </th>
+                                        <th>
+                                            offer
+                                        </th>
+                                        <th>
+                                            actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% let counter= 1; %>
+                                    <% productData.forEach( product => { %>
+                                    <tr>
+                                        <td class="py-1"> <%= counter %> </td>
+                                        <td class="py-1"> <%= product.name %>
+                                        </td>
+                                        <td class="py-1"> <%=
+                                            product.category.name %> </td>
+                                        <td class="py-1"><i
+                                                class="fa-solid fa-indian-rupee-sign"></i>
+                                            <%= product.price %> </td>
+                                        <td class="py-1"><img
+                                                src="../images/product/sized/<%= product.images.image1 %>"
+                                                alt></td>
+                                        <!-- <span class="py-1 "><%= product.name
+                                            %></span> -->
+                                        <td class="py-1"> <%= product.quantity
+                                            %> </td>
+                                        <td class="py-1"> <%= product.size %>
+                                        </td>
+                                        <% if(product.offer) { %>
+                                        <td><% product.offer.name %></td>
+                                        <% } else { %>
+                                        <td class="py-1 ">offer not found</td>
+                                        <% } %>
+                                        <td class="py-1">
+                                            <a
+                                                    href="/admin/editProduct?_id=<%= product._id %>"
+                                                    data-category-id="<%= product._id %>"
+                                                    class="btn btn-outline-warning edit-button">
+                                                    Edit
+                                                </a>
+                                            <a
+                                                    href="/admin/blockProduct?_id=<%= product._id %>"
+                                                    class="btn btn-outline-danger block-button"
+                                                    data-initial-status="<%= product.is_blocked %>">
+                                                    <%= product.is_blocked ?
+                                                    "Unblock" : "Block" %>
+                                                </a>
+                                            
+                                                <a
+                                                    href="/admin/deleteProduct?_id=<%= product._id %>"
+                                                    data-category-id="<%= product._id %>"
+                                                    class="btn btn-outline-primary delete-button">
+                                                    Delete
+                                                </a>
+                                        
+                                        </td>
+                                    </tr>
+                                    <% counter++ %>
+                                    <% }) %>
+                                    <%- include("../layouts/admin/footer.ejs")
+                                    %>

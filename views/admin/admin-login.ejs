@@ -40,8 +40,9 @@
                         <i class="mdi mdi-account-outline text-primary"></i>
                       </span>
                     </div>
-                    <input type="text" class="form-control form-control-lg border-left-0" id="exampleInputEmail" placeholder="email" id="email">
+                    <input type="text" class="form-control form-control-lg border-left-0" id="email" placeholder="email" id="email" name="email">
                   </div>
+                  <div class="error-message" id="email-error"></div>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword">Password</label>
@@ -51,8 +52,9 @@
                         <i class="mdi mdi-lock-outline text-primary"></i>
                       </span>
                     </div>
-                    <input type="password" class="form-control form-control-lg border-left-0" id="exampleInputPassword" placeholder="Password">                        
+                    <input type="password" class="form-control form-control-lg border-left-0" id="password" placeholder="Password" name="password">                        
                   </div>
+                  <div class="error-message" id="password-error"></div>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
@@ -64,7 +66,7 @@
                   <a href="#" class="auth-link text-black">Forgot password?</a>
                 </div>
                 <div class="my-3">
-                  <a class="btn btn-block btn-info btn-lg font-weight-medium auth-form-btn" href="/index.html">LOGIN</a>
+                  <button type="submit" id="admin-log-submit">login</button>
                 </div>
                 <div class="mb-2 d-flex">
                   <button type="button" class="btn btn-facebook auth-form-btn flex-grow mr-1">
@@ -77,7 +79,7 @@
                   </button>
                 </div>
                 <div class="text-center mt-4 font-weight-light">
-                  Don't have an account? <a href="register-2.html" class="text-primary">Create</a>
+                  Don't have an account? <a href="/sign-up" class="text-primary">Create</a>
                 </div>
               </form>
             </div>
@@ -99,6 +101,72 @@
   <script src="js/off-canvas.js"></script>
   <script src="js/hoverable-collapse.js"></script>
   <script src="js/template.js"></script>
+  <script>
+
+    const inputs = document.querySelectorAll('input')
+    const emailMessage = document.getElementById('email-error')
+    const passwordMessage = document.getElementById('password-error')
+
+    inputs.forEach(input => {
+        input.addEventListener('input', function () {
+            emailMessage.textContent = ""
+            passwordMessage.textContent = ""
+        })
+    })
+
+</script>
+<script>
+  document.getElementById('admin-log-submit').addEventListener('click',function(e){
+    e.preventDefault()
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const emailMessage = document.getElementById('email-error')
+    const passwordMessage = document.getElementById('password-error')
+    $.ajax({
+        url:'/admin/login',
+        data:{
+            email:email,
+            password:password,
+        },
+        method:"post",
+        success: (response)=>{
+
+          console.log("in ajax route")
+
+            if ((response.require)) {
+              emailMessage.style.display = "block";
+              emailMessage.textContent = "Pleas fill this field."
+              }else if(response.passrequire){
+                passwordMessage.style.display = "block";
+                passwordMessage.textContent = "Pleas fill this field."
+              }else if(response.emailspace){
+                emailMessage.style.display = "block";
+                emailMessage.textContent = " Email can't contains spaces."
+              }else if(response.passwordspace){
+                passwordMessage.style.display = "block";
+                passwordMessage.textContent = "password can't contains spaces."
+              }else if(response.emailPatt){
+                emailMessage.style.display = "block";
+                emailMessage.textContent = "Enter the valid email address."
+              }else if(response.emailnot){
+                emailMessage.style.display = "block";
+                emailMessage.textContent = " You can't get access in this email."
+              }else if(response.wrongpass){
+                passwordMessage.style.display = "block";
+                passwordMessage.textContent = "  Incorrect password."
+              }else if(response.notregister){
+                emailMessage.style.display = "block";
+                emailMessage.textContent = "  Mail not registered."
+              }else{
+                window.location.href = "/admin/home"
+              }
+
+        },
+    })
+
+})
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <!-- endinject -->
 </body>
 

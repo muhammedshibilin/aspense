@@ -1,4 +1,4 @@
-
+const User = require('../model/userModel')
 
 const bcrypt = require('bcryptjs')
 
@@ -43,6 +43,8 @@ const adminLogin = async (req,res) => {
                      );
    
                      if (passwordMatch) {
+
+                      console.log('admin password matched');
                        req.session.admin_id = adminData._id;
                        res.json({ success: true });
                      } else {
@@ -63,7 +65,66 @@ const adminLogin = async (req,res) => {
      }
     }
 
+  const adminHome = async (req,res) => {
+    try {
+        res.render('admin-home')
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const userLoad = async(req,res) => {
+    try {
+      const userData = await User.find({is_admin:0})
+      res.render('userManagment',{users:userData})
+    } catch (error) {
+      console.log(error)
+      res.json('500').render("500")
+    }
+  }
+
+const blockUser = async (req,res) => {
+  try {
+    const userId = req.body.userId
+    const blockedUser = await User.findOne({_id:userId})
+
+    if(blockedUser.is_block==0){
+      await User.updateOne({_id:userId},{$set:{is_block:1}})
+      res.json({success:true})
+
+    }else{
+      await User.updateOne({_id:userId},{$set:{is_block:0}})
+      res.json({success:true})
+    }
+  } catch (error) {
+    console.log(error);
+    res.status("500").render('500')
+  }
+}
+
+const unblockUser = async (req,res) => {
+  try {
+    const userId = req.body.userId
+  const unblockedUser = await User.findOne({_id:userId})
+
+  if(unblockedUser.is_block==1){
+    await User.updateOne({_id:userId},{$set:{is_block:0}})
+      res.json({success:true})
+  }else{
+    await User.updateOne({_id:userId},{$set:{is_block:1}})
+    res.json({success:true})
+  }
+  } catch (error) {
+    console.log(error);
+  }
+  
+}
+
 module.exports={
     loginLoad,
-    adminLogin
+    adminLogin,
+    adminHome,
+    userLoad,
+    blockUser,
+    unblockUser
 }

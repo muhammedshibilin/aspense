@@ -1,0 +1,200 @@
+<%- include("../layouts/admin/header.ejs") %>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4
+                            class="card-title  d-flex  justify-content-center  ">
+                            User Managment
+                        </h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            No:
+                                        </th>
+                                        <th>
+                                            customer name
+                                        </th>
+                                        <th>
+                                            email
+                                        </th>
+                                        <th>
+                                            contact
+                                        </th>
+                                        <!-- <th>
+                                                            image
+                                                        </th> -->
+                                        <th>
+                                            status
+                                        </th>
+                                        <th>
+                                            action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (users.length > 0) { %>
+                                    <% let counter = 1; %>
+                                    <% users.forEach(user => { %>
+                                    <tr>
+                                        <td class="py-1"> <%= counter %> </td>
+                                        <td class="py-1"> <%= user.name %> </td>
+                                        <td class="py-1"> <%= user.email %>
+                                        </td>
+                                        <td class="py-1"> <%= user.mobile %>
+                                        </td>
+                                        <td>
+                                            <% if (user.is_verified == 0) { %>
+                                            <p>not verified</p>
+                                            <% } else { %>
+                                            <p>verified</p>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <% if (user.is_block == 0) { %>
+                                            <button
+                                                onclick="blockUser('<%= user._id %>')"><a
+                                                    class="badge badge-success">BLOCK
+                                                    USER</a></button>
+                                            <% } else { %>
+                                            <button
+                                                onclick="unblockUser('<%= user._id %>')"><a
+                                                    class="badge badge-danger">UNBLOCK</a></button>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                    <% counter++; %>
+                                    <% }); %>
+                                    <% } else { %>
+                                    <tr>
+                                        <td colspan="6">User not found</td>
+                                    </tr>
+                                    <% } %>
+
+                                    <script>                               
+                                    
+                                    function blockUser(userId) {
+                                        swal.fire({
+                                            title: "Are you sure you want to block?",
+                                            text: "This action cannot be undone.",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonText: "Block",
+                                            cancelButtonText: "Cancel",
+                                            confirmButtonColor: "#3085d6",
+                                            cancelButtonColor: "#d33",
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                $.ajax({
+                                                    url: '/admin/block-user',
+                                                    method: 'post',
+                                                    data: { userId: userId },
+                                                    success: (response) => {
+                                                        if (response.success) {
+                                                            // Update button text and class
+                                                            var button = $(`button[data-user-id="${userId}"]`);
+                                                            if (button) {
+                                                                button.text("Unblock");
+                                                                button.removeClass("badge-success").addClass("badge-danger");
+                                                            }
+                                                            // Show success message
+                                                            swal.fire({
+                                                                title: "Success!",
+                                                                text: "The user has been blocked.",
+                                                                icon: "success",
+                                                                timer: 1000,
+                                                                showConfirmButton: false
+                                                            });
+                                                        } else {
+                                                            // Show error message if any
+                                                            swal.fire({
+                                                                title: "Error!",
+                                                                text: "Failed to block the user. Please try again.",
+                                                                icon: "error"
+                                                            });
+                                                        }
+                                                    },
+                                                    error: (xhr, status, error) => {
+                                                        console.error(xhr.responseText);
+                                                        swal.fire({
+                                                            title: "Error",
+                                                            text: "Failed to block user",
+                                                            icon: "error",
+                                                            timer: 2000,
+                                                            showCancelButton: false
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                    
+                                    function unblockUser(userId) {
+                                        swal.fire({
+                                            title: "Are you sure you want to unblock?",
+                                            text: "This action cannot be undone.",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonText: "Unblock",
+                                            cancelButtonText: "Cancel",
+                                            confirmButtonColor: "#3085d6",
+                                            cancelButtonColor: "#d33",
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                $.ajax({
+                                                    url: '/admin/unblock-user',
+                                                    method: 'post',
+                                                    data: { userId: userId },
+                                                    success: (response) => {
+                                                        if (response.success) {
+                                                            // Update button text and class
+                                                            var button = $(`button[data-user-id="${userId}"]`);
+                                                            if (button) {
+                                                                button.text("Block");
+                                                                button.removeClass("badge-danger").addClass("badge-success");
+                                                            }
+                                                            // Show success message
+                                                            swal.fire({
+                                                                title: "Success!",
+                                                                text: "The user has been unblocked.",
+                                                                icon: "success",
+                                                                timer: 1500,
+                                                                showConfirmButton: false
+                                                            });
+                                                        } else {
+                                                            // Show error message if any
+                                                            swal.fire({
+                                                                title: "Error!",
+                                                                text: "Failed to unblock the user. Please try again.",
+                                                                icon: "error"
+                                                            });
+                                                        }
+                                                    },
+                                                    error: (xhr, status, error) => {
+                                                        console.error(xhr.responseText);
+                                                        swal.fire({
+                                                            title: "Error",
+                                                            text: "Failed to unblock user",
+                                                            icon: "error",
+                                                            timer: 2000,
+                                                            showCancelButton: false
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                </script>
+
+                                <script
+                                    src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                                <script
+                                    src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                                <%- include("../layouts/admin/footer.ejs")
+                                %>
