@@ -1,4 +1,4 @@
-<%- include("../layouts/header.ejs") %>
+<%- include("../layouts/user/header.ejs") %>
 
 
         <!-- Start Header -->
@@ -45,6 +45,7 @@
                                         <li><a href="/profile"><span>profile</span></a></li>
                                         <li><a href="/login"><span>Login</span></a></li>
                                         <li><a href="/sign-up"><span>sign Up</span></a></li>
+                                        <li><a href="/logout"><span>logout</span></a></li>
                                     </ul>
                                 </li>
                                 <li><a href="/contact">Contact</a></li>
@@ -176,7 +177,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="inner text-center">
-                        <h2 class="font--40 mb--0">My Account</h2>
+                        <h2 class="font--40 mb--0">profile</h2>
                     </div>
                 </div>
             </div>
@@ -475,168 +476,12 @@
 
                 </div>
             </div>
+     
+
         </div>
         <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
     </div>
-    <!--// Quick View Modal -->
-    <!-- Start Footer Area -->
-    <footer class="footer-area bg-color plr--100 plr_lg--40 plr_md--30 plr_sm--30 clearfix" data-bg-color="#f4f8fa">
-        <!-- Start Footer Top -->
-        <div class="footer-top ptb--80">
-            <div class="row">
-                <div class="col-custom--5">
-                    <div class="footer-widget">
-                        <div class="logo">
-                            <a href="index.html">
-                                <img src="assets/images/logo/logo-black.png" alt="Logo">
-                            </a>
-                        </div>
-                        <div class="inner">
-                            <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms. </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_mobile--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Company</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">About US</a></li>
-                                <li><a href="#">Blogs</a></li>
-                                <li><a href="#">Careers</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_md--40 mt_sm--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Product</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Features</a></li>
-                                <li><a href="#">Customers</a></li>
-                                <li><a href="#">Demos</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_md--40 mt_sm--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Helps</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">Introduction</a></li>
-                                <li><a href="#">Feedback</a></li>
-                                <li><a href="#">Referrals</a></li>
-                                <li><a href="#">Network Status</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_md--40 mt_sm--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Social Netowrk</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">Facebook</a></li>
-                                <li><a href="#">Twitter</a></li>
-                                <li><a href="#">Linkedin</a></li>
-                                <li><a href="#">Google +</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Footer Top -->
-        <!-- Start Footer Middle -->
-        <div class="footer-middle">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer-middle-inner ptb--45 text-center">
-                            <div class="tags-list">
-                                <span>Tags :</span>
-                                <div class="tags">
-                                    <a href="#">Minimal eCommerce</a>
-                                    <a href="#">Marketing</a>
-                                    <a href="#">User Exprience</a>
-                                    <a href="#">Ali Express</a>
-                                    <a href="#">Web</a>
-                                    <a href="#">Digital Expo</a>
-                                    <a href="#">Web Search</a>
-                                    <a href="#">Affiliate</a>
-                                    <a href="#">UCWeb</a>
-                                    <a href="#">Support</a>
-                                    <a href="#">Theme</a>
-                                    <a href="#">Best Queality</a>
-                                    <a href="#">Mobile</a>
-                                    <a href="#">24 Support</a>
-                                    <a href="#">Ali Express</a>
-                                    <a href="#">Web</a>
-                                    <a href="#">Laptop</a>
-                                    <a href="#">Web Search</a>
-                                    <a href="#">Affiliate</a>
-                                    <a href="#">Photoshop</a>
-                                    <a href="#">Support</a>
-                                    <a href="#">Theme</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Footer Middle -->
-        <!-- Start Copyright -->
-        <div class="copyright-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="copyright-inner ptb--25 text-center">
-                            <p class="mb--0">Copyright © All Right Resurved</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Copyright -->
-    </footer>
-    <!-- End Footer Area -->
+    
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- JS
-============================================ -->
-
-    <!-- Modernizer JS -->
-    <script src="assets/js/vendor/modernizr.min.js"></script>
-    <!-- jQuery JS -->
-    <script src="assets/js/vendor/jquery.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
-    <script src="assets/js/plugins/plugins.js"></script>
-    <!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
-    <!--
-<script src="assets/js/vendor/vendor.min.js"></script>
-<script src="assets/js/plugins/plugins.min.js"></script>
--->
-
-    <!-- Main JS -->
-    <script src="assets/js/main.js"></script>
-
-    <%- include("../layouts/footer.ejs") %>
+    <%- include("../layouts/user/footer.ejs") %>

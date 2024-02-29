@@ -1,6 +1,12 @@
 
 <%- include("../layouts/user/header.ejs") %>
 
+
+
+
+
+
+
     <!-- Start Search Flyover -->
     <div class="search-flyoveray"></div>
     <div class="cart-flyout">
@@ -196,20 +202,24 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title text-center">
-                            <h2 class="title">Featured products</h2>
+                            <h2 class="title">all products</h2>
                             <img src="user/images/logo/shape.png" alt="Shape Images">
                         </div>
                     </div>
                 </div>
+                
+              
                 <div class="row mt--20">
+                    <% if (!productData.Is_blocked==true) { %>
+                    <% productData.forEach( product => { %>
 
                     <!-- Start Single Product -->
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                        <div class="product">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30 ">
+                        <div class="product ">
                             <div class="inner">
                                 <div class="thumbnail">
-                                    <a href="product-details.html">
-                                        <img src="user/images/product/product-16.jpg" alt="Product Images">
+                                    <a href="/product-details?id=<%= product._id %>">
+                                        <img src="/images/product/sized/<%= product.images.image1 %>" alt="<%= product.name %>">
                                     </a>
                                 </div>
                                 <div class="product-hover-action">
@@ -222,119 +232,45 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <h2><a href="product-details.html">Matchbox’ Fit Jeans</a></h2>
-                                <span class="prize">$250.00</span>
+                                <h2><a href="/product-details?id=<%= product._id %>"><%= product.name %></a></h2>
+                                <span class="prize">$<%= product.price %></span>
                             </div>
                         </div>
                     </div>
-                    <!-- End Single Product -->
+              <%  }); %>
 
-                    <!-- Start Single Product -->
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                        <div class="product">
-                            <div class="inner">
-                                <div class="thumbnail">
-                                    <a href="product-details.html">
-                                        <img src="user/images/product/product-15.jpg" alt="Product Images">
-                                    </a>
-                                </div>
-                                <div class="product-hover-action">
-                                    <div class="hover-inner">
-                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <h2><a href="product-details.html">Fit Wool Suit</a></h2>
-                                <span class="prize">$190.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
+              <% } else { %>
+                <p>No products available.</p>
+            <% } %>  
 
-                    <!-- Start Single Product -->
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                        <div class="product">
-                            <div class="inner">
-                                <div class="thumbnail">
-                                    <a href="product-details.html">
-                                        <img src="user/images/product/product-14.jpg" alt="Product Images">
-                                    </a>
-                                </div>
-                                <div class="product-hover-action">
-                                    <div class="hover-inner">
-                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <h2><a href="product-details.html">Three-Piece Checke</a></h2>
-                                <span class="prize">$180.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
-
-                    <!-- Start Single Product -->
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                        <div class="product">
-                            <div class="inner">
-                                <div class="thumbnail">
-                                    <a href="product-details.html">
-                                        <img src="user/images/product/product-13.jpg" alt="Product Images">
-                                    </a>
-                                </div>
-                                <div class="product-hover-action">
-                                    <div class="hover-inner">
-                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <h2><a href="product-details.html">Open Front Cardigan</a></h2>
-                                <span class="prize">$170.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product -->
-
-                </div>
+            </div>  
             </div>
-        </div>
-        <!-- End Product Area -->
+                    <!-- End Single Product -->
 
-        <!-- Start Countdown Area -->
-        <div class="countdown-area bg_image bg_image--2 ptb--100 ptb_md--80 ptb_sm--80">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-xl-6 col-md-12 col-12 order-2 order-lg-1">
-                        <div class="shop-now-btn text-center pt--150 mt--50 pt_md--0 pt_sm--0">
-                            <button class="button-theme" type="button">Shop Now <i class="fa fa-arrow-right"></i></button>
+
+              <!-- Start Countdown Area -->
+              <div class="countdown-area bg_image bg_image--2 ptb--100 ptb_md--80 ptb_sm--80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-xl-6 col-md-12 col-12 order-2 order-lg-1">
+                            <div class="shop-now-btn text-center pt--150 mt--50 pt_md--0 pt_sm--0">
+                                <button class="button-theme" type="button">Shop Now <i class="fa fa-arrow-right"></i></button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-8 col-xl-6 col-md-12 col-12 order-1 order-lg-2">
-                        <div class="countdown-inner-content">
-                            <h2>Explore <br> Every part of this <br> Products</h2>
-                                <div class="box-timer countdown-style-1 mt--50">
-                                    <div class="countbox timer-grid">
-                                        <div data-countdown="2010/03/01"></div>
+                        <div class="col-lg-8 col-xl-6 col-md-12 col-12 order-1 order-lg-2">
+                            <div class="countdown-inner-content">
+                                <h2>Explore <br> Every part of this <br> Products</h2>
+                                    <div class="box-timer countdown-style-1 mt--50">
+                                        <div class="countbox timer-grid">
+                                            <div data-countdown="2010/03/01"></div>
+                                        </div>
                                     </div>
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- End Countdown Area -->
+            <!-- End Countdown Area -->
 
         <!-- Start Product Feature Tab -->
         <div class="product-sale-area pt--100 pt_md--80 pt_sm--80 bg-color" data-bg-color="#ffffff">
@@ -347,28 +283,31 @@
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Featured</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">On Sale</a>
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">MENS</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Top Rated</a>
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">LADIES</a>
                             </li>
                         </ul>
                         <!-- End Product Tab -->
                     </div>
                 </div>
                 <div class="row mt--30">
+                   
                     <div class="col-lg-12">
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <div class="row">
 
                                     <!-- Start Single Product -->
+                                    <% productData.forEach( product => { %> 
                                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
+                                       
                                         <div class="product">
                                             <div class="inner">
                                                 <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-01.jpg" alt="Product Images">
+                                                    <a href="/product-details">
+                                                        <img src="/images/product/sized/<%= product.images.image1 %>" alt="Product Images">
                                                     </a>
                                                 </div>
                                                 <div class="product-hover-action">
@@ -382,205 +321,26 @@
                                             </div>
                                             <div class="content">
                                                 <h2><a href="product-details.html">Open Front Cardigan</a></h2>
-                                                <span class="prize">$200.00</span>
+                                                <span class="prize">$<%= product.price %>.00</span>
                                             </div>
                                         </div>
+                                        
                                     </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-02.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Variable product</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-03.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Variable product</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-04.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Matchbox’ Fit Jeans</a></h2>
-                                                <span class="prize">$320.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-05.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Wool Crewneck Sweater</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-06.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Demo Product Name</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-07.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Wool Crewneck Sweater</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-08.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Three-Piece Check</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
+                                    
+                                    <%  }); %>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <div class="row">
                                     <!-- Start Single Product -->
+                                    <% productData.forEach( product => { %> 
+                                        <% if(product.category.name== "mens") { %>
                                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
                                         <div class="product">
                                             <div class="inner">
                                                 <div class="thumbnail">
                                                     <a href="product-details.html">
-                                                        <img src="user/images/product/product-08.jpg" alt="Product Images">
+                                                        <img src="/images/product/sized/<%= product.images.image1 %>" alt="Product Images">
                                                     </a>
                                                 </div>
                                                 <div class="product-hover-action">
@@ -594,141 +354,12 @@
                                             </div>
                                             <div class="content">
                                                 <h2><a href="product-details.html">Three-Piece Check</a></h2>
-                                                <span class="prize">$500.00</span>
+                                                <span class="prize">$<%= product.price %>.00</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-07.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Open Front Cardigan</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-06.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Sample Bundle Product</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-04.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Mixed Media Top</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-05.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Demo Product Name</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-06.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Demo Product Name</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
+                                       <% } %>
+                                    <% }); %>
 
 
                                 </div>
@@ -736,12 +367,14 @@
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <div class="row">
                                     <!-- Start Single Product -->
+                                    <% productData.forEach( product => { %> 
+                                        <% if(product.category.name== "ladies") { %>
                                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
                                         <div class="product">
                                             <div class="inner">
                                                 <div class="thumbnail">
                                                     <a href="product-details.html">
-                                                        <img src="user/images/product/product-12.jpg" alt="Product Images">
+                                                        <img src="/images/product/sized/<%= product.images.image1 %>" alt="Product Images">
                                                     </a>
                                                 </div>
                                                 <div class="product-hover-action">
@@ -759,189 +392,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-11.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Three-Piece Check</a></h2>
-                                                <span class="prize">$240.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-10.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Sample Bundle Product</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-09.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Open Front Cardigan</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-08.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Variable product</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-07.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Variable product</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-06.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Matchbox’ Fit Jeans</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-
-                                    <!-- Start Single Product -->
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a href="product-details.html">
-                                                        <img src="user/images/product/product-05.jpg" alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                        <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a href="product-details.html">Matchbox’ Fit Jeans</a></h2>
-                                                <span class="prize">$200.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
+                                    <% } %>
+                                    <% }); %>
+                                    
 
                                 </div>
                             </div>

@@ -1,13 +1,41 @@
 const User = require("../model/userModel")
+const Product = require('../model/productModel')
+const Category = require('../model/categoryModel')
 const bcrypt = require("bcryptjs")
-const {sendVerifyMail}= require('../utils/sendVerifyMail')
+const {sendVerifyMail} = require('../utils/sendVerifyMail')
 
 
+const loadHome = async (req,res) => {
+    try {
 
+        const productData = await Product.find({Is_blocked:true}).populate({
+            path:"category",
+            match:{is_block:true}
+        })
+        if (!productData) {
+        
+            return res.render("userHome", { productData: [] });
+        }
+
+     
+   
+        res.render("userHome",{productData})
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const loadSignup = async (req, res) => {
     try {
         res.render('signUp')
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const failureLoad = async (req,res) => {
+    try {
+        res.redirect('/sign-up')
     } catch (error) {
         console.log(error);
     }
@@ -142,6 +170,22 @@ const insertUser = async (req, res) => {
     }
 }
 
+const successLoad = async (req,res) => {
+    try {
+       
+        
+        console.log(req.user);
+
+        const productData = await Product.find({Is_blocked:true}).populate({
+            path:"category",
+            match:{is_block:true}
+        })
+        res.render('userHome',{productData})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const otpLoad = async (req,res)=>{
     try {
         let verifyErr = req.session.verifyErr;
@@ -189,7 +233,7 @@ const verifyOtp = async(req,res) => {
         console.log("verify");
         req.session.verifyErr = false;
         req.session.otpsend= false;
-
+        
         const otpinput =parseInt(req.body.otp)
         const email = req.session.email
         console.log(req.session.email);
@@ -239,14 +283,19 @@ const verifyLogin = async (req, res) => {
     try {
         const { email, password } = req.body
         const userData = await User.findOne({ email: email })
+        const productData = await Product.find({Is_blocked:true}).populate({
+            path:"category",
+            match:{is_block:true}
+        })
 
         if (userData) {
             const passwordMatch = await bcrypt.compare(password, userData.password)
+            const productData = await Product.find({})
 
             if (passwordMatch) {
                 console.log("password match");
                 req.session.user_id = userData._id
-                res.render('userHome')
+                res.render('userHome',{productData})
             } else {
                 res.render('login')
             }
@@ -256,8 +305,52 @@ const verifyLogin = async (req, res) => {
     }
 }
 
+const loadProductDetails = async (req,res) => {
+    try {
+        const productId = req.query.id
+        console.log(req.query.id);
+        const user_id = req.session.user_id
+        const productData = await Product.findOne({_id:productId}).populate("category")
+        console.log(productData);
+        const categoryData = await Category.find()
+        const relatedImg = await Product.find({category:productData.category._id,_id:{$ne:productData._id}}).limit(8)
+    
+        
+        
+        res.render('product-details',{
+            productData,
+            categoryData,
+            relatedImg
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const profileLoad = async (req,res) => {
+    try {
+        res.render("profile")
+    } catch (error) {
+       console.log(error); 
+    }
+}
+
+const logoutUser = async (req,res) => {
+    try {
+        req.session.destroy()
+        res.redirect('/login')
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 module.exports = {
+    loadHome,
+    loadProductDetails,
+    profileLoad,
+    failureLoad,
+    successLoad,
     loadSignup,
     resendOtp,
     verifyOtp,
@@ -265,4 +358,5 @@ module.exports = {
     otpLoad,
     loadLogin,
     verifyLogin,
+    logoutUser
 }

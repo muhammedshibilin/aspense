@@ -1,77 +1,65 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTP Verification</title>
-    <link rel="stylesheet" href="/user/stylesheets/otpStyle.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Verification</title>
+  <link rel="stylesheet" href="/user/stylesheets/otpStyle.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
 
-<body style="background-color: #777;">
-  <style>
-    .swal2-toast {
-    width: 800px; /* Adjust the width as needed */
-    height: 100px; /* Adjust the height as needed */
-    font-size: 18px;
-    margin-top: 70px;
-  }
-  </style>
-    <div class="container">
-        <form method="post" action="/verify-otp" onsubmit="return validate()" class="otp-form">
-            <h2>OTP Verification</h2>
+<body style="background-color: #f5f5f5;">
+  <div class="container d-flex justify-content-center align-items-center min-vh-100" style="width: 400px; border-radius: 20px; ">  <form method="post" action="/verify-otp" class="otp-form" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px;"> 
+     <h2 class="d-flex  justify-content-center ">OTP Verification</h2>
+      <h4 class="d-flex  justify-content-center " style="color: #28a745;">Enter the code sent to your email</h4>
 
-            
-            <!-- <div id="error-message" class="error-message"></div> -->
-            
-
-            <div class="form-group">
-                <label for="otp">Enter OTP:</label>
-                <input name="otp" type="number" id="otp" maxlength="4" class="form-control" placeholder="Enter your OTP sent to your Email" required>
-                <div id="otp-error" class="error-message"></div>
-            </div>
-            <p id="timeSpan"> Resend OTP in <b class="text-dark"><span id="timer">60 </span></b> Seconds.</p> 
-            <p style="display: none;" id="resendLink">Didn't get the OTP &nbsp; <a href="/resend-otp"><b class="text-dark"> Resend</b></a></p>
-
-
-            <button style="background-color: #777;" onmouseover="this.style.backgroundColor='#dfe1e5'" onmouseout="this.style.backgroundColor='#dfe1e5'" type="submit" id="otpSubmit" onclick="validate()" class="btn">Verify OTP</button>
-            
-            
-            <% if(verifyErr){ %>
-              <div id="myAlert1" data-aos="fade-down" style="top: 6rem;     background-color: #d5d4d4"
-                      class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
-                  role="alert">
-                  <strong>Uh-oh!</strong> Your account is not verified yet, please verify.<a
-                    href=""> <span class="text-info link-underline-light">
-                    </span></a>
-              </div>
-              <% } %>
-              <% if(otpsend){ %>
-                <div id="myAlert1" data-aos="fade-down" style="top: 6rem; background-color: #d5d4d4"
-                        class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
-                    role="alert">
-                    OTP sent successfully! Check your email for the code.<a
-                      href=""> <span class="text-info link-underline-light">
-                      </span></a>
-                </div>
-                <% } %>
-              <% if(typeof resend !== 'undefined'){ %>
-                <div id="myAlert1" data-aos="fade-down" style="top: 6rem; background-color: #d5d4d4"
-                        class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
-                    role="alert">
-                     <%= resend%><a
-                      href=""> <span class="text-info link-underline-light">
-                      </span></a>
-                </div>
-                <% } %>
-
+      <div class="row">
+       
+        <div class="col-lg-12 ">
+          <div class="form-group d-flex  justify-content-center ">
+            <label for="otp2" style="color: #333;"></label>
+            <input type="number" id="otp" maxlength="1" class="form-control" name="otp2" style="width: 200px;"  required>
+            <div id="otp-error" class="error-message" style="color: #dc3545;"></div>
+          </div>
         </div>
-        </form>
+      </div>
 
-        
-    </div>
+      <div class="countdown-container  d-flex justify-content-center ">
+        <p  style="color: #28a745;">Resend OTP in <span id="timer">60 </span> Seconds.</p>
+        <p id="resendLink" style="display: none; color: #28a745;">Didn't get the OTP? <a href="/resend-otp"><b style="color: #28a745;">Resend</b></a></p>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary d-flex justify-content-center align-items-center" id="otpSubmit" style="background-color: #28a745; color: #fff; border-radius: 5px;">Verify OTP</button>
+      </div>
+
+
+      <% if (verifyErr) { %>
+        <div class="alert alert-danger d-flex  justify-content-center" role="alert">
+          <strong>Uh-oh!</strong> Your account is not verified yet, please verify.
+        </div>
+      <% } %>
+
+      <% if (otpsend) { %>
+        <div class="alert alert-success d-flex  justify-content-center" role="alert">
+          OTP sent successfully! Check your email for the code.
+        </div>
+      <% } %>
+
+      <% if (typeof resend !== 'undefined') { %>
+        <div class="alert alert-warning d-flex  justify-content-center" role="alert">
+          <%= resend %>
+        </div>
+      <% } %>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
     <script>
 
@@ -100,6 +88,9 @@
 e.preventDefault()
 
 const otp =document.getElementById("otp").value
+
+
+
 const message = document.getElementById("otp-error")
 
 $.ajax({

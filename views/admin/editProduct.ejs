@@ -4,17 +4,19 @@
     <!-- partial -->
     <div class="main-panel">
       <div class="content-wrapper">
+       
 
         <div class="col-12 grid-margin">
           <div class="card">
             <div class="card-body">
-              <form action="/admin/add-product" method="post" enctype="multipart/form-data">
+                <h2>edit product</h2>
+              <form action="/admin/edit-product?_id=<%= productData._id %>" method="post" enctype="multipart/form-data">
 
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="exampleInputName1">Product Name</label>
-                    <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="product name">
+                    <input type="text" class="form-control" id="exampleInputName1" name="name" value="<%= productData.name %>">
                   </div>
 
                 </div>
@@ -42,7 +44,7 @@
                   <div class="form-group row">
                     <label class="col-sm-3  col-form-label">Price</label>
                     <div class="col-sm-4  col-lg-4">
-                      <input type="text" name="price" class="form-control" />
+                      <input type="text" name="price" class="form-control" value="<%= productData.price %>" />
                     </div>
                   </div>
                 </div>
@@ -50,7 +52,7 @@
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Quantity</label>
                     <div class="col-sm-4  col-lg-4">
-                      <input type="text" name="quantity" class="form-control" />
+                      <input type="text" name="quantity" class="form-control" value="<%= productData.quantity %>" />
                     </div>
                   </div>
                 </div>
@@ -58,34 +60,17 @@
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Size</label>
                     <div class="col-sm-4  col-lg-4 ">
-                      <input type="text" name="size" class="form-control" />
+                      <input type="text" name="size" class="form-control" value="<%= productData.size %>"/>
                     </div>
                   </div>
                 </div>
               </div>
-                <!-- <div class="col-md-3">
-                  <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">offer</label>
-                    <div class="col-sm-4  col-lg-4 ">
-                      <input type="text" name="offer" class="form-control" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="exampleTextarea1">Description</label>
-                    <textarea class="form-control" id="exampleTextarea1" name="description" rows="4"></textarea>
-                  </div>
-
-                </div> -->
 
                 <div class="row">
                   <div class="col-lg-3 ">
                     <div class="form-group">
                       <label>File upload</label>
-                      <input type="file" name="image1" class="file-upload-default">
+                      <input type="file" name="image1" class="file-upload-default" />
                       <div class="input-group col-xs-12">
                         <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
                         <span class="input-group-append">
@@ -157,14 +142,14 @@
     </div>
     <!-- page-body-wrapper ends -->
   </div>
-  <script>
+  <!-- <script>
     const categorySelect = document.getElementById('category-select')
     const selectedCategoryInput = document.getElementById('selected-category')
     categorySelect.addEventListener('change',function(){
       const selectedCategory=categorySelect.value
       selectedCategoryInput.value=selectedCategory
     })
-  </script>
+  </script> -->
   <!-- container-scroller -->
   <!-- base:js -->
   <script src="vendors/base/vendor.bundle.base.js"></script>

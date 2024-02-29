@@ -18,7 +18,7 @@ const isLogin = async (req,res,next) => {
             res.redirect("/login")
         }
     } catch (error) {
-        
+        console.log(error)
     }
 }
 
@@ -29,7 +29,11 @@ const isLogout = async (req,res,next) => {
             const userData = await User.findById(req.session.user_id)
             if(userData.is_block){
               next()
+            }else{
+                res.redirect('/')
             }        
+        }else{
+            next()
         }
     } catch (error) {
         console.log(error);

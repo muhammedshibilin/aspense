@@ -24,6 +24,7 @@
     "nodemailer": "^6.9.9",
     "passport": "^0.7.0",
     "passport-facebook": "^3.0.0",
+    "passport-google-oauth2": "^0.2.0",
     "path": "^0.12.7",
     "request": "^2.88.2",
     "sharp": "^0.33.2"

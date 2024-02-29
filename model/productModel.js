@@ -35,6 +35,10 @@ const ProductSchema = new mongoose.Schema({
        image3:{
         type:String,
         required:true
+       },
+       image4:{
+        type:String,
+        required:true
        }
     },
     discription:{
@@ -42,8 +46,8 @@ const ProductSchema = new mongoose.Schema({
         requird:true
     },
     Is_blocked:{
-        type:Boolean,
-        requird:true
+        type:Boolean,        
+        default:true
     }
     
 })

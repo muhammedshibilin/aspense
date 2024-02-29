@@ -40,6 +40,7 @@ const adminLogin = async (req,res) => {
                      const passwordMatch = await bcrypt.compare(
                        password,
                        adminData.password
+                       
                      );
    
                      if (passwordMatch) {
@@ -48,6 +49,7 @@ const adminLogin = async (req,res) => {
                        req.session.admin_id = adminData._id;
                        res.json({ success: true });
                      } else {
+                      console.log("password incorrect")
                        res.json({ wrongpass: true });
                      }
                    }
@@ -102,23 +104,8 @@ const blockUser = async (req,res) => {
   }
 }
 
-const unblockUser = async (req,res) => {
-  try {
-    const userId = req.body.userId
-  const unblockedUser = await User.findOne({_id:userId})
 
-  if(unblockedUser.is_block==1){
-    await User.updateOne({_id:userId},{$set:{is_block:0}})
-      res.json({success:true})
-  }else{
-    await User.updateOne({_id:userId},{$set:{is_block:1}})
-    res.json({success:true})
-  }
-  } catch (error) {
-    console.log(error);
-  }
-  
-}
+
 
 module.exports={
     loginLoad,
@@ -126,5 +113,4 @@ module.exports={
     adminHome,
     userLoad,
     blockUser,
-    unblockUser
 }
