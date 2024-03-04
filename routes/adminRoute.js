@@ -38,6 +38,8 @@ admin_route.set('views', './views/admin');
 admin_route.get('/login',auth.isLogout,adminController.loginLoad)
 admin_route.post('/login', adminController.adminLogin)
 admin_route.get('/home',auth.isLogin,adminController.adminHome)
+admin_route.get('/admin',auth.isLogin,adminController.adminHome)
+
 
 //----------------->  user managment
 
@@ -54,6 +56,8 @@ admin_route.get("/delete-category",auth.isLogin,categoryController.categoryDelet
 admin_route.get("/block-category",auth.isLogin,categoryController.blockCategory)
 admin_route.get("/unblock-category",auth.isLogin,categoryController.unblockCategory)
 admin_route.post("/edit-category",auth.isLogin,categoryController.editCategory)
+
+
 
 
 //----------------->  product managment

@@ -1,5 +1,6 @@
 const Product = require("../model/productModel")
 const Category = require('../model/categoryModel')
+const Review = require('../model/reviewModel')
 const sharp = require('sharp')
 const fs = require('fs')
 const category = require("../model/categoryModel")
@@ -65,12 +66,15 @@ const addProduct = async (req, res) => {
       "images.image1": files.image1[0].filename,
       "images.image2": files.image2[0].filename,
       "images.image3": files.image3[0].filename,
-      "images.image4": files.image3[0].filename,
-      discription: req.body.discription,
+      "images.image4": files.image4[0].filename,
+      discription: req.body.description,
       size: req.body.size,
+      offer:req.body.offer,
       Is_blocked: true
     });
 
+
+   console.log(req.body.description)
     const productData = await product.save();
 
 
@@ -85,7 +89,7 @@ const editProductLoad = async (req, res) => {
   try {
    const id = req.query._id
     const productData = await Product.findOne({ _id: id }).populate("category")
-    console.log(productData._id)
+    
 
     const categoryData = await Category.find({ is_block: true })
 
@@ -129,11 +133,14 @@ const editProduct = async (req, res) => {
           "images.image2": img[1],
           "images.image3": img[2],
           "images.image4": img[3],
-          description: req.body.discription
+          description: req.body.discription,
+          size:req.body.size,
+          offer:req.body.offer
 
         }
       }
     )
+    
 
     res.redirect('/admin/product')
 
@@ -148,7 +155,6 @@ const blockProduct = async(req,res)=>{
 
     const  product_id =  req.query._id
     const productData = await Product.findOne({_id:product_id})
-    console.log(productData);
     
     if(productData.Is_blocked==true){
       console.log('true');
@@ -197,6 +203,9 @@ res.redirect('/admin/product')
 }
 
 
+
+
+
 module.exports = {
   productLoad,
   addProductLoad,
@@ -204,5 +213,6 @@ module.exports = {
   deleteProduct,
   addProduct,
   editProductLoad,
-  editProduct
+  editProduct,
+  // reviewProduct
 }

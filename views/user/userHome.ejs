@@ -218,7 +218,7 @@
                         <div class="product ">
                             <div class="inner">
                                 <div class="thumbnail">
-                                    <a href="/product-details?id=<%= product._id %>">
+                                    <a href="/product-details?_id=<%= product._id %>">
                                         <img src="/images/product/sized/<%= product.images.image1 %>" alt="<%= product.name %>">
                                     </a>
                                 </div>
@@ -232,7 +232,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <h2><a href="/product-details?id=<%= product._id %>"><%= product.name %></a></h2>
+                                <h2><a href="/product-details?_id=<%= product._id %>"><%= product.name %></a></h2>
                                 <span class="prize">$<%= product.price %></span>
                             </div>
                         </div>
@@ -306,7 +306,7 @@
                                         <div class="product">
                                             <div class="inner">
                                                 <div class="thumbnail">
-                                                    <a href="/product-details">
+                                                    <a href="/product-details?_id=<%= product._id %>">
                                                         <img src="/images/product/sized/<%= product.images.image1 %>" alt="Product Images">
                                                     </a>
                                                 </div>
@@ -320,7 +320,7 @@
                                                 </div>
                                             </div>
                                             <div class="content">
-                                                <h2><a href="product-details.html">Open Front Cardigan</a></h2>
+                                                <h2><a href="/product-details?_id=<%= product._id %>">Open Front Cardigan</a></h2>
                                                 <span class="prize">$<%= product.price %>.00</span>
                                             </div>
                                         </div>
@@ -333,13 +333,14 @@
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <div class="row">
                                     <!-- Start Single Product -->
-                                    <% productData.forEach( product => { %> 
-                                        <% if(product.category.name== "mens") { %>
+                                    <!-- <% productData.forEach( product => { %> 
+                                       
+                                        
                                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
                                         <div class="product">
                                             <div class="inner">
                                                 <div class="thumbnail">
-                                                    <a href="product-details.html">
+                                                    <a href="/product-details?_id=<%= product._id %>">
                                                         <img src="/images/product/sized/<%= product.images.image1 %>" alt="Product Images">
                                                     </a>
                                                 </div>
@@ -353,13 +354,14 @@
                                                 </div>
                                             </div>
                                             <div class="content">
-                                                <h2><a href="product-details.html">Three-Piece Check</a></h2>
+                                                <h2><a href="/product-details?_id=<%= product._id %>">Three-Piece Check</a></h2>
                                                 <span class="prize">$<%= product.price %>.00</span>
                                             </div>
                                         </div>
                                     </div>
-                                       <% } %>
-                                    <% }); %>
+                                      
+                                    
+                                    <% }); %> -->
 
 
                                 </div>
@@ -367,13 +369,14 @@
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <div class="row">
                                     <!-- Start Single Product -->
-                                    <% productData.forEach( product => { %> 
-                                        <% if(product.category.name== "ladies") { %>
+                                    <!-- <% productData.forEach( product => { %> 
+                                     
+                                        
                                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
                                         <div class="product">
                                             <div class="inner">
                                                 <div class="thumbnail">
-                                                    <a href="product-details.html">
+                                                    <a href="/product-details?_id=<%= product._id %>">
                                                         <img src="/images/product/sized/<%= product.images.image1 %>" alt="Product Images">
                                                     </a>
                                                 </div>
@@ -387,14 +390,15 @@
                                                 </div>
                                             </div>
                                             <div class="content">
-                                                <h2><a href="product-details.html">Mixed Media Top</a></h2>
+                                                <h2><a href="/product-details?_id=<%= product._id %>">Mixed Media Top</a></h2>
                                                 <span class="prize">$200.00</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <% } %>
-                                    <% }); %>
+                                 
                                     
+                                    <% }); %>
+                                     -->
 
                                 </div>
                             </div>
@@ -688,6 +692,8 @@
         <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
     </div>
     <!--// Quick View Modal -->
+
+
    
 
     <%- include("../layouts/user/footer.ejs") %>

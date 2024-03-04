@@ -540,7 +540,13 @@
                 }else if (res.emailExist){
                    emailMessage.style.display="block"
                    emailMessage.textContent=" email already exist !"
-                }else  {
+                }else if(res.email_syntax) {
+                    emailMessage.style.display="block"
+                    emailMessage.textContent="email wants end with @gmail.com"
+                }else if(res.not_matched) {
+                    emailMessage.style.display="block"
+                    emailMessage.textContent="confirm is not correct"
+                }else {
                     window.location.href="/otp"
                 }
             }

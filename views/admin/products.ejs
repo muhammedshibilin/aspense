@@ -67,7 +67,7 @@
                                         <td class="py-1"> <%= product.size %>
                                         </td>
                                         <% if(product.offer) { %>
-                                        <td><% product.offer.name %></td>
+                                        <td><%= product.offer %></td>
                                         <% } else { %>
                                         <td class="py-1 ">offer not found</td>
                                         <% } %>
