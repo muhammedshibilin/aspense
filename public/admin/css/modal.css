@@ -1,0 +1,44 @@
+/* Center the modal vertically and horizontally */
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Set the maximum height for the modal */
+.modal-dialog {
+    max-height: 80vh; /* Adjust as needed */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+/* Set the width for the modal content */
+.modal-content {
+    width: 90%; /* Adjust as needed */
+}
+
+/* Optional: Style the modal header */
+.modal-header {
+    border-bottom: none; /* Remove border */
+    background-color: #f8f9fa; /* Set background color */
+}
+
+/* Optional: Style the modal title */
+.modal-title {
+    color: #333; /* Set text color */
+}
+
+/* Optional: Style the modal body */
+.modal-body {
+    padding: 20px; /* Add padding */
+}
+
+/* Optional: Style the modal footer */
+.modal-footer {
+    border-top: none; /* Remove border */
+    background-color: #f8f9fa; /* Set background color */
+}
+
+/* Ensure button functionality */
+.modal-content button {
+    pointer-events: auto; /* Enable pointer events */
+}

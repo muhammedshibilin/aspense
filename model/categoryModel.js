@@ -7,9 +7,9 @@ const categorySchema = new mongoose.Schema({
         unique:true
     },
     is_block:{
-        type:Boolean,
+        type:Number,
         required:true,
-        default:true
+        default:0
     }
 })
 

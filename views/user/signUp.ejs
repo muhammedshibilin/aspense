@@ -253,7 +253,7 @@
                                     <label
                                         for="register-form-password">Password</label>
                                     <input type="password" name="password"
-                                        id="register-form-password">
+                                        id="register-form-password"  required>
                                         <div class="error-message" id="password-error"  style="display: none; color: red; font-size: 12px ; font-weight: bold;"></div>
 
                                 </div>
@@ -262,7 +262,7 @@
                                         Password</label>
                                     <input type="password"
                                         name="confirmPassword"
-                                        id="register-form-confirm-password">
+                                        id="register-form-confirm-password" required>
                                         <div class="error-message" id="confirm-password-error"  style="display: none; color: red; font-size: 12px ; font-weight: bold;"></div>
 
                                 </div>
@@ -449,110 +449,142 @@
 </div>
 <!--// Quick View Modal -->
 <!-- Start Footer Area -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 <script>
-    const inputs = document.querySelectorAll('input ')
+    const nameInput = document.getElementById('register-form-name');
+    const emailInput = document.getElementById('register-form-email');
+    const mobileInput = document.getElementById('register-form-mobile');
+    const passwordInput = document.getElementById('register-form-password');
+    const confirmPasswordInput = document.getElementById('register-form-confirm-password');
 
-    const nameMessage = document.getElementById('name-error')
-    const emailMessage = document.getElementById('email-error')
-    const mobileMessage = document.getElementById('phone-error')
-    const passwordMessage = document.getElementById('password-error')
-    const confirmPasswordMessage = document.getElementById('confirm-password-error')
-    const errorMessage = document.getElementById('error-message')
-     
+    const nameMessage = document.getElementById('name-error');
+    const emailMessage = document.getElementById('email-error');
+    const mobileMessage = document.getElementById('mobile-error');
+    const passwordMessage = document.getElementById('password-error');
+    const confirmPasswordMessage = document.getElementById('confirm-password-error');
 
-     inputs.forEach( input => {
-        input.addEventListener('input',()=>{
-        nameMessage.textContent=""
-        emailMessage.textContent=""
-        mobileMessage.textContent=""
-        passwordMessage.textContent=""
-        confirmPasswordMessage.textContent=""
-        })   
-     })
+    const validateForm = () => {
+        let isValid = true;
 
-     document.getElementById('signup-btn').addEventListener('click',(e)=>{
-        e.preventDefault()
-        const name = document.getElementById('register-form-name').value
-        const email = document.getElementById('register-form-email').value
-        const mobile = document.getElementById('register-form-mobile').value
-        const password = document.getElementById('register-form-password').value
-        const confirmPassword = document.getElementById('register-form-confirm-password').value
+       
+        nameMessage.textContent = '';
+        emailMessage.textContent = '';
+        mobileMessage.textContent = '';
+        passwordMessage.textContent = '';
+        confirmPasswordMessage.textContent = '';
 
-        const nameMessage = document.getElementById('name-error')
-    const emailMessage = document.getElementById('email-error')
-    const mobileMessage = document.getElementById('phone-error')
-    const passwordMessage = document.getElementById('password-error')
-    const confirmPasswordMessage = document.getElementById('confirm-password-error')
-    const errorMessage = document.getElementById('error-message')
+       
+        if (nameInput.value.trim() === '') {
+            nameMessage.style.display= "block"
+            nameMessage.textContent = 'Name is required';
+            isValid = false;
+        } else if (nameInput.value.length < 4) {
+            nameMessage.style.display= "block"
+            nameMessage.textContent = 'Enter at least 4 characters';
+            isValid = false;
+        } else if (nameInput.value.startsWith(' ')) {
+            nameMessage.style.display= "block"
+            nameMessage.textContent = 'Name cannot start with spaces';
+            isValid = false;
+        } else if (!/^[A-Za-z\s]+$/.test(nameInput.value)) {
+            nameMessage.style.display= "block"
+            nameMessage.textContent = 'Name cannot contain special characters';
+            isValid = false;
+        }
 
-        $.ajax({
-            url:"/sign-up",
-            data:{
-                name:name,
-                email:email,
-                mobile:mobile,
-                password:password,
-                confirmPassword:confirmPassword
-            },
-            method:'post',
-            success:(res) => {
-                if(res.name_require){
-                    nameMessage.style.display="block";
-                    nameMessage.textContent="please fill this and submit again !"
-                }else if(res.email_require){
-                    emailMessage.style.display="block"
-                    emailMessage.textContent="please enter a valid email !"
-                }else if(res.mobile_require){
-                    mobileMessage.style.display="block"
-                    mobileMessage.textContent='enter your correct number !'
-                }else if(res.password_require){
-                    passwordMessage.style.display="block"
-                    passwordMessage.textContent="enter correct password!"
-                }else if(res.confimrmPassword_require){
-                    confirmPasswordMessage.style.display="block"
-                    confirmPasswordMessage.textContent='confirm your password !'
-                }else if(res.name_space){
-                    nameMessage.style.display="block"
-                    nameMessage.textContent="connot contain space !"
-                }else if(res.email_space){
-                    emailMessage.style.display="block"
-                    emailMessage.textContent=" email connot contain space!"
-                }else if(res.password_space){
-                    passwordMessage.style.display="block"
-                    passwordMessage.textContent=" password cannot contain space!"
-                }else if(res.confirmPassword_space){
-                    confirmPasswordMessage.style.display="block"
-                    confirmPasswordMessage.textContent=" correct your password!"
-                }else if(res.mobile_space){
-                    mobileMessage.style.display="block"
-                    mobileMessage.textContent=" mobile number cannot contain space!"
-                }else if(res.emailPattern){
-                    emailMessage.style.display="block"
-                    emailMessage.textContent="enter valid email !"
-                }else if(res.mobilePattern){
-                    mobileMessage.style.display="block"
-                    mobileMessagem.textContent='enter a valid number!'
-                }else if(res.passwordPattern){
-                    passwordMessage.style.display="block"
-                    passwordMessage.style.display="enter a valid password !"
-                }else if (res.emailExist){
-                   emailMessage.style.display="block"
-                   emailMessage.textContent=" email already exist !"
-                }else if(res.email_syntax) {
-                    emailMessage.style.display="block"
-                    emailMessage.textContent="email wants end with @gmail.com"
-                }else if(res.not_matched) {
-                    emailMessage.style.display="block"
-                    emailMessage.textContent="confirm is not correct"
-                }else {
-                    window.location.href="/otp"
-                }
+      
+        if (emailInput.value.trim() === '') {
+            emailMessage.style.display= "block"
+            emailMessage.textContent = 'Email is required';
+            isValid = false;
+        } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInput.value)) {
+            emailMessage.style.display= "block"
+            emailMessage.textContent = 'Enter a valid email';
+            isValid = false;
+        } else if (!emailInput.value.endsWith('@gmail.com')) {
+            emailMessage.style.display= "block"
+            emailMessage.textContent = 'Email must end with "@gmail.com"';
+            isValid = false;
+        }
+
+       
+        if (mobileInput.value.trim() === '') {
+            mobileMessage.style.display= "block"
+            mobileMessage.textContent = 'Mobile number is required';
+            isValid = false;
+        } else if (!/^\d{10}$/.test(mobileInput.value)) {
+            mobileMessage.style.display= "block"
+            mobileMessage.textContent = 'Mobile number must be 10 digits';
+            isValid = false;
+        }
+
+      
+        if (passwordInput.value.trim() === '') {
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password is required';
+            isValid = false;
+        } else if (passwordInput.value.length < 8) {
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password must be at least 8 characters';
+            isValid = false;
+        } else if (!/[A-Z]/.test(passwordInput.value)) {
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password must contain at least one uppercase letter';
+            isValid = false;
+        } else if (!/[a-z]/.test(passwordInput.value)) {
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password must contain at least one lowercase letter';
+            isValid = false;
+        } else if (!/\d/.test(passwordInput.value)) {
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password must contain at least one number';
+            isValid = false;
+        }
+
+        
+        if (confirmPasswordInput.value.trim() === '') {
+            confirmPasswordMessage.style.display= "block"
+            confirmPasswordMessage.textContent = 'Confirm password is required';
+            isValid = false;
+        } else if (confirmPasswordInput.value !== passwordInput.value) {
+            confirmPasswordMessage.style.display="block"
+            confirmPasswordMessage.textContent = 'Passwords do not match';
+            isValid = false;
+        }
+
+        return isValid;
+    };
+
+    document.getElementById('signup-btn').addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        if (validateForm()) {
+            const response = await fetch('/sign-up', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: nameInput.value,
+                    email: emailInput.value,
+                    mobile: mobileInput.value,
+                    password: passwordInput.value,
+                    confirmPassword: confirmPasswordInput.value
+                })
+            });
+
+            const responseData = await response.json();
+
+            if (responseData.emailExist) {
+                emailMessage.style.display= 'block'
+                emailMessage.textContent = 'Email already exists';
+            } else if (responseData.success) {
+                window.location.href = '/otp';
             }
-        })
-     })
+        }
+    });
 </script>
+
 
 
 <%- include("../layouts/user/footer.ejs") %>

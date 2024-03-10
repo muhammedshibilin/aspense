@@ -1,82 +1,265 @@
-<%- include("../layouts/admin/header.ejs") %>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="main-panel">
-    <div class="content-wrapper">
-        <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4
-                            class="card-title  d-flex  justify-content-center  ">
-                            User Managment
-                        </h4>
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            No:
-                                        </th>
-                                        <th>
-                                            customer name
-                                        </th>
-                                        <th>
-                                            email
-                                        </th>
-                                        <th>
-                                            contact
-                                        </th>
-                                        <!-- <th>
-                                                            image
-                                                        </th> -->
-                                        <th>
-                                            status
-                                        </th>
-                                        <th>
-                                            action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% if (users.length > 0) { %>
-                                    <% let counter = 1; %>
-                                    <% users.forEach(user => { %>
-                                    <tr>
-                                        <td class="py-1"> <%= counter %> </td>
-                                        <td class="py-1"> <%= user.name %> </td>
-                                        <td class="py-1"> <%= user.email %>
-                                        </td>
-                                        <td class="py-1"> <%= user.mobile %>
-                                        </td>
-                                        <td>
-                                            <% if (user.is_verified == 0) { %>
-                                            <p>not verified</p>
-                                            <% } else { %>
-                                            <p>verified</p>
-                                            <% } %>
-                                        </td>
-                                        <td>
-                                            <% if (user.is_block == 0) { %>
-                                            <button
-                                                onclick="blockUser('<%= user._id %>')"><a
-                                                    class="badge badge-success">BLOCK
-                                                    USER</a></button>
-                                            <% } else { %>
-                                            <button
-                                                onclick="blockUser('<%= user._id %>')"><a
-                                                    class="badge badge-danger">UNBLOCK</a></button>
-                                            <% } %>
-                                        </td>
-                                    </tr>
-                                    <% counter++; %>
-                                    <% }); %>
-                                    <% } else { %>
-                                    <tr>
-                                        <td colspan="6">User not found</td>
-                                    </tr>
-                                    <% } %>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>ASPENS</title>
+        <!-- base:css -->
+        <link rel="stylesheet"
+            href="vendors/mdi/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="vendors/feather/feather.css">
+        <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+        <!-- endinject -->
+        <!-- plugin css for this page -->
+        <link rel="stylesheet"
+            href="vendors/flag-icon-css/css/flag-icon.min.css" />
+        <link rel="stylesheet"
+            href="vendors/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet"
+            href="vendors/jquery-bar-rating/fontawesome-stars-o.css">
+        <link rel="stylesheet"
+            href="vendors/jquery-bar-rating/fontawesome-stars.css">
+        <!-- End plugin css for this page -->
+        <!-- inject:css -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- endinject -->
+        <link rel="shortcut icon" href="images/favicon.png" />
+      
 
-                                    <script>
+    
+    </head>
+    <body>
+        <div class="container-scroller">
+            <!-- partial:partials/_navbar.html -->
+            <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+                <div
+                    class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                    <a class="navbar-brand brand-logo" href="admin/home">
+                        <a class="navbar-brand brand-logo-mini"
+                            href="admin/home"><img
+                                src="/public/user/images/logo/logo-black.png"
+                                alt /></a>
+                    </div>
+                    <div
+                        class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                        <button
+                            class="navbar-toggler navbar-toggler align-self-center"
+                            type="button" data-toggle="minimize">
+                            <span class="icon-menu"></span>
+                        </button>
+                        <ul class="navbar-nav mr-lg-2">
+                            <li class="nav-item nav-search d-none d-lg-block">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"
+                                            id="search">
+                                            <i class="icon-search"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="searchinput"
+                                        placeholder="Search users....."
+                                        aria-label="search"
+                                        aria-describedby="search">
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav navbar-nav-right">
+                            <li class="nav-item dropdown d-lg-flex d-none">
+                                <button type="button"
+                                    class="btn btn-info font-weight-bold">+
+                                    Create New</button>
+                            </li>
+                            <li class="nav-item dropdown d-flex">
+                                <a
+                                    class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
+                                    id="messageDropdown" href="#"
+                                    data-toggle="dropdown">
+                                    <i class="icon-air-play mx-0"></i>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                                    aria-labelledby="messageDropdown">
+                                    <p
+                                        class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <img src="images/faces/face4.jpg"
+                                                alt="image" class="profile-pic">
+                                        </div>
+                                        <div
+                                            class="preview-item-content flex-grow">
+                                            <h6
+                                                class="preview-subject ellipsis font-weight-normal">shibili
+                                            </h6>
+                                            <p
+                                                class="font-weight-light small-text text-muted mb-0">
+                                                The meeting is cancelled
+                                            </p>
+                                        </div>
+                                    </a>
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <img src="images/faces/face2.jpg"
+                                                alt="image" class="profile-pic">
+                                        </div>
+                                        <div
+                                            class="preview-item-content flex-grow">
+                                            <h6
+                                                class="preview-subject ellipsis font-weight-normal">Tim
+                                                Cook
+                                            </h6>
+                                            <p
+                                                class="font-weight-light small-text text-muted mb-0">
+                                                New product launch
+                                            </p>
+                                        </div>
+                                    </a>
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <img src="images/faces/face3.jpg"
+                                                alt="image" class="profile-pic">
+                                        </div>
+                                        <div
+                                            class="preview-item-content flex-grow">
+                                            <h6
+                                                class="preview-subject ellipsis font-weight-normal">
+                                                Johnson
+                                            </h6>
+                                            <p
+                                                class="font-weight-light small-text text-muted mb-0">
+                                                Upcoming board meeting
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown d-flex mr-4 ">
+                                <a
+                                    class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
+                                    id="notificationDropdown" href="#"
+                                    data-toggle="dropdown">
+                                    <i class="icon-cog"></i>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                                    aria-labelledby="notificationDropdown">
+                                    <p
+                                        class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
+                                    <a class="dropdown-item preview-item">
+                                        <i class="icon-head"></i> Profile
+                                    </a>
+                                    <a class="dropdown-item preview-item">
+                                        <i class="icon-inbox"></i> Logout
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown mr-4 d-lg-flex d-none">
+                                <a
+                                    class="nav-link count-indicatord-flex align-item s-center justify-content-center"
+                                    href="#">
+                                    <i class="icon-grid"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <button
+                            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+                            type="button" data-toggle="offcanvas">
+                            <span class="icon-menu"></span>
+                        </button>
+                    </div>
+                </nav>
+                <!-- partial -->
+
+                <%- include("../layouts/admin/sidebar.ejs") %>
+
+                <div class="main-panel">
+                    <div class="content-wrapper">
+                        <div class="row">
+                            <div class="col-lg-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4
+                                            class="card-title d-flex justify-content-center">
+                                            User Management
+                                        </h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No:</th>
+                                                        <th>Customer Name</th>
+                                                        <th>Email</th>
+                                                        <th>Contact</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% if (users.length > 0) {
+                                                    %>
+                                                    <% let counter = 1; %>
+                                                    <% users.forEach(user => {
+                                                    %>
+                                                    <tr>
+                                                        <td class="py-1"><%=
+                                                            counter %></td>
+                                                        <td class="py-1"><%=
+                                                            user.name %></td>
+                                                        <td class="py-1"><%=
+                                                            user.email %></td>
+                                                        <td class="py-1"><%=
+                                                            user.mobile %></td>
+                                                        <td>
+                                                            <% if
+                                                            (user.is_verified ==
+                                                            0) { %>
+                                                            <p>Not Verified</p>
+                                                            <% } else { %>
+                                                            <p>Verified</p>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (user.is_block
+                                                            == 0) { %>
+                                                            <button
+                                                                onclick="blockUser('<%= user._id %>')">
+                                                                <a
+                                                                    class="badge badge-success">BLOCK
+                                                                    USER</a>
+                                                            </button>
+                                                            <% } else { %>
+                                                            <button
+                                                                onclick="blockUser('<%= user._id %>')">
+                                                                <a
+                                                                    class="badge badge-danger">UNBLOCK</a>
+                                                            </button>
+                                                            <% } %>
+                                                        </td>
+                                                    </tr>
+                                                    <% counter++; %>
+                                                    <% }); %>
+                                                    <% } else { %>
+                                                    <tr>
+                                                        <td colspan="6">User not
+                                                            found</td>
+                                                    </tr>
+                                                    <% } %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <script>
                                          function blockUser(userId){
             swal
         .fire({
@@ -115,10 +298,10 @@
           }
                                     </script>
 
-                                    <script
-                                        src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-                                    <script
-                                        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script
+                src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+            <script
+                src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-                                    <%- include("../layouts/admin/footer.ejs")
-                                    %>
+            <%- include("../layouts/admin/footer.ejs")
+            %>

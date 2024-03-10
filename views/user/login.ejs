@@ -2,73 +2,6 @@
 
 
 
-    <!-- Start Header -->
-    <header class="header-area haeder-default header--transparent black-logo-version ptb_lg--40 ptb_md--40 ptb_sm--30">
-        <div class="header-wrapper container">
-            <div class="row align-items-center">
-                <!-- Start Header Left -->
-                <div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-6">
-                    <div class="logo">
-                        <a href="/">
-                            <img src="assets/images/logo/logo-black.png" alt="Draven logo">
-                        </a>
-                    </div>
-                </div>
-                <!-- Start Header Center -->
-                <div class="col-xl-9 d-none d-xl-block">
-                    <nav class="mainmenu__nav">
-                        <!-- Start Mainmanu Nav -->
-                        <ul class="primary-menu megamenu-wrapper">
-                            <li><a href="/">Home</a>
-                            </li>
-                            <li><a href="/about">About</a></li>
-                            <li class="lavel-1"><a href="/shop">Shop</a>
-                                <ul class="dropdown__menu">
-                                    <li><a href="/shop"><span>Shop</span></a></li>
-                                    <li><a href="/shop-left-sidebar"><span>Shop Left Sidebar</span></a></li>
-                                    <li><a href="/shop-right-sidebar"><span>Shop No Sidebar</span></a></li>
-                                    <li><a href="/product-details"><span>Product Details</span></a></li>
-                                </ul>
-                            </li>
-                            <li ><a href="/blog">Blog</a>
-                                <!-- <ul class="dropdown__menu">
-                                    <li><a href="blog.html"><span>Blog</span></a></li>
-                                    <li><a href="blog-left-sidebar.html"><span>Blog Left Sidebar</span></a></li>
-                                    <li><a href="blog-details.html"><span>Blog Details</span></a></li>
-                                </ul> -->
-                            </li>
-                            <li class="lavel-1"><a href="#">Pages</a>
-                                <ul class="dropdown__menu">
-                                    <li><a href="/cart"><span>Cart</span></a></li>
-                                    <li><a href="/checkout"><span>Checkout</span></a></li>
-                                    <li><a href="/wishlist"><span>Wishlist</span></a></li>
-                                    <li><a href="/compare"><span>Compare</span></a></li>
-                                    <li><a href="/my-account"><span>My Account</span></a></li>
-                                    <li><a href="/login"><span>Login</span></a></li>
-                                    <li><a href="/sign-up"><span>sign Up</span></a></li>
-                                </ul>
-                            </li>
-                            <li><a href="/contact">Contact</a></li>
-
-                        </ul>
-                        <!-- End Mainmanu Nav -->
-                    </nav>
-                </div>
-                <!-- Start Header Right -->
-                <div class="col-xl-1 col-lg-6 col-md-6 col-sm-6 col-6">
-                    <div class="header-icon d-flex justify-content-end cart text-right">
-                        <a class="cart-trigger" href="#">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span class="cart-count">03</span>
-                        </a>
-                        <a class="hamburger-trigger d-block d-xl-none pl--15" href="#">
-                            <i class="fa fa-bars"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
 
    <!-- Start Search Flyover -->
    <div class="search-flyoveray"></div>
@@ -193,21 +126,23 @@
                 <div class="row">
                      <div class="col-lg-6">
                         <div class="login-form-wrapper">
-                            <form action="/login" class="sn-form sn-form-boxed" method="post">
+                            <form  class="sn-form sn-form-boxed" >
                                 <div class="sn-form-inner">
                                     <div class="single-input">
                                         <label for="login-form-email"> email</label>
-                                        <input type="text" name="email" id="login-form-email">
+                                        <input type="text" name="email" id="login-form-email" required>
+                                        <div  id="email-error"  style="display: none; color: red; font-size: 12px ; font-weight: bold;"></div>
                                     </div>
                                     <div class="single-input">
                                         <label for="login-form-password">Password </label>
-                                        <input type="password" name="password" id="login-form-password">
+                                        <input type="password" name="password" id="login-form-password" required>
+                                        <div id="password-error"  style="display: none; color: red; font-size: 12px ; font-weight: bold;"></div>
                                     </div>
                                     <br>
                                     <br>
                                    
                                     <div class="single-input">
-                                        <button type="submit" class="mr-3">
+                                        <button type="submit" id="login-btn" class="mr-3">
                                             <span>Login</span>
                                         </button>
                                         <div class="checkbox-input">
@@ -352,165 +287,99 @@
         </div>
         <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
     </div>
-    <!--// Quick View Modal -->
-    <!-- Start Footer Area -->
-    <footer class="footer-area bg-color plr--100 plr_lg--40 plr_md--30 plr_sm--30 clearfix" data-bg-color="#f4f8fa">
-        <!-- Start Footer Top -->
-        <div class="footer-top ptb--80">
-            <div class="row">
-                <div class="col-custom--5">
-                    <div class="footer-widget">
-                        <div class="logo">
-                            <a href="index.html">
-                                <img src="assets/images/logo/logo-black.png" alt="Logo">
-                            </a>
-                        </div>
-                        <div class="inner">
-                            <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms. </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_mobile--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Company</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">About US</a></li>
-                                <li><a href="#">Blogs</a></li>
-                                <li><a href="#">Careers</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_md--40 mt_sm--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Product</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Features</a></li>
-                                <li><a href="#">Customers</a></li>
-                                <li><a href="#">Demos</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_md--40 mt_sm--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Helps</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">Introduction</a></li>
-                                <li><a href="#">Feedback</a></li>
-                                <li><a href="#">Referrals</a></li>
-                                <li><a href="#">Network Status</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_md--40 mt_sm--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Social Netowrk</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">Facebook</a></li>
-                                <li><a href="#">Twitter</a></li>
-                                <li><a href="#">Linkedin</a></li>
-                                <li><a href="#">Google +</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Footer Top -->
-        <!-- Start Footer Middle -->
-        <div class="footer-middle">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer-middle-inner ptb--45 text-center">
-                            <div class="tags-list">
-                                <span>Tags :</span>
-                                <div class="tags">
-                                    <a href="#">Minimal eCommerce</a>
-                                    <a href="#">Marketing</a>
-                                    <a href="#">User Exprience</a>
-                                    <a href="#">Ali Express</a>
-                                    <a href="#">Web</a>
-                                    <a href="#">Digital Expo</a>
-                                    <a href="#">Web Search</a>
-                                    <a href="#">Affiliate</a>
-                                    <a href="#">UCWeb</a>
-                                    <a href="#">Support</a>
-                                    <a href="#">Theme</a>
-                                    <a href="#">Best Queality</a>
-                                    <a href="#">Mobile</a>
-                                    <a href="#">24 Support</a>
-                                    <a href="#">Ali Express</a>
-                                    <a href="#">Web</a>
-                                    <a href="#">Laptop</a>
-                                    <a href="#">Web Search</a>
-                                    <a href="#">Affiliate</a>
-                                    <a href="#">Photoshop</a>
-                                    <a href="#">Support</a>
-                                    <a href="#">Theme</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Footer Middle -->
-        <!-- Start Copyright -->
-        <div class="copyright-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="copyright-inner ptb--25 text-center">
-                            <p class="mb--0">Copyright © All Right Resurved</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Copyright -->
-    </footer>
-    <!-- End Footer Area -->
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+
+        document.getElementById('login-btn').addEventListener('click' , async (e) => {
+            e.preventDefault()
+
+            const email = document.getElementById('login-form-email').value
+        const password = document.getElementById('login-form-password').value
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+        const emailMessage = document.getElementById('email-error')
+        const passwordMessage = document.getElementById('password-error')
+
+        emailMessage.textContent=""
+        passwordMessage.textContent=''
+            
+        if (email== '') {
+            emailMessage.style.display= "block"
+            return;
+          
+        } else if (!emailPattern.test(email)) {
+            emailMessage.style.display= "block"
+            emailMessage.textContent = 'Enter a valid email';
+            return
+          ;
+        } else if (!email.endsWith('@gmail.com')) {
+            emailMessage.style.display= "block"
+            emailMessage.textContent = 'Email must end with "@gmail.com"';
+            return
+        }
+
+        if (password == '') {
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password is required';
+           
+        } else if (password.length < 8) {
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password must be at least 8 characters';
+        
+        } else if (!/[A-Z]/.test(password)) {
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password must contain at least one uppercase letter';
+     
+        } else if (!/[a-z]/.test(password)) {
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password must contain at least one lowercase letter';
+          
+        } else if (!/\d/.test(password)) {
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password must contain at least one number';
+         
+        }
 
 
+        toastr.options = {
+        "positionClass": "toast-center",
+        "timeOut": "3000",
+        "extendedTimeOut": "2000", 
+        "showMethod": "slideDown",
+        "hideMethod": "slideUp"
+    };
 
+        
+    $.ajax({
+    type: 'post',
+    url: '/login',
+    data: {
+        email: email,
+        password: password
+    },
+    success: (response) => {
+        if (response.success) {
+            toastr.success("Login successfull");
+            setTimeout (() => {
+            window.location.href = "/home";
+            },3000)
+        } else {
+            if(response.error){
+            toastr.error("you are blocked. Please contact for more information");
+            setTimeout (() => {
+                window.location.href = "/login";
+            },3000)
+         
+        }
+    }
+    },
+});
 
+        })
 
-
-
-
-
-
-
-
-
-
-
-    <!-- JS
-============================================ -->
-
-    <!-- Modernizer JS -->
-    <script src="assets/js/vendor/modernizr.min.js"></script>
-    <!-- jQuery JS -->
-    <script src="assets/js/vendor/jquery.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
-    <script src="assets/js/plugins/plugins.js"></script>
-    <!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
-    <!--
-<script src="assets/js/vendor/vendor.min.js"></script>
-<script src="assets/js/plugins/plugins.min.js"></script>
--->
-
-    <!-- Main JS -->
-    <script src="assets/js/main.js"></script>
+    </script>
 
     <%- include("../layouts/user/footer.ejs") %>

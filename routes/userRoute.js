@@ -2,9 +2,11 @@ const express = require('express');
 const user_route = express()
 const User = require('../model/userModel')
 const userController = require("../controller/userController");
+const multer = require('../middleware/multer')
 const auth = require("../middleware/userAuth")
 const passport = require('passport')
 const config = require('../config/config')
+const path = require('path')
 require('../utils/gpassport')
   / require('../utils/fpassport')
 
@@ -22,18 +24,19 @@ user_route.use(session({
 
 user_route.use(express.json());
 user_route.use(express.urlencoded({ extended: true }));
-
+user_route.use(express.static(path.join(__dirname, 'public')));
 
 
 // View engine setup
 user_route.set('view engine', 'ejs');
 user_route.set('views', './views/user');
 
+
 user_route.get("/", userController.loadHome)
 user_route.get("/home", userController.loadHome)
 
 user_route.get("/product-details", userController.loadProductDetails)
-user_route.post("/review",userController.reviewProduct)
+
 
 user_route.get('/sign-up', auth.isLogout, userController.loadSignup);
 
@@ -46,6 +49,9 @@ user_route.get('/auth/google/callback',
     successRedirect: '/success',
     failureRedirect: '/failure'
   }))
+  user_route.get("/success", userController.successLoad)
+  user_route.get('/failure', userController.failureLoad)
+
 
 
 // user_route.get('/auth/facebook', passport.authenticate('facebook', {
@@ -63,13 +69,11 @@ user_route.get('/auth/google/callback',
 
 
 
+
 user_route.post('/sign-up', userController.insertUser)
 
 user_route.get("/profile", auth.isLogin, userController.profileLoad)
-
-user_route.get("/success", userController.successLoad)
-
-user_route.get('/failure', userController.failureLoad)
+user_route.post('/edit-profile',multer.uploadProfile.single('image'),userController.editProfile)
 
 user_route.get('/logout', auth.isLogin, userController.logoutUser)
 

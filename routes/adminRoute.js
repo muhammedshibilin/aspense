@@ -6,6 +6,7 @@ const productController = require('../controller/productController')
 const categoryController = require("../controller/categoryController")
 const multer = require('../middleware/multer')
 const auth = require('../middleware/adminAuth')
+const path = require('path')
 
 
 const session = require('express-session');
@@ -23,6 +24,7 @@ admin_route.use(session({
 
 admin_route.use(express.json());
 admin_route.use(express.urlencoded({ extended: true }));
+admin_route.use(express.static(path.join(__dirname, 'public')));
 
 //-----------------> view setting
 
@@ -67,9 +69,9 @@ admin_route.get('/product',auth.isLogin,productController.productLoad)
 admin_route.get('/add-product',auth.isLogin,productController.addProductLoad)
 admin_route.post('/add-product',multer.uploadProduct,productController.addProduct)
 admin_route.get("/edit-product",auth.isLogin,productController.editProductLoad)
- admin_route.post("/edit-product",multer.uploadProduct,productController.editProduct)
- admin_route.get('/block-product',productController.blockProduct)
- admin_route.get('/delete-product',productController.deleteProduct)
+admin_route.post("/edit-product",multer.uploadProduct,productController.editProduct)
+admin_route.get('/block-product',productController.blockProduct)
+admin_route.get('/delete-product',productController.deleteProduct)
 
 
 
