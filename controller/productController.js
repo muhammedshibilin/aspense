@@ -50,26 +50,32 @@ const addProduct = async (req, res) => {
       files.imageFile4[0].filename
   ];
 
- const resizedImages = await Promise.all(img.map(async(imageName) => {
-  const resizedImage = await sharp('C:/aspens/public/images/product/original/'+imageName)
-  .resize({width:400,height:500})
-  .toBuffer()
-  return {imageName,resizedImage}
- }))
- 
+  let resizedImages = [];
+
+
+try {
+    resizedImages = await Promise.all(img.map(async(imageName) => {
+    const resizedImage = await sharp('C:/aspens/public/images/product/original/'+imageName)
+    .resize({width:400,height:500})
+    .toBuffer()
+    return {imageName,resizedImage}
+   }))
+   
+} catch (error) {
+  console.error('Error opening image:', error);
+}
+
  const productImages = {}
 
- resizedImages.forEach((image) => {
-  productImages[`images.${image.imageName}`] = image.ImageName
-  fs.writeFile('C:/aspens/public/images/product/sized/'+image.imageName,image.resizedImage,(e) => {
-    if(e){
-      console.log("error while adding image:",e);
-    }else{
-      console.log('resized image is saved:',image.imageName);
-    }
-  })
- })
-
+ for (const image of resizedImages) {
+  productImages[`images.${image.imageName}`] = image.imageName;
+  try {
+    await fs.promises.writeFile('C:/aspens/public/images/product/sized/' + image.imageName, image.resizedImage);
+    console.log('resized image is saved:', image.imageName);
+  } catch (e) {
+    console.log("error while adding image:", e);
+  }
+}
    
 
     const product = new Product({
@@ -84,7 +90,7 @@ const addProduct = async (req, res) => {
       discription: req.body.description,
       size: req.body.size,
       offer:req.body.offer,
-      Is_blocked: true
+      Is_block: 0
     });
 
 
@@ -182,12 +188,12 @@ const blockProduct = async(req,res)=>{
     const  product_id =  req.query._id
     const productData = await Product.findOne({_id:product_id})
     
-    if(productData.Is_blocked==true){
+    if(productData.is_block==0){
       console.log('true');
-     await Product.findByIdAndUpdate({_id:product_id},{$set:{Is_blocked:false}}) 
+     await Product.findByIdAndUpdate({_id:product_id},{$set:{is_block:1}}) 
     }else{ 
       console.log('false'); 
-      await Product.findByIdAndUpdate({_id:product_id},{$set:{Is_blocked:true}})
+      await Product.findByIdAndUpdate({_id:product_id},{$set:{is_block:0}})
     }
 
     res.redirect('/admin/product')

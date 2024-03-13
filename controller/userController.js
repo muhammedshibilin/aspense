@@ -15,9 +15,9 @@ const { sendVerifyMail } = require('../utils/sendVerifyMail')
 const loadHome = async (req, res) => {
     try {
 
-        const productData = await Product.find({ Is_blocked: true }).populate({
+        const productData = await Product.find({ is_block: 0 }).populate({
             path: "category",
-            match: { is_block: true }
+            match: { is_block: 0 }
         })
         if (!productData) {
 
@@ -349,6 +349,91 @@ const editProfile = async (req,res) => {
     }
 }
 
+const forgotPassword = async (req, res) => {
+    try {
+     
+      if(req.session.user_id){
+  
+        const userData =await User.findOne({_id:req.session.user_id})
+
+        
+        let randomNumber = Math.floor(Math.random() * 9000) + 1000
+
+        otp = randomNumber
+
+
+        sendVerifyMail(userData.name,userData.email,randomNumber)
+
+        req.session.otpsend = true;
+
+        setTimeout(() => {
+            otp = Math.floor(Math.random() * 9000) + 1000
+        }, 60000)
+        let verifyErr = req.session.verifyErr;
+        let otpsend = req.session.otpsend;
+
+        res.render('otp',
+        {email:userData.email,
+            verifyErr,
+            otpsend
+           
+        })
+  
+      }else{
+        res.render('getEmail')
+      }
+    } catch(error) {
+      console.log(error.message);
+      res.render('500Error')
+    }
+  };
+
+  const getEmail= async (req, res) => {
+    try {
+     
+     req.session.user_chPass = req.body.email
+     const userData = await User.findOne({email:req.body.email})
+  
+     if(userData){
+  
+      sendVerifyMail('user',req.body.email)
+      res.render('verification',{email:req.body.email})
+  
+     }else{
+      res.render(getEmail,{error:'Email not found'})
+     }
+     
+    } catch(error) {
+      console.log(error.message);
+      res.render('500Error')
+    }
+  };
+  const changePassword= async (req, res) => {
+    try {
+     
+    if (req.session.user_id) {
+  
+      const user_id = req.session.user_id
+      const sPassword = await securePassword(req.body.newpswd)
+      await User.findOneAndUpdate({_id:user_id},{$set:{password:sPassword}})
+      res.redirect("/profile")
+  
+    }else{
+  
+      const sPassword = await securePassword(req.body.newpswd)
+      await User.findOneAndUpdate({email:req.session.user_chPass},{$set:{password:sPassword}})
+      res.redirect("/login")
+  
+    }
+     
+    } catch(error) {
+      console.log(error.message);
+      res.render('500Error')
+    }
+  };
+  
+  
+
 
 
 
@@ -368,6 +453,8 @@ module.exports = {
     loadProductDetails,
     profileLoad,
     editProfile,
+    forgotPassword,
+    getEmail,
     failureLoad,
     successLoad,
     loadSignup,

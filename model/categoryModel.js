@@ -8,7 +8,6 @@ const categorySchema = new mongoose.Schema({
     },
     is_block:{
         type:Number,
-        required:true,
         default:0
     }
 })

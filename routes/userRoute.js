@@ -2,6 +2,7 @@ const express = require('express');
 const user_route = express()
 const User = require('../model/userModel')
 const userController = require("../controller/userController");
+const cartController = require('../controller/cartController')
 const multer = require('../middleware/multer')
 const auth = require("../middleware/userAuth")
 const passport = require('passport')
@@ -74,6 +75,7 @@ user_route.post('/sign-up', userController.insertUser)
 
 user_route.get("/profile", auth.isLogin, userController.profileLoad)
 user_route.post('/edit-profile',multer.uploadProfile.single('image'),userController.editProfile)
+user_route.get('/forgot-password',userController.forgotPassword)
 
 user_route.get('/logout', auth.isLogin, userController.logoutUser)
 
@@ -85,6 +87,9 @@ user_route.get('/resend-otp', auth.isLogout, userController.resendOtp);
 
 user_route.get('/login', auth.isLogout, userController.loadLogin);
 user_route.post('/login', userController.verifyLogin);
+
+user_route.get('/cart',cartController.cartLoad)
+user_route.post('/add-to-cart',cartController.addToCart)
 
 
 

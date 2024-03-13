@@ -35,6 +35,7 @@
   <!-- SweetAlert CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
  
  
 </head>
@@ -311,8 +312,7 @@
                   </div>
                   <!-- Modal for cropping -->
                   <div class="modal fade" id="cropModal<%= i %>" tabindex="-1" role="dialog" aria-labelledby="cropModalLabel<%= i %>" aria-hidden="true">
-                      
-                    <div class="modal-dialog" role="document" style="max-width:100% ;">
+                   <div class="modal-dialog custom-size" role="document" style="max-width: 500px;  max-height :700px; ">
                           <div class="modal-content">
                               <div class="modal-header">
                                   <h5 class="modal-title" id="cropModalLabel<%= i %>">Crop Image <%= i %></h5>
@@ -322,7 +322,7 @@
                               </div>
                               <div class="modal-body d-flex flex-column justify-content-center align-items-center">
                                   <div id="cropperContainer" >
-                                      <img id="cropperImage<%= i %>" src="" alt="Crop image">
+                                      <img id="cropperImage<%= i %>" src="" alt="Crop image" style="max-width: 100px; max-height: 300px;">
                                   </div>
                               </div>
                               <div class="modal-footer">
@@ -363,7 +363,7 @@ function handleImageCrop(imageFile, imageNumber) {
             viewMode: 2,
             cropBoxResizable: true, 
             CropBoxWidth: 200, 
-            CropBoxHeight: 100,
+            CropBoxHeight: 600,
         });
        
         $('#cropModal' + imageNumber).modal('show');
@@ -434,59 +434,64 @@ for (let i = 1; i <= 4; i++) {
     const image3 = document.getElementById('imageFile3').files[0];
     const image4 = document.getElementById('imageFile4').files[0];
 
-     // Validate product name
+   
      if (!name.trim()) {
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Please enter a product name.'
         });
+        return
       
     }
 
-    // Validate price
+  
     if (!price.trim() || isNaN(price) || parseFloat(price) <= 0) {
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Please enter a valid price.'
         });
+        return
         
     }
 
-    // Validate quantity
+
     if (!quantity.trim() || isNaN(quantity) || parseInt(quantity) <= 0) {
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Please enter a valid quantity.'
         });
+        return
       
     }
 
-    // Validate description
     if (!description.trim()) {
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Please enter a product description.'
         });
+      return
       
     }
 
-    // Validate offer
+   
     if (!offer.trim()) {
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Please enter a product offer.'
         });
+        return
       
     }
     function validateImage(image) {
     if (!image) {
         return false;
     }
+    return
   }
 
  
@@ -520,7 +525,7 @@ for (let i = 1; i <= 4; i++) {
                     showConfirmButton: false,
                     timer: 2000 
                 }).then(() => {
-                    window.location.href = "/product";
+                    window.location.href = "/admin/product";
                 });
             } else {
                 Swal.fire({

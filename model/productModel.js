@@ -44,15 +44,17 @@ const ProductSchema = new mongoose.Schema({
     },
     offer:{
         type:Number,
+        ref:'offer',
+        required:true
        
     },
     discription:{
         type:String,
         requird:true
     },
-    Is_blocked:{
-        type:Boolean,        
-        default:true
+    is_block:{
+        type:Number,        
+        default:0
     }
     
 })

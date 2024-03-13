@@ -210,8 +210,9 @@
                 
               
                 <div class="row mt--20">
-                    <% if (!productData.Is_blocked==true) { %>
-                    <% productData.forEach( product => { %>
+                    <% if (productData.length > 0) { %>
+                        <% productData.forEach(product => { %>
+                            <% if (product.is_block==0) { %>
 
                     <!-- Start Single Product -->
                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30 ">
@@ -225,7 +226,7 @@
                                 <div class="product-hover-action">
                                     <div class="hover-inner">
                                         <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
+                                        <a href="/cart"><i class="fa fa-cart-plus"></i></a>
                                         <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
                                         <a href="compare.html"><i class="fa fa-repeat"></i></a>
                                     </div>
@@ -237,11 +238,11 @@
                             </div>
                         </div>
                     </div>
-              <%  }); %>
-
-              <% } else { %>
-                <p>No products available.</p>
-            <% } %>  
+                    <% } %>
+                    <% }); %>
+                <% } else { %>
+                    <p>No products available.</p>
+                <% } %>
 
             </div>  
             </div>
@@ -313,7 +314,7 @@
                                                 <div class="product-hover-action">
                                                     <div class="hover-inner">
                                                         <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
+                                                        <a href="/cart"><i class="fa fa-cart-plus"></i></a>
                                                         <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
                                                         <a href="compare.html"><i class="fa fa-repeat"></i></a>
                                                     </div>

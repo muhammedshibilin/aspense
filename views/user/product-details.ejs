@@ -286,7 +286,7 @@
 
                                         <div class="product-action">
                                             <a class="addtocart"
-                                                href="cart.html"><i
+                                                onclick="addToCart('<%= productData._id %>')"><i
                                                     class="fa fa-cart-arrow-down"></i><span>Add
                                                     to cart</span></a>
                                             <a class="wislist"
@@ -433,7 +433,7 @@
                                         <a title="Quick View" class="quickview"
                                             href="#"><i
                                                 class="fa fa-search"></i></a>
-                                        <a href="cart.html"><i
+                                        <a href="" ><i
                                                 class="fa fa-cart-plus"></i></a>
                                         <a href="wishlist.html"><i
                                                 class="fa fa-heart-o"></i></a>
@@ -621,18 +621,92 @@
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
 
+            <script>
+           
+   function addToCart(productId, count = 1) {
+    console.log(productId,'his product id ')
+            $.ajax({
+                url: "/add-to-cart",
+                method: "post",
+                data: {
+                     productId,
+                     count,
+                },
+                success: (response) => {
+                    if (response.login === false) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "bottom-end",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+
+                        Toast.fire({
+                            icon: "error",
+                            title: response.message
+                        });
+                        setTimeout(function () {
+                            window.location.href = '/login';
+                        }, 1000);
+
+                    } else if (response.success) {
+                        if (response.newProduct) {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+
+                            Toast.fire({
+                                icon: "success",
+                                title: "Product added to cart"
+                            });
+                            $('#reloadArea').load('/shop #reloadArea');
+
+                        }
+                    } else if (response.exist) {
+                        window.location.href = "/cart";
+                    } else if (response.stock) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+
+                        Toast.fire({
+                            icon: "error", 
+                            title: response.message,
+                        });
+                    }
+                },
+                error: (error) => {
+                    console.error("Error adding to cart:", error);
+                },
+            });
+        }
+
+
+
+
+            </script>
+
         <script>
         document.addEventListener('DOMContentLoaded', () => {
             $('#zoomedImage1').elevateZoom({
-                zoomType: "inner",
-                cursor: "crosshair",
-                zoomWindowFadeOut: 100,
+                zoomType: "lens",
+                cursor: "crosshair", 
+                lensShape: "square", 
+                lensSize: 400 ,
         
                 
             });
             $('#zoomedImage2').elevateZoom({
-                zoomType: "window",
-                cursor: "crosshair",
+                zoomType: "lens",
+                cursor: "crosshair", 
+                lensShape: "square", 
+                lensSize: 400 ,
                
             });
             $('#zoomedImage3').elevateZoom({
