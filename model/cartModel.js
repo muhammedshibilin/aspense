@@ -12,20 +12,25 @@ const cartSchema = new mongoose.Schema({
                 type: String,
                 required: true,
                 ref: "product"
+            },productName:{
+                type:String,
+                required:true
             }, count: {
                 type: Number,
                 default: 1
             }, price: {
                 type: Number,
                 required: true
-            }, totalPrice: {
+            },image:{
+                type:String,
+                required:true
+            },
+             totalPrice: {
                 type: Number,
                 default: 0
             }
-        }],couponDiscount:{
-            type:String,
-            ref:'coupon'
-        },shippingMethod:{
+        }],
+           shippingMethod:{
             type:String,
             default:"free-shipping"
         },shippingAmount:{

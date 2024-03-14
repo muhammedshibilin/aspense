@@ -1,6 +1,7 @@
 const User = require("../model/userModel")
 const Product = require('../model/productModel')
 const Category = require('../model/categoryModel')
+const Address = require('../model/addressModel')
 const Review = require('../model/reviewModel')
 const bcrypt = require("bcryptjs")
 const { sendVerifyMail } = require('../utils/sendVerifyMail')
@@ -203,11 +204,17 @@ const loadProductDetails = async (req, res) => {
 const profileLoad = async (req, res) => {
     try {
         const userId = req.session.user_id
+        const addressData = await Address.findOne({user:userId}).populate("address")
+        if(addressData){
+        console.log(addressData);
+        console.log(addressData.address.fullName)
+        }
+   
         console.log("session profile",req.session.user_id);
         const userData = await User.findOne({ _id: userId })
         console.log(userData.image)
        if(userData.is_admin==0){
-        res.render("profile",{userData})
+        res.render("profile",{userData,addressData})
        }else{
         req.session.admin_id=userData
         res.redirect("/admin")

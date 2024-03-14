@@ -254,12 +254,12 @@
                                                 style="width: 100px; height: 150px; overflow: hidden;">
                                                 <!-- Placeholder image -->
                                                 <% if(userData.image){ %>
-                                                <img src="/public/images/product/original/<%= userData.image %>"
+                                                <img src="/images/product/original/<%= userData.image %>"
                                                     alt="Profile Image"
                                                     class="w-100 h-100">
                                                 <% } else { %>
                                                 <img
-                                                    src="/public/images/product/original/3.jpg"
+                                                    src="/images/product/original/3.jpg"
                                                     alt="Profile Image"
                                                     class="w-100 h-100">
                                                 <% } %>
@@ -430,21 +430,30 @@
                                                     class="panel-collapse collapse">
                                                     <div class="panel-body">
                                                         <div
+                    
                                                             class="billing-information-wrapper">
                                                             <div class="row">
-                                                               
+                                                                <% if (addressData && addressData.address && addressData.address.length > 0) { %>
+                                                                    <% addressData.address.forEach(function(address) { %>
                                                                 <div class="col-lg-4 col-md-6" style="margin-bottom: 2rem;">
                                                                     <div id="address-list" style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
-                                                                        <p class="address-item">Name:</p>
-                                                                        <p class="address-item">Email:</p>
-                                                                        <p class="address-item">Mobile:</p>
-                                                                        <p class="address-item">State:</p>
-                                                                        <p class="address-item">City:</p>
-                                                                        <p class="address-item">Pincode:</p>
-                                                                        <p class="address-item">HouseName:</p>
+                                                                                <div class="address-item-container">
+                                                                                    <p class="address-item">Name: <%= address.fullName %></p>
+                                                                                    <p class="address-item">Email: <%= address.email %></p>
+                                                                                    <p class="address-item">Mobile: <%= address.mobile %></p>
+                                                                                    <p class="address-item">State: <%= address.state %></p>
+                                                                                    <p class="address-item">City: <%= address.city %></p>
+                                                                                    <p class="address-item">Pincode: <%= address.pin %></p>
+                                                                                    <p class="address-item">HouseName: <%= address.houseName %></p>
+                                                                                 
+                                                                                </div>
+                                                                        
                                                                     </div>
-                                                               
                                                             </div>
+                                                            <% }); %>
+                                                            <% } else { %>
+                                                                <p>No address data available.</p>
+                                                            <% } %>
                                                             </div>
                                                       
                                             
@@ -478,13 +487,13 @@
                                                               
                                                             </div>
                                                             <form id="form">
-                                                            <div class="row">
+                                                               <div class="row">
                                                                 <div
                                                                     class="col-lg-6 col-md-6">
                                                                     <div class="billing-info">
                                                                         <label>name</label>
                                                                         <input type="text" name="name" id="name">
-                                                                        <p id="nameError" style="color: red; font-size: 10px;"></p>
+                                                                        <p id="nameError" style="color: red; font-size: 10px; display: none;"></p>
                                                                     </div>
                                                                 </div>
                                                                 <div
@@ -494,7 +503,7 @@
                                                                         <label>mobile
                                                                         </label>
                                                                         <input type="number" name="mobile" id="mobile">
-                                                                        <p id="mobileError" style="color: red; font-size: 10px;"></p>
+                                                                        <p id="emailError" style="color: red; font-size: 10px; display: none;"></p>
                                                                     </div>
                                                                 </div>
                                                                 <div
@@ -503,7 +512,7 @@
                                                                         <label>email
                                                                         </label>
                                                                         <input type="email" name="email" id="email">
-                                                                        <p id="mobileError" style="color: red; font-size: 10px;"></p>
+                                                                        <p id="mobileError" style="color: red; font-size: 10px; display: none;"></p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -512,7 +521,7 @@
                                                                 <div class="billing-info">
                                                                     <label for="state">State</label>
                                                                     <div style="height: 50px; overflow-y: auto;">
-                                                                        <select id="state" name="state" style="width: 100%;">
+                                                                        <select id="state" name="state" style="width: 100%; ">
                                                                             <option value="">Select State</option>
                                                                             <option value="Andhra Pradesh">Andhra Pradesh</option>
                                                                             <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -573,7 +582,7 @@
                                                                         <label>pincode
                                                                         </label>
                                                                         <input type="number" name="pincode" id="pincode">
-                                                                        <p id="pincodeError" style="color: red; font-size: 10px;"></p>
+                                                                        <p id="pincodeError" style="color: red; font-size: 10px; display: none;"></p>
                                                                     </div>
                                                                 </div>
                                                                 <div
@@ -842,6 +851,12 @@
 
 <script>
 
+document.addEventListener("DOMContentLoaded", function() {
+    if (window.location.href === '/profile') {
+        $('#my-account-1').collapse('show');
+    }
+})
+
     document.getElementById('edit-btn').addEventListener('click', async (e) => {
             e.preventDefault()
             const name = document.getElementById('edit-name').value
@@ -870,11 +885,11 @@
       });
 
       let isEmpty = false;
-        inputs.forEach(input => {
-            if (!input.value.trim()) {
-                isEmpty = true;
-            }
-        });
+     inputs.filter(input => input.name !== 'newPassword' && input.name !== 'currentPassword').forEach(input => {
+    if (!input.value.trim()) {
+        isEmpty = true;
+    }
+});
 
         if (isEmpty) {
             Swal.fire({
@@ -928,7 +943,7 @@
 
     
         
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", () =>  {
     document.getElementById("form").addEventListener("submit", function (event) {
         event.preventDefault(); 
 
@@ -947,32 +962,47 @@
 
      
         if (email.trim() === "") {
-                emailError.style.display = 'block'
+            emailError.style.display="block" 
             emailError.textContent = "Email is required.";
             return
             } else if (!emailPattern.test(email)) {
+                emailError.style.display="block" 
                 emailError.textContent = "Invalid email format.";
                 return
             } else {
+                emailError.style.display="block" 
                 emailError.textContent = "";
             }
             if (mobile.length < 10) {
+                mobileError.style.display="block" 
                 mobileError.textContent = "Mobile number must be at least 10 digits"
                 return
-            } else {
+            } 
+            else  {
+                mobileError.style.display="block" 
                 mobileError.textContent = ""
             }
-            if (name.length < 4) {
-                nameLengthError.textContent = "User name  must be at least 4 characters"
+
+            if (name.trim()===""){
+                nameError.style.display="block" 
+            nameError.textContent = "name is required."
+
+            }
+            else if (name.length < 4) {
+                nameError.style.display="block"
+                nameError.textContent = "User name  must be at least 4 characters"
                 return
             } else {
-                nameLengthError.textContent = ""
+                nameError.style.display="block"
+                nameError.textContent = ""
             }
             if (pincode.length != 6) {
+                pincodeError.style.display='block'
                 pincodeError.textContent = "Type a  6 digit Pincode"
                 return
             }
              else {
+                pincodeError.style.display='block'
                 pincodeError.textContent = ""
             }
 
@@ -985,9 +1015,22 @@
         formData.append('state', state);
         formData.append('city', city);
         formData.append('houseName', houseName);
+    
 
-        axios.post('/add-address', formData)
+        console.log(name,email,mobile,pincode,state,city,houseName);
+        for (let [key, value] of formData.entries()) {
+    console.log(key, value);
+}
+
+        axios.post('/add-address', formData, { 
+         headers: {
+       
+        'Custom-Header': 'CustomValue'
+        } 
+    })
             .then(response => {
+
+                console.log("hellooo")
                 const Toast = Swal.mixin({
                     toast: true,
                     position: "top-end",

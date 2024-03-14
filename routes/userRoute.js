@@ -4,9 +4,13 @@ const User = require('../model/userModel')
 const userController = require("../controller/userController");
 const cartController = require('../controller/cartController')
 const addressController = require('../controller/addressController')
+const multer1 = require('multer');
+const upload = multer1();
+
 const multer = require('../middleware/multer')
 const auth = require("../middleware/userAuth")
 const passport = require('passport')
+
 const config = require('../config/config')
 const path = require('path')
 require('../utils/gpassport')
@@ -76,7 +80,7 @@ user_route.get('/forgot-password',userController.forgotPassword)
 user_route.post('/get-email',userController.getEmail)
 user_route.get('/change-password',userController.changePasswordLoad)
 user_route.post('/change-password',userController.changePassword)
-user_route.post('/add-address',addressController.addAddress)
+user_route.post('/add-address', upload.none(), addressController.addAddress);
 
 user_route.get('/logout', auth.isLogin, userController.logoutUser)
 
@@ -90,6 +94,7 @@ user_route.get('/resend-otp', auth.isLogout, userController.resendOtp);
 
 user_route.get('/cart',cartController.cartLoad)
 user_route.post('/add-to-cart',cartController.addToCart)
+user_route.get('/checkout',cartController.checkoutLoad)
 
 
 

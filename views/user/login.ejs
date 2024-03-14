@@ -377,6 +377,14 @@
             window.location.href = "/home";
             },2000)
         } else {
+             
+            Toast.fire({
+                            icon: "warning", 
+                            title: "password !",
+                            text:"enter the correct password"  
+            })
+
+        }
             if(response.error){
                 Toast.fire({
                             icon: "error", 
@@ -389,10 +397,10 @@
          
         }
     }
-    },
+    })
 });
 
-        })
+    
 
     </script>
 

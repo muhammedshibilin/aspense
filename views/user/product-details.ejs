@@ -290,7 +290,7 @@
                                                     class="fa fa-cart-arrow-down"></i><span>Add
                                                     to cart</span></a>
                                             <a class="wislist"
-                                                href="cart.html"></a>
+                                                href="/wishlist"></a>
                                         </div>
                                     </div>
 
@@ -620,12 +620,14 @@
             crossorigin="anonymous"></script>
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
             <script>
            
    function addToCart(productId, count = 1) {
     console.log(productId,'his product id ')
             $.ajax({
+
                 url: "/add-to-cart",
                 method: "post",
                 data: {
@@ -633,14 +635,15 @@
                      count,
                 },
                 success: (response) => {
-                    if (response.login === false) {
-                        const Toast = Swal.mixin({
+                    const Toast = Swal.mixin({
                             toast: true,
-                            position: "bottom-end",
+                            position: "top-end",
                             showConfirmButton: false,
                             timer: 1500,
                         });
-
+                    if (response.login) {
+                       
+                         console.log("heyyyyyyyyyy")
                         Toast.fire({
                             icon: "error",
                             title: response.message

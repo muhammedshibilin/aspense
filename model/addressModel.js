@@ -1,8 +1,9 @@
+const { ObjectId } = require('mongodb')
 const mongoose = require('mongoose')
 
 const addressSchema = new mongoose.Schema({
-    name: {
-        type: String,
+    user: {
+        type: ObjectId,
         ref: 'User'
     },
     address: [
@@ -21,7 +22,13 @@ const addressSchema = new mongoose.Schema({
                 trim:true
             },houseName:{
                 type:String
-            },state:{
+            },city:{
+                type:String,
+                required:true,
+                trim:true
+
+            },
+            state:{
                 type:String,
                 required:true,
                 trim:true
