@@ -290,6 +290,7 @@
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
 
@@ -306,8 +307,12 @@
         emailMessage.textContent=""
         passwordMessage.textContent=''
             
-        if (email== '') {
+        if (email== ''&&password=='') {
             emailMessage.style.display= "block"
+            emailMessage.textContent = ' email is required';
+            passwordMessage.style.display= "block"
+            passwordMessage.textContent = 'Password is required';
+           
             return;
           
         } else if (!emailPattern.test(email)) {
@@ -321,11 +326,9 @@
             return
         }
 
-        if (password == '') {
-            passwordMessage.style.display= "block"
-            passwordMessage.textContent = 'Password is required';
-           
-        } else if (password.length < 8) {
+       
+            
+         if (password.length < 8) {
             passwordMessage.style.display= "block"
             passwordMessage.textContent = 'Password must be at least 8 characters';
         
@@ -344,13 +347,7 @@
         }
 
 
-        toastr.options = {
-        "positionClass": "toast-center",
-        "timeOut": "3000",
-        "extendedTimeOut": "2000", 
-        "showMethod": "slideDown",
-        "hideMethod": "slideUp"
-    };
+      
 
         
     $.ajax({
@@ -361,14 +358,31 @@
         password: password
     },
     success: (response) => {
+        console.log(response);
+        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                        });
         if (response.success) {
-            toastr.success("Login successfull");
+         
+
+                        Toast.fire({
+                            icon: "success", 
+                            title: "login sucessfull",
+                            text:"your login is successfull"
+                        });
             setTimeout (() => {
             window.location.href = "/home";
-            },3000)
+            },2000)
         } else {
             if(response.error){
-            toastr.error("you are blocked. Please contact for more information");
+                Toast.fire({
+                            icon: "error", 
+                            title: "blocked",
+                            text:"you are blocked ,please contact the admin"
+                        });
             setTimeout (() => {
                 window.location.href = "/login";
             },3000)

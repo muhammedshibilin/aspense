@@ -1,14 +1,23 @@
 <%- include("../layouts/user/header.ejs") %>
 
 <style>
-    .profile-container {
-      padding: 20px;
-      border: black solid 1px;
-      border-radius: 15px;
-      width: auto;
-      margin-bottom: 5rem;
-      box-shadow: inset 1px;
-    }
+   .profile-container {
+    padding: 20px;
+    border: 2px solid #ccc; /* lighter border color */
+    border-radius: 15px;
+    width: auto;
+    height: auto;
+    margin-bottom: 5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* soft shadow effect */
+    background-color: #f9f9f9; /* light background color */
+    transition: border-color 0.3s, box-shadow 0.3s; /* smooth transition effects */
+}
+
+.profile-container:hover {
+    border-color: #555; /* darker border color on hover */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* stronger shadow effect on hover */
+}
+
 
     .profile-image {
       position: relative;
@@ -78,84 +87,114 @@
         opacity: 0;
         cursor: pointer;
     }
+    #address-list {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+}
+
+.address-item {
+    color: #c05c5c;
+    font-size: 16px; /* Increase font size for better readability */
+    margin-bottom: 10px; /* Adds space between each address */
+    padding: 5px; /* Adds padding inside each address item */
+    background-color: #e0e0e0; /* Light background color for each address item */
+    border-radius: 3px; /* Rounded corners for each address item */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.address-item:hover {
+    background-color: #d0d0d0; /* Slightly darker background color on hover */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering */
+}
 </style>
 
-        
+<!-- Start Search Flyover -->
+<div class="search-flyoveray"></div>
+<div class="cart-flyout">
+    <div class="cart-flyout-inner">
+        <a class="btn-close-cart" href="#">
+            <i class="fa fa-times"></i>
+        </a>
+        <div class="cart-flyout__content">
+            <div class="cart-flyout__heading">Shopping Cart</div>
+            <div class="widget_shopping_cart_content">
+                <ul class="product_list_widget">
+                    <li>
+                        <div class="thumb">
+                            <img src="assets/images/product/sm-product-01.jpg"
+                                alt="product">
+                        </div>
+                        <div class="content">
+                            <h6><a href="/single-product">Boys light blue
+                                    jacket</a></h6>
+                            <div class="quntity">1 × $35.99</div>
+                            <button class="remove-btn">×</button>
+                        </div>
+                    </li>
 
-    <!-- Start Search Flyover -->
-    <div class="search-flyoveray"></div>
-    <div class="cart-flyout">
-        <div class="cart-flyout-inner">
-            <a class="btn-close-cart" href="#">
-                <i class="fa fa-times"></i>
-            </a>
-            <div class="cart-flyout__content">
-                <div class="cart-flyout__heading">Shopping Cart</div>
-                <div class="widget_shopping_cart_content">
-                    <ul class="product_list_widget">
-                        <li>
-                            <div class="thumb">
-                                <img src="assets/images/product/sm-product-01.jpg" alt="product">
-                            </div>
-                            <div class="content">
-                                <h6><a href="/single-product">Boys light blue jacket</a></h6>
-                                <div class="quntity">1 × $35.99</div>
-                                <button class="remove-btn">×</button>
-                            </div>
-                        </li>
+                    <li>
+                        <div class="thumb">
+                            <img src="assets/images/product/sm-product-02.jpg"
+                                alt="product">
+                        </div>
+                        <div class="content">
+                            <h6><a href="/single-product">Boys light blue
+                                    jacket</a></h6>
+                            <div class="quntity">1 × $35.99</div>
+                            <button class="remove-btn">×</button>
+                        </div>
+                    </li>
 
-                        <li>
-                            <div class="thumb">
-                                <img src="assets/images/product/sm-product-02.jpg" alt="product">
-                            </div>
-                            <div class="content">
-                                <h6><a href="/single-product">Boys light blue jacket</a></h6>
-                                <div class="quntity">1 × $35.99</div>
-                                <button class="remove-btn">×</button>
-                            </div>
-                        </li>
+                    <li>
+                        <div class="thumb">
+                            <img src="assets/images/product/sm-product-03.jpg"
+                                alt="product">
+                        </div>
+                        <div class="content">
+                            <h6><a href="/single-product">Boys light blue
+                                    jacket</a></h6>
+                            <div class="quntity">1 × $35.99</div>
+                            <button class="remove-btn">×</button>
+                        </div>
+                    </li>
 
-                        <li>
-                            <div class="thumb">
-                                <img src="assets/images/product/sm-product-03.jpg" alt="product">
-                            </div>
-                            <div class="content">
-                                <h6><a href="/single-product">Boys light blue jacket</a></h6>
-                                <div class="quntity">1 × $35.99</div>
-                                <button class="remove-btn">×</button>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-                <p class="minicart__total">Subtotal: <span class="price">164.97</span></p>
-                <div class="cart__btn">
-                    <a href="/cart">View cart</a>
-                    <a href="/checkout">Checkout</a>
-                </div>
+                </ul>
+            </div>
+            <p class="minicart__total">Subtotal: <span
+                    class="price">164.97</span></p>
+            <div class="cart__btn">
+                <a href="/cart">View cart</a>
+                <a href="/checkout">Checkout</a>
             </div>
         </div>
     </div>
+</div>
 
-    <!--end search flyover-->
+<!--end search flyover-->
 
- <!-- Start Hamburger -->
- <div class="hamburger-area">
+<!-- Start Hamburger -->
+<div class="hamburger-area">
     <div class="btn-close-search">
         <button>
             <i class="fa fa-times" aria-hidden="true"></i>
         </button>
     </div>
     <!-- Start Main Menu -->
-    <ul class="menu-primary-menu-1 responsive-manu d-block d-xl-none" id="responsive-manu">
+    <ul class="menu-primary-menu-1 responsive-manu d-block d-xl-none"
+        id="responsive-manu">
         <li><a href="/">Home</a> </li>
         <li><a href="about.html">About</a></li>
         <li class="has-dropdown"><a href="/shop">Shop</a>
             <ul class="sub-menu">
                 <li><a href="/shop"><span>Shop</span></a></li>
-                <li><a href="/shop-left-sidebar"><span>Shop Left Sidebar</span></a></li>
-                <li><a href="/shop-right-sidebar"><span>Shop No Sidebar</span></a></li>
-                <li><a href="/product-details"><span>Product Details</span></a></li>
+                <li><a href="/shop-left-sidebar"><span>Shop Left
+                            Sidebar</span></a></li>
+                <li><a href="/shop-right-sidebar"><span>Shop No
+                            Sidebar</span></a></li>
+                <li><a href="/product-details"><span>Product
+                            Details</span></a></li>
             </ul>
         </li>
         <li class="has-dropdown"><a href="#">Pages</a>
@@ -172,7 +211,8 @@
         <li class="has-dropdown"><a href="/blog">Blog</a>
             <ul class="sub-menu">
                 <li><a href="/blog"><span>Blog</span></a></li>
-                <li><a href="/blog-left-sidebar"><span>Blog Left Sidebar</span></a></li>
+                <li><a href="/blog-left-sidebar"><span>Blog Left
+                            Sidebar</span></a></li>
                 <li><a href="/blog-details"><span>Blog Details</span></a></li>
             </ul>
         </li>
@@ -182,215 +222,459 @@
 </div>
 <!-- End Hamburger -->
 
-
-    <!-- Start Breadumb Area -->
-    <div class="breadcumb-area ptb--100 ptb_md--100 ptb_sm--100  bg_image bg_image--3">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="inner text-center">
-                        <h2 class="font--40 mb--0">profile</h2>
-                        <button class="btn btn-primary "><a href="/logout">logout</a></button>
-                    </div>
+<!-- Start Breadumb Area -->
+<div
+    class="breadcumb-area ptb--100 ptb_md--100 ptb_sm--100  bg_image bg_image--3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="inner text-center">
+                    <h2 class="font--40 mb--0">profile</h2>
+                    
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Breadumb Area -->
-    <div class="main-wrapper">
-        <!-- Start My Account Area -->
-        <div class="my-account-area pt--120 pb--90">
-            <div class="container">
-                <div class="row">
-                    <div class="ml-auto mr-auto col-lg-12">
-                        <div class="checkout-wrapper">
-                            <div id="faq" class="panel-group">
-                                <div class="panel panel-default">
-                                    <div class="container mt-5">
-                                        <div class="row justify-content-center">
-                                            <div class="col-md-6 profile-container">
-                                                <div class="profile-image d-flex justify-content-center align-items-center position-relative rounded-circle" style="width: 150px; height: 150px; overflow: hidden;">
-                                                    <!-- Placeholder image -->
-                                                    <% if(userData.image){ %>  
-                                                    <img src="<%= userData.image %>" alt="Profile Image" class="w-100 h-100">
-                                                    <% } else { %>
-                                                        <img src="/public/images/product/original/3.jpg" alt="Profile Image" class="w-100 h-100">
-                                                   <% } %>
-                                                </div>
-                                                <div class="profile-details">
-                                                    <p>Username: <%= userData.name %></p>
-                                                    <p>Email:<%= userData.email %></p>
-                                                    <p>Mobile:<%= userData.mobile %></p>
-                                                </div>
+</div>
+<!-- End Breadumb Area -->
+<div class="main-wrapper">
+    <!-- Start My Account Area -->
+    <div class="my-account-area pt--120 pb--90">
+        <div class="container">
+            <div class="row">
+                <div class="ml-auto mr-auto col-lg-12">
+                    <div class="checkout-wrapper">
+                        <div id="faq" class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="container mt-5">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-6 profile-container" >
+                                            <div
+                                                class="profile-image d-flex justify-content-center align-items-center position-relative rounded-circle"
+                                                style="width: 100px; height: 150px; overflow: hidden;">
+                                                <!-- Placeholder image -->
+                                                <% if(userData.image){ %>
+                                                <img src="/public/images/product/original/<%= userData.image %>"
+                                                    alt="Profile Image"
+                                                    class="w-100 h-100">
+                                                <% } else { %>
+                                                <img
+                                                    src="/public/images/product/original/3.jpg"
+                                                    alt="Profile Image"
+                                                    class="w-100 h-100">
+                                                <% } %>
+                                            </div>
+                                            <div class="profile-details">
+                                                <p>Username: <%= userData.name
+                                                    %></p>
+                                                <p>Email:<%= userData.email
+                                                    %></p>
+                                                <p>Mobile:<%= userData.mobile
+                                                    %></p>
+                                                    <button class="btn btn-primary "><a
+                                                        href="/logout">logout</a></button>
                                             </div>
                                         </div>
                                     </div>
-                                      
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">
-                                            <span>1</span>
-                                            <a data-toggle="collapse" data-parent="#faq" href="#my-account-1" class="toggle-edit" data-user-id="<%= userData._id %>">Edit your
-                                                account information </a>
-                                        </h5>
-                                    </div>
-                                    <div id="my-account-1" class="panel-collapse collapse show">
-                                        <div class="panel-body">
-                                            <form enctype="multipart/form-data" action="/edit-profile" method="post" >
-                                            <div class="billing-information-wrapper">
-                                                <div class="account-info-wrapper">
-                                                    <h4>My Account Information</h4>
-                                                    <h5>Your Personal Details</h5>
+                                </div>
+
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <span>1</span>
+                                        <a data-toggle="collapse"
+                                            data-parent="#faq"
+                                            href="#my-account-1"
+                                            class="toggle-edit"
+                                            data-user-id="<%= userData._id %>">Edit
+                                            your
+                                            profile </a>
+                                    </h5>
+                               
+                                <div id="my-account-1"
+                                    class="panel-collapse collapse show">
+                                    <div class="panel-body">
+                                        <form enctype="multipart/form-data"
+                                         
+                                            <div
+                                                class="billing-information-wrapper">
+                                                <div
+                                                    class="account-info-wrapper">
+                                                    <h4>My Account
+                                                        Information</h4>
+                                                    <h5>edit profile</h5>
                                                 </div>
                                                 <div class="row">
-                                                   
-                                                    
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="profile-info"> <!-- Added a class to target the profile field -->
-                                                            <label for="profileImage">Profile Image</label>
-                                                            <input type="file" id="profileImage" accept="image/*"> <!-- Added an ID to target the profile input field -->
+
+                                                    <div
+                                                        class="col-lg-12 col-md-12">
+                                                        <div
+                                                            class="profile-info">
+                                                            <!-- Added a class to target the profile field -->
+                                                            <label
+                                                                for="profileImage">Profile
+                                                                Image</label>
+                                                            <input type="file"
+                                                                id="profileImage"
+                                                            <!-- Added an ID to target the profile input field -->
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <div class="billing-info">
+                                                    <div
+                                                        class="col-lg-6 col-md-6">
+                                                        <div
+                                                            class="billing-info">
                                                             <label>username</label>
-                                                            <input type="text" id="edit-name" name="name">
+                                                            <input type="text"
+                                                                id="edit-name"
+                                                                value="<%= userData.name %>">
+                                                              
                                                         </div>
                                                     </div>
-                                                  
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <div class="billing-info"  name="mobile">
+
+                                                    <div
+                                                        class="col-lg-6 col-md-6">
+                                                        <div
+                                                            class="billing-info"
+                                                            name="mobile">
                                                             <label>mobile</label>
-                                                            <input type="text" id="edit-mobile" name="mobile">
+                                                            <input type="text"
+                                                                id="edit-mobile"
+                                                                name="mobile" value="<%= userData.mobile %>">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="billing-info">
+                                                    <div
+                                                        class="col-lg-12 col-md-12">
+                                                        <div
+                                                            class="billing-info">
                                                             <label>Email</label>
-                                                            <input type="email" id="edit-email" name="email">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="billing-info">
-                                                            <label>current password</label>
-                                                            <input type="text" name="currentPassword" id="edit-current-password">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="billing-info" >
-                                                            <label>new password</label>
-                                                            <input type="text" id="edit-new-password" name="newPassword">
-                                                        </div>
-                                                    </div>
+                                                            <input type="email"
+                                                                id="edit-email"
+                                                                name="email" value="<%= userData.email %>"">
+                                                </div>
+                                                </div>
                                                    
+                                                    <div
+                                                        class="col-lg-12 col-md-12">
+                                                        <div
+                                                            class="billing-info">
+                                                            <label>current
+                                                                password</label>
+                                                            <input type="text"
+                                                                name="currentPassword"
+                                                                id="edit-current-password">
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-lg-12 col-md-12">
+                                                        <div
+                                                            class="billing-info">
+                                                            <label>new
+                                                                password</label>
+                                                            <input type="text"
+                                                                id="edit-new-password"
+                                                                name="newPassword">
+                                                        </div>
+                                                    </div>
+
                                                 </div>
 
-                                                <h3><a href="/forgot-password">forgot password?</a></h3>
+                                                <h3><a
+                                                        href="/forgot-password">forgot
+                                                        password?</a></h3>
                                                 <div class="billing-back-btn">
                                                     <div class="billing-back">
                                                         <a href="#">
-                                                            <i class="fa fa-long-arrow-up"></i> back</a>
+                                                            <i
+                                                                class="fa fa-long-arrow-up"></i>
+                                                            back</a>
                                                     </div>
-                                                    <div class="billing-btn" >
-                                                        <button type="submit" id="edit-btn" >save</button>
+                                                    <div class="billing-btn">
+                                                        <button type="submit"
+                                                            id="edit-btn">save</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">
-                                            <span>2</span>
-                                            <a data-toggle="collapse" data-parent="#faq" href="#my-account-2">Change
-                                                your password </a>
-                                        </h5>
-                                    </div>
-                                    <div id="my-account-2" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <div class="billing-information-wrapper">
-                                                <div class="account-info-wrapper">
-                                                    <h4>Change Password</h4>
-                                                    <h5>Your Password</h5>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <span>2</span>
+                                        <a data-toggle="collapse"
+                                            data-parent="#faq"
+                                            href="#my-account-2">
+                                            address </a>
+                                    </h5>
+                                </div>
+                                <div id="my-account-2"
+                                    class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        
+
+
+
+                                        <div
+                                            class="billing-information-wrapper">
+                                            <div class="panel panel-default col-lg-12 col-md-12">
+                                                <div class="panel-heading">
+                                                    <h5 class="panel-title">
+                                                        <span>2</span>
+                                                        <a data-toggle="collapse"
+                                                            data-parent="#faq"
+                                                            href="#my-account-7">
+                                                            your addresses </a>
+                                                    </h5>
                                                 </div>
+                                                <div id="my-account-7"
+                                                    class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        <div
+                                                            class="billing-information-wrapper">
+                                                            <div class="row">
+                                                               
+                                                                <div class="col-lg-4 col-md-6" style="margin-bottom: 2rem;">
+                                                                    <div id="address-list" style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+                                                                        <p class="address-item">Name:</p>
+                                                                        <p class="address-item">Email:</p>
+                                                                        <p class="address-item">Mobile:</p>
+                                                                        <p class="address-item">State:</p>
+                                                                        <p class="address-item">City:</p>
+                                                                        <p class="address-item">Pincode:</p>
+                                                                        <p class="address-item">HouseName:</p>
+                                                                    </div>
+                                                               
+                                                            </div>
+                                                            </div>
+                                                      
+                                            
+                                                            
+                                                        </div>
+                                                    
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                         
+                                            
+                                            <div class="panel panel-default col-lg-12 col-md-12">
+                                                <div class="panel-heading">
+                                                    <h5 class="panel-title">
+                                                        <span>2</span>
+                                                        <a data-toggle="collapse"
+                                                            data-parent="#faq"
+                                                            href="#my-account-6">
+                                                            add address </a>
+                                                    </h5>
+                                                </div>
+                                                <div id="my-account-6"
+                                                    class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        
+                                                        <div
+                                                            class="billing-information-wrapper">
+                                                            <div class="account-info-wrapper">
+                                                                <h4>add address</h4>
+                                                              
+                                                            </div>
+                                                            <form id="form">
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-lg-6 col-md-6">
+                                                                    <div class="billing-info">
+                                                                        <label>name</label>
+                                                                        <input type="text" name="name" id="name">
+                                                                        <p id="nameError" style="color: red; font-size: 10px;"></p>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-lg-6 col-md-6">
+                                                                    <div class="billing-info">
+
+                                                                        <label>mobile
+                                                                        </label>
+                                                                        <input type="number" name="mobile" id="mobile">
+                                                                        <p id="mobileError" style="color: red; font-size: 10px;"></p>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-lg-12 col-md-12">
+                                                                    <div class="billing-info">
+                                                                        <label>email
+                                                                        </label>
+                                                                        <input type="email" name="email" id="email">
+                                                                        <p id="mobileError" style="color: red; font-size: 10px;"></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                            <div class="col-lg-4 col-md-4">
+                                                                <div class="billing-info">
+                                                                    <label for="state">State</label>
+                                                                    <div style="height: 50px; overflow-y: auto;">
+                                                                        <select id="state" name="state" style="width: 100%;">
+                                                                            <option value="">Select State</option>
+                                                                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                                            <option value="Assam">Assam</option>
+                                                                            <option value="Bihar">Bihar</option>
+                                                                            <option value="Chhattisgarh">Chhattisgarh</option>
+                                                                            <option value="Goa">Goa</option>
+                                                                            <option value="Gujarat">Gujarat</option>
+                                                                            <option value="Haryana">Haryana</option>
+                                                                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                                            <option value="Jharkhand">Jharkhand</option>
+                                                                            <option value="Karnataka">Karnataka</option>
+                                                                            <option value="Kerala">Kerala</option>
+                                                                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                                            <option value="Maharashtra">Maharashtra</option>
+                                                                            <option value="Manipur">Manipur</option>
+                                                                            <option value="Meghalaya">Meghalaya</option>
+                                                                            <option value="Mizoram">Mizoram</option>
+                                                                            <option value="Nagaland">Nagaland</option>
+                                                                            <option value="Odisha">Odisha</option>
+                                                                            <option value="Punjab">Punjab</option>
+                                                                            <option value="Rajasthan">Rajasthan</option>
+                                                                            <option value="Sikkim">Sikkim</option>
+                                                                            <option value="Tamil Nadu">Tamil Nadu</option>
+                                                                            <option value="Telangana">Telangana</option>
+                                                                            <option value="Tripura">Tripura</option>
+                                                                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                                            <option value="Uttarakhand">Uttarakhand</option>
+                                                                            <option value="West Bengal">West Bengal</option>
+                                                                            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                                                            <option value="Chandigarh">Chandigarh</option>
+                                                                            <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                                                            <option value="Daman and Diu">Daman and Diu</option>
+                                                                            <option value="Delhi">Delhi</option>
+                                                                            <option value="Lakshadweep">Lakshadweep</option>
+                                                                            <option value="Puducherry">Puducherry</option>
+                                                                            
+                                                
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div
+                                                                    class="col-lg-4 col-md-4">
+                                                                    <div class="billing-info">
+
+                                                                        <label>city
+                                                                        </label>
+                                                                        <input type="text" name="city" id="city">
+                                                                    </div>
+                                                                </div>
+                                         
+                                                            <div
+                                                                    class="col-lg-4 col-md-4">
+                                                                    <div class="billing-info">
+
+                                                                        <label>pincode
+                                                                        </label>
+                                                                        <input type="number" name="pincode" id="pincode">
+                                                                        <p id="pincodeError" style="color: red; font-size: 10px;"></p>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                class="col-lg-12 col-md-12">
+                                                                <div class="billing-info">
+                                                                    <label>house name
+                                                                    </label>
+                                                                    <input type="text" name="houseName" id="houseName">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                         
+                                                            <div class="billing-back-btn">
+                                                                <div class="billing-back">
+                                                                    <a href="#">
+                                                                        <i
+                                                                            class="fa fa-long-arrow-up"></i>
+                                                                        back</a>
+                                                                </div>
+                                                                <div class="billing-btn">
+                                                                    <button
+                                                                        type="submit" id="address-btn">add address</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <span>3</span>
+                                        <a data-toggle="collapse"
+                                            data-parent="#faq"
+                                            href="#my-account-3">Modify
+                                            your address book entries </a>
+                                    </h5>
+                                </div>
+                                <div id="my-account-3"
+                                    class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div
+                                            class="billing-information-wrapper">
+                                            <div class="account-info-wrapper">
+                                                <h4>Address Book Entries</h4>
+                                            </div>
+                                            <div class="entries-wrapper">
                                                 <div class="row">
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="billing-info">
-                                                            <label>Password</label>
-                                                            <input type="password">
+                                                    <div
+                                                        class="col-lg-6 col-md-6 col-sm-6 col-12 d-flex align-items-center justify-content-center">
+                                                        <div
+                                                            class="entries-info text-center">
+                                                            <p>Gerald Armstrong
+                                                            </p>
+                                                            <p> Address will go
+                                                                here. </p>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="billing-info">
-                                                            <label>Password Confirm</label>
-                                                            <input type="password">
+                                                    <div
+                                                        class="col-lg-6 col-md-6 col-sm-6 col-12 d-flex align-items-center justify-content-center">
+                                                        <div
+                                                            class="entries-edit-delete text-center">
+                                                            <a class="edit"
+                                                                href="#">Edit</a>
+                                                            <a
+                                                                href="#">Delete</a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="billing-back-btn">
-                                                    <div class="billing-back">
-                                                        <a href="#">
-                                                            <i class="fa fa-long-arrow-up"></i> back</a>
-                                                    </div>
-                                                    <div class="billing-btn">
-                                                        <button type="submit">Continue</button>
-                                                    </div>
+                                            </div>
+                                            <div class="billing-back-btn">
+                                                <div class="billing-back">
+                                                    <a href="#">
+                                                        <i
+                                                            class="fa fa-long-arrow-up"></i>
+                                                        back</a>
+                                                </div>
+                                                <div class="billing-btn">
+                                                    <button
+                                                        type="submit">Continue</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">
-                                            <span>3</span>
-                                            <a data-toggle="collapse" data-parent="#faq" href="#my-account-3">Modify
-                                                your address book entries </a>
-                                        </h5>
-                                    </div>
-                                    <div id="my-account-3" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <div class="billing-information-wrapper">
-                                                <div class="account-info-wrapper">
-                                                    <h4>Address Book Entries</h4>
-                                                </div>
-                                                <div class="entries-wrapper">
-                                                    <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 d-flex align-items-center justify-content-center">
-                                                            <div class="entries-info text-center">
-                                                                <p>Gerald Armstrong </p>
-                                                                <p> Address will go here. </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 d-flex align-items-center justify-content-center">
-                                                            <div class="entries-edit-delete text-center">
-                                                                <a class="edit" href="#">Edit</a>
-                                                                <a href="#">Delete</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="billing-back-btn">
-                                                    <div class="billing-back">
-                                                        <a href="#">
-                                                            <i class="fa fa-long-arrow-up"></i> back</a>
-                                                    </div>
-                                                    <div class="billing-btn">
-                                                        <button type="submit">Continue</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">
-                                            <span>4</span>
-                                            <a href="wishlist.html">Modify your wish list </a>
-                                        </h5>
-                                    </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <span>4</span>
+                                        <a href="wishlist.html">Modify your wish
+                                            list </a>
+                                    </h5>
                                 </div>
                             </div>
                         </div>
@@ -398,183 +682,218 @@
                 </div>
             </div>
         </div>
-        <!-- End My Account Area -->
     </div>
+    <!-- End My Account Area -->
+</div>
 
-    <!-- Quick View Modal -->
-    <div class="quick-view-modal">
-        <div class="quick-view-modal-inner">
-            <div class="container">
-                <div class="product-details">
-                    <!-- Product Details Left -->
-                    <div class="product-details-left">
-                        <div class="product-details-images slider-navigation-2">
-                            <a href="#">
-                                <img class="w-100" src="assets/images/product/product-01.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="assets/images/product/product-02.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="assets/images/product/product-03.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="assets/images/product/product-04.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="assets/images/product/product-05.jpg" alt="product image">
-                            </a>
-                        </div>
-                        <div class="product-details-thumbs slider-navigation-2">
-                            <img src="assets/images/product/product-01.jpg" alt="product image thumb">
-                            <img src="assets/images/product/product-02.jpg" alt="product image thumb">
-                            <img src="assets/images/product/product-03.jpg" alt="product image thumb">
-                            <img src="assets/images/product/product-04.jpg" alt="product image thumb">
-                            <img src="assets/images/product/product-05.jpg" alt="product image thumb">
-                        </div>
+<!-- Quick View Modal -->
+<div class="quick-view-modal">
+    <div class="quick-view-modal-inner">
+        <div class="container">
+            <div class="product-details">
+                <!-- Product Details Left -->
+                <div class="product-details-left">
+                    <div class="product-details-images slider-navigation-2">
+                        <a href="#">
+                            <img class="w-100"
+                                src="assets/images/product/product-01.jpg"
+                                alt="product image">
+                        </a>
+                        <a href="#">
+                            <img class="w-100"
+                                src="assets/images/product/product-02.jpg"
+                                alt="product image">
+                        </a>
+                        <a href="#">
+                            <img class="w-100"
+                                src="assets/images/product/product-03.jpg"
+                                alt="product image">
+                        </a>
+                        <a href="#">
+                            <img class="w-100"
+                                src="assets/images/product/product-04.jpg"
+                                alt="product image">
+                        </a>
+                        <a href="#">
+                            <img class="w-100"
+                                src="assets/images/product/product-05.jpg"
+                                alt="product image">
+                        </a>
                     </div>
-                    <!--// Product Details Left -->
-
-                    <!-- Product Details Right -->
-                    <div class="product-details-right">
-                        <h5 class="product-title">Demo Product Name</h5>
-
-                        <div class="ratting-stock-availbility">
-                            <div class="ratting-box">
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                            </div>
-                            <span class="stock-available">In stock</span>
-                        </div>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est
-                            tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis
-                            justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id
-                            nulla. adipiscing cursus eu, suscipit id nulla.</p>
-
-                        <div class="price-box">
-                            <span class="pricebox-price">£80.00</span>
-                        </div>
-
-                        <div class="product-details-quantity">
-                            <div class="quantity-select">
-                                <div class="pro-quantity">
-                                    <div class="pro-qty"><input type="text" value="1"></div>
-                                </div>
-                            </div>
-                            <a href="#" class="add-to-cart-button">
-                                <span>ADD TO CART</span>
-                            </a>
-                        </div>
-
-                        <div class="product-details-color">
-                            <span>Color :</span>
-                            <ul>
-                                <li class="red"><span></span></li>
-                                <li class="green checked"><span></span></li>
-                                <li class="blue"><span></span></li>
-                                <li class="black"><span></span></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-size">
-                            <span>Size :</span>
-                            <ul>
-                                <li class="checked"><span>S</span></li>
-                                <li><span>M</span></li>
-                                <li><span>L</span></li>
-                                <li><span>XL</span></li>
-                                <li><span>XXL</span></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-categories">
-                            <span>Categories :</span>
-                            <ul>
-                                <li><a href="shop.html">Accessories</a></li>
-                                <li><a href="shop.html">Kids</a></li>
-                                <li><a href="shop.html">Women</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-tags">
-                            <span>Tags :</span>
-                            <ul>
-                                <li><a href="shop.html">Electronic</a></li>
-                                <li><a href="shop.html">Television</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-socialshare">
-                            <span>Share :</span>
-                            <ul>
-                                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
+                    <div class="product-details-thumbs slider-navigation-2">
+                        <img src="assets/images/product/product-01.jpg"
+                            alt="product image thumb">
+                        <img src="assets/images/product/product-02.jpg"
+                            alt="product image thumb">
+                        <img src="assets/images/product/product-03.jpg"
+                            alt="product image thumb">
+                        <img src="assets/images/product/product-04.jpg"
+                            alt="product image thumb">
+                        <img src="assets/images/product/product-05.jpg"
+                            alt="product image thumb">
                     </div>
-                    <!--// Product Details Right -->
-
                 </div>
-            </div>
-     
+                <!--// Product Details Left -->
 
+                <!-- Product Details Right -->
+                <div class="product-details-right">
+                    <h5 class="product-title">Demo Product Name</h5>
+
+                    <div class="ratting-stock-availbility">
+                        <div class="ratting-box">
+                            <span><i class="fa fa-star"></i></span>
+                            <span><i class="fa fa-star"></i></span>
+                            <span><i class="fa fa-star"></i></span>
+                            <span><i class="fa fa-star"></i></span>
+                            <span><i class="fa fa-star"></i></span>
+                        </div>
+                        <span class="stock-available">In stock</span>
+                    </div>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Nam fringilla augue nec est
+                        tristique auctor. Donec non est at libero vulputate
+                        rutrum. Morbi ornare lectus quis
+                        justo gravida semper. Nulla tellus mi, vulputate
+                        adipiscing cursus eu, suscipit id
+                        nulla. adipiscing cursus eu, suscipit id nulla.</p>
+
+                    <div class="price-box">
+                        <span class="pricebox-price">£80.00</span>
+                    </div>
+
+                    <div class="product-details-quantity">
+                        <div class="quantity-select">
+                            <div class="pro-quantity">
+                                <div class="pro-qty"><input type="text"
+                                        value="1"></div>
+                            </div>
+                        </div>
+                        <a href="#" class="add-to-cart-button">
+                            <span>ADD TO CART</span>
+                        </a>
+                    </div>
+
+                    <div class="product-details-color">
+                        <span>Color :</span>
+                        <ul>
+                            <li class="red"><span></span></li>
+                            <li class="green checked"><span></span></li>
+                            <li class="blue"><span></span></li>
+                            <li class="black"><span></span></li>
+                        </ul>
+                    </div>
+
+                    <div class="product-details-size">
+                        <span>Size :</span>
+                        <ul>
+                            <li class="checked"><span>S</span></li>
+                            <li><span>M</span></li>
+                            <li><span>L</span></li>
+                            <li><span>XL</span></li>
+                            <li><span>XXL</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="product-details-categories">
+                        <span>Categories :</span>
+                        <ul>
+                            <li><a href="shop.html">Accessories</a></li>
+                            <li><a href="shop.html">Kids</a></li>
+                            <li><a href="shop.html">Women</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="product-details-tags">
+                        <span>Tags :</span>
+                        <ul>
+                            <li><a href="shop.html">Electronic</a></li>
+                            <li><a href="shop.html">Television</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="product-details-socialshare">
+                        <span>Share :</span>
+                        <ul>
+                            <li><a class="facebook" href="#"><i
+                                        class="fa fa-facebook"></i></a></li>
+                            <li><a class="twitter" href="#"><i
+                                        class="fa fa-twitter"></i></a></li>
+                            <li><a class="google-plus" href="#"><i
+                                        class="fa fa-google-plus"></i></a></li>
+                            <li><a class="linkedin" href="#"><i
+                                        class="fa fa-linkedin"></i></a></li>
+                            <li><a class="instagram" href="#"><i
+                                        class="fa fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--// Product Details Right -->
+
+            </div>
         </div>
-        <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
+
     </div>
-    
-    <script>
-        function previewImage(event) {
-          const fileInput = event.target;
-          const previewImg = document.getElementById('preview-image');
-    
-          if (fileInput.files && fileInput.files[0]) {
-            const reader = new FileReader();
-    
-            reader.onload = function(e) {
-              previewImg.src = e.target.result;
-              previewImg.classList.remove('d-none');
-            };
-    
-            reader.readAsDataURL(fileInput.files[0]);
-          }
-        }
-      </script>
-      
-<!-- 
+    <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-      <script>
-        document.getElementById('edit-btn').addEventListener('click',async (e) =>{
+<script>
+
+    document.getElementById('edit-btn').addEventListener('click', async (e) => {
             e.preventDefault()
             const name = document.getElementById('edit-name').value
+            const inputs = document.querySelectorAll('input ')
             const email = document.getElementById('edit-email').value
             const mobile = document.getElementById('edit-mobile').value
+            const image = document.getElementById('profileImage')
             const newPassword = document.getElementById('edit-new-password').value
             const currentPassword = document.getElementById('edit-current-password').value
 
+            const formData = new FormData();
+            if (image.files.length > 0) {
+      formData.append('image', image.files[0]);
+    }
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('mobile', mobile);
+    formData.append('newPassword', newPassword);
+    formData.append('currentPassword', currentPassword);
+
           try {
-            const response = await axios.post('/edit-profile',{
-                name,
-                email,
-                mobile,
-                newPassword,
-                currentPassword
-            })
+            const response = await axios.post('/edit-profile', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      let isEmpty = false;
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                isEmpty = true;
+            }
+        });
+
+        if (isEmpty) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: 'Please fill out all fields',
+            });
+            return;
+        }
+
 
             if(response.data.passwordLength){
                 Swal.fire({
                     icon:'warning',
                     title:'failed',
                     text:'password must be 8 characters'
+                
                 })
+                return
 
             }else if(response.data.passwordMatch){
                 Swal.fire({
@@ -588,6 +907,8 @@
                     title:'success',
                     text:'your profile is edited'
                 })
+
+                window.location.href = '/profile';
             }else if(response.data.error){
                 Swal.fire({
                     icon:'warning',
@@ -602,7 +923,103 @@
 
 
         })
-      </script>
-      -->
+        </script>
+        <script>
 
-    <%- include("../layouts/user/footer.ejs") %>
+    
+        
+        document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("form").addEventListener("submit", function (event) {
+        event.preventDefault(); 
+
+        const name = document.getElementById("name").value;
+        const nameLengthError = document.getElementById('nameError');
+        const email = document.getElementById("email").value;
+        const emailError = document.getElementById("emailError");
+        const mobile = document.getElementById('mobile').value;
+        const mobileError = document.getElementById('mobileError');
+        const pincode = document.getElementById('pincode').value;
+        const pincodeError = document.getElementById('pincodeError');
+        const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const state = document.getElementById('state').value;
+        const city = document.getElementById('city').value;
+        const houseName = document.getElementById('houseName').value;
+
+     
+        if (email.trim() === "") {
+                emailError.style.display = 'block'
+            emailError.textContent = "Email is required.";
+            return
+            } else if (!emailPattern.test(email)) {
+                emailError.textContent = "Invalid email format.";
+                return
+            } else {
+                emailError.textContent = "";
+            }
+            if (mobile.length < 10) {
+                mobileError.textContent = "Mobile number must be at least 10 digits"
+                return
+            } else {
+                mobileError.textContent = ""
+            }
+            if (name.length < 4) {
+                nameLengthError.textContent = "User name  must be at least 4 characters"
+                return
+            } else {
+                nameLengthError.textContent = ""
+            }
+            if (pincode.length != 6) {
+                pincodeError.textContent = "Type a  6 digit Pincode"
+                return
+            }
+             else {
+                pincodeError.textContent = ""
+            }
+
+
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('mobile', mobile);
+        formData.append('pincode', pincode);
+        formData.append('state', state);
+        formData.append('city', city);
+        formData.append('houseName', houseName);
+
+        axios.post('/add-address', formData)
+            .then(response => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+                if(response.data.addressAdded){
+                    Toast.fire({
+                        icon: "success", 
+                        title: "added",
+                        text:"your address added successfully"
+                    });
+                    window.location.href="/profile";
+                }
+            })
+            .catch(e => {
+                console.log(e, "error while passing the value from frontend");
+            });
+    });
+});
+</script>
+
+<%- include("../layouts/user/footer.ejs") %>
+
+
+
+
+
+
+
+
+
+
+
+

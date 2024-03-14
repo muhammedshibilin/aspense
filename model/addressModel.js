@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const addressSchema = new mongoose.Schema({
     name: {
         type: String,
-        ref: 'user'
+        ref: 'User'
     },
     address: [
         {
@@ -20,7 +20,7 @@ const addressSchema = new mongoose.Schema({
                 required:true,
                 trim:true
             },houseName:{
-                type:string
+                type:String
             },state:{
                 type:String,
                 required:true,
@@ -35,4 +35,4 @@ const addressSchema = new mongoose.Schema({
     ]
 })
 
-module.exports = mongoose.model('address',addressSchema)
+module.exports = mongoose.model('Address',addressSchema)
