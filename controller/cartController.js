@@ -1,6 +1,7 @@
 const Cart = require('../model/cartModel')
 const Product = require('../model/productModel')
 const User = require('../model/userModel')
+const Address = require('../model/addressModel')
 
 
 
@@ -62,7 +63,7 @@ const cartLoad = async (req, res) => {
 
 const addToCart = async (req, res) => {
     try {
-        console.log("cartil ethii");
+       
         const user_id = req.session.user_id;
         if (!user_id) {
             return res.json({
@@ -71,14 +72,20 @@ const addToCart = async (req, res) => {
             });
         }
         const product_id = req.body.productId;
+        const quantity = req.body.quantity
+        
         const productData = await Product.findById(product_id).populate('category');
-        console.log(productData,product_id,user_id);
+        if(quantity>productData.quantity){
+            res.json({stock:true})
+
+        }
+  
         const userData = await User.findOne({ _id: user_id });
 
         
        
-        const count = req.body.count ? parseInt(req.body.count) : 1;
-        console.log(count,userData);
+        const count = req.body.quantity ? parseInt(req.body.quantity) : 1;
+        console.log(count,userData,"user enteredd count");
         if (!user_id) {
             return res.json({
                 login: false,
@@ -126,35 +133,112 @@ const addToCart = async (req, res) => {
             });
         }
 
-        if (productQuantity < count) {
-            return res.json({
-                success: false,
-                limit: true,
-                message: 'Quantity limit reached!',
-            });
-        }
+       
 
 
         existCartData.products.push(products);
         await existCartData.save();
-        res.json({ success: true, newProduct: true });
+        return res.json({ success: true, newProduct: true });
 
     } catch (e) {
         console.log("while adding to cart", e);
-        res.status(500).send("Error adding to cart");
+        res.status(500).render('500')
     }
 };
 
-const checkoutLoad = async (req,res) => {
+const removeCartItem = async (req, res) => {
     try {
-        res.render("checkout")
-    } catch (e) {
-        console.log(e,"while loading checkout");
+        console.log("remove");
+      const userId = req.session.user_id
+      const productId = req.body.product
+      console.log(userId,"user",productId,"product");
+      const cartData = await Cart.findOne({ user: userId })
+      console.log(cartData,"cartdata");
+      if (cartData) {
+        await Cart.findOneAndUpdate(
+            { user: userId },
+            {
+                $pull: { products: { productId: productId } },
+            },
+        )
+        res.json({ success: true })
+      }
+      console.log(cartData);
+    } catch (error) {
+      console.error('Error removing item from cart:', error)
+      res.status(500).render('500')
     }
-}
+  }
+
+
+  const updateCart = async (req, res) => {
+    try {
+        const counts = req.body;
+        console.log(counts);
+     
+        for (const count of counts) {
+           
+
+          
+            const product = await Product.findById(count.productId).select('quantity');
+            console.log(product, "quaaantiyytyyyyyyyyyyyyy");
+
+            if (!product || count.newQuantity > product.quantity) {
+                return res.status(400).json({ message: 'out of  stock! will be update soon', error: true });
+            }
+            const updateResult = await Cart.updateOne(
+                { 'products.productId': count.productId },
+                { $set: { 'products.$.count': count.newQuantity } }
+                
+            );
+            console.log("Update result:", updateResult);
+          
+           
+        }
+        res.json({ message: 'Cart updated successfully' });
+    } catch (e) {
+        console.log("while updating the cart ", e);
+    }
+};
+
+const checkoutLoad = async(req,res)=>{
+    try {
+  
+      const user_id = req.session.user_id
+      const cartData = await Cart.findOne({user:user_id}).populate('products.productId')
+     
+      if(cartData){
+  
+        
+    
+        let addressData = await Address.findOne({user:user_id})
+        addressData = addressData == null ? {user:req.session.user_id,_id:1,address:[]} : addressData
+       
+        const subTotal = cartData.products.reduce((acc,val)=>acc+val.totalPrice,0)
+        const stock = cartData.products.filter((val,ind)=>val.productId.quantity>0)
+        const total = subTotal+cartData.shippingAmount
+    
+        if(stock.length!=cartData.products.length){
+          res.json({stock:false})
+        }
+    
+        res.render("checkout",{addresses:addressData,cart:cartData,subTotal:subTotal,total:total,user_id})
+      }else{
+        res.redirect('/')
+      }
+      
+  
+    } catch (error) {
+        console.log(error.message);
+        res.render('500Error')
+    }
+  }
 
 module.exports = {
     cartLoad,
     addToCart,
-    checkoutLoad
+    updateCart,
+    checkoutLoad,
+    removeCartItem,
+
 }

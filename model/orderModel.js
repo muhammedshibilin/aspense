@@ -33,14 +33,6 @@ const orderSchema = new mongoose.Schema({
     }
     
     ],
-
-    cancelReason:{
-        type:string
-
-    },
-    returnReason:{
-        type:string
-    },
     totalAmount:{
         type:Number,
         required:true
@@ -57,16 +49,10 @@ const orderSchema = new mongoose.Schema({
     orderId:{
         type:String
     },
-    paymentId:{
-        type:String
-    },
     shippingMethod:{
         type:String
     },
     shippingAmount:{
-        type:Number
-    },
-    couponDiscount:{
         type:Number
     }
 

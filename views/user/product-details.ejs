@@ -281,7 +281,7 @@
                                                 step="1"
                                                 min="1" name="quantity"
                                                 value="1"
-                                                title="Qty" size="4">
+                                                title="Qty" id="quantity" >
                                         </div>
 
                                         <div class="product-action">
@@ -623,27 +623,29 @@
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
             <script>
+
+
            
-   function addToCart(productId, count = 1) {
-    console.log(productId,'his product id ')
+   function addToCart(productId) {
+
+    var quantity = parseInt($("#quantity").val());
             $.ajax({
 
                 url: "/add-to-cart",
                 method: "post",
                 data: {
                      productId,
-                     count,
+                     quantity
                 },
-                success: (response) => {
+                success: (response) => {  
                     const Toast = Swal.mixin({
                             toast: true,
                             position: "top-end",
                             showConfirmButton: false,
                             timer: 1500,
-                        });
-                    if (response.login) {
-                       
-                         console.log("heyyyyyyyyyy")
+    })
+ 
+                    if (response.login) {    
                         Toast.fire({
                             icon: "error",
                             title: response.message
@@ -669,19 +671,33 @@
 
                         }
                     } else if (response.exist) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+
+                        Toast.fire({
+                            icon: "error", 
+                            title: "exist!",
+                            text:"product is already exist"
+                        });
                         window.location.href = "/cart";
                     } else if (response.stock) {
                         const Toast = Swal.mixin({
                             toast: true,
                             position: "top-end",
                             showConfirmButton: false,
-                            timer: 1500,
+                            timer: 2000,
                         });
 
                         Toast.fire({
                             icon: "error", 
-                            title: response.message,
+                            title: "out of stock!",
+                            text:"the product is available soon"
                         });
+                        return
                     }
                 },
                 error: (error) => {

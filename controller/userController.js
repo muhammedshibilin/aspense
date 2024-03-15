@@ -479,6 +479,19 @@ const verifyOtp = async (req, res) => {
     }
 }
 
+
+const shopLoad = async (req,res) => {
+    try {
+       const productData = await Product.find()
+       console.log(productData);
+
+        res.render('shop',{
+            productData
+        })
+    } catch (error) {
+        console.log('while loading the shop',error);
+    }
+}
   
   
 
@@ -512,6 +525,7 @@ module.exports = {
     verifyOtp,
     insertUser,
     otpLoad,
+    shopLoad,
     loadLogin,
     verifyLogin,
     logoutUser,

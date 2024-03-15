@@ -94,8 +94,12 @@ user_route.get('/resend-otp', auth.isLogout, userController.resendOtp);
 
 user_route.get('/cart',cartController.cartLoad)
 user_route.post('/add-to-cart',cartController.addToCart)
+user_route.post("/removeCartItem",cartController.removeCartItem)
+user_route.post("/update-cart",cartController.updateCart)
 user_route.get('/checkout',cartController.checkoutLoad)
 
+
+user_route.get('/shop',userController.shopLoad)
 
 
 module.exports = user_route;

@@ -1,4 +1,27 @@
 <%- include("../layouts/user/header.ejs") %>
+<style>
+.cart-summary-table th,
+.cart-summary-table td {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.cart-summary-table th {
+    text-align: left;
+    background-color: #f2f2f2;
+}
+
+/* Add a border-top to the subtotal row to visually separate it from the products */
+.cart-summary-table tr:nth-child(n+2) td {
+    border-top: 2px solid #ddd;
+}
+
+/* Style the subtotal, shipping fee, and grand total rows */
+.cart-summary-table tr:nth-child(n+2) td {
+    font-weight: bold;
+    color: #333;
+}
+</style>
 
      <!-- Start Search Flyover -->
      <div class="search-flyoveray"></div>
@@ -275,31 +298,43 @@
 
                                 <div class="col-lg-5">
                                     <div class="row">
+<!-- Cart Total -->
+<div class="col-12 mb--60">
+    <h4 class="checkout-title">Cart Total</h4>
+    <div class="checkout-cart-total">
+        <table class="cart-summary-table">
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% cart.products.forEach(product => { %>
+                    <tr>
+                        <td><%= product.productName %></td>
+                        <td>$<%= product.totalPrice %>.00</td>
+                    </tr>
+                <% }); %>
+                <!-- Subtotal and Grand Total under the product and total -->
+                <tr>
+                    <td>Sub Total</td>
+                    <td>$<%= subTotal %>.00</td>
+                </tr>
+                <tr>
+                    <td>Shipping Fee</td>
+                    <td>$<%= cart.products.shippingAmount %>.00</td>
+                </tr>
+                <tr>
+                    <td>Grand Total</td>
+                    <td>$<%= total %>.00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-                                        <!-- Cart Total -->
-                                        <div class="col-12 mb--60">
 
-                                            <h4 class="checkout-title">Cart Total</h4>
-
-                                            <div class="checkout-cart-total">
-
-                                                <h4>Product <span>Total</span></h4>
-
-                                                <ul>
-                                                    <li>Samsome Notebook Pro 5 X 01 <span>$295.00</span></li>
-                                                    <li>Aquet Drone D 420 X 02 <span>$550.00</span></li>
-                                                    <li>Play Station X 22 X 01 <span>$295.00</span></li>
-                                                    <li>Roxxe Headphone Z 75 X 01 <span>$110.00</span></li>
-                                                </ul>
-
-                                                <p>Sub Total <span>$1250.00</span></p>
-                                                <p>Shipping Fee <span>$00.00</span></p>
-
-                                                <h4>Grand Total <span>$1250.00</span></h4>
-
-                                            </div>
-
-                                        </div>
 
                                         <!-- Payment Method -->
                                         <div class="col-12 mb--60">

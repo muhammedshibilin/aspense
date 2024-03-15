@@ -30,6 +30,26 @@
 <!-- Cropper.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
+<style>
+  .image-preview-container {
+    position: relative;
+    margin-bottom: 10px; /* Adjust as needed */
+}
+
+#imagePreview {
+    position: absolute;
+    top: -100px; /* Adjust the negative value to position the image above the upload section */
+    left: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #ccc; /* Optional border styling */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Optional box shadow */
+    background-color: #fff; /* Optional background color */
+}
+
+</style>
+
 </head>
 <body>
   <div class="container-scroller">
@@ -214,18 +234,22 @@
                     </div>
   
                   </div>
-                  <div class="col-lg-3 ">
+                  <div class="col-lg-3">
                     <div class="form-group">
-                      <label>File upload</label>
-                      <input type="file" name="image1" class="file-upload-default" />
-                      <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span>
-                      </div>
+                        <label>File upload</label>
+                        <div class="image-preview-container">
+                            <img id="imagePreview" src="/images/product/original/<%= productData.images.image1 %>" alt="Image Preview" style="display: none; width: 100%; height: auto;">
+                        </div>
+                        <input type="file" name="image1" id="imageUpload" class="file-upload-default" onchange="previewImage(event)" />
+                        <div class="input-group col-xs-12">
+                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                            <span class="input-group-append">
+                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                            </span>
+                        </div>
                     </div>
-                  </div>
+                </div>
+                
                   <div class="col-lg-3 ">
                     <div class="form-group">
                       <label>File upload</label>
