@@ -23,6 +23,13 @@
   <link rel="shortcut icon" href="images/favicon.png" />
   <!-- Cropper.js CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.min.css" />
+
+<!-- Include alertify.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.min.js"></script>
+
 
 <!-- jQuery (required by Cropper.js) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -162,13 +169,15 @@
           <div class="card">
             <div class="card-body">
                 <h2>edit product</h2>
-              <form action="/admin/edit-product?_id=<%= productData._id %>" method="post" enctype="multipart/form-data">
+              <form id="form" enctype="multipart/form-data">
 
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="exampleInputName1">Product Name</label>
-                    <input type="text" class="form-control" id="exampleInputName1" name="name" value="<%= productData.name %>">
+                  
+                    <input type="text" class="form-control" id="product-name" name="name"  value="<%= productData.name %>" >
+                    <input type="hidden" id="product-id" name="productId" value="<%= productData._id %>">
                   </div>
 
                 </div>
@@ -179,9 +188,9 @@
                   <div class="form-group ">
                     <label class="col-sm-3 col-form-label">Category</label>
                     <div class="col-sm-12">
-                      <select class="form-control" name="category" id="category-select">
+                      <select class="form-control" name="category" id="product-category">
                         <% categoryData.forEach( category =>{ %>
-                        <option value="<%= category._id %>" ><%= productData.category.name %></option>
+                        <option value="<%= category._id %>" ><%= category.name %></option>
                         <% }) %>
                       </select>
                     </div>
@@ -196,7 +205,8 @@
                   <div class="form-group row">
                     <label class="col-sm-3  col-form-label">Price</label>
                     <div class="col-sm-4  col-lg-4">
-                      <input type="text" name="price" class="form-control" value="<%= productData.price %>" />
+                  
+                      <input type="text" name="price" class="form-control" id="product-price"  value="<%= productData.price %>"/>
                     </div>
                   </div>
                 </div>
@@ -204,7 +214,8 @@
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Quantity</label>
                     <div class="col-sm-4  col-lg-4">
-                      <input type="text" name="quantity" class="form-control" value="<%= productData.quantity %>" />
+
+                      <input type="text" name="quantity" class="form-control" id="product-quantity" value="<%= productData.quantity %>" />
                     </div>
                   </div>
                 </div>
@@ -212,7 +223,8 @@
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Size</label>
                     <div class="col-sm-4  col-lg-4 ">
-                      <input type="text" name="size" class="form-control" value="<%= productData.size %>"/>
+                    
+                      <input type="text" name="size" class="form-control" id="product-size" value="<%= productData.size %>" />
                     </div>
                   </div>
                 </div>
@@ -220,7 +232,7 @@
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label">offer</label>
                     <div class="col-sm-4  col-lg-4 ">
-                      <input type="text" name="offer" class="form-control" value="<%= productData.offer %>"/>
+                      <input type="text" name="offer" class="form-control" id="product-offer"  value="<%= productData.offer %>" />
                     </div>
                   </div>
                 </div>
@@ -230,67 +242,65 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="exampleTextarea1">Description</label>
-                      <textarea class="form-control" id="exampleTextarea1" name="description" rows="4" value="<%= productData.discription %>"></textarea>
+                   
+                      <textarea class="form-control" id="product-description" name="description" rows="4" ><%= productData.discription %></textarea>
                     </div>
   
                   </div>
-                  <div class="col-lg-3">
-                    <div class="form-group">
-                        <label>File upload</label>
-                        <div class="image-preview-container">
-                            <img id="imagePreview" src="/images/product/original/<%= productData.images.image1 %>" alt="Image Preview" style="display: none; width: 100%; height: auto;">
+                  <div class="row">
+                    <% for (let i = 1; i <= 4; i++) { %>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <label>Image upload <%= i %></label>
+                                <input type="file" id="imageFile<%= i %>" name="image<%= i %>" class="file-upload-default">
+                                <div class="input-group col-xs-12">
+                                    <span class="input-group-append preview-container" style="display: flex; flex-direction: column; align-items: center; width: 200px;">
+                                        <% if (productData.images && productData.images['image' + i]) { %>
+                                            <div class="preview-image<%= i %>" style="width: 150px; height: 200px; background-color: #f0f0f0; border: 1px solid #ccc; background-size: cover; background-position: center; overflow: hidden; ">
+                                                <img src="/images/product/original/<%= productData.images['image' + i] %>" style="width: 150px; height: 200px;">
+                                            </div>
+                                        <!-- <% } else { %> -->
+                                            <!-- <div class="preview-image<%= i %>" style="width: 200px; height: 200px; background-color: #f0f0f0; border: 1px solid #ccc; background-size: cover; background-position: center;"></div> -->
+                                        <% } %>
+                                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image" style="width: 100%;">
+                                        <!-- Crop button -->
+                                        <button class="file-upload-browse btn btn-primary mt-2" type="button" data-toggle="modal" data-target="#cropModal<%= i %>">Upload</button>
+                                        <!-- Remove button -->
+                                        <button class="remove-image btn btn-danger mt-2" type="button" data-image-number="<%= i %>">Remove Image</button>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <input type="file" name="image1" id="imageUpload" class="file-upload-default" onchange="previewImage(event)" />
-                        <div class="input-group col-xs-12">
-                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                            <span class="input-group-append">
-                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                            </span>
+                        <!-- Modal for cropping -->
+                        <div class="modal fade" id="cropModal<%= i %>" tabindex="-1" role="dialog" aria-labelledby="cropModalLabel<%= i %>" aria-hidden="true">
+                            <div class="modal-dialog custom-size" role="document" style="max-width: 500px; max-height: 700px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="cropModalLabel<%= i %>">Crop Image <%= i %></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+                                        <div id="cropperContainer">
+                                            <img id="cropperImage<%= i %>" src="" alt="Crop image" style="max-width: 100px; max-height: 300px;">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary applyCropBtn" data-image-number="<%= i %>" data-dismiss="modal">Apply Crop</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    <% } %>
                 </div>
                 
-                  <div class="col-lg-3 ">
-                    <div class="form-group">
-                      <label>File upload</label>
-                      <input type="file" name="image2" class="file-upload-default">
-                      <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 ">
-                    <div class="form-group">
-                      <label>File upload</label>
-                      <input type="file" name="image3" class="file-upload-default">
-                      <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 ">
-                    <div class="form-group">
-                      <label>File upload</label>
-                      <input type="file" name="image4" class="file-upload-default">
-                      <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
+                  
+                
                 <div class="row col-12">
-                  <button type="submit" class="btn btn-primary mr-2">Save</button>
-                  <!-- <a href="/admin/products"><button class="btn btn-light">Back</button></a> -->
+                  <button type="submit" id="edit-product-btn" class="btn btn-primary mr-2">Save</button>
+                 
                   <a href="/admin/product" class="btn btn-primary  ">Back</a>
                 </div>
 
@@ -304,13 +314,187 @@
 
 
         </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        <!-- partial -->
-      </div>
-      <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
+       
 
-<%- include('../layouts/admin/footer.ejs') %>
+          <script>
+
+  let croppers = [];
+
+
+  function handleImageCrop(imageFile, imageNumber) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+          const cropperImage = document.getElementById('cropperImage' + imageNumber);
+          cropperImage.src = e.target.result;
+          croppers[imageNumber - 1] = new Cropper(cropperImage, {
+              aspectRatio: 1,
+              viewMode: 2,
+              cropBoxResizable: true, 
+              CropBoxWidth: 200, 
+              CropBoxHeight: 600,
+          });
+        
+          $('#cropModal' + imageNumber).modal('show');
+      };
+      reader.readAsDataURL(imageFile);
+  }
+
+
+  for (let i = 1; i <= 4; i++) {
+      document.getElementById('imageFile' + i).addEventListener('change', function (event) {
+          const files = event.target.files;
+          if (files && files.length > 0) {
+            
+              handleImageCrop(files[0], i);
+          } else {
+            
+              croppers[i - 1] = null; 
+              $('#cropModal' + i).modal('hide'); 
+          }
+      });
+  }
+      document.querySelectorAll('.remove-image').forEach(function (button) {
+          button.addEventListener('click', function () {
+              const imageNumber = button.dataset.imageNumber;
+        
+              const previewImage = document.querySelector('.preview-image' + imageNumber);
+              previewImage.style.backgroundImage = '';
+
+              button.style.display = 'none';
+        
+              if (croppers[imageNumber - 1]) {
+                  croppers[imageNumber - 1].destroy();
+                  croppers[imageNumber - 1] = null;
+              }
+      
+              document.getElementById('imageFile' + imageNumber).value = '';  
+          });
+      });
+
+
+      document.querySelectorAll('.applyCropBtn').forEach(function (button) {
+        button.addEventListener('click', function () {
+          const imageNumber = parseInt(button.dataset.imageNumber);
+
+          const croppedCanvas = croppers[imageNumber - 1].getCroppedCanvas();
+
+          const previewImage = document.querySelector('.preview-image' + imageNumber + ' img');
+          previewImage.src = croppedCanvas.toDataURL('image/jpeg');
+
+          document.querySelector('.remove-image[data-image-number="' + imageNumber + '"]').style.display = 'block';
+          $('#cropModal' + imageNumber).modal('hide');
+      });
+
+          });
+    
+
+      document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("product-name").value
+      const productId = document.getElementById("product-id").value;
+      const category = document.getElementById("product-category").value
+      const price = document.getElementById('product-price').value
+      const quantity = document.getElementById('product-quantity').value
+      const offer = document.getElementById('product-offer').value
+      const size = document.getElementById('product-size').value
+      const description = document.getElementById('product-description').value
+      const image1 = document.getElementById('imageFile1').files[0];
+      const image2 = document.getElementById('imageFile2').files[0];
+      const image3 = document.getElementById('imageFile3').files[0];
+      const image4 = document.getElementById('imageFile4').files[0];
+      console.log("hgkhjsgjs")
+
+      console.log(category)
+    
+     
+    if (!name.trim()) {
+        alertify.error('Please enter a product name.');
+        return;
+    }
+
+    if (!price.trim() || isNaN(price) || parseFloat(price) <= 0) {
+        alertify.error('Please enter a valid price.');
+        return;
+    }
+
+    if (!quantity.trim() || isNaN(quantity) || parseInt(quantity) <= 0) {
+        alertify.error('Please enter a valid quantity.');
+        return;
+    }
+
+    if (!description.trim()) {
+        alertify.error('Please enter a product description.');
+        return;
+    }
+
+    if (!offer.trim()) {
+        alertify.error('Please enter a product offer.');
+        return;
+    }
+        
+      
+      function validateImage(image) {
+      if (!image) {
+          return false;
+      }
+      return
+    }
+
+  
+
+    
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('productId',productId)
+      formData.append('price', price);
+      formData.append('quantity', quantity);
+      formData.append('category', category);
+      formData.append('description', description);
+      formData.append('offer', offer);
+      formData.append('size', size);
+      formData.append('imageFile1', image1);
+      formData.append('imageFile2', image2);
+      formData.append('imageFile3', image3);
+      formData.append('imageFile4', image4);
+
+
+      $.ajax({
+        type: 'post',
+        url: '/admin/edit-product',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: (response) => {
+            if (response.success) {
+                alertify.success('Product edited successfully', 2000);
+                setTimeout(() => {
+                    window.location.href = "/admin/product";
+                }, 2000);
+            } else {
+                alertify.error('Failed to add product. Please try again later.');
+            }
+        },
+        error: (xhr, status, error) => {
+            console.error(xhr.responseText);
+            alertify.error('An error occurred while adding the product. Please try again later.');
+        }
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const categorySelect = document.getElementById('product-category')
+  const selectedCategoryInput = document.getElementById('selected-category')
+  categorySelect.addEventListener('change',function(){
+      const selectedCategory=categorySelect.value
+      selectedCategoryInput.value=selectedCategory
+  })
+  });
+          </script>
+
+
+
+  <%- include('../layouts/admin/footer.ejs') %>

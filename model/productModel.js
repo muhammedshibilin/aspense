@@ -8,9 +8,9 @@ const ProductSchema = new mongoose.Schema({
         required:true
     },
     category:{
-        type:ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:"category"
+        ref:"Category"
     },
     quantity:{
         type:Number,
@@ -59,4 +59,4 @@ const ProductSchema = new mongoose.Schema({
     
 })
 
-module.exports= mongoose.model("product",ProductSchema)
+module.exports= mongoose.model("Product",ProductSchema)

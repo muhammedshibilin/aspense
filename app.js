@@ -2,6 +2,7 @@ const mongoDb = require("./config/mongoAuth")
 const express = require('express');
 const path = require('path');
 const session = require('express-session')
+const noCache = require('nocache')
 
 
 const app = express();
@@ -11,7 +12,7 @@ app.use(session({
     resave:false,
     saveUninitialized:true
 }))
-
+app.use(noCache())
 
 
 

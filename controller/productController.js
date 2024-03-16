@@ -120,10 +120,12 @@ try {
 const editProductLoad = async (req, res) => {
   try {
    const id = req.query._id
-    const productData = await Product.findOne({ _id: id }).populate("category")
+    const productData = await Product.findOne({ _id:id }).populate("category")
+
+  
     
 
-    const categoryData = await Category.find({ is_block: true })
+    const categoryData = await Category.find({ is_block: 0 })
 
     res.render("editProduct", { productData, categoryData })
   } catch (error) {
@@ -133,11 +135,16 @@ const editProductLoad = async (req, res) => {
 
 const editProduct = async (req, res) => {
   try {
-    const _id = req.query._id
+    const _id = req.body.productId
+    console.log("id",_id)
+ 
    
     const imagesFiles = await req.files
     const productData = await Product.findOne({ _id: _id })
-    const categoryData = await Category.findOne({ _id: req.body.category[0] })
+    
+    console.log(productData,"idaan produc")
+    console.log(req.body.category)
+    const categoryData = await Category.findOne({ _id: req.body.category })
     
     const img = [
       imagesFiles.image1 ? imagesFiles.image1[0].filename : productData.images.image1,
@@ -172,9 +179,10 @@ const editProduct = async (req, res) => {
         }
       }
     )
+    res.json({success:true})
     
 
-    res.redirect('/admin/product')
+   
 
   } catch (error) {
     console.log(error);

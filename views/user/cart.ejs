@@ -1,5 +1,28 @@
 
 <%- include("../layouts/user/header.ejs") %>
+<style>
+    .cart-summary-table th,
+    .cart-summary-table td {
+        padding: 10px;
+        border-top: 1px solid #ddd;
+    }
+    
+    .cart-summary-table th {
+        text-align: left;
+        background-color: #f2f2f2;
+    }
+    
+    
+    .cart-summary-table tr:nth-child(n+2) td {
+        border-top: 2px solid #ddd;
+    }
+    
+    
+    .cart-summary-table tr:nth-child(n+2) td {
+        font-weight: bold;
+        color: #333;
+    }
+    </style>
 
 <!-- Start Header -->
 <header
@@ -234,11 +257,11 @@
                                     <% cartItem.products.forEach(product => { %>
                                     <tr>
                                         <td class="pro-thumbnail"><a
-                                                href="#"><img
+                                                href="/product-details?_id=<%=product._id %>"><img
                                                     src="/images/product/original/<%= product.image %>"
                                                     alt="Product"
                                                     style="width: 50px; height: 60px;"></a></td>
-                                        <td class="pro-title"><a href="#"><%=
+                                        <td class="pro-title"><a href="/product-details?_id=<%=product._id %>"><%=
                                                 product.productName %></a></td>
                                         <td class="pro-price"><span><%=
                                                 product.price %></span></td>

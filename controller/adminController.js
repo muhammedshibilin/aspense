@@ -69,6 +69,7 @@ const adminLogin = async (req,res) => {
 
   const adminHome = async (req,res) => {
     try {
+      console.log("haloooo")
         res.render('admin-home')
     } catch (error) {
       console.log(error);
@@ -105,11 +106,23 @@ const blockUser = async (req,res) => {
 }
 
 
+const adminLogout = async (req,res) => {
+  try {
+    console.log("admin is heere ")
+    req.session.admin_id = null
+    console.log(req.session.admin_id,"gyghghhgjhgjhgjhg")
+    res.redirect("/admin/login")
+  } catch (error) {
+    console.log("while logouting the admin",error)
+  }
+}
+
 
 
 module.exports={
     loginLoad,
     adminLogin,
+    adminLogout,
     adminHome,
     userLoad,
     blockUser,

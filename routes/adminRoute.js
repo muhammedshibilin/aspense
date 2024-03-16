@@ -38,9 +38,10 @@ admin_route.set('views', './views/admin');
 
 
 admin_route.get('/login',auth.isLogout,adminController.loginLoad)
-admin_route.post('/login', adminController.adminLogin)
+admin_route.post('/login',auth.isLogout,adminController.adminLogin)
 admin_route.get('/home',auth.isLogin,adminController.adminHome)
 admin_route.get('/admin',auth.isLogin,adminController.adminHome)
+admin_route.get("/logout",auth.isLogin,adminController.adminLogout)
 
 
 //----------------->  user managment
@@ -67,11 +68,11 @@ admin_route.post("/edit-category",auth.isLogin,categoryController.editCategory)
 
 admin_route.get('/product',auth.isLogin,productController.productLoad)
 admin_route.get('/add-product',auth.isLogin,productController.addProductLoad)
-admin_route.post('/add-product',multer.uploadProduct,productController.addProduct)
+admin_route.post('/add-product',auth.isLogin,multer.uploadProduct,productController.addProduct)
 admin_route.get("/edit-product",auth.isLogin,productController.editProductLoad)
-admin_route.post("/edit-product",multer.uploadProduct,productController.editProduct)
-admin_route.get('/block-product',productController.blockProduct)
-admin_route.get('/delete-product',productController.deleteProduct)
+admin_route.post("/edit-product",auth.isLogin,multer.uploadProduct,productController.editProduct)
+admin_route.get('/block-product',auth.isLogin,productController.blockProduct)
+admin_route.get('/delete-product',auth.isLogin,productController.deleteProduct)
 
 
 

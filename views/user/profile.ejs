@@ -3,29 +3,29 @@
 <style>
    .profile-container {
     padding: 20px;
-    border: 2px solid #ccc; /* lighter border color */
+    border: 2px solid #ccc; 
     border-radius: 15px;
     width: auto;
     height: auto;
     margin-bottom: 5rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* soft shadow effect */
-    background-color: #f9f9f9; /* light background color */
-    transition: border-color 0.3s, box-shadow 0.3s; /* smooth transition effects */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .profile-container:hover {
-    border-color: #555; /* darker border color on hover */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* stronger shadow effect on hover */
+    border-color: #555;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); 
 }
 
 
     .profile-image {
       position: relative;
-      width: 100px; /* Adjust size as needed */
-      height: 100px; /* Adjust size as needed */
-      border-radius: 50%; /* Creates a rounded shape */
-      overflow: hidden; /* Ensures the input and label stay within the rounded shape */
-      margin: 0 auto; /* Center the image */
+      width: 100px; 
+      height: 100px;
+      border-radius: 50%; 
+      overflow: hidden; 
+      margin: 0 auto;
     }
 
     #file-input {
@@ -34,7 +34,7 @@
       left: 0;
       width: 50%;
       height: 50%;
-      opacity: 0; /* Hide the default file input */
+      opacity: 0; 
       cursor: pointer;
     }
 
@@ -48,7 +48,7 @@
       padding: 10px 20px;
       background-image: url("./user/images/bg/bg-image-12.jpg");
       color: #fff;
-      border-radius: 50%; /* Creates a rounded shape */
+      border-radius: 50%; 
       cursor: pointer;
     }
 
@@ -60,25 +60,32 @@
       text-align: center;
       margin-top: 20px;
     }
-  </style>
-<style>
+    .address-buttons-container {
+    display: inline-block;
+}
+
+.edit-address-btn,
+.delete-address-btn {
+    display: inline-block;
+    margin-right: 10px; 
+}
+  
     .profile-info {
-        /* Custom styles for the profile field */
+     
         position: relative;
         overflow: hidden;
         display: inline-block;
-        border-radius: 50%; /* for round shape */
-        width: 150px; /* adjust as needed */
-        height: 150px; /* adjust as needed */
-        border: 2px dashed #ccc; /* dashed border for styling */
-        text-align: center;
-        line-height: 150px; /* vertically center text */
+        border-radius: 50%; 
+        width: 150px; 
+        height: 150px;
+        border: 2px dashed #ccc; 
+        line-height: 150px; 
         font-size: 16px;
-        cursor: pointer; /* make it look clickable */
+        cursor: pointer; 
     }
 
     .profile-info input[type="file"] {
-        /* Custom styles for the profile input field */
+       
         position: absolute;
         top: 0;
         left: 0;
@@ -91,22 +98,22 @@
     background-color: #f0f0f0;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .address-item {
     color: #c05c5c;
-    font-size: 16px; /* Increase font size for better readability */
-    margin-bottom: 10px; /* Adds space between each address */
-    padding: 5px; /* Adds padding inside each address item */
-    background-color: #e0e0e0; /* Light background color for each address item */
-    border-radius: 3px; /* Rounded corners for each address item */
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    font-size: 16px;
+    margin-bottom: 10px; 
+    padding: 5px; 
+    background-color: #e0e0e0; 
+    border-radius: 3px;
+    transition: background-color 0.3s ease;/
 }
 
 .address-item:hover {
-    background-color: #d0d0d0; /* Slightly darker background color on hover */
-    cursor: pointer; /* Changes the cursor to a pointer when hovering */
+    background-color: #d0d0d0; 
+    cursor: pointer;
 }
 </style>
 
@@ -256,12 +263,12 @@
                                                 <% if(userData.image){ %>
                                                 <img src="/images/product/original/<%= userData.image %>"
                                                     alt="Profile Image"
-                                                    class="w-100 h-100">
+                                                    style="width: 120px; height: 100px; border-radius: 3rem;">
                                                 <% } else { %>
                                                 <img
                                                     src="/images/product/original/3.jpg"
                                                     alt="Profile Image"
-                                                    class="w-100 h-100">
+                                                     style="width: 120px;">
                                                 <% } %>
                                             </div>
                                             <div class="profile-details">
@@ -445,6 +452,12 @@
                                                                                     <p class="address-item">City: <%= address.city %></p>
                                                                                     <p class="address-item">Pincode: <%= address.pin %></p>
                                                                                     <p class="address-item">HouseName: <%= address.houseName %></p>
+                                                                                    <div class="address-buttons-container">
+                                                                              
+                                                                                        <button class="edit-address-btn" data-address-id="<%= address._id %>"><i class="fas fa-edit"></i> Edit</button>
+                                                                                        
+                                                                                        <button class="delete-address-btn"><i class="fas fa-trash-alt"></i> <a href="/delete-address?_id=<%= address._id %>">Delete</a></button>
+                                                                                    </div>
                                                                                  
                                                                                 </div>
                                                                         
@@ -850,26 +863,18 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script>
+document.getElementById('edit-btn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('edit-name').value;
+    const email = document.getElementById('edit-email').value;
+    const mobile = document.getElementById('edit-mobile').value;
+    const image = document.getElementById('profileImage');
+    const newPassword = document.getElementById('edit-new-password').value;
+    const currentPassword = document.getElementById('edit-current-password').value;
 
-document.addEventListener("DOMContentLoaded", function() {
-    if (window.location.href === '/profile') {
-        $('#my-account-1').collapse('show');
-    }
-})
-
-    document.getElementById('edit-btn').addEventListener('click', async (e) => {
-            e.preventDefault()
-            const name = document.getElementById('edit-name').value
-            const inputs = document.querySelectorAll('input ')
-            const email = document.getElementById('edit-email').value
-            const mobile = document.getElementById('edit-mobile').value
-            const image = document.getElementById('profileImage')
-            const newPassword = document.getElementById('edit-new-password').value
-            const currentPassword = document.getElementById('edit-current-password').value
-
-            const formData = new FormData();
-            if (image.files.length > 0) {
-      formData.append('image', image.files[0]);
+    const formData = new FormData();
+    if (image.files.length > 0) {
+        formData.append('image', image.files[0]);
     }
     formData.append('name', name);
     formData.append('email', email);
@@ -877,67 +882,51 @@ document.addEventListener("DOMContentLoaded", function() {
     formData.append('newPassword', newPassword);
     formData.append('currentPassword', currentPassword);
 
-          try {
-            const response = await axios.post('/edit-profile', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+    try {
+        const response = await axios.post('/edit-profile', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
 
-      let isEmpty = false;
-     inputs.filter(input => input.name !== 'newPassword' && input.name !== 'currentPassword').forEach(input => {
-    if (!input.value.trim()) {
-        isEmpty = true;
+        // Move Swal alert checks here, after the axios.post call
+        if (response.data.passwordLength) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Failed',
+                text: 'Password must be 8 characters',
+            });
+        } else if (response.data.passwordMatch) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Failed',
+                text: 'Current password is not matching, try again later',
+            });
+        } else if (response.data.profileEdit) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Your profile is edited',
+            }).then(() => {
+                window.location.href = '/profile';
+            });
+        } else if (response.data.error) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Failed',
+                text: "Profile edit failed, please try again",
+            });
+        }
+
+    } catch (e) {
+        console.log('while passing the edit profile input:', e);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while editing your profile',
+        });
     }
 });
-
-        if (isEmpty) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Failed',
-                text: 'Please fill out all fields',
-            });
-            return;
-        }
-
-
-            if(response.data.passwordLength){
-                Swal.fire({
-                    icon:'warning',
-                    title:'failed',
-                    text:'password must be 8 characters'
-                
-                })
-                return
-
-            }else if(response.data.passwordMatch){
-                Swal.fire({
-                    icon:'warning',
-                    title:'failed',
-                    text:'current password is not matching,try again later'
-                })
-            }else if (response.data.profileEdit){
-                Swal.fire({
-                icon:'success',
-                    title:'success',
-                    text:'your profile is edited'
-                })
-
-                window.location.href = '/profile';
-            }else if(response.data.error){
-                Swal.fire({
-                    icon:'warning',
-                    tile:'failed',
-                    text:"profile edit is filed please try again" 
-                })
-            }
-            
-          } catch (e) {
-            console.log('while passing the edit profile input:',e);
-          }
-
-
-        })
         </script>
         <script>
 
@@ -1035,7 +1024,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 3000,
+                    timer: 4000,
                 });
                 if(response.data.addressAdded){
                     Toast.fire({

@@ -319,7 +319,7 @@
                                         </div>
                                     </div>
                                     <div class="dropdown">
-                                        <button class="dropdown-button">Sort</button>
+                                        <button class="dropdown-button">filter</button>
                                         <div class="dropdown-content">
                                             <a href="#" id="sortAtoZ">A-Z</a>
                                             <a href="#" id="sortZtoA">Z-A</a>
@@ -450,14 +450,14 @@ document.getElementById('sortZtoA').addEventListener('click', () => sortUsersAlp
 $('#prevPage').click(function() {
     if (currentPage > 0) {
         currentPage--;
-        updatePagination(users); // Assuming you want to sort the users again after changing pages
+        updatePagination(users); 
     }
 });
 
 $('#nextPage').click(function() {
     if (currentPage < Math.ceil(users.length / pageSize) - 1) {
         currentPage++;
-        updatePagination(users); // Assuming you want to sort the users again after changing pages
+        updatePagination(users); 
     }
 });
 

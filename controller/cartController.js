@@ -19,7 +19,9 @@ const cartLoad = async (req, res) => {
             for (let cart of cartData) {
                 for (let product of cart.products) {
                     const productId = product.productId;
+                    console.log(productId);
                     const productData = await Product.findById(productId).select('price');
+                    console.log(productData)
                     const count = product.count;
                     const productPrice = productData.price || 0;
                     const totalPrice = productPrice * count;
@@ -211,8 +213,11 @@ const checkoutLoad = async(req,res)=>{
   
         
     
-        let addressData = await Address.findOne({user:user_id})
+        let addressData = await Address.findOne({user:user_id}).populate("address")
+        console.log(addressData,"cvghgcgcv")
+        
         addressData = addressData == null ? {user:req.session.user_id,_id:1,address:[]} : addressData
+        console.log(addressData,"utgytfgytfytfghvgfgfhgfhtfhgtfgyf")
        
         const subTotal = cartData.products.reduce((acc,val)=>acc+val.totalPrice,0)
         const stock = cartData.products.filter((val,ind)=>val.productId.quantity>0)
@@ -222,7 +227,7 @@ const checkoutLoad = async(req,res)=>{
           res.json({stock:false})
         }
     
-        res.render("checkout",{addresses:addressData,cart:cartData,subTotal:subTotal,total:total,user_id})
+        res.render("checkout",{addressData,cart:cartData,subTotal:subTotal,total:total,user_id})
       }else{
         res.redirect('/')
       }

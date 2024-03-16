@@ -11,15 +11,36 @@
     background-color: #f2f2f2;
 }
 
-/* Add a border-top to the subtotal row to visually separate it from the products */
+
 .cart-summary-table tr:nth-child(n+2) td {
     border-top: 2px solid #ddd;
 }
 
-/* Style the subtotal, shipping fee, and grand total rows */
+
 .cart-summary-table tr:nth-child(n+2) td {
     font-weight: bold;
     color: #333;
+}
+#address-list {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.address-item {
+    color: #c05c5c;
+    font-size: 16px;
+    margin-bottom: 10px; 
+    padding: 5px; 
+    background-color: #e0e0e0; 
+    border-radius: 3px;
+    transition: background-color 0.3s ease;/
+}
+
+.address-item:hover {
+    background-color: #d0d0d0; 
+    cursor: pointer;
 }
 </style>
 
@@ -144,197 +165,212 @@
         <div class="checkout_area pt--120 pt_md--80 pt_sm--80 pb--60 bg-color" data-bg-color="#ffffff">
             <div class="container">
                 <div class="row">
-                    <div class="col-12">
-                        <!-- Checkout Form s-->
-                        <form action="#" class="checkout-form">
-                            <div class="row">
-                                <div class="col-lg-7 mb--20">
-                                    <!-- Billing Address -->
-                                    <div id="billing-form" class="mb--40">
-                                        <h4 class="checkout-title">Billing Address</h4>
-
-                                        <div class="row">
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>First Name*</label>
-                                                <input type="text" placeholder="First Name">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Last Name*</label>
-                                                <input type="text" placeholder="Last Name">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Email Address*</label>
-                                                <input type="email" placeholder="Email Address">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Phone no*</label>
-                                                <input type="text" placeholder="Phone number">
-                                            </div>
-
-                                            <div class="col-12 mb--20">
-                                                <label>Company Name</label>
-                                                <input type="text" placeholder="Company Name">
-                                            </div>
-
-                                            <div class="col-12 mb--20">
-                                                <label>Address*</label>
-                                                <input type="text" placeholder="Address line 1">
-                                                <input type="text" placeholder="Address line 2">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Country*</label>
-                                                <select class="nice-select">
-                                                    <option>Bangladesh</option>
-                                                    <option>China</option>
-                                                    <option>country</option>
-                                                    <option>India</option>
-                                                    <option>Japan</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Town/City*</label>
-                                                <input type="text" placeholder="Town/City">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>State*</label>
-                                                <input type="text" placeholder="State">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Zip Code*</label>
-                                                <input type="text" placeholder="Zip Code">
-                                            </div>
-
-                                            <div class="col-12 mb--20">
-                                                <div class="check-box">
-                                                    <input type="checkbox" id="create_account">
-                                                    <label for="create_account">Create an Acount?</label>
-                                                </div>
-                                                <div class="check-box">
-                                                    <input type="checkbox" id="shiping_address" data-shipping>
-                                                    <label for="shiping_address">Ship to Different Address</label>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <!-- Shipping Address -->
-                                    <div id="shipping-form" class="mb--40">
-                                        <h4 class="checkout-title">Shipping Address</h4>
-
-                                        <div class="row">
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>First Name*</label>
-                                                <input type="text" placeholder="First Name">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Last Name*</label>
-                                                <input type="text" placeholder="Last Name">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Email Address*</label>
-                                                <input type="email" placeholder="Email Address">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Phone no*</label>
-                                                <input type="text" placeholder="Phone number">
-                                            </div>
-
-                                            <div class="col-12 mb--20">
-                                                <label>Company Name</label>
-                                                <input type="text" placeholder="Company Name">
-                                            </div>
-
-                                            <div class="col-12 mb--20">
-                                                <label>Address*</label>
-                                                <input type="text" placeholder="Address line 1">
-                                                <input type="text" placeholder="Address line 2">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Country*</label>
-                                                <select class="nice-select">
-                                                    <option>Bangladesh</option>
-                                                    <option>China</option>
-                                                    <option>country</option>
-                                                    <option>India</option>
-                                                    <option>Japan</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Town/City*</label>
-                                                <input type="text" placeholder="Town/City">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>State*</label>
-                                                <input type="text" placeholder="State">
-                                            </div>
-
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <label>Zip Code*</label>
-                                                <input type="text" placeholder="Zip Code">
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
+                    <% if (addressData.address!==null) { %>
+                        <div class="col-lg-6 col-md-12 mb--20">
+                            <div id="address-list" style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+                                <div class="address-item-container">
+                                    <p class="address-item">Name: <%= addressData.address[0].fullName %></p>
+                                    <p class="address-item">Email: <%= addressData.address[0].email %></p>
+                                    <p class="address-item">Mobile: <%= addressData.address[0].mobile %></p>
+                                    <p class="address-item">State: <%= addressData.address[0].state %></p>
+                                    <p class="address-item">City: <%= addressData.address[0].city %></p>
+                                    <p class="address-item">Pincode: <%= addressData.address[0].pin %></p>
+                                    <p class="address-item">HouseName: <%= addressData.address[0].houseName %></p>
                                 </div>
-
-                                <div class="col-lg-5">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="mb--60">
+                                    <h4 class="checkout-title">Cart Total</h4>
+                                    <div class="checkout-cart-total">
+                                        <table class="cart-summary-table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Product</th>
+                                                    <th scope="col">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% cart.products.forEach(product => { %>
+                                                    <tr>
+                                                        <td><%= product.productName %></td>
+                                                        <td>$<%= product.totalPrice %>.00</td>
+                                                    </tr>
+                                                <% }); %>
+                                                <!-- Subtotal and Grand Total under the product and total -->
+                                                <tr>
+                                                    <td>Sub Total</td>
+                                                    <td>$<%= subTotal %>.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Shipping Fee</td>
+                                                    <td>$<%= cart.products.shippingAmount %>.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Grand Total</td>
+                                                    <td>$<%= total %>.00</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                </div>
+                   
+                            
+                    <% } else { %>
+                        <div class="col-lg-7 col-md-12 mb--20">
+                            <!-- Billing Address -->
+                            <form action="#" class="checkout-form">
+                                <div id="billing-form" class="mb--40">
+                                    <h4 class="checkout-title">Billing Address</h4>
+                                    <!-- Form fields for billing address -->
                                     <div class="row">
-<!-- Cart Total -->
-<div class="col-12 mb--60">
-    <h4 class="checkout-title">Cart Total</h4>
-    <div class="checkout-cart-total">
-        <table class="cart-summary-table">
-            <thead>
-                <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% cart.products.forEach(product => { %>
-                    <tr>
-                        <td><%= product.productName %></td>
-                        <td>$<%= product.totalPrice %>.00</td>
-                    </tr>
-                <% }); %>
-                <!-- Subtotal and Grand Total under the product and total -->
-                <tr>
-                    <td>Sub Total</td>
-                    <td>$<%= subTotal %>.00</td>
-                </tr>
-                <tr>
-                    <td>Shipping Fee</td>
-                    <td>$<%= cart.products.shippingAmount %>.00</td>
-                </tr>
-                <tr>
-                    <td>Grand Total</td>
-                    <td>$<%= total %>.00</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 
+                                        <div class="col-md-6 col-12 mb--20">
+                                            <label>First Name*</label>
+                                            <input type="text" placeholder="First Name">
+                                        </div>
 
+                                        <div class="col-md-6 col-12 mb--20">
+                                            <label>Last Name*</label>
+                                            <input type="text" placeholder="Last Name">
+                                        </div>
+
+                                        <div class="col-md-6 col-12 mb--20">
+                                            <label>Email Address*</label>
+                                            <input type="email" placeholder="Email Address">
+                                        </div>
+
+                                        <div class="col-md-6 col-12 mb--20">
+                                            <label>Phone no*</label>
+                                            <input type="text" placeholder="Phone number">
+                                        </div>
+
+                                        <div class="col-12 mb--20">
+                                            <label>Company Name</label>
+                                            <input type="text" placeholder="Company Name">
+                                        </div>
+
+                                        <div class="col-12 mb--20">
+                                            <label>Address*</label>
+                                            <input type="text" placeholder="Address line 1">
+                                            <input type="text" placeholder="Address line 2">
+                                        </div>
+
+                                        <div class="col-md-6 col-12 mb--20">
+                                            <label>Country*</label>
+                                            <select class="nice-select">
+                                                <option>Bangladesh</option>
+                                                <option>China</option>
+                                                <option>country</option>
+                                                <option>India</option>
+                                                <option>Japan</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6 col-12 mb--20">
+                                            <label>Town/City*</label>
+                                            <input type="text" placeholder="Town/City">
+                                        </div>
+
+                                        <div class="col-md-6 col-12 mb--20">
+                                            <label>State*</label>
+                                            <input type="text" placeholder="State">
+                                        </div>
+
+                                        <div class="col-md-6 col-12 mb--20">
+                                            <label>Zip Code*</label>
+                                            <input type="text" placeholder="Zip Code">
+                                        </div>
+                                    <!-- ... -->
+                                </div>
+                               </div> 
+                            </form>
+                            <div class="mb--20">
+                                <div class="check-box">
+                                    <input type="checkbox" id="create_account">
+                                    <label for="create_account">Create an Account?</label>
+                                </div>
+                                <div class="check-box">
+                                    <input type="checkbox" id="shiping_address" data-shipping>
+                                    <label for="shiping_address">Ship to Different Address</label>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div id="shipping-form" class="mb--40">
+                    <h4 class="checkout-title">Shipping Address</h4>
+
+                    <div class="row">
+
+                        <div class="col-md-6 col-12 mb--20">
+                            <label>First Name*</label>
+                            <input type="text" placeholder="First Name">
+                        </div>
+
+                        <div class="col-md-6 col-12 mb--20">
+                            <label>Last Name*</label>
+                            <input type="text" placeholder="Last Name">
+                        </div>
+
+                        <div class="col-md-6 col-12 mb--20">
+                            <label>Email Address*</label>
+                            <input type="email" placeholder="Email Address">
+                        </div>
+
+                        <div class="col-md-6 col-12 mb--20">
+                            <label>Phone no*</label>
+                            <input type="text" placeholder="Phone number">
+                        </div>
+
+                        <div class="col-12 mb--20">
+                            <label>Company Name</label>
+                            <input type="text" placeholder="Company Name">
+                        </div>
+
+                        <div class="col-12 mb--20">
+                            <label>Address*</label>
+                            <input type="text" placeholder="Address line 1">
+                            <input type="text" placeholder="Address line 2">
+                        </div>
+
+                        <div class="col-md-6 col-12 mb--20">
+                            <label>Country*</label>
+                            <select class="nice-select">
+                                <option>Bangladesh</option>
+                                <option>China</option>
+                                <option>country</option>
+                                <option>India</option>
+                                <option>Japan</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 col-12 mb--20">
+                            <label>Town/City*</label>
+                            <input type="text" placeholder="Town/City">
+                        </div>
+
+                        <div class="col-md-6 col-12 mb--20">
+                            <label>State*</label>
+                            <input type="text" placeholder="State">
+                        </div>
+
+                        <div class="col-md-6 col-12 mb--20">
+                            <label>Zip Code*</label>
+                            <input type="text" placeholder="Zip Code">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+                        
+                    <% } %>
+                </div>
+            </div>
+        
 
                                         <!-- Payment Method -->
                                         <div class="col-12 mb--60">
@@ -394,20 +430,13 @@
                                             <button class="place-order">Place order</button>
 
                                         </div>
+                                    </form>
 
                                     </div>
-                                </div>
+                               
+                       
 
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Checkout Page End -->
-
-    </div>
+                  
 
     <!-- Quick View Modal -->
     <div class="quick-view-modal">

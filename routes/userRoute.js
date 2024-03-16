@@ -81,6 +81,7 @@ user_route.post('/get-email',userController.getEmail)
 user_route.get('/change-password',userController.changePasswordLoad)
 user_route.post('/change-password',userController.changePassword)
 user_route.post('/add-address', upload.none(), addressController.addAddress);
+user_route.get('/delete-address',addressController.deleteAddress)
 
 user_route.get('/logout', auth.isLogin, userController.logoutUser)
 

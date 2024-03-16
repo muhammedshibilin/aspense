@@ -35,6 +35,25 @@ const Address = require('../model/addressModel')
         }
     }
 
+
+
+    const deleteAddress = async(req,res)=>{
+        try {
+          
+           const user_id=req.session.user_id
+           const address_id = req.query._id
+      
+           await Address.updateOne({user:user_id},{$pull:{address:{_id:address_id}}})
+      
+          res.redirect('/profile')
+      
+        } catch (error) {
+            console.log(error.message);
+            res.render('500Error')
+        }
+      }
+
 module.exports = {
-    addAddress
+    addAddress,
+    deleteAddress
 }                       
