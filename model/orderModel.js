@@ -8,6 +8,9 @@ const orderSchema = new mongoose.Schema({
         type:Object,
         required:true
     },
+    orderId:{
+        type: String    
+    },
     products:[
         {
         productId:{
@@ -19,7 +22,7 @@ const orderSchema = new mongoose.Schema({
             type:Number,
             default:1
         },
-        price:{
+        productPrice:{
             type:Number,
             required:true
         },
@@ -28,7 +31,7 @@ const orderSchema = new mongoose.Schema({
             required:true
         },
         status:{
-            type:string
+            type:String
         }
     }
     
@@ -41,7 +44,7 @@ const orderSchema = new mongoose.Schema({
         type:Date
     },
     status:{
-        type:string
+        type:String
     },
     paymentMethod:{
         type:String

@@ -4,6 +4,7 @@ const User = require('../model/userModel')
 const userController = require("../controller/userController");
 const cartController = require('../controller/cartController')
 const addressController = require('../controller/addressController')
+const orderController = require('../controller/orderController')
 const multer1 = require('multer');
 const upload = multer1();
 
@@ -98,6 +99,7 @@ user_route.post('/add-to-cart',cartController.addToCart)
 user_route.post("/removeCartItem",cartController.removeCartItem)
 user_route.post("/update-cart",cartController.updateCart)
 user_route.get('/checkout',cartController.checkoutLoad)
+user_route.post("/place-order",orderController.placeOrder)
 
 
 user_route.get('/shop',userController.shopLoad)

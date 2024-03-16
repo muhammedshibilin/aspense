@@ -94,7 +94,8 @@ const addToCart = async (req, res) => {
                 message: 'Please log in to add products to your cart.',
             });
         }
-
+ const productPrice = productData.price * count
+ console.log('product',productPrice);
         const products = {
             productId: product_id,
             productName: productData.name,
@@ -208,6 +209,8 @@ const checkoutLoad = async(req,res)=>{
   
       const user_id = req.session.user_id
       const cartData = await Cart.findOne({user:user_id}).populate('products.productId')
+      console.log(cartData)
+
      
       if(cartData){
   
@@ -216,7 +219,7 @@ const checkoutLoad = async(req,res)=>{
         let addressData = await Address.findOne({user:user_id}).populate("address")
         console.log(addressData,"cvghgcgcv")
         
-        addressData = addressData == null ? {user:req.session.user_id,_id:1,address:[]} : addressData
+        // addressData = addressData == null ? {user:req.session.user_id,_id:1,address:[]} : addressData
         console.log(addressData,"utgytfgytfytfghvgfgfhgfhtfhgtfgyf")
        
         const subTotal = cartData.products.reduce((acc,val)=>acc+val.totalPrice,0)

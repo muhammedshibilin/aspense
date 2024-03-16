@@ -42,6 +42,18 @@
     background-color: #d0d0d0; 
     cursor: pointer;
 }
+.card {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 15rem;
+}
+
+.card-body {
+    padding: 10px;
+    
+}
+
 </style>
 
      <!-- Start Search Flyover -->
@@ -164,21 +176,41 @@
         <!-- Checkout Page Start -->
         <div class="checkout_area pt--120 pt_md--80 pt_sm--80 pb--60 bg-color" data-bg-color="#ffffff">
             <div class="container">
+                <form id="checkout-form">
                 <div class="row">
-                    <% if (addressData.address!==null) { %>
-                        <div class="col-lg-6 col-md-12 mb--20">
-                            <div id="address-list" style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
-                                <div class="address-item-container">
-                                    <p class="address-item">Name: <%= addressData.address[0].fullName %></p>
-                                    <p class="address-item">Email: <%= addressData.address[0].email %></p>
-                                    <p class="address-item">Mobile: <%= addressData.address[0].mobile %></p>
-                                    <p class="address-item">State: <%= addressData.address[0].state %></p>
-                                    <p class="address-item">City: <%= addressData.address[0].city %></p>
-                                    <p class="address-item">Pincode: <%= addressData.address[0].pin %></p>
-                                    <p class="address-item">HouseName: <%= addressData.address[0].houseName %></p>
+               
+               
+              <% if (addressData && addressData.address && addressData.address.length> 0) { %>
+                  <% addressData.address.forEach( (address,index) => { %> 
+                        <div class="col-lg-3 col-md-12 mb--15">
+                            <div class="card">
+                                <input type="radio" class="pl-4 ml-3 mr-1" name="address"
+value='<%= JSON.stringify(address) %>' <%= index === 0 ? 'checked' : '' %> />
+
+                                <div class="card-body" >
+                                    <h5 class="card-title">Address Details</h5>
+                                    <p class="card-text">Name: <%= addressData.address[0].fullName %></p>
+                                    <p class="card-text">Email: <%= addressData.address[0].email %></p>
+                                    <p class="card-text">Mobile: <%= addressData.address[0].mobile %></p>
+                                    <p class="card-text">State: <%= addressData.address[0].state %></p>
+                                    <p class="card-text">City: <%= addressData.address[0].city %></p>
+                                    <p class="card-text">Pincode: <%= addressData.address[0].pin %></p>
+                                    <p class="card-text">HouseName: <%= addressData.address[0].houseName %></p>
+                                   <!-- Assuming this code is within an EJS template -->
+
                                 </div>
                             </div>
                         </div>
+                        <% })  %> 
+                  <%  } else { %>   
+                    <div class="col-lg-3 col-md-12 mb--15">
+                        <button id="addAddressButton">Add Address</button>
+ 
+                    </div>
+                    
+
+                    <% }  %> 
+                        
                         <div class="col-lg-6 col-md-12">
                             <div class="mb--60">
                                     <h4 class="checkout-title">Cart Total</h4>
@@ -212,19 +244,37 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <h4 class="checkout-title">Payment Method</h4>
+                                        <div class="single-method">
+                                            <input type="radio" id="COD" name="payment" value="COD" checked>
+                                            <label for="payment_cash">Cash on Delivery</label>
+                                            <p data-method="cash">Please send a Check to Store name with Store
+                                                Street, Store Town, Store State, Store Postcode, Store Country.
+                                            </p>
+                                            <div>
+                                                <button type="submit" >Place order</button>
+                                            </div>
+                                           
+                                        </div>
+                                        
                                     </div>
-                                </div>
-                                </div>
+                                    
+                                </form>
+                             </div>
+                            
+                         </div>
+                        
+                        
                    
                             
-                    <% } else { %>
-                        <div class="col-lg-7 col-md-12 mb--20">
-                            <!-- Billing Address -->
-                            <form action="#" class="checkout-form">
+                 
+                        <!-- <div class="col-lg-7 col-md-12 mb--20">
+                            Billing Address --> 
+                            <!-- <form action="#" class="checkout-form">
                                 <div id="billing-form" class="mb--40">
-                                    <h4 class="checkout-title">Billing Address</h4>
+                                    <h4 class="checkout-title">Billing Address</h4> -->
                                     <!-- Form fields for billing address -->
-                                    <div class="row">
+                                    <!-- <div class="row">
 
                                         <div class="col-md-6 col-12 mb--20">
                                             <label>First Name*</label>
@@ -239,8 +289,8 @@
                                         <div class="col-md-6 col-12 mb--20">
                                             <label>Email Address*</label>
                                             <input type="email" placeholder="Email Address">
-                                        </div>
-
+                                        </div> -->
+<!-- 
                                         <div class="col-md-6 col-12 mb--20">
                                             <label>Phone no*</label>
                                             <input type="text" placeholder="Phone number">
@@ -255,8 +305,8 @@
                                             <label>Address*</label>
                                             <input type="text" placeholder="Address line 1">
                                             <input type="text" placeholder="Address line 2">
-                                        </div>
-
+                                        </div> -->
+<!-- 
                                         <div class="col-md-6 col-12 mb--20">
                                             <label>Country*</label>
                                             <select class="nice-select">
@@ -276,14 +326,14 @@
                                         <div class="col-md-6 col-12 mb--20">
                                             <label>State*</label>
                                             <input type="text" placeholder="State">
-                                        </div>
+                                        </div> -->
 
-                                        <div class="col-md-6 col-12 mb--20">
+                                        <!-- <div class="col-md-6 col-12 mb--20">
                                             <label>Zip Code*</label>
                                             <input type="text" placeholder="Zip Code">
                                         </div>
-                                    <!-- ... -->
-                                </div>
+                                  ... -->
+                                <!-- </div>
                                </div> 
                             </form>
                             <div class="mb--20">
@@ -296,9 +346,9 @@
                                     <label for="shiping_address">Ship to Different Address</label>
                                 </div>
                             </div>
-                        </div>
-                </div>
-                <div id="shipping-form" class="mb--40">
+                        </div> -->
+                <!-- </div> -->
+                <!-- <div id="shipping-form" class="mb--40">
                     <h4 class="checkout-title">Shipping Address</h4>
 
                     <div class="row">
@@ -313,17 +363,17 @@
                             <input type="text" placeholder="Last Name">
                         </div>
 
-                        <div class="col-md-6 col-12 mb--20">
-                            <label>Email Address*</label>
-                            <input type="email" placeholder="Email Address">
+                      <div class="col-md-6 col-12 mb--20">
+                            <label>Email Address*</label> -->
+                            <!-- <input type="email" placeholder="Email Address">
                         </div>
 
                         <div class="col-md-6 col-12 mb--20">
                             <label>Phone no*</label>
                             <input type="text" placeholder="Phone number">
-                        </div>
+                        </div> --> 
 
-                        <div class="col-12 mb--20">
+                        <!-- <div class="col-12 mb--20">
                             <label>Company Name</label>
                             <input type="text" placeholder="Company Name">
                         </div>
@@ -332,9 +382,9 @@
                             <label>Address*</label>
                             <input type="text" placeholder="Address line 1">
                             <input type="text" placeholder="Address line 2">
-                        </div>
+                        </div> -->
 
-                        <div class="col-md-6 col-12 mb--20">
+                        <!-- <div class="col-md-6 col-12 mb--20">
                             <label>Country*</label>
                             <select class="nice-select">
                                 <option>Bangladesh</option>
@@ -343,8 +393,8 @@
                                 <option>India</option>
                                 <option>Japan</option>
                             </select>
-                        </div>
-
+                        </div> -->
+<!-- 
                         <div class="col-md-6 col-12 mb--20">
                             <label>Town/City*</label>
                             <input type="text" placeholder="Town/City">
@@ -353,9 +403,9 @@
                         <div class="col-md-6 col-12 mb--20">
                             <label>State*</label>
                             <input type="text" placeholder="State">
-                        </div>
+                        </div> -->
 
-                        <div class="col-md-6 col-12 mb--20">
+                        <!-- <div class="col-md-6 col-12 mb--20">
                             <label>Zip Code*</label>
                             <input type="text" placeholder="Zip Code">
                         </div>
@@ -367,13 +417,13 @@
             </div>
 
                         
-                    <% } %>
+                   
                 </div>
-            </div>
+            </div> -->
         
 
                                         <!-- Payment Method -->
-                                        <div class="col-12 mb--60">
+                                        <!-- <div class="col-12 mb--60">
 
                                             <h4 class="checkout-title">Payment Method</h4>
 
@@ -385,9 +435,9 @@
                                                     <p data-method="check">Please send a Check to Store name with Store
                                                         Street, Store Town, Store State, Store Postcode, Store Country.
                                                     </p>
-                                                </div>
+                                                </div> -->
 
-                                                <div class="single-method">
+                                                <!-- <div class="single-method">
                                                     <input type="radio" id="payment_bank" name="payment-method" value="bank">
                                                     <label for="payment_bank">Direct Bank Transfer</label>
                                                     <p data-method="bank">Please send a Check to Store name with Store
@@ -401,9 +451,9 @@
                                                     <p data-method="cash">Please send a Check to Store name with Store
                                                         Street, Store Town, Store State, Store Postcode, Store Country.
                                                     </p>
-                                                </div>
+                                                </div> -->
 
-                                                <div class="single-method">
+                                                <!-- <div class="single-method">
                                                     <input type="radio" id="payment_paypal" name="payment-method" value="paypal">
                                                     <label for="payment_paypal">Paypal</label>
                                                     <p data-method="paypal">Please send a Check to Store name with Store
@@ -433,8 +483,7 @@
                                     </form>
 
                                     </div>
-                               
-                       
+                    
 
                   
 
@@ -563,7 +612,64 @@
         </div>
         <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
     </div>
+    </div>
     <!--// Quick View Modal -->
- 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <script>
+         $("#checkout-form").submit(function (e) {
+            e.preventDefault();
+            const selectedAddress = $("input[name='address']:checked").val();
+
+            const address = selectedAddress ? JSON.parse(selectedAddress) : {};
+            const paymentMethod = $("input[name='payment']:checked").val();
+console.log('address',address);
+
+            const formData = {
+                address: address,
+                payment: paymentMethod,
+            };
+console.log(formData,"haaiiiiiiii");
+            $.ajax({
+                url: "/place-order",
+                method: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify({ formData }),
+                success: (response) => {
+                    if (response.maxAmount) {
+                        toastr.warning('Product price exceeds 1500. Please review your order.');
+                    } else if (response.codsuccess == true) {
+                        location.href = `/orderSuccess/${response.orderId}`;
+                    } else if (response.stock) {
+                        location.reload();
+                    } else if (response.placed == true) {
+                        toastr.success('Order placed successfully!');
+                        location.href = `/orderSuccess/${response.orderId}`;
+                    } else if (response.walletFailed == true) {
+                        toastr.error('Insufficient balance in your wallet');
+                    } else if (response.razorpay) {
+                        razorPayment(response.order, formData);
+                    } else if (response.pending) {
+                        toastr.error('Payment Failed');
+                    }
+                },
+            });
+        });
+
+
+    
+        document.getElementById("addAddressButton").addEventListener("click", function() {
+          
+            swal.fire({
+                title: "Please add an address using the profile page",
+                icon: "info",
+                button: false,
+                timer: 3000
+            }).then(function() {
+                
+                window.location.href = "/profile";
+            });
+        });
+    </script>
+    
     <%- include("../layouts/user/footer.ejs") %>

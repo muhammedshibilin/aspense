@@ -263,6 +263,7 @@ const editProfile = async (req,res) => {
         }else{
             image = userData.image
         }
+        
 
         const editedData = await User.findOneAndUpdate({_id:userData._id},{$set:{
             name:req.body.name,
@@ -273,6 +274,7 @@ const editProfile = async (req,res) => {
         }}) 
 
         console.log("'ferere");
+        console.log('userData.image');
 
         res.json({profileEdit:true})
        
