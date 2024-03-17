@@ -2,17 +2,14 @@ const Order = require('../model/orderModel')
 const User = require('../model/userModel')
 const Address = require('../model/addressModel')
 const Cart = require('../model/cartModel')
+
 const Product = require('../model/productModel')
 const crypto = require("crypto")
-
-const ejs = require('ejs')
 const path = require('path')
 const fs = require('fs')
 
 
-
-
-const decrementProductQuantities = async (products) => {
+const decreaseProductQuantity = async (products) => {
   for (let i = 0; i < products.length; i++) {
     let product = products[i].productId;
     let count = products[i].count;
@@ -22,6 +19,8 @@ const decrementProductQuantities = async (products) => {
     );
   }
 };
+
+
 
 const placeOrder = async (req, res) => {
   try {
@@ -56,11 +55,11 @@ const placeOrder = async (req, res) => {
       .toUpperCase()
       .slice(0, 8)
 
-    // Fetching product details
+  
     const productIds = cartData.products.map(product => product.productId);
     const products = await Product.find({ _id: { $in: productIds } });
 
-    // Creating product data for the order
+  
     const productData = cartData.products.map(cartProduct => {
       const productDetails = products.find(p => p._id.toString() === cartProduct.productId.toString());
       return {
@@ -75,7 +74,7 @@ const placeOrder = async (req, res) => {
       };
     });
 console.log('halpppppppppppppppppp',productData);
-    // Shipping amount calculation
+    
     let shippingAmount = 0;
     const shipingTotalAmount = 1300;
 
@@ -87,17 +86,17 @@ console.log('halpppppppppppppppppp',productData);
       orderId : uniqId,
       deliveryDetails: address,
       products: productData,
-      Date: new Date(),
+      date: new Date(),
       totalAmount: totalAmount,
       paymentMethod: paymentMethod,
       shippingMethod: cartData.shippingMethod,
       shippingAmount: shippingAmount,
     });
 console.log('dhfcksdfckjsdzjfcbsjkdfcbskjdfc',order);
-    // Saving the order
+    
     const orderData = await order.save();
     const orderId = orderData._id;
-    await decrementProductQuantities(cartData.products);
+    await decreaseProductQuantity(cartData.products);
 
 
     if (orderData.paymentMethod === 'COD') {
@@ -112,6 +111,153 @@ console.log('dhfcksdfckjsdzjfcbsjkdfcbskjdfc',order);
 
 
 
+const orderSuccess = async (req,res) => {
+  try {
+    res.render('orderSuccess')
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const orderDetails = async (req,res) => {
+  try {
+
+    const userId = req.body.user_id
+    const orderDetails = await Order.find({_id:req.query._id})
+    console.log(orderDetails,"ooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+    res.render('orderDetails',{order:orderDetails})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const cancelOrder = async (req,res) => {
+  try {
+      const userId = req.session.user_id
+      console.log(req.session.user_id)
+      const orderId = req.body.orderId
+      const productId = req.body.productId
+      console.log(req.body);
+
+      const orderedData = await Order.findOne({_id:orderId})
+      console.log('ordeereddddddddd ssaaaaaaaaanam',orderedData);
+      console.log('ordereddddproductsdetails',orderedData.products);
+      const orderedProduct =  orderedData.products.find( product => {
+        return product._id.toString() === productId;
+      })
+      console.log('ordereeeeeeeeeedpreoduct',orderedProduct);
+      
+      
+
+      const updateOrder = await Order.findOneAndUpdate(
+        { _id: orderId, 'products._id': productId }, 
+        { $set: { 'products.$.status': 'Cancelled' } },
+        { new: true } 
+       );
+       
+
+      console.log('statuss',updateOrder);
+   
+      const updateProductQuantity = await Order.updateOne(
+        { _id: orderedProduct.productId },
+        { $inc: { quantity: orderedProduct.count } }
+      )
+    
+      console.log('quantiryyyy',updateProductQuantity);
+      return res.json({success:true})
+    
+  } catch (error) {
+    console.log(error,"while cancelling the order");
+  }
+}
+
+const orderLoad = async (req,res) => {
+  try {
+  
+  
+
+    const orderData = await Order.find({
+      'products.status': { $nin: ['pending'] },
+    })
+      
+
+      console.log("ordeeeeeeeerrrrrrrrrrrrrr",orderData)
+    res.render("order",{orderData})
+  } catch (error) {
+    console.log(error,"while loading admin order");
+  }
+}
+const orderdetailsLoad = async (req, res) => {
+  try {
+    const orderId = req.query._id;
+    console.log(orderId, "Order ID");
+    
+   
+    const orderData = await Order.findOne({ _id: orderId }).populate("products.productId");
+    
+    console.log('Order Data:', orderData);
+    
+    if (orderData) {
+      
+      const totalItems = orderData.products.reduce((total, product) => total + product.count, 0);
+      const subtotal = orderData.products.reduce((total, product) => total + product.totalPrice, 0);
+
+      
+      const tax = subtotal * 0.1; 
+      
+      
+      res.render('orderManagment', { orderData, totalItems, subtotal, tax });
+    } else {
+      res.render('orderManagment', { userId: req.session.user_id });
+    }
+  } catch (error) {
+    console.log('Error while loading orderManagement:', error);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+const updateOrder = async (req, res) => {
+  try {
+    const orderId = req.body.orderId;
+    const orderStatus = req.body.status;
+
+    const orderData = await Order.findOne({ 'products._id': orderId });
+    console.log('orderData:', orderData);
+    
+    const orderProductIndex = orderData.products.findIndex(
+      (product) => product._id.toString() === orderId
+    );
+    console.log('orderProductindex:', orderProductIndex);
+    
+
+    orderData.products[orderProductIndex].status = orderStatus;
+    
+   
+    orderData.products[orderProductIndex].statusChangeTime = new Date();
+    
+    
+    await orderData.save();
+
+    res.json({ success: true, orderData });
+  } catch (error) {
+    console.log('Error while updating order:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
+
+
+
+
+
+
+
   module.exports = {
-    placeOrder
+    placeOrder,
+    orderSuccess,
+    cancelOrder,
+    orderDetails,
+    orderLoad,
+    orderdetailsLoad,
+    updateOrder,
+    
   }

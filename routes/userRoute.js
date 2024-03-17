@@ -100,6 +100,9 @@ user_route.post("/removeCartItem",cartController.removeCartItem)
 user_route.post("/update-cart",cartController.updateCart)
 user_route.get('/checkout',cartController.checkoutLoad)
 user_route.post("/place-order",orderController.placeOrder)
+user_route.get('/order-success',orderController.orderSuccess)
+user_route.get('/order-details',orderController.orderDetails)
+user_route.post('/cancel-order',orderController.cancelOrder)
 
 
 user_route.get('/shop',userController.shopLoad)

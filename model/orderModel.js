@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
     user:{
-        type:mongoose.Types.ObjectId
+        type:mongoose.Types.ObjectId,
+       
     },
     deliveryDetails:{
         type:Object,
@@ -16,7 +17,7 @@ const orderSchema = new mongoose.Schema({
         productId:{
             type:String,
             required:true,
-            ref:"product"
+            ref:"Product"
         },
         count:{
             type:Number,

@@ -4,6 +4,7 @@ const admin_route = express()
 const adminController = require("../controller/adminController");
 const productController = require('../controller/productController')
 const categoryController = require("../controller/categoryController")
+const orderController  = require('../controller/orderController')
 const multer = require('../middleware/multer')
 const auth = require('../middleware/adminAuth')
 const path = require('path')
@@ -40,7 +41,7 @@ admin_route.set('views', './views/admin');
 admin_route.get('/login',auth.isLogout,adminController.loginLoad)
 admin_route.post('/login',auth.isLogout,adminController.adminLogin)
 admin_route.get('/home',auth.isLogin,adminController.adminHome)
-admin_route.get('/admin',auth.isLogin,adminController.adminHome)
+admin_route.get('/',auth.isLogin,adminController.adminHome)
 admin_route.get("/logout",auth.isLogin,adminController.adminLogout)
 
 
@@ -73,6 +74,11 @@ admin_route.get("/edit-product",auth.isLogin,productController.editProductLoad)
 admin_route.post("/edit-product",auth.isLogin,multer.uploadProduct,productController.editProduct)
 admin_route.get('/block-product',auth.isLogin,productController.blockProduct)
 admin_route.get('/delete-product',auth.isLogin,productController.deleteProduct)
+
+
+admin_route.get('/order',auth.isLogin,orderController.orderLoad)
+admin_route.get('/order-managment', auth.isLogin, orderController.orderdetailsLoad);
+admin_route.post('/update-order',orderController.updateOrder)
 
 
 

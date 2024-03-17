@@ -414,9 +414,83 @@
                                             address </a>
                                     </h5>
                                 </div>
+
+
+                                
+                                <div class="modal fade" id="editAddressModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true"
+                                style="padding-top: 80px;">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">edit
+                                                Address</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form  id="editAddressform" method="post" class="row gx-2">
+                                                <div class="form-group col-md-6">
+                                                    <label for="fullname">Full Name *</label>
+                                                    <input type="text" class="form-control" name="fullname" id="edit-name" required>
+                                                    <div id="fnameError" style="display: none; color: red;"></div>
+                                                </div>
+                                            
+                                                <div class="form-group col-md-6">
+                                                    <label for="mobile">Mobile *</label>
+                                                    <input type="tel" class="form-control" name="mobile" id="edit-mobile" required>
+                                                    <div id="mobiles" style="display: none; color: red;"></div>
+                                                </div>
+                                            
+                                                <div class="form-group col-md-12">
+                                                    <label for="email">Email *</label>
+                                                    <input type="email" class="form-control" name="email" id="edit-email" required>
+                                                    <div id="addEmailError" style="display: none; color: red;"></div>
+                                                </div>
+                                            
+                                                <div class="form-group col-md-12">
+                                                    <label for="house">House Name *</label>
+                                                    <input type="text" class="form-control" name="houseName" id="edit-housename" required>
+                                                    <div id="houseError" style="display: none; color: red;"></div>
+                                                    <input type="text" class="form-control" style="display: none;" id="addressId" name="addressId">
+                                                </div>
+                                            
+                                                <div class="form-group col-md-4">
+                                                    <label for="state">State *</label>
+                                                    <input type="text" class="form-control" name="state" id="edit-state" required>
+                                                    <div id="stateError" style="display: none; color: red;"></div>
+                                                </div>
+                                            
+                                                <div class="form-group col-md-4">
+                                                    <label for="city">City *</label>
+                                                    <input type="text" class="form-control" name="city" id="edit-city" required>
+                                                    <div id="cityError" style="display: none; color: red;"></div>
+                                                </div>
+                                            
+                                                <div class="form-group col-md-4">
+                                                    <label for="pincode">Pincode *</label>
+                                                    <input type="tel" class="form-control" name="pincode" id="edit-pincode" autocomplete="off" required>
+                                                    <div id="pinError" style="display: none; color: red;"></div>
+                                                </div>
+                                            
+                                                <div class="form-group col-md-12">
+                                                    <button id="editAddress" type="submit" class="btn btn-outline-primary">
+                                                        <span>Add Address</span>
+                                                        <i class="icon-long-arrow-right"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                                 <div id="my-account-2"
                                     class="panel-collapse collapse">
                                     <div class="panel-body">
+
+
                                         
 
 
@@ -454,7 +528,11 @@
                                                                                     <p class="address-item">HouseName: <%= address.houseName %></p>
                                                                                     <div class="address-buttons-container">
                                                                               
-                                                                                        <button class="edit-address-btn" data-address-id="<%= address._id %>"><i class="fas fa-edit"></i> Edit</button>
+                                                                                        <a href="#"
+                                                                                        onclick="showEditAddressModal('<%= address.fullname %>','<%= address.mobile %>', '<%= address.email %>', '<%= address.houseName %>', '<%= address.city %>', '<%= address.state %>',  '<%= address.pincode %>','<%= address._id %>')"
+                                                                                        class="edit-link" data-toggle="modal" data-target="#editAddressModal">
+                                                                                        Edit <i class="fa-sharp fa-solid fa-pen" style="color: #cc9966;"></i>
+                                                                                    </a>
                                                                                         
                                                                                         <button class="delete-address-btn"><i class="fas fa-trash-alt"></i> <a href="/delete-address?_id=<%= address._id %>">Delete</a></button>
                                                                                     </div>
@@ -516,7 +594,7 @@
                                                                         <label>mobile
                                                                         </label>
                                                                         <input type="number" name="mobile" id="mobile">
-                                                                        <p id="emailError" style="color: red; font-size: 10px; display: none;"></p>
+                                                                        <p id="mobileError" style="color: red; font-size: 10px; display: none;"></p>
                                                                     </div>
                                                                 </div>
                                                                 <div
@@ -525,7 +603,7 @@
                                                                         <label>email
                                                                         </label>
                                                                         <input type="email" name="email" id="email">
-                                                                        <p id="mobileError" style="color: red; font-size: 10px; display: none;"></p>
+                                                                        <p id="emailError" style="color: red; font-size: 10px; display: none;"></p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -638,8 +716,8 @@
                                         <span>3</span>
                                         <a data-toggle="collapse"
                                             data-parent="#faq"
-                                            href="#my-account-3">Modify
-                                            your address book entries </a>
+                                            href="#my-account-3">order
+                                            details </a>
                                     </h5>
                                 </div>
                                 <div id="my-account-3"
@@ -648,44 +726,47 @@
                                         <div
                                             class="billing-information-wrapper">
                                             <div class="account-info-wrapper">
-                                                <h4>Address Book Entries</h4>
+                                                <h4>your address details</h4>
                                             </div>
                                             <div class="entries-wrapper">
                                                 <div class="row">
                                                     <div
-                                                        class="col-lg-6 col-md-6 col-sm-6 col-12 d-flex align-items-center justify-content-center">
-                                                        <div
-                                                            class="entries-info text-center">
-                                                            <p>Gerald Armstrong
-                                                            </p>
-                                                            <p> Address will go
-                                                                here. </p>
+                                                        class="col-lg-12 col-md-6 col-sm-6 col-12 d-flex align-items-center justify-content-center">
+                                                        <div class="entries-info text-center">
+                                                            <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width:auto;">No</th>
+                                                                        <th style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Date</th>
+                                                                        <th style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Price</th>
+                                                                        <th style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Payment Method</th>
+                                                                        <th style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Details</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% for (let orderId in orderDetails) { %>
+                                                                        <% let order = orderDetails[orderId]; %>
+                                                                        <tr>
+                                                                            <td style="padding: 10px; border-bottom: 1px solid #ddd;"><%= orderId %></td>
+                                                                            <td style="padding: 10px; border-bottom: 1px solid #ddd;"><%= new Date(order.date).toLocaleDateString() %></td>
+                                                                            <td style="padding: 10px; border-bottom: 1px solid #ddd;">$<%= order.totalAmount %>.00</td>
+                                                                            <td style="padding: 10px; border-bottom: 1px solid #ddd;"><%= order.paymentMethod %></td>
+                                                                            <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">
+                                                                                <a href="/order-details?_id=<%=order._id %>" style="display: inline-block; padding: 8px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">View Details</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    <% } %>
+                                                                </tbody>
+                                                            </table>
+                                                            
+                                                            
                                                         </div>
+                                                        
                                                     </div>
-                                                    <div
-                                                        class="col-lg-6 col-md-6 col-sm-6 col-12 d-flex align-items-center justify-content-center">
-                                                        <div
-                                                            class="entries-edit-delete text-center">
-                                                            <a class="edit"
-                                                                href="#">Edit</a>
-                                                            <a
-                                                                href="#">Delete</a>
-                                                        </div>
-                                                    </div>
+                                                    
                                                 </div>
                                             </div>
-                                            <div class="billing-back-btn">
-                                                <div class="billing-back">
-                                                    <a href="#">
-                                                        <i
-                                                            class="fa fa-long-arrow-up"></i>
-                                                        back</a>
-                                                </div>
-                                                <div class="billing-btn">
-                                                    <button
-                                                        type="submit">Continue</button>
-                                                </div>
-                                            </div>
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -872,6 +953,8 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
     const newPassword = document.getElementById('edit-new-password').value;
     const currentPassword = document.getElementById('edit-current-password').value;
 
+    
+
     const formData = new FormData();
     if (image.files.length > 0) {
         formData.append('image', image.files[0]);
@@ -927,7 +1010,155 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
         });
     }
 });
+
+</script>
+
+<script>
+
+
+document.getElementById('editAddress').addEventListener('click', function (e) {
+  e.preventDefault()
+  console.log('Edit address check')
+  const id = document.getElementById('addressId').value
+  const fullname = document.getElementById('edit-name').value
+  const pin = document.getElementById('edit-pin').value
+  const mobile = document.getElementById('edit-mobile').value
+  const email = document.getElementById('edit-email').value
+  const houseName = document.getElementById('edit-housename').value
+  const city = document.getElementById('edit-city').value
+  const state = document.getElementById('edit-state').value
+  const nameError = document.getElementById('nameError')
+  const pinError = document.getElementById('pinError')
+  const phoneError = document.getElementById('phoneError')
+  const EmailError = document.getElementById('EmailError')
+  const houseError = document.getElementById('houseError')
+  const cityError = document.getElementById('cityError')
+  const stateError = document.getElementById('stateError')
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+  const mobilePattern = /^\d{10}$/
+  const namePattern = /^[a-zA-Z\s]+$/
+  const pincodePattern = /^\d{6}$/
+  if (fullname.trim() === '') {
+    console.log('check erorr validation')
+    nameError.style.display = 'block'
+    nameError.textContent = 'Name is required.'
+  } else if (!namePattern.test(fullname)) {
+   
+
+    nameError.style.display = 'block'
+    fnameError.textContent = 'Full name not contain any non alphabets.'
+  } else if (fullname.length < 3) {
+    nameError.style.display = 'block'
+    nameError.textContent = 'Full name atleast contain 3 letters.'
+  } else if (pin.trim() == '') {
+    pinError.style.display = 'block'
+    pinError.textContent = 'Pincode is required.'
+  } else if (!pincodePattern.test(pin)) {
+    pinError.style.display = 'block'
+    pinError.textContent = 'Enter the valid pincode.'
+  } else if (mobile.trim() === '') {
+    phoneError.style.display = 'block'
+    phoneError.textContent = 'Phone number is required.'
+  } else if (!mobilePattern.test(phone) || phone === '0000000000') {
+    phoneError.style.display = 'block'
+    phoneError.textContent =
+      'Enter the valid Phone number (must contain 10 numbers).'
+  } else if (addressEmail.trim() === '') {
+    addEmailError.style.display = 'block'
+    addEmailError.textContent = 'Email is required.'
+  } else if (!emailPattern.test(addressEmail)) {
+    addEmailError.style.display = 'block'
+    addEmailError.textContent = 'Enter the valid email address.'
+  } else if (houseName.trim() === '') {
+    houseError.style.display = 'block'
+    houseError.textContent = 'House name is required'
+  } else if (city.trim() === '') {
+    cityError.style.display = 'block'
+    cityError.textContent = 'City name is required'
+  } else if (state.trim() === '') {
+    stateError.style.display = 'block'
+    stateError.textContent = 'State name is required'
+  } else {
+    $.ajax({
+      url: '/edit-address',
+      data: {
+        fullname: fullname,
+        email: addressEmail,
+        mobile: phone,
+        houseName: houseName,
+        city: city,
+        state: state,
+        pincode: pin,
+        id: id,
+      },
+      method: 'post',
+      success: (response) => {
+        console.log(response, 'check the responce')
+        if (response.success) {
+          $('#editAddressModal').modal('hide')
+          $('.modal-dropback').remove()
+       
+
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Billing address updated successfully.',
+          })
+          setTimeout(() => {
+            window.location.reload('/profile')
+          }, 2000)
+        } else {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: 'Oops !! try again.',
+          })
+        }
+      },
+    })
+  }
+})
+
+function showEditAddressModal(
+  fullname,
+  mobile,
+  email,
+  houseName,
+  city,
+  state,
+  pincode,
+  addressId,
+) {
+    console.log('hallooo');
+  document.getElementById('fullnames').value = fullname
+  document.getElementById('emails').value = email
+  document.getElementById('mobiles').value = mobile
+  document.getElementById('states').value = state
+  document.getElementById('citys').value = city
+  document.getElementById('pincodes').value = pincode
+  document.getElementById('houseNames').value = houseName
+  document.getElementById('addressId').value = addressId
+
+  $('#editAddressModal').modal('show')
+}
+
+
+
         </script>
+
+
         <script>
 
     
@@ -937,7 +1168,7 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
         event.preventDefault(); 
 
         const name = document.getElementById("name").value;
-        const nameLengthError = document.getElementById('nameError');
+        const nameError = document.getElementById('nameError');
         const email = document.getElementById("email").value;
         const emailError = document.getElementById("emailError");
         const mobile = document.getElementById('mobile').value;
@@ -953,19 +1184,21 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
         if (email.trim() === "") {
             emailError.style.display="block" 
             emailError.textContent = "Email is required.";
-            return
+           
             } else if (!emailPattern.test(email)) {
                 emailError.style.display="block" 
                 emailError.textContent = "Invalid email format.";
-                return
+             
             } else {
                 emailError.style.display="block" 
                 emailError.textContent = "";
             }
-            if (mobile.length < 10) {
+            if (mobile.length!=10) {
                 mobileError.style.display="block" 
                 mobileError.textContent = "Mobile number must be at least 10 digits"
                 return
+
+               
             } 
             else  {
                 mobileError.style.display="block" 
@@ -1019,12 +1252,12 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
     })
             .then(response => {
 
-                console.log("hellooo")
+               
                 const Toast = Swal.mixin({
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 4000,
+                    timer: 3000,
                 });
                 if(response.data.addressAdded){
                     Toast.fire({

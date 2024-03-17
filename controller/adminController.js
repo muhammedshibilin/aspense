@@ -106,6 +106,15 @@ const blockUser = async (req,res) => {
 }
 
 
+const orderLoad = async (req,res) => {
+  try {
+   res.render("order") 
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
 const adminLogout = async (req,res) => {
   try {
     console.log("admin is heere ")
@@ -126,4 +135,5 @@ module.exports={
     adminHome,
     userLoad,
     blockUser,
+    orderLoad
 }

@@ -3,6 +3,7 @@ const Product = require('../model/productModel')
 const Category = require('../model/categoryModel')
 const Address = require('../model/addressModel')
 const Review = require('../model/reviewModel')
+const Order = require('../model/orderModel')
 const bcrypt = require("bcryptjs")
 const { sendVerifyMail } = require('../utils/sendVerifyMail')
 
@@ -205,6 +206,8 @@ const profileLoad = async (req, res) => {
     try {
         const userId = req.session.user_id
         const addressData = await Address.findOne({user:userId}).populate("address")
+        const orderDetails = await Order.find({user:userId})
+        console.log(orderDetails)
         if(addressData){
         console.log(addressData);
         console.log(addressData.address.fullName)
@@ -214,10 +217,10 @@ const profileLoad = async (req, res) => {
         const userData = await User.findOne({ _id: userId })
         console.log(userData.image)
        if(userData.is_admin==0){
-        res.render("profile",{userData,addressData})
+        res.render("profile",{userData,addressData,orderDetails})
        }else{
         req.session.admin_id=userData
-        res.redirect("/admin")
+        res.redirect("/profile")
        }
     } catch (e) {
         console.log("error while loading profile",e);
@@ -274,7 +277,7 @@ const editProfile = async (req,res) => {
         }}) 
 
         console.log("'ferere");
-        console.log('userData.image');
+        console.log(userData.image);
 
         res.json({profileEdit:true})
        
@@ -369,7 +372,7 @@ const forgotPassword = async (req, res) => {
     try {
         res.render('resetPassword')
     } catch (error) {
-        
+        console.log(error,"error while loading password change")
     }
   }
   const changePassword= async (req, res) => {
@@ -460,13 +463,21 @@ const verifyOtp = async (req, res) => {
 
             if (otpinput === otp) {
                 const verified = await User.findOneAndUpdate({ email: email }, { $set: { is_verified: 1 } }, { new: true })
-                res.json({changePassword:true})
+             
 
 
 
                 if (verified) {
                     req.session.regSuccess = true;
-                    res.json({ success: true })
+                    console.log(req.session.user_id);
+                    if(!req.session.user_id){
+                        res.json({changePassword:true})
+
+                    }else{
+                        res.json({success:true})
+                    }
+                   
+                   
                 } else {
                     res.json({ error: true })
                 }

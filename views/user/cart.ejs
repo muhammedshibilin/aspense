@@ -236,7 +236,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <form >
+                    <form>
                         <!-- Cart Table -->
                         <div class="cart-table table-responsive mb--40">
                             <table class="table">
@@ -253,38 +253,38 @@
                                 </thead>
                                 <tbody>
                                     <% if(cart && cart.length > 0) { %>
-                                    <% cart.forEach(cartItem => { %>
-                                    <% cartItem.products.forEach(product => { %>
-                                    <tr>
-                                        <td class="pro-thumbnail"><a
-                                                href="/product-details?_id=<%=product._id %>"><img
-                                                    src="/images/product/original/<%= product.image %>"
-                                                    alt="Product"
-                                                    style="width: 50px; height: 60px;"></a></td>
-                                        <td class="pro-title"><a href="/product-details?_id=<%=product._id %>"><%=
-                                                product.productName %></a></td>
-                                        <td class="pro-price"><span><%=
-                                                product.price %></span></td>
-                                      
-                                        
-                                        <td class="pro-quantity">
-                                            <input type="number"  id="quantity-input" data-product-id="<%= product.productId._id %>" value="<%= product.count %>">
-                                       
-                                        </td>
-                                        <td class="pro-total"><span><%=
-                                            product.totalPrice %></span></td>
-                                        <td>
-                                           <button type="button" onclick="removeItem('<%= product.productId._id %>')"><i
-                                                    class="fa fa-trash-o"></i></button></td>
-
-                                    </tr>
-                                    <% }) %>
-                                    <% }) %>
+                                        <% cart.forEach(cartItem => { %>
+                                            <% cartItem.products.forEach(product => { %>
+                                                <% if (product && product.productId) { %> <!-- Safeguard to check if product and productId exist -->
+                                                    <tr>
+                                                        <td class="pro-thumbnail">
+                                                            <a href="/product-details?_id=<%= product.productId._id %>">
+                                                                <img src="/images/product/original/<%= product.image %>" alt="Product" style="width: 50px; height: 60px;">
+                                                            </a>
+                                                        </td>
+                                                        <td class="pro-title">
+                                                            <a href="/product-details?_id=<%= product.productId %>">
+                                                                <%= product.productName %>
+                                                            </a>
+                                                        </td>
+                                                        <td class="pro-price"><span><%= product.price %></span></td>
+                                                        <td class="pro-quantity">
+                                                            <input type="number" id="quantity-input" data-product-id="<%= product.productId._id %>" value="<%= product.count %>">
+                                                        </td>
+                                                        <td class="pro-total"><span><%= product.totalPrice %></span></td>
+                                                        <td>
+                                                            <button type="button" onclick="removeItem('<%= product.productId._id %>')">
+                                                                <i class="fa fa-trash-o"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <% } %> <!-- End of safeguard -->
+                                            <% }) %>
+                                        <% }) %>
                                     <% } else { %>
-                                    <tr>
-                                        <td colspan="6">No products
-                                            available</td>
-                                    </tr>
+                                        <tr>
+                                            <td colspan="6">No products available</td>
+                                        </tr>
                                     <% } %>
                                 </tbody>
                             </table>
@@ -360,7 +360,8 @@
                                 <div class="cart-summary-button">
                                     <button class="checkout-btn"><a
                                             href="/checkout">Checkout</a></button>
-                                    <button class="update-btn" id="updateCartButton">Update
+                                    <button class="update-btn"
+                                        id="updateCartButton">Update
                                         Cart</button>
                                 </div>
                             </div>
@@ -583,13 +584,23 @@ document.getElementById('updateCartButton').addEventListener('click', async func
             body: JSON.stringify(count),
         });
         const data = await response.json();
-        if (data.message) {
+        if (data.stock) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'updating',
+                text: "out of stock ,will update soon",
+            });
+        }else if(data.success){
             Swal.fire({
                 icon: 'success',
                 title: 'done',
-                text: data.message,
-            });
-        } else {
+                text: "cart update successfully",
+            }) 
+            .then(() => {
+                window.location.href="/cart"
+            })
+        }
+         else {
             console.log(data);
        
         }
