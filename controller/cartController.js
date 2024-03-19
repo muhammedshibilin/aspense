@@ -98,6 +98,10 @@ const addToCart = async (req, res) => {
                 message: 'Please log in to add products to your cart.',
             });
         }
+        console.log('quantityy',productData.quantity);
+        if(productData.quantity<quantity){
+            return res.json({stock:true})
+        }
 
         const productPrice = productData.price * count;
 
@@ -235,6 +239,7 @@ const checkoutLoad = async (req, res) => {
          let totalAmount = subTotal 
 
             let shippingAmount = 0
+            shippingAmount = subTotal<1700?90:0;
 
             if (subTotal < 1700) {
               shippingAmount = 90
@@ -253,7 +258,7 @@ const checkoutLoad = async (req, res) => {
 
             
 
-            res.render("checkout", { addressData, cart: cartData, subTotal: subTotal,total:totalAmount, user_id })
+            res.render("checkout", { addressData, cart: cartData, subTotal: subTotal,total:totalAmount, user:user_id,shippingAmount })
         } else {
             res.redirect('/')
         }

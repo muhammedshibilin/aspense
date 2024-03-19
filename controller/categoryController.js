@@ -42,7 +42,7 @@ const blockCategory = async (req, res) => {
     try {
         const categoryId = req.query.id;
         console.log(categoryId);
-        const result = await Category.updateOne({ _id: categoryId }, { $set: { is_block: false } });
+        const result = await Category.findOneAndUpdate({_id: categoryId}, { $set: { is_block: 1 } });
         console.log(result);
         res.redirect("/admin/category");
     } catch (error) {
@@ -53,10 +53,10 @@ const blockCategory = async (req, res) => {
 const unblockCategory = async (req, res) => {
     try {
         const categoryId = req.query.id;
-        console.log(" unblock category ID : ", req.query);
+        console.log("unblock category ID : ", categoryId);
 
-        const result = await Category.updateOne({ _id: categoryId }, { $set: { is_block: true } });
-        console.log("result : ",result);
+        const result = await Category.findOneAndUpdate({_id: categoryId}, { $set: { is_block: 0 } });
+        console.log("result : ", result);
         res.redirect("/admin/category");
     } catch (error) {
         console.error(error.message);
@@ -88,6 +88,7 @@ const editCategory = async (req,res) => {
     try {
         const categoryId = req.query.id
         const name = req.body.categoryName
+        console.log('id',"name" ,req.query.id,name);
 
         console.log(name);
 

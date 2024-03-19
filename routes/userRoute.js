@@ -103,6 +103,7 @@ user_route.post("/place-order",orderController.placeOrder)
 user_route.get('/order-success',orderController.orderSuccess)
 user_route.get('/order-details',orderController.orderDetails)
 user_route.post('/cancel-order',orderController.cancelOrder)
+user_route.post('/return-request',orderController.returnOrder)
 
 
 user_route.get('/shop',userController.shopLoad)

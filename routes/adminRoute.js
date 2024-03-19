@@ -48,7 +48,7 @@ admin_route.get("/logout",auth.isLogin,adminController.adminLogout)
 //----------------->  user managment
 
 
-admin_route.get('/user-managment',auth.isLogin,adminController.userLoad)
+admin_route.get('/user',auth.isLogin,adminController.userLoad)
 admin_route.post('/block-user',auth.isLogin,adminController.blockUser)
 
 
@@ -79,6 +79,7 @@ admin_route.get('/delete-product',auth.isLogin,productController.deleteProduct)
 admin_route.get('/order',auth.isLogin,orderController.orderLoad)
 admin_route.get('/order-managment', auth.isLogin, orderController.orderdetailsLoad);
 admin_route.post('/update-order',orderController.updateOrder)
+
 
 
 

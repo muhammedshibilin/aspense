@@ -8,61 +8,7 @@
 
 
     <!-- Start Search Flyover -->
-    <div class="search-flyoveray"></div>
-    <div class="cart-flyout">
-        <div class="cart-flyout-inner">
-            <a class="btn-close-cart" href="#">
-                <i class="fa fa-times"></i>
-            </a>
-            <div class="cart-flyout__content">
-                <div class="cart-flyout__heading">Shopping Cart</div>
-                <div class="widget_shopping_cart_content">
-                    <ul class="product_list_widget">
-                        <li>
-                            <div class="thumb">
-                                <img src="user/images/product/sm-product-01.jpg" alt="product">
-                            </div>
-                            <div class="content">
-                                <h6><a href="/single-product">Boys light blue jacket</a></h6>
-                                <div class="quntity">1 × $35.99</div>
-                                <button class="remove-btn">×</button>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="thumb">
-                                <img src="user/images/product/sm-product-02.jpg" alt="product">
-                            </div>
-                            <div class="content">
-                                <h6><a href="/single-product">Boys light blue jacket</a></h6>
-                                <div class="quntity">1 × $35.99</div>
-                                <button class="remove-btn">×</button>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="thumb">
-                                <img src="user/images/product/sm-product-03.jpg" alt="product">
-                            </div>
-                            <div class="content">
-                                <h6><a href="/single-product">Boys light blue jacket</a></h6>
-                                <div class="quntity">1 × $35.99</div>
-                                <button class="remove-btn">×</button>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-                <p class="minicart__total">Subtotal: <span class="price">164.97</span></p>
-                <div class="cart__btn">
-                    <a href="/cart">View cart</a>
-                    <a href="/checkout">Checkout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Search Flyover -->
-
+   
     <!-- Start Hamburger -->
     <div class="hamburger-area">
         <div class="btn-close-search">
@@ -73,34 +19,9 @@
         <!-- Start Main Menu -->
         <ul class="menu-primary-menu-1 responsive-manu d-block d-xl-none" id="responsive-manu">
             <li><a href="/">Home</a> </li>
+            <li><a href="/shop">shop</a></li>
             <li><a href="about.html">About</a></li>
-            <li class="has-dropdown"><a href="/shop">Shop</a>
-                <ul class="sub-menu">
-                    <li><a href="/shop"><span>Shop</span></a></li>
-                    <li><a href="/shop-left-sidebar"><span>Shop Left Sidebar</span></a></li>
-                    <li><a href="/shop-right-sidebar"><span>Shop No Sidebar</span></a></li>
-                    <li><a href="/product-details"><span>Product Details</span></a></li>
-                </ul>
-            </li>
-            <li class="has-dropdown"><a href="#">Pages</a>
-                <ul class="sub-menu">
-                    <li><a href="/cart"><span>Cart</span></a></li>
-                    <li><a href="/checkout"><span>Checkout</span></a></li>
-                    <li><a href="/wishlist"><span>Wishlist</span></a></li>
-                    <li><a href="/compare"><span>Compare</span></a></li>
-                    <li><a href="/profile"><span>profile</span></a></li>
-                    <li><a href="/login"><span>Login</span></a></li>
-                    <li><a href="/sign-up"><span>sign Up</span></a></li>
-                </ul>
-            </li>
-            <li class="has-dropdown"><a href="/blog">Blog</a>
-                <ul class="sub-menu">
-                    <li><a href="/blog"><span>Blog</span></a></li>
-                    <li><a href="/blog-left-sidebar"><span>Blog Left Sidebar</span></a></li>
-                    <li><a href="/blog-details"><span>Blog Details</span></a></li>
-                </ul>
-            </li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/contact">Contact</a></li>     
         </ul>
         <!-- End Main Menu -->
     </div>
@@ -148,11 +69,11 @@
 
     <div class="main-wrapper">
         <!-- Start Banner Area -->
-        <div class="banner-area">
+        <div class="banner-area mt-5 ml-3 mr-3">
             <div class="row row--0">
                 <!-- Start Single Banner -->
                 <div class="col-lg-4 col-md-6 col-12 mt_sm--30">
-                    <div class="banner">
+                    <div class="banner animated-banner">
                         <div class="thumbnail">
                             <img src="user/images/banner/banner-01.jpg" alt="Banner Images">
                         </div>
@@ -162,11 +83,12 @@
                         </div>
                     </div>
                 </div>
+                
                 <!-- End Single Banner -->
 
                 <!-- Start Single Banner -->
                 <div class="col-lg-4 col-md-6 col-12 mt_sm--30">
-                    <div class="banner">
+                    <div class="banner animated-banner">
                         <div class="thumbnail">
                             <img src="user/images/banner/banner-02.jpg" alt="Banner Images">
                         </div>
@@ -180,7 +102,7 @@
 
                 <!-- Start Single Banner -->
                 <div class="col-lg-4 col-md-6 col-12 mt_md--30 mt_sm--30">
-                    <div class="banner">
+                    <div class="banner animated-banner">
                         <div class="thumbnail">
                             <img src="user/images/banner/banner-03.jpg" alt="Banner Images">
                         </div>
@@ -216,11 +138,11 @@
 
                     <!-- Start Single Product -->
                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30 ">
-                        <div class="product ">
-                            <div class="inner">
-                                <div class="thumbnail">
+                        <div class="product "  >
+                            <div class="inner ">
+                                <div class="thumbnail" style="width: 300px; height: 300px;">
                                     <a href="/product-details?_id=<%= product._id %>">
-                                        <img src="/images/product/sized/<%= product.images.image1 %>" alt="<%= product.name %>" style="width: 300px; height: 300px;">
+                                        <img src="/images/product/sized/<%= product.images.image1 %>" alt="<%= product.name %>" >
                                     </a>
                                 </div>
                                 <div class="product-hover-action">
@@ -234,9 +156,10 @@
                             </div>
                             <div class="content">
                                 <h2><a href="/product-details?_id=<%= product._id %>"><%= product.name %></a></h2>
-                                <span class="prize">$<%= product.price %></span>
+                                <span class="prize">$<%= product.price %>.00</span>
                             </div>
                         </div>
+                        
                     </div>
                     <% } %>
                     <% }); %>
@@ -250,7 +173,7 @@
 
 
               <!-- Start Countdown Area -->
-              <div class="countdown-area bg_image bg_image--2 ptb--100 ptb_md--80 ptb_sm--80">
+              <div class="countdown-area bg_image bg_image--2 ptb--100 ptb_md--80 ptb_sm--80 mt-5 ">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-4 col-xl-6 col-md-12 col-12 order-2 order-lg-1">
@@ -261,7 +184,7 @@
                         <div class="col-lg-8 col-xl-6 col-md-12 col-12 order-1 order-lg-2">
                             <div class="countdown-inner-content">
                                 <h2>Explore <br> Every part of this <br> Products</h2>
-                                    <div class="box-timer countdown-style-1 mt--50">
+                                    <div class="box-timer timer countdown-style-1 mt--50">
                                         <div class="countbox timer-grid">
                                             <div data-countdown="2010/03/01"></div>
                                         </div>
@@ -693,7 +616,7 @@
         <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
     </div>
     <!--// Quick View Modal -->
-
+  
 
    
 

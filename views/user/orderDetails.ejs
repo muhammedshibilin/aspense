@@ -199,14 +199,14 @@
                                             <% orderItem.products.forEach(
                                             product => { %>
                                             <tr>
-                                               
+
                                                 <td><%= product._id %></td>
                                                 <td><img
                                                         src="/images/product/original/<%= product.productId %>.jpg"
                                                         alt="Product Image"
                                                         width="50"
                                                         height="50"></td>
-                                               
+
                                                 <td><%= product.count %></td>
                                                 <td>$<%= product.productPrice
                                                     %>.00</td>
@@ -233,7 +233,7 @@
                                                     <button type="button"
                                                         class="btn "
                                                         id="requestStatus"
-                                                        onclick="returnRequest('<%= product._id %>','<%= order._id %>')"
+                                                        onclick="returnRequest('<%= product._id %>','<%= orderItem._id %>')"
                                                         style="background-color: #e66a35; color: rgb(239, 190, 167)">Return</button>
                                                     <% } else if (product.status
                                                     == "Accepted") { %>
@@ -268,7 +268,7 @@
                                                     Charge :</th>
                                                 <td>$<%= order[0].shippingAmount
                                                     %>.00</td>
-                                                
+
                                             </tr>
                                             <tr>
                                                 <th colspan="6"
@@ -276,11 +276,46 @@
                                                     :</th>
                                                 <td>$<%= order[0].totalAmount
                                                     %>.00</td>
-                                         
+
                                             </tr>
                                         </tfoot>
                                     </table>
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- return modal -->
+
+                    <div class="modal fade" id="returnReasonModal" tabindex="-1"
+                        role="dialog" aria-labelledby="returnReasonModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"
+                                        id="returnReasonModalLabel">Enter Return
+                                        Reason</h5>
+                                    <button type="button" class="close"
+                                        data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="returnReasonForm">
+                                        <div class="form-group">
+                                            <label for="returnReason">Reason for
+                                                Return:</label>
+                                            <textarea class="form-control"
+                                                name="returnReason"
+                                                id="returnReason" rows="3"
+                                                required></textarea>
+                                        </div>
+                                        <button type="button" class="btn "
+                                            style="background-color: #21ABA5; color: #fff;"
+                                            id="submitReturnReason">Submit</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -339,14 +374,19 @@
             </div>
         </div>
 
-      
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+       
 
-            <script>
+        <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
 
 function cancelProduct(orderProductId, orderId) {
         console.log('orderProductId',orderProductId,orderId);
@@ -385,12 +425,65 @@ function cancelProduct(orderProductId, orderId) {
         }
 
 
+        function returnRequest(id, order) {
+    console.log('moopare ethis x', id, order);
+    Swal.fire({
+        title: 'Are you sure?',
+        html: 'Do you want return the for this order? ',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#7ac093',
+        confirmButtonText: 'Yes!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $('#returnReasonModal').modal('show');
 
+            $('#returnReasonModal').on('hidden.bs.modal', function () {
+                location.reload();
+            });
+
+            $('#returnReason').on('input', function () {
+                const returnReason = $(this).val();
+                $('#submitReturnReason').data('returnReason', returnReason);
+            });
+        }
+    });
+
+    $('#submitReturnReason').on('click', function () {
+        const returnReason = $(this).data('returnReason');
+        console.log('Return Reason:', returnReason);
+
+        $.ajax({
+            url: '/return-request',
+            data: { order, id, returnReason: returnReason },
+            method: 'POST',
+            success: (response) => {
+                if (response.success) {
+                    console.log('success');
+                    Swal.fire({
+                        title: 'Return request sent!',
+                        text: "We'll review your request and get back to you shortly.",
+                        icon: 'success'
+                    }).then(() => {
+                        $('#refundRequestModal').modal('hide');
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Oops!',
+                        text: response.message || 'There was an error processing your request. Please try again.',
+                        icon: 'error'
+                    });
+                }
+            }
+        });
+    });
+}
 
 
 </script>
 
-            </script>
-    
+    </script>
 
-            <%- include('../layouts/user/footer.ejs') %>
+    <%- include('../layouts/user/footer.ejs') %>

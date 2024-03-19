@@ -189,10 +189,14 @@
                     <label class="col-sm-3 col-form-label">Category</label>
                     <div class="col-sm-12">
                       <select class="form-control" name="category" id="product-category">
-                        <% categoryData.forEach( category =>{ %>
-                        <option value="<%= category._id %>" ><%= category.name %></option>
-                        <% }) %>
-                      </select>
+                        <% if (categoryData.length > 0) { %>
+                            <% categoryData.forEach(category => { %>
+                                <option value="<%= category._id %>"><%= category.name %></option>
+                            <% }) %>
+                        <% } else { %>
+                            <option disabled selected>There is no option available</option>
+                        <% } %>
+                    </select>
                     </div>
                   </div>
                 </div>
@@ -496,5 +500,9 @@ document.addEventListener('DOMContentLoaded', function() {
           </script>
 
 
+<script src="vendors/base/vendor.bundle.base.js"></script>
+<script src="js/off-canvas.js"></script>
+<script src="js/hoverable-collapse.js"></script>
+<script src="js/template.js"></script>
 
-  <%- include('../layouts/admin/footer.ejs') %>
+<%- include('../layouts/admin/footer.ejs') %>

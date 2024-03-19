@@ -365,41 +365,35 @@
                             showConfirmButton: false,
                             timer: 3000,
                         });
-        if (response.success) {
-         
-
-                        Toast.fire({
-                            icon: "success", 
-                            title: "login sucessfull",
-                            text:"your login is successfull"
-                        });
-            setTimeout (() => {
-            window.location.href = "/home";
-            },2000)
-        } else {
-             
+                        if (response.success) {
             Toast.fire({
-                            icon: "warning", 
-                            title: "password !",
-                            text:"enter the correct password"  
-            })
-
-        }
-            if(response.error){
-                Toast.fire({
-                            icon: "error", 
-                            title: "blocked",
-                            text:"you are blocked ,please contact the admin"
-                        });
-            setTimeout (() => {
+                icon: "success", 
+                title: "Login Successful",
+                text: "Your login was successful."
+            });
+            setTimeout(() => {
+                window.location.href = "/home";
+            }, 2000);
+        } else if (response.error) {
+            Toast.fire({
+                icon: "error", 
+                title: "Error",
+                text: response.error
+            });
+            setTimeout(() => {
                 window.location.href = "/login";
-            },3000)
-         
+            }, 3000);
+        } else {
+            Toast.fire({
+                icon: "warning", 
+                title: "Password Incorrect",
+                text: "Please enter the correct password."
+            });
         }
     }
-    })
-});
 
+})
+        })
     
 
     </script>

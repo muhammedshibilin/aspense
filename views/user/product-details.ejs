@@ -654,7 +654,21 @@
                             window.location.href = '/login';
                         }, 1000);
 
-                    } else if (response.success) {
+                    } else if(response.stock){
+                        const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+
+                            Toast.fire({
+                                icon: "warning",
+                                title: "out of stock"
+                            });
+                            $('#reloadArea').load('/product-details #reloadArea');
+                    }
+                    else if (response.success) {
                         if (response.newProduct) {
                             const Toast = Swal.mixin({
                                 toast: true,
@@ -667,7 +681,7 @@
                                 icon: "success",
                                 title: "Product added to cart"
                             });
-                            $('#reloadArea').load('/shop #reloadArea');
+                            $('#reloadArea').load('/product-details #reloadArea');
 
                         }
                     } else if (response.exist) {

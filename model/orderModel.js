@@ -1,65 +1,62 @@
 const mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
-    user:{
-        type:mongoose.Types.ObjectId,
-       
+    user: {
+        type: mongoose.Types.ObjectId,
+
     },
-    deliveryDetails:{
-        type:Object,
-        required:true
+    deliveryDetails: {
+        type: Object,
+        required: true
     },
-    orderId:{
-        type: String    
-    },
-    products:[
+    orderId: {
+        type: String
+    },  
+    products: [
         {
-        productId:{
-            type:String,
-            required:true,
-            ref:"Product"
-        },
-        count:{
-            type:Number,
-            default:1
-        },
-        productPrice:{
-            type:Number,
-            required:true
-        },
-        totalPrice:{
-            type:Number,
-            required:true
-        },
-        status:{
-            type:String
+            productId: {
+                type: String,
+                required: true,
+                ref: "Product"
+            },
+            count: {
+                type: Number,
+                default: 1
+            },
+            productPrice: {
+                type: Number,
+                required: true
+            },
+            totalPrice: {
+                type: Number,
+                required: true
+            },
+            status: {
+                type: String
+            }
         }
-    }
-    
+
     ],
-    totalAmount:{
-        type:Number,
-        required:true
+    totalAmount: {
+        type: Number,
+        required: true
     },
-    date:{
-        type:Date
+    date: {
+        type: Date
     },
-    status:{
-        type:String
+    returnReason: {
+        type: String
     },
-    paymentMethod:{
-        type:String
+    paymentMethod: {
+        type: String
     },
-    orderId:{
-        type:String
+    shippingMethod: {
+        type: String
     },
-    shippingMethod:{
-        type:String
-    },
-    shippingAmount:{
-        type:Number
+    shippingAmount: {
+        type: Number
     }
 
 })
 
-module.exports = mongoose.model("Order",orderSchema)
+module.exports = mongoose.model("Order", orderSchema)

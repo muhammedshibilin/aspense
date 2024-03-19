@@ -16,19 +16,19 @@ const { sendVerifyMail } = require('../utils/sendVerifyMail')
 
 const loadHome = async (req, res) => {
     try {
-
+        const user = req.session.user_id
         const productData = await Product.find({ is_block: 0 }).populate({
             path: "category",
             match: { is_block: 0 }
         })
         if (!productData) {
 
-            return res.render("userHome", { productData: [] });
+            return res.render("userHome", { productData: [] ,user });
         }
 
 
 
-        res.render("userHome", { productData })
+        res.render("userHome", { productData,user })
     } catch (error) {
         console.log(error);
     }
@@ -36,7 +36,8 @@ const loadHome = async (req, res) => {
 
 const loadSignup = async (req, res) => {
     try {
-        res.render('signUp')
+        const user = req.session.user_id
+        res.render('signUp',{user})
     } catch (error) {
         console.log(error);
     }
@@ -132,7 +133,8 @@ const successLoad = async (req, res) => {
 
 const loadLogin = async (req, res) => {
     try {
-        res.render('login')
+        const user = req.session.user_id
+        res.render('login',{user})
     } catch (error) {
         console.log(error);
     }
@@ -166,8 +168,9 @@ const verifyLogin = async (req, res) => {
               
             }
         } else {
-            console.log(passwordMatch,"3");
-           return res.json({success:false,error:"you are blocked,please contact for more information"})
+            console.log('hailiiiii');
+        
+           return res.json({error:true,error:"you are blocked,please contact for more information"})
         }
     } catch (e) {
         console.log(e,"error occured in verify login");
@@ -195,7 +198,8 @@ const loadProductDetails = async (req, res) => {
             categoryData,
             relatedImg,
             offer,
-            reviews
+            reviews,
+            user:user_id
         })
     } catch (error) {
         console.log(error);
@@ -204,9 +208,9 @@ const loadProductDetails = async (req, res) => {
 
 const profileLoad = async (req, res) => {
     try {
-        const userId = req.session.user_id
-        const addressData = await Address.findOne({user:userId}).populate("address")
-        const orderDetails = await Order.find({user:userId})
+        const user = req.session.user_id
+        const addressData = await Address.findOne({user}).populate("address")
+        const orderDetails = await Order.find({user})
         console.log(orderDetails)
         if(addressData){
         console.log(addressData);
@@ -214,10 +218,10 @@ const profileLoad = async (req, res) => {
         }
    
         console.log("session profile",req.session.user_id);
-        const userData = await User.findOne({ _id: userId })
+        const userData = await User.findOne({ _id: user })
         console.log(userData.image)
        if(userData.is_admin==0){
-        res.render("profile",{userData,addressData,orderDetails})
+        res.render("profile",{userData,addressData,orderDetails,user})
        }else{
         req.session.admin_id=userData
         res.redirect("/profile")
@@ -493,18 +497,35 @@ const verifyOtp = async (req, res) => {
 }
 
 
-const shopLoad = async (req,res) => {
+const shopLoad = async (req, res) => {
     try {
-       const productData = await Product.find()
-       console.log(productData);
+       
+        const page = parseInt(req.query.page) || 1; 
+        const limit = 6; 
+        const skip = (page - 1) * limit; 
 
-        res.render('shop',{
-            productData
-        })
+       
+        const productData = await Product.find()
+            .skip(skip)
+            .limit(limit);
+
+    
+        const totalCount = await Product.countDocuments();
+
+      
+        const totalPages = Math.ceil(totalCount / limit);
+
+        res.render('shop', {
+            productData,
+            currentPage: page,
+            totalPages
+        });
     } catch (error) {
-        console.log('while loading the shop',error);
+        console.log('Error while loading the shop:', error);
+        res.render('error');
     }
-}
+};
+
   
   
 

@@ -24,7 +24,7 @@ const productLoad = async (req, res) => {
 
 const addProductLoad = async (req, res) => {
   try {
-    const categoryData = await Category.find()
+    const categoryData = await Category.find({is_block:0})
   
     res.render("addProducts", { categoryData })
   } catch (error) {

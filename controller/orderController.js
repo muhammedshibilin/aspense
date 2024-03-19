@@ -33,21 +33,21 @@ const placeOrder = async (req, res) => {
       return;
     }
 
-    console.log(cartData.products, 'suuuuuuuuuuuooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
+ 
     const paymentMethod = req.body.formData.payment;
     const status = paymentMethod === 'COD' ? 'Placed' : 'Pending';
     console.log(paymentMethod, "method", req.body.formData.address, "address");
 
     const address = req.body.formData.address;
 
-    // Calculating subtotal amount
+   
     const subtotalAmount = cartData.products.reduce(
       (acc, val) => acc + (val.totalPrice || 0),
       0,
     );
     console.log('hhalallllllllllllllllllllllllllll', subtotalAmount);
 
-    // Total amount calculation
+   
     let totalAmount = subtotalAmount;
     const uniqId = crypto
       .randomBytes(4)
@@ -193,9 +193,16 @@ const orderdetailsLoad = async (req, res) => {
     console.log(orderId, "Order ID");
     
    
-    const orderData = await Order.findOne({ _id: orderId }).populate("products.productId");
+    const orderData = await Order.findOne({ _id: orderId }).populate({
+      path: 'products',
+      populate: {
+          path: 'productId',
+          populate: { path: 'category' } 
+      }
+  }).sort({ date: -1 });
+  
+        
     
-    console.log('Order Data:', orderData);
     
     if (orderData) {
       
@@ -246,6 +253,61 @@ const updateOrder = async (req, res) => {
 };
 
 
+const returnOrder = async (req, res) => {
+  try {
+    console.log('body',req.body);
+    const productId = req.body.id
+    const orderId = req.body.order
+    const returnReason = req.body.returnReason
+    console.log('id',orderId);
+
+    const order = await Order.findById(orderId).populate('products')
+    console.log('orderrrr',order);
+    const returnedProduct = order.products.find(
+      (val) => val._id.toString() === productId,
+    )
+
+    console.log('retunedd prooooo',returnedProduct);
+    const productTotalPrice = returnedProduct.totalPrice
+    const newTotalAmount = order.totalAmount - productTotalPrice;
+    const count = returnedProduct.count
+
+    console.log('asdjfjdkljkljjfjfjjfjfjfjfj',productTotalPrice,newTotalAmount);
+   
+
+
+
+    const updatedOrder = await Order.updateOne(
+      { _id: orderId, 'products._id': productId },
+      {
+        $set: {
+          'products.$.status': 'Accepted',
+          returnReason: returnReason 
+        },
+      },
+    );
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      { _id: productId },
+      { $inc: { quantity: count } },
+    )
+
+    const updatedOrderTotal = await Order.findByIdAndUpdate(
+      orderId,
+      { $set: { totalAmount: newTotalAmount } },
+      { new: true },
+     );
+
+    res.json({ success: true })
+  } catch (error) {
+    console.log(error.message)
+    res.status(500).render('500')
+  }
+}
+
+
+
+
 
 
 
@@ -255,9 +317,11 @@ const updateOrder = async (req, res) => {
     placeOrder,
     orderSuccess,
     cancelOrder,
+    returnOrder,
     orderDetails,
     orderLoad,
     orderdetailsLoad,
     updateOrder,
+    
     
   }

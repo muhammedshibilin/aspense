@@ -256,7 +256,7 @@
                                 <div class="col-lg-4 col-md-6 col-sm-6 col-12 col-xl-3 mt--60">
                                     <div class="product">
                                         <div class="inner">
-                                            <div class="thumbnail">
+                                            <div class="thumbnail" style="height: 300px;">
                                                 <a href="/product-details?_id=<%= product._id %>">
                                                     <img src="images/product/sized/<%= product.images.image1 %>" alt="<%= product.name %>">
                                                 </a>
@@ -288,15 +288,12 @@
 
 
                                 <!-- Start Pagenation Area -->
-                                <div class="col-lg-12">
-                                    <ul class="pagination_style">
-                                        <li><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a class="active" href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                    </ul>
-                                </div>
+                                <ul class="pagination_style">
+                                    <% for (let i = 1; i <= totalPages; i++) { %>
+                                        <li <% if (i === currentPage) { %>class="active"<% } %>><a href="?page=<%= i %>"><%= i %></a></li>
+                                    <% } %>
+                                </ul>
+                                
                                 <!-- End Pagenation Area -->
 
                             </div>
