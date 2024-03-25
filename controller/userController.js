@@ -499,36 +499,55 @@ const verifyOtp = async (req, res) => {
 
 const shopLoad = async (req, res) => {
     try {
-       
+        const user = req.session.user_id;
         const page = parseInt(req.query.page) || 1; 
         const limit = 6; 
         const skip = (page - 1) * limit; 
-
-       
+        
+        let sortOption = {}; // Initialize sort option
+        
+        // Get sorting option from request query
+        const sort = req.query.sort;
+        
+        // Define sorting criteria based on selected option
+        switch(sort) {
+            case 'low_to_high':
+                sortOption = { price: 1 }; // Sort by price low to high
+                break;
+            case 'high_to_low':
+                sortOption = { price: -1 }; // Sort by price high to low
+                break;
+            case 'average_rating':
+                sortOption = { averageRating: -1 }; // Sort by average rating
+                break;
+            default:
+                // Default sorting option (optional)
+                sortOption = {}; 
+        }
+        
+        // Fetch product data with sorting and pagination
         const productData = await Product.find()
+            .sort(sortOption)
             .skip(skip)
             .limit(limit);
 
-    
+        // Get total count of products
         const totalCount = await Product.countDocuments();
 
-      
+        // Calculate total pages for pagination
         const totalPages = Math.ceil(totalCount / limit);
 
         res.render('shop', {
             productData,
             currentPage: page,
-            totalPages
+            totalPages,
+            user
         });
     } catch (error) {
         console.log('Error while loading the shop:', error);
         res.render('error');
     }
 };
-
-  
-  
-
 
 
 

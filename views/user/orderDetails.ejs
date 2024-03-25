@@ -200,9 +200,9 @@
                                             product => { %>
                                             <tr>
 
-                                                <td><%= product._id %></td>
+                                                <td><%= product.productId.name %></td>
                                                 <td><img
-                                                        src="/images/product/original/<%= product.productId %>.jpg"
+                                                        src="/images/product/original/<%= product.image %>"
                                                         alt="Product Image"
                                                         width="50"
                                                         height="50"></td>
@@ -220,7 +220,7 @@
                                                     product.status !==
                                                     "Delivered"
                                                     && product.status !==
-                                                    "request" && product.status
+                                                    "requested" && product.status
                                                     !== "Accepted" &&
                                                     product.status !=="Pending")
                                                     { %>
@@ -240,7 +240,7 @@
                                                     <label
                                                         style="color: red;">OrderReturned</label>
                                                     <% } else if (product.status
-                                                    == "request") { %>
+                                                    == "requested") { %>
                                                     <label
                                                         style="color: rgb(221, 221, 27);">Requested</label>
                                                     <% } else if (product.status

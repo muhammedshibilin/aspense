@@ -148,7 +148,7 @@
                                 <div class="product-hover-action">
                                     <div class="hover-inner">
                                         <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                        <a href="/cart"><i class="fa fa-cart-plus"></i></a>
+                                        <a  onclick="toCart('<%= product._id %>')"><i class="fa fa-cart-plus"></i></a>
                                         <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
                                         <a href="compare.html"><i class="fa fa-repeat"></i></a>
                                     </div>
@@ -237,7 +237,7 @@
                                                 <div class="product-hover-action">
                                                     <div class="hover-inner">
                                                         <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                        <a href="/cart"><i class="fa fa-cart-plus"></i></a>
+                                                        <a  onclick="toCart('<%= product._id %>')"><i class="fa fa-cart-plus"></i></a>
                                                         <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
                                                         <a href="compare.html"><i class="fa fa-repeat"></i></a>
                                                     </div>
@@ -617,6 +617,99 @@
     </div>
     <!--// Quick View Modal -->
   
+
+    
+<script>
+
+
+    function toCart(productId) {
+    
+ 
+    
+            $.ajax({
+    
+                url: "/add-to-cart",
+                method: "post",
+                data: {
+                     productId,
+                  
+                },
+                success: (response) => {  
+                    const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 2000,
+    })
+    
+                    if (response.login) {    
+                        Toast.fire({
+                            icon: "error",
+                            title: response.message
+                        });
+                        setTimeout(function () {
+                            window.location.href = '/login';
+                        }, 2000);
+    
+                    } else if (response.success) {
+                        if (response.newProduct) {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+    
+                            Toast.fire({
+                                icon: "success",
+                                title: "Product added to cart"
+                            });
+                            $('#reloadArea').load('/shop #reloadArea');
+    
+                        }
+                    } else if (response.exist) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+    
+                        Toast.fire({
+                            icon: "error", 
+                            title: "exist!",
+                            text:"product is already exist"
+                        });
+                        setTimeout(function () {
+                            window.location.href = '/cart';
+                        }, 2000);
+                    } else if (response.stock) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+    
+                        Toast.fire({
+                            icon: "error", 
+                            title: "out of stock!",
+                            text:"the product is available soon"
+                        });
+                        return
+                    }
+                },
+                error: (error) => {
+                    console.error("Error adding to cart:", error);
+                },
+            });
+        }
+    
+    
+    
+    
+                </script>
+    
 
    
 

@@ -1,5 +1,6 @@
 const Product = require("../model/productModel")
 const Category = require('../model/categoryModel')
+const Offer = require('../model/offerModel')
 const Review = require('../model/reviewModel')
 const sharp = require('sharp')
 const fs = require('fs')
@@ -11,7 +12,7 @@ const { trusted } = require("mongoose")
 const productLoad = async (req, res) => {
   try {
 
-    const productData = await Product.find().populate("category")
+    const productData = await Product.find().populate("category").populate("offer")
     const categoryData = await Category.find()
     res.render('products', {
       productData,
@@ -25,8 +26,9 @@ const productLoad = async (req, res) => {
 const addProductLoad = async (req, res) => {
   try {
     const categoryData = await Category.find({is_block:0})
+    const offerData = await Offer.find({is_block:0})
   
-    res.render("addProducts", { categoryData })
+    res.render("addProducts", { categoryData,offerData })
   } catch (error) {
     console.log(error);
   }
@@ -53,24 +55,27 @@ const addProduct = async (req, res) => {
   let resizedImages = [];
 
 
-try {
+  try {
+    console.log("Processing images:", img); // Log the images to be processed
     resizedImages = await Promise.all(img.map(async(imageName) => {
-    const resizedImage = await sharp('C:/aspens/public/images/product/original/'+imageName)
-    .resize({width:400,height:500})
-    .toBuffer()
-    return {imageName,resizedImage}
-   }))
-   
-} catch (error) {
-  console.error('Error opening image:', error);
-}
+       const filePath = `C:/aspense/public/images/product/original/${imageName}`;
+       console.log("Processing image:", filePath); // Log the file path being processed
+       const resizedImage = await sharp(filePath)
+         .resize({width:400,height:500})
+         .toBuffer();
+         console.log('resized image',resizedImage);
+       return {imageName,resizedImage};
+    }));
+   } catch (error) {
+    console.error('Error opening image:', error);
+   }
 
  const productImages = {}
 
  for (const image of resizedImages) {
   productImages[`images.${image.imageName}`] = image.imageName;
   try {
-    await fs.promises.writeFile('C:/aspens/public/images/product/sized/' + image.imageName, image.resizedImage);
+    await fs.promises.writeFile('C:/aspense/public/images/product/sized/' + image.imageName, image.resizedImage);
     console.log('resized image is saved:', image.imageName);
   } catch (e) {
     console.log("error while adding image:", e);
@@ -121,13 +126,14 @@ const editProductLoad = async (req, res) => {
   try {
    const id = req.query._id
     const productData = await Product.findOne({ _id:id }).populate("category")
+    const offerData = await Offer.find({is_block:0})
 
   
     
 
     const categoryData = await Category.find({ is_block: 0 })
 
-    res.render("editProduct", { productData, categoryData })
+    res.render("editProduct", { productData, categoryData,offerData })
   } catch (error) {
     console.log(error);
   }

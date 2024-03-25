@@ -70,10 +70,7 @@ user_route.get('/auth/google/callback',
 
 // }))
 
-user_route.post('/sign-up', userController.insertUser)
 
-user_route.get('/login', auth.isLogout, userController.loadLogin);
-user_route.post('/login', userController.verifyLogin);
 
 user_route.get("/profile", auth.isLogin, userController.profileLoad)
 user_route.post('/edit-profile',multer.uploadProfile.single('image'),userController.editProfile)
@@ -83,6 +80,7 @@ user_route.get('/change-password',userController.changePasswordLoad)
 user_route.post('/change-password',userController.changePassword)
 user_route.post('/add-address', upload.none(), addressController.addAddress);
 user_route.get('/delete-address',addressController.deleteAddress)
+user_route.post('/edit-address',addressController.editAddress)
 
 user_route.get('/logout', auth.isLogin, userController.logoutUser)
 
@@ -94,19 +92,24 @@ user_route.get('/resend-otp', auth.isLogout, userController.resendOtp);
 
 
 
-user_route.get('/cart',cartController.cartLoad)
+user_route.get('/cart',auth.isLogin,cartController.cartLoad)
 user_route.post('/add-to-cart',cartController.addToCart)
-user_route.post("/removeCartItem",cartController.removeCartItem)
-user_route.post("/update-cart",cartController.updateCart)
-user_route.get('/checkout',cartController.checkoutLoad)
-user_route.post("/place-order",orderController.placeOrder)
-user_route.get('/order-success',orderController.orderSuccess)
-user_route.get('/order-details',orderController.orderDetails)
-user_route.post('/cancel-order',orderController.cancelOrder)
-user_route.post('/return-request',orderController.returnOrder)
+user_route.post("/removeCartItem",auth.isLogin,cartController.removeCartItem)
+user_route.post("/update-cart",auth.isLogin,cartController.updateCart)
+user_route.get('/checkout',auth.isLogin,cartController.checkoutLoad)
+user_route.post("/place-order",auth.isLogin,orderController.placeOrder)
+user_route.get('/order-success',auth.isLogin,orderController.orderSuccess)
+user_route.get('/order-details',auth.isLogin,orderController.orderDetails)
+user_route.post('/cancel-order',auth.isLogin,orderController.cancelOrder)
+user_route.post('/return-request',auth.isLogin,orderController.returnOrder)
 
 
 user_route.get('/shop',userController.shopLoad)
+
+user_route.post('/sign-up', userController.insertUser)
+
+user_route.get('/login', auth.isLogout, userController.loadLogin);
+user_route.post('/login', userController.verifyLogin);
 
 
 module.exports = user_route;

@@ -7,6 +7,7 @@
     "dev": "nodemon app.js"
   },
   "dependencies": {
+    "algoliasearch": "^4.22.1",
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
     "classnames": "^2.5.1",

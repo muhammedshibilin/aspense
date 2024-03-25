@@ -4,107 +4,58 @@ const User = require('../model/userModel')
 const Address = require('../model/addressModel')
 
 
-const cartLoad = async (req, res) => {
-    try {
-        const user_id = req.session.user_id;
-        const product = await Product.find()
-        console.log(user_id);
-        // Ensure that the populate method is correctly used
-        const cartData = await Cart.find({ user: user_id }).populate({
-            path: 'products.productId',
-            model: 'Product', // Assuming 'Product' is the model name for your products
-            select: 'price' // Select only the 'price' field
-        });
-        console.log("cartDataaaaaaaaaa", cartData);
 
-        let total = 0;
-        let cartCount = 0;
-
-        if (cartData && cartData.length > 0) {
-            for (let cart of cartData) {
-                for (let product of cart.products) {
-                    // Safeguard to check if product is not null before proceeding
-                    if (!product || !product.productId) {
-                        console.log("Product or Product ID is missing or invalid.");
-                        continue; // Skip this iteration if product or productId is missing
-                    }
-
-                    const productId = product.productId;
-                    console.log(productId);
-                    // Attempt to find the product and handle the case where it's not found
-                    const productData = await Product.findById(productId).select('price').catch(() => null);
-                    if (!productData) {
-                        // If the product is not found, skip this iteration
-                        continue;
-                    }
-                    console.log(productData);
-                    const count = product.count;
-                    const productPrice = productData.price || 0;
-                    const totalPrice = productPrice * count;
-                    total += totalPrice;
-                    product.totalPrice = totalPrice;
-                    cartCount += count;
-                }
-            }
-
-            const subTotal = total;
-            const shippingCharge = total < 1700 ? 90 : 0;
-            const grandTotal = total + shippingCharge;
-
-            res.render('cart', {
-                user: user_id,
-                user_id,
-                cart: cartData,
-                total: total,
-                subTotal,
-                shippingCharge,
-                grandTotal,
-                cartCount,
-                
-            });
-        } else {
-            res.render('cart', {
-                user: user_id,
-                user_id,
-                cart: [],
-                total: 0,
-                subTotal: 0,
-                shippingCharge: 0,
-                grandTotal: 0,
-                cartCount: 0,
-            });
-        }
-    } catch (e) {
-        console.log("error while loading cart", e);
-        res.status(500).send("Error loading cart");
-    }
-};
 
 
 
 const addToCart = async (req, res) => {
     try {
         const user_id = req.session.user_id;
-        const product_id = req.body.productId;
-        const quantity = req.body.quantity;
-
-        const productData = await Product.findById(product_id).populate('category');
-        const userData = await User.findOne({ _id: user_id });
-
-        const count = quantity ? parseInt(quantity) : 1;
         if (!user_id) {
+        console.log("no user Id")
             return res.json({
                 login: true,
-                message: 'Please log in to add products to your cart.',
+                message: 'Please log in to add products into your cart.',
             });
         }
-        console.log('quantityy',productData.quantity);
+      
+        const product_id = req.body.productId;
+        let quantity = req.body.quantity;
+        let cart = await Cart.findOne({ user: user_id }).populate('products.productId');
+        console.log('productId',product_id);
+        console.log('quantity from body',quantity);
+        console.log('userr',user_id);
+    
+
+        const productData = await Product.findById(product_id).populate("offer");
+        console.log('productData',productData);
+        const userData = await User.findOne({ _id: user_id });
+
+        let count = 1; 
+        if (quantity && !isNaN(quantity) && parseInt(quantity) > 0) {
+            count = parseInt(quantity);
+        }
+      console.log('count',count);
+        console.log('product quantityy',productData.quantity);
         if(productData.quantity<quantity){
             return res.json({stock:true})
         }
 
-        const productPrice = productData.price * count;
+        let productPrice
 
+        
+
+        if( productData.offer.discountAmount !=0 && productData.offer.is_block==0 && productData.offer.startDate <= new Date() && productData.offer.endDate >= new Date){
+            let discount = productData.price*(productData.offer.discountAmount/100)
+            console.log('discount',discount);
+            productPrice = (productData.price-discount)*count
+            console.log('is offer',productPrice);
+        }else{
+            productPrice = productData.price*count
+            console.log('no offer',productPrice);
+        }
+    
+        
         let productDetails = {
             productId: product_id,
             productName: productData.name,
@@ -114,13 +65,16 @@ const addToCart = async (req, res) => {
             image: productData.images.image1,
         };
 
-        let cart = await Cart.findOne({ user: user_id });
+       
+        const subTotal = cart ? cart.products.reduce((acc,val)=>acc+val.totalPrice,0) : 0
+        const shippingAmount = subTotal>1500?0:90
 
         if (!cart) {
             cart = await Cart.create({
                 user: user_id,
                 userName: userData.name,
                 products: [productDetails],
+                shippingAmount:shippingAmount?shippingAmount:0
             });
             return res.json({ success: true, newProduct: true });
         }
@@ -130,20 +84,40 @@ const addToCart = async (req, res) => {
         );
 
         if (existingProductIndex !== -1) {
-            // Product already exists in the cart, update its quantity and totalPrice
-            cart.products[existingProductIndex].count += count;
-            cart.products[existingProductIndex].totalPrice += productPrice;
-        } else {
-            // Product does not exist in the cart, add it
-            cart.products.push(productDetails);
+         
+            return res.json({  exist: true });
         }
-
-        await cart.save();
+        cart.products.push(productDetails);
+        const updated = await cart.save();
+        console.log('updatedddddddd',updated);
         
         return res.json({ success: true, newProduct: true });
     } catch (e) {
         console.log("Error while adding to cart", e);
         res.status(500).json({ error: "An error occurred while adding to cart." });
+    }
+};
+
+
+const cartLoad = async (req, res) => {
+    try {
+          
+        const user_id = req.session.user_id
+        const cartData =  await Cart.findOne({user:user_id}).populate('products.productId')
+        const subTotal = cartData ? cartData.products.reduce((acc,val)=>acc+val.totalPrice,0) : 0
+
+        if(cartData){
+              
+          const shippingCharge = subTotal>1500?0:90
+          const grandTotal = subTotal+shippingCharge
+          res.render('cart',{cart:cartData,subTotal,user:user_id,grandTotal,shippingCharge})
+
+        }else{
+          res.render('cart',{user:user_id,cart:[]})
+        }
+    } catch (e) {
+        console.log("error while loading cart", e);
+        res.status(500).send("Error loading cart");
     }
 };
 
@@ -171,40 +145,43 @@ const removeCartItem = async (req, res) => {
         res.status(500).render('500')
     }
 }
-
-
 const updateCart = async (req, res) => {
     try {
-        const counts = req.body;
-        console.log(counts,"price and count");
+        const product_id = req.body.productId;
+        const user_id = req.session.user_id;
+        const increment = req.body.count;
 
-        for (const count of counts) {
+        const cartData = await Cart.findOne({ user: user_id });
+        const product = cartData.products.find(obj => obj.productId.toString() === product_id);
+        const productData = await Product.findById(product_id).populate("offer");
+        
+        let total;
 
-
-
-            const product = await Product.findById(count.productId).select('quantity price');
-            console.log(product, "quaaantiyytyyyyyyyyyyyyy");
-
-            if (!product || count.newQuantity > product.quantity) {
-                return res.json({ stock:true });
-            }
-            const cartData = await Cart.find({user:req.session.user_id})
-            console.log(cartData.products,"before updating");
-            const newTotalPrice = product.price * count.newQuantity;
-            const updateResult = await Cart.updateOne(
-                { 'user': req.session.user_id, 'products.productId': count.productId },
-                { $set: { 'products.$.count': count.newQuantity },
-                'products.$.totalPrice': newTotalPrice  }
+        if (product && (increment > 0 && product.count + increment <= productData.quantity || increment < 0)) {
+                await Cart.findOneAndUpdate(
+                { user: user_id, 'products.productId': product_id },
+                { $inc: { 'products.$.count': increment } }
             );
-            
-            console.log(cartData.products,"after updating");
-            console.log("Update result:", updateResult);
+        
+            let updatedCount = product.count + increment;
+            total = productData.price * updatedCount;
 
-
+            if (productData.offer && productData.offer.discountAmount != 0 && productData.offer.is_block == 0 && productData.offer.startDate <= new Date() && productData.offer.endDate >= new Date) {
+                let discount = productData.price * (productData.offer.discountAmount / 100);
+                total = (productData.price - discount) * updatedCount;
+            }
+        
+                 await Cart.findOneAndUpdate(
+                { user: user_id, 'products.productId': product_id },
+                { $set: { 'products.$.totalPrice': total } },
+                { new: true } 
+            );
+        } else {
+            res.json({ stock: true });
         }
-        res.json({ success:true });
-    } catch (e) {
-        console.log("while updating the cart ", e);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Error updating cart");
     }
 };
 

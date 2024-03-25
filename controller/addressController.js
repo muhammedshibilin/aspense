@@ -25,7 +25,7 @@ const Address = require('../model/addressModel')
                 { user: user_id }, { $set: { user: user_id }, $push: { address: userdata } }, { upsert: true, new: true }
             )
 
-            const populatedAddress = await Address.findById(address._id).populate('user');
+            const populatedAddress = await Address.findById(address._id).populate('User');
 
             console.log(populatedAddress);
 
@@ -34,6 +34,35 @@ const Address = require('../model/addressModel')
             console.log('while adding address', e);
         }
     }
+
+
+    const editAddress = async (req, res) => {
+        try {
+          
+
+          console.log(req.body, 'hakiiiiiii')
+          const updated = await Address.findOneAndUpdate(
+            { user: req.session.user_id, 'address._id': req.body.editAddressId},
+            {
+              $set: {
+                'address.$.fullname': req.body.fullname,
+                'address.$.email': req.body.email,
+                'address.$.mobile': req.body.mobile,
+                'address.$.houseName': req.body.houseName,
+                'address.$.city': req.body.city,
+                'address.$.state': req.body.state,
+                'address.$.pincode': req.body.pincode,
+              },
+            },
+            { new: true },
+          )
+          console.log(updated, '00000000000000000000')
+          res.json({ success: true, message: 'Address edited !' })
+        } catch (error) {
+          console.log(error.message)
+        }
+      }
+      
 
 
 
@@ -55,5 +84,6 @@ const Address = require('../model/addressModel')
 
 module.exports = {
     addAddress,
-    deleteAddress
+    deleteAddress,
+    editAddress
 }                       

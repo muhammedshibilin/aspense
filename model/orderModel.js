@@ -19,9 +19,16 @@ const orderSchema = new mongoose.Schema({
                 required: true,
                 ref: "Product"
             },
+            name:{
+                type:String
+            },
             count: {
                 type: Number,
                 default: 1
+            },
+            image:{
+                type:String,
+                required:true
             },
             productPrice: {
                 type: Number,

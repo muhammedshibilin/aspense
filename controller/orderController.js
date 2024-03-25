@@ -45,10 +45,13 @@ const placeOrder = async (req, res) => {
       (acc, val) => acc + (val.totalPrice || 0),
       0,
     );
+    let totalAmount = subtotalAmount;
     console.log('hhalallllllllllllllllllllllllllll', subtotalAmount);
 
+    let shippingAmount = totalAmount<1500?90:0
+
    
-    let totalAmount = subtotalAmount;
+    
     const uniqId = crypto
       .randomBytes(4)
       .toString('hex')
@@ -62,25 +65,25 @@ const placeOrder = async (req, res) => {
   
     const productData = cartData.products.map(cartProduct => {
       const productDetails = products.find(p => p._id.toString() === cartProduct.productId.toString());
+      console.log('image',productDetails.images.image1);
       return {
         
         productId: cartProduct.productId,
         count: cartProduct.count,
         productPrice: productDetails ? productDetails.price : 0,
-        image: productDetails ? productDetails.images.image1 : '',
+        image: productDetails.images.image1 ? productDetails.images.image1 : '',
         totalPrice: cartProduct.totalPrice,
         status: status,
-        productName: productDetails ? productDetails.name : '',
+        name: productDetails ? productDetails.name : '',
       };
     });
 console.log('halpppppppppppppppppp',productData);
     
-    let shippingAmount = 0;
-    const shipingTotalAmount = 1300;
+totalAmount += shippingAmount;
 
 
 
-    // Creating new order instance
+
     const order = new Order({
       user: user_id,
       orderId : uniqId,
@@ -123,7 +126,7 @@ const orderDetails = async (req,res) => {
   try {
 
     const userId = req.body.user_id
-    const orderDetails = await Order.find({_id:req.query._id})
+    const orderDetails = await Order.find({_id:req.query._id}).populate("products.productId")
     console.log(orderDetails,"ooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
     res.render('orderDetails',{order:orderDetails})
   } catch (error) {
@@ -170,6 +173,7 @@ const cancelOrder = async (req,res) => {
     console.log(error,"while cancelling the order");
   }
 }
+// ------------------user load
 
 const orderLoad = async (req,res) => {
   try {
@@ -187,6 +191,12 @@ const orderLoad = async (req,res) => {
     console.log(error,"while loading admin order");
   }
 }
+
+
+
+
+
+
 const orderdetailsLoad = async (req, res) => {
   try {
     const orderId = req.query._id;
@@ -227,6 +237,7 @@ const updateOrder = async (req, res) => {
   try {
     const orderId = req.body.orderId;
     const orderStatus = req.body.status;
+    console.log('bodyyyyyyy',req.body);
 
     const orderData = await Order.findOne({ 'products._id': orderId });
     console.log('orderData:', orderData);
@@ -281,7 +292,7 @@ const returnOrder = async (req, res) => {
       { _id: orderId, 'products._id': productId },
       {
         $set: {
-          'products.$.status': 'Accepted',
+          'products.$.status': 'requested',
           returnReason: returnReason 
         },
       },

@@ -1,119 +1,5 @@
 <%- include("../layouts/user/header.ejs") %>
 
-<!-- Start Search Flyover -->
-<div class="search-flyoveray"></div>
-<div class="cart-flyout">
-    <div class="cart-flyout-inner">
-        <a class="btn-close-cart" href="#">
-            <i class="fa fa-times"></i>
-        </a>
-        <div class="cart-flyout__content">
-            <div class="cart-flyout__heading">Shopping Cart</div>
-            <div class="widget_shopping_cart_content">
-                <ul class="product_list_widget">
-                    <li>
-                        <div class="thumb">
-                            <img src="user/images/product/sm-product-01.jpg"
-                                alt>
-                        </div>
-                        <div class="content">
-                            <h6><a href="/single-product">Boys light blue
-                                    jacket</a></h6>
-                            <div class="quntity">1 × $35.99</div>
-                            <button class="remove-btn">×</button>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="thumb">
-                            <img src="user/images/product/sm-product-02.jpg"
-                                alt="product">
-                        </div>
-                        <div class="content">
-                            <h6><a href="/single-product">Boys light blue
-                                    jacket</a></h6>
-                            <div class="quntity">1 × $35.99</div>
-                            <button class="remove-btn">×</button>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="thumb">
-                            <img src="user/images/product/sm-product-03.jpg"
-                                alt="product">
-                        </div>
-                        <div class="content">
-                            <h6><a href="/single-product">Boys light blue
-                                    jacket</a></h6>
-                            <div class="quntity">1 × $35.99</div>
-                            <button class="remove-btn">×</button>
-                        </div>
-                    </li>
-
-                </ul>
-            </div>
-            <p class="minicart__total">Subtotal: <span
-                    class="price">164.97</span></p>
-            <div class="cart__btn">
-                <a href="/cart">View cart</a>
-                <a href="/checkout">Checkout</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--end search flyover-->
-
-<!-- Start Hamburger -->
-<div class="hamburger-area">
-    <div class="btn-close-search">
-        <button>
-            <i class="fa fa-times" aria-hidden="true"></i>
-        </button>
-    </div>
-    <!-- Start Main Menu -->
-    <ul class="menu-primary-menu-1 responsive-manu d-block d-xl-none"
-        id="responsive-manu">
-        <li><a href="/">Home</a> </li>
-        <li><a href="about.html">About</a></li>
-        <li class="has-dropdown"><a href="/shop">Shop</a>
-            <ul class="sub-menu">
-                <li><a href="/shop"><span>Shop</span></a></li>
-                <li><a href="/shop-left-sidebar"><span>Shop Left
-                            Sidebar</span></a></li>
-                <li><a href="/shop-right-sidebar"><span>Shop No
-                            Sidebar</span></a></li>
-                <li><a href="/product-details"><span>Product
-                            Details</span></a></li>
-            </ul>
-        </li>
-        <li class="has-dropdown"><a href="#">Pages</a>
-            <ul class="sub-menu">
-                <li><a href="/cart"><span>Cart</span></a></li>
-                <li><a href="/checkout"><span>Checkout</span></a></li>
-                <li><a href="/wishlist"><span>Wishlist</span></a></li>
-                <li><a href="/compare"><span>Compare</span></a></li>
-                <li><a href="/profile"><span>profile</span></a></li>
-                <li><a href="/login"><span>Login</span></a></li>
-                <li><a href="/sign-up"><span>sign Up</span></a></li>
-            </ul>
-        </li>
-        <li class="has-dropdown"><a href="/blog">Blog</a>
-            <ul class="sub-menu">
-                <li><a href="/blog"><span>Blog</span></a></li>
-                <li><a href="/blog-left-sidebar"><span>Blog Left
-                            Sidebar</span></a></li>
-                <li><a href="/blog-details"><span>Blog Details</span></a></li>
-            </ul>
-        </li>
-        <li><a href="/contact">Contact</a></li>
-    </ul>
-    <!-- End Main Menu -->
-</div>
-<!-- End Hamburger -->
-
-<!-- Start Breadumb Area -->
-
 <div
     class="breadcumb-area ptb--100 ptb_md--100 ptb_sm--100  bg_image bg_image--3">
     <div class="container">
@@ -271,7 +157,6 @@
                                             productData.discription %>
                                         </p>
                                     </div>
-
                                     <div class="quenty-container">
                                         <div class="quenty-button">
                                             <h6
@@ -286,7 +171,7 @@
 
                                         <div class="product-action">
                                             <a class="addtocart"
-                                                onclick="addToCart('<%= productData._id %>')"><i
+                                                onclick="toCart('<%= productData._id %>')"><i
                                                     class="fa fa-cart-arrow-down"></i><span>Add
                                                     to cart</span></a>
                                             <a class="wislist"
@@ -433,7 +318,7 @@
                                         <a title="Quick View" class="quickview"
                                             href="#"><i
                                                 class="fa fa-search"></i></a>
-                                        <a href="" ><i
+                                        <a href><i
                                                 class="fa fa-cart-plus"></i></a>
                                         <a href="wishlist.html"><i
                                                 class="fa fa-heart-o"></i></a>
@@ -620,105 +505,94 @@
             crossorigin="anonymous"></script>
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-            <script>
+        <script>
 
 
-           
-   function addToCart(productId) {
+function toCart(productId) {
 
-    var quantity = parseInt($("#quantity").val());
-            $.ajax({
+var quantity = parseInt($("#quantity").val());
 
-                url: "/add-to-cart",
-                method: "post",
-                data: {
-                     productId,
-                     quantity
-                },
-                success: (response) => {  
+console.log('quantity from frontend',quantity,productId);
+        $.ajax({
+
+            url: "/add-to-cart",
+            method: "post",
+            data: {
+                 productId,
+                 quantity
+            },
+            success: (response) => {  
+                const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 2000,
+})
+
+                if (response.login) {    
+                    Toast.fire({
+                        icon: "error",
+                        title: response.message
+                    });
+                    setTimeout(function () {
+                        window.location.href = '/login';
+                    }, 2000);
+
+                } else if (response.success) {
+                    if (response.newProduct) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+
+                        Toast.fire({
+                            icon: "success",
+                            title: "Product added to cart"
+                        });
+                        $('#reloadArea').load('/shop #reloadArea');
+
+                    }
+                } else if (response.exist) {
                     const Toast = Swal.mixin({
-                            toast: true,
-                            position: "top-end",
-                            showConfirmButton: false,
-                            timer: 1500,
-    })
- 
-                    if (response.login) {    
-                        Toast.fire({
-                            icon: "error",
-                            title: response.message
-                        });
-                        setTimeout(function () {
-                            window.location.href = '/login';
-                        }, 1000);
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
 
-                    } else if(response.stock){
-                        const Toast = Swal.mixin({
-                                toast: true,
-                                position: "top-end",
-                                showConfirmButton: false,
-                                timer: 1500,
-                            });
+                    Toast.fire({
+                        icon: "error", 
+                        title: "exist!",
+                        text:"product is already exist"
+                    });
+                    setTimeout(function () {
+                        window.location.href = '/cart';
+                    }, 2000);
+                } else if (response.stock) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
 
-                            Toast.fire({
-                                icon: "warning",
-                                title: "out of stock"
-                            });
-                            $('#reloadArea').load('/product-details #reloadArea');
-                    }
-                    else if (response.success) {
-                        if (response.newProduct) {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: "top-end",
-                                showConfirmButton: false,
-                                timer: 1500,
-                            });
-
-                            Toast.fire({
-                                icon: "success",
-                                title: "Product added to cart"
-                            });
-                            $('#reloadArea').load('/product-details #reloadArea');
-
-                        }
-                    } else if (response.exist) {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: "top-end",
-                            showConfirmButton: false,
-                            timer: 2000,
-                        });
-
-                        Toast.fire({
-                            icon: "error", 
-                            title: "exist!",
-                            text:"product is already exist"
-                        });
-                        window.location.href = "/cart";
-                    } else if (response.stock) {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: "top-end",
-                            showConfirmButton: false,
-                            timer: 2000,
-                        });
-
-                        Toast.fire({
-                            icon: "error", 
-                            title: "out of stock!",
-                            text:"the product is available soon"
-                        });
-                        return
-                    }
-                },
-                error: (error) => {
-                    console.error("Error adding to cart:", error);
-                },
-            });
-        }
+                    Toast.fire({
+                        icon: "error", 
+                        title: "out of stock!",
+                        text:"the product is available soon"
+                    });
+                    return
+                }
+            },
+            error: (error) => {
+                console.error("Error adding to cart:", error);
+            },
+        });
+    }
 
 
 

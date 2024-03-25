@@ -43,9 +43,8 @@ const ProductSchema = new mongoose.Schema({
        }
     },
     offer:{
-        type:Number,
-        ref:'offer',
-        required:true
+        type:ObjectId,
+        ref:'Offer',
        
     },
     discription:{

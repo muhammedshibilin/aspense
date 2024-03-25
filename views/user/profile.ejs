@@ -117,119 +117,6 @@
 }
 </style>
 
-<!-- Start Search Flyover -->
-<div class="search-flyoveray"></div>
-<div class="cart-flyout">
-    <div class="cart-flyout-inner">
-        <a class="btn-close-cart" href="#">
-            <i class="fa fa-times"></i>
-        </a>
-        <div class="cart-flyout__content">
-            <div class="cart-flyout__heading">Shopping Cart</div>
-            <div class="widget_shopping_cart_content">
-                <ul class="product_list_widget">
-                    <li>
-                        <div class="thumb">
-                            <img src="assets/images/product/sm-product-01.jpg"
-                                alt="product">
-                        </div>
-                        <div class="content">
-                            <h6><a href="/single-product">Boys light blue
-                                    jacket</a></h6>
-                            <div class="quntity">1 × $35.99</div>
-                            <button class="remove-btn">×</button>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="thumb">
-                            <img src="assets/images/product/sm-product-02.jpg"
-                                alt="product">
-                        </div>
-                        <div class="content">
-                            <h6><a href="/single-product">Boys light blue
-                                    jacket</a></h6>
-                            <div class="quntity">1 × $35.99</div>
-                            <button class="remove-btn">×</button>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="thumb">
-                            <img src="assets/images/product/sm-product-03.jpg"
-                                alt="product">
-                        </div>
-                        <div class="content">
-                            <h6><a href="/single-product">Boys light blue
-                                    jacket</a></h6>
-                            <div class="quntity">1 × $35.99</div>
-                            <button class="remove-btn">×</button>
-                        </div>
-                    </li>
-
-                </ul>
-            </div>
-            <p class="minicart__total">Subtotal: <span
-                    class="price">164.97</span></p>
-            <div class="cart__btn">
-                <a href="/cart">View cart</a>
-                <a href="/checkout">Checkout</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--end search flyover-->
-
-<!-- Start Hamburger -->
-<div class="hamburger-area">
-    <div class="btn-close-search">
-        <button>
-            <i class="fa fa-times" aria-hidden="true"></i>
-        </button>
-    </div>
-    <!-- Start Main Menu -->
-    <ul class="menu-primary-menu-1 responsive-manu d-block d-xl-none"
-        id="responsive-manu">
-        <li><a href="/">Home</a> </li>
-        <li><a href="about.html">About</a></li>
-        <li class="has-dropdown"><a href="/shop">Shop</a>
-            <ul class="sub-menu">
-                <li><a href="/shop"><span>Shop</span></a></li>
-                <li><a href="/shop-left-sidebar"><span>Shop Left
-                            Sidebar</span></a></li>
-                <li><a href="/shop-right-sidebar"><span>Shop No
-                            Sidebar</span></a></li>
-                <li><a href="/product-details"><span>Product
-                            Details</span></a></li>
-            </ul>
-        </li>
-        <li class="has-dropdown"><a href="#">Pages</a>
-            <ul class="sub-menu">
-                <li><a href="/cart"><span>Cart</span></a></li>
-                <li><a href="/checkout"><span>Checkout</span></a></li>
-                <li><a href="/wishlist"><span>Wishlist</span></a></li>
-                <li><a href="/compare"><span>Compare</span></a></li>
-                <li><a href="/profile"><span>profile</span></a></li>
-                <li><a href="/login"><span>Login</span></a></li>
-                <li><a href="/sign-up"><span>sign Up</span></a></li>
-            </ul>
-        </li>
-        <li class="has-dropdown"><a href="/blog">Blog</a>
-            <ul class="sub-menu">
-                <li><a href="/blog"><span>Blog</span></a></li>
-                <li><a href="/blog-left-sidebar"><span>Blog Left
-                            Sidebar</span></a></li>
-                <li><a href="/blog-details"><span>Blog Details</span></a></li>
-            </ul>
-        </li>
-        <li><a href="/contact">Contact</a></li>
-    </ul>
-    <!-- End Main Menu -->
-</div>
-<!-- End Hamburger -->
-
-<!-- Start Breadumb Area -->
 <div
     class="breadcumb-area ptb--100 ptb_md--100 ptb_sm--100  bg_image bg_image--3">
     <div class="container">
@@ -237,7 +124,7 @@
             <div class="col-lg-12">
                 <div class="inner text-center">
                     <h2 class="font--40 mb--0">profile</h2>
-                    
+
                 </div>
             </div>
         </div>
@@ -255,20 +142,21 @@
                             <div class="panel panel-default">
                                 <div class="container mt-5">
                                     <div class="row justify-content-center">
-                                        <div class="col-md-6 profile-container" >
+                                        <div class="col-md-6 profile-container">
                                             <div
                                                 class="profile-image d-flex justify-content-center align-items-center position-relative rounded-circle"
                                                 style="width: 100px; height: 150px; overflow: hidden;">
                                                 <!-- Placeholder image -->
                                                 <% if(userData.image){ %>
-                                                <img src="/images/product/original/<%= userData.image %>"
+                                                <img
+                                                    src="/images/product/original/<%= userData.image %>"
                                                     alt="Profile Image"
                                                     style="width: 120px; height: 100px; border-radius: 3rem;">
                                                 <% } else { %>
                                                 <img
                                                     src="/images/product/original/3.jpg"
                                                     alt="Profile Image"
-                                                     style="width: 120px;">
+                                                    style="width: 120px;">
                                                 <% } %>
                                             </div>
                                             <div class="profile-details">
@@ -278,7 +166,8 @@
                                                     %></p>
                                                 <p>Mobile:<%= userData.mobile
                                                     %></p>
-                                                    <button class="btn btn-primary "><a
+                                                <button
+                                                    class="btn btn-primary "><a
                                                         href="/logout">logout</a></button>
                                             </div>
                                         </div>
@@ -296,13 +185,12 @@
                                             your
                                             profile </a>
                                     </h5>
-                               
-                                <div id="my-account-1"
-                                    class="panel-collapse collapse show">
-                                    <div class="panel-body">
-                                        <form enctype="multipart/form-data"
-                                         
-                                            <div
+
+                                    <div id="my-account-1"
+                                        class="panel-collapse collapse show">
+                                        <div class="panel-body">
+                                            <form enctype="multipart/form-data"
+                                                <div
                                                 class="billing-information-wrapper">
                                                 <div
                                                     class="account-info-wrapper">
@@ -322,7 +210,10 @@
                                                                 Image</label>
                                                             <input type="file"
                                                                 id="profileImage"
-                                                            <!-- Added an ID to target the profile input field -->
+                                                                <!-- Added an ID
+                                                                to target the
+                                                                profile input
+                                                                field -->
                                                         </div>
                                                     </div>
                                                     <div
@@ -333,7 +224,7 @@
                                                             <input type="text"
                                                                 id="edit-name"
                                                                 value="<%= userData.name %>">
-                                                              
+
                                                         </div>
                                                     </div>
 
@@ -345,7 +236,8 @@
                                                             <label>mobile</label>
                                                             <input type="text"
                                                                 id="edit-mobile"
-                                                                name="mobile" value="<%= userData.mobile %>">
+                                                                name="mobile"
+                                                                value="<%= userData.mobile %>">
                                                         </div>
                                                     </div>
                                                     <div
@@ -355,10 +247,11 @@
                                                             <label>Email</label>
                                                             <input type="email"
                                                                 id="edit-email"
-                                                                name="email" value="<%= userData.email %>"">
-                                                </div>
-                                                </div>
-                                                   
+                                                                name="email"
+                                                                value="<%= userData.email %>"">
+                                                        </div>
+                                                    </div>
+
                                                     <div
                                                         class="col-lg-12 col-md-12">
                                                         <div
@@ -415,93 +308,18 @@
                                     </h5>
                                 </div>
 
-
-                                
-                                <div class="modal fade" id="editAddressModal" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true"
-                                style="padding-top: 80px;">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">edit
-                                                Address</h5>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form  id="editAddressform" method="post" class="row gx-2">
-                                                <div class="form-group col-md-6">
-                                                    <label for="fullname">Full Name *</label>
-                                                    <input type="text" class="form-control" name="fullname" id="edit-name" required>
-                                                    <div id="fnameError" style="display: none; color: red;"></div>
-                                                </div>
-                                            
-                                                <div class="form-group col-md-6">
-                                                    <label for="mobile">Mobile *</label>
-                                                    <input type="tel" class="form-control" name="mobile" id="edit-mobile" required>
-                                                    <div id="mobiles" style="display: none; color: red;"></div>
-                                                </div>
-                                            
-                                                <div class="form-group col-md-12">
-                                                    <label for="email">Email *</label>
-                                                    <input type="email" class="form-control" name="email" id="edit-email" required>
-                                                    <div id="addEmailError" style="display: none; color: red;"></div>
-                                                </div>
-                                            
-                                                <div class="form-group col-md-12">
-                                                    <label for="house">House Name *</label>
-                                                    <input type="text" class="form-control" name="houseName" id="edit-housename" required>
-                                                    <div id="houseError" style="display: none; color: red;"></div>
-                                                    <input type="text" class="form-control" style="display: none;" id="addressId" name="addressId">
-                                                </div>
-                                            
-                                                <div class="form-group col-md-4">
-                                                    <label for="state">State *</label>
-                                                    <input type="text" class="form-control" name="state" id="edit-state" required>
-                                                    <div id="stateError" style="display: none; color: red;"></div>
-                                                </div>
-                                            
-                                                <div class="form-group col-md-4">
-                                                    <label for="city">City *</label>
-                                                    <input type="text" class="form-control" name="city" id="edit-city" required>
-                                                    <div id="cityError" style="display: none; color: red;"></div>
-                                                </div>
-                                            
-                                                <div class="form-group col-md-4">
-                                                    <label for="pincode">Pincode *</label>
-                                                    <input type="tel" class="form-control" name="pincode" id="edit-pincode" autocomplete="off" required>
-                                                    <div id="pinError" style="display: none; color: red;"></div>
-                                                </div>
-                                            
-                                                <div class="form-group col-md-12">
-                                                    <button id="editAddress" type="submit" class="btn btn-outline-primary">
-                                                        <span>Add Address</span>
-                                                        <i class="icon-long-arrow-right"></i>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                                 <div id="my-account-2"
                                     class="panel-collapse collapse">
                                     <div class="panel-body">
-
-
-                                        
-
-
-
                                         <div
                                             class="billing-information-wrapper">
-                                            <div class="panel panel-default col-lg-12 col-md-12">
+                                            <div
+                                                class="panel panel-default col-lg-12 col-md-12">
                                                 <div class="panel-heading">
                                                     <h5 class="panel-title">
                                                         <span>2</span>
-                                                        <a data-toggle="collapse"
+                                                        <a
+                                                            data-toggle="collapse"
                                                             data-parent="#faq"
                                                             href="#my-account-7">
                                                             your addresses </a>
@@ -511,57 +329,290 @@
                                                     class="panel-collapse collapse">
                                                     <div class="panel-body">
                                                         <div
-                    
                                                             class="billing-information-wrapper">
                                                             <div class="row">
-                                                                <% if (addressData && addressData.address && addressData.address.length > 0) { %>
-                                                                    <% addressData.address.forEach(function(address) { %>
-                                                                <div class="col-lg-4 col-md-6" style="margin-bottom: 2rem;">
-                                                                    <div id="address-list" style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
-                                                                                <div class="address-item-container">
-                                                                                    <p class="address-item">Name: <%= address.fullName %></p>
-                                                                                    <p class="address-item">Email: <%= address.email %></p>
-                                                                                    <p class="address-item">Mobile: <%= address.mobile %></p>
-                                                                                    <p class="address-item">State: <%= address.state %></p>
-                                                                                    <p class="address-item">City: <%= address.city %></p>
-                                                                                    <p class="address-item">Pincode: <%= address.pin %></p>
-                                                                                    <p class="address-item">HouseName: <%= address.houseName %></p>
-                                                                                    <div class="address-buttons-container">
-                                                                              
-                                                                                        <a href="#"
-                                                                                        onclick="showEditAddressModal('<%= address.fullname %>','<%= address.mobile %>', '<%= address.email %>', '<%= address.houseName %>', '<%= address.city %>', '<%= address.state %>',  '<%= address.pincode %>','<%= address._id %>')"
-                                                                                        class="edit-link" data-toggle="modal" data-target="#editAddressModal">
-                                                                                        Edit <i class="fa-sharp fa-solid fa-pen" style="color: #cc9966;"></i>
-                                                                                    </a>
-                                                                                        
-                                                                                        <button class="delete-address-btn"><i class="fas fa-trash-alt"></i> <a href="/delete-address?_id=<%= address._id %>">Delete</a></button>
+                                                                <% if
+                                                                (addressData &&
+                                                                addressData.address
+                                                                &&
+                                                                addressData.address.length
+                                                                > 0) { %>
+                                                                <%
+                                                                addressData.address.forEach(function(address)
+                                                                { %>
+                                                                <div
+                                                                    class="col-lg-4 col-md-6"
+                                                                    style="margin-bottom: 2rem;">
+                                                                    <div
+                                                                        id="address-list"
+                                                                        style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+                                                                        <div
+                                                                            class="address-item-container">
+                                                                            <p
+                                                                                class="address-item">Name:
+                                                                                <%=
+                                                                                address.fullName
+                                                                                %></p>
+                                                                            <p
+                                                                                class="address-item">Email:
+                                                                                <%=
+                                                                                address.email
+                                                                                %></p>
+                                                                            <p
+                                                                                class="address-item">Mobile:
+                                                                                <%=
+                                                                                address.mobile
+                                                                                %></p>
+                                                                            <p
+                                                                                class="address-item">State:
+                                                                                <%=
+                                                                                address.state
+                                                                                %></p>
+                                                                            <p
+                                                                                class="address-item">City:
+                                                                                <%=
+                                                                                address.city
+                                                                                %></p>
+                                                                            <p
+                                                                                class="address-item">Pincode:
+                                                                                <%=
+                                                                                address.pin
+                                                                                %></p>
+                                                                            <p
+                                                                                class="address-item">HouseName:
+                                                                                <%=
+                                                                                address.houseName
+                                                                                %></p>
+                                                                            <div
+                                                                                class="address-buttons-container">
+
+                                                                                <a
+                                                                                    href="#"
+                                                                                    class="edit-link"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#editAddressModal<%= address._id %>">
+                                                                                    Edit
+                                                                                    <i
+                                                                                        class="fa-sharp fa-solid fa-pen"
+                                                                                        style="color: #cc9966;"></i>
+                                                                                </a>
+
+                                                                                <div
+                                                                                    class="modal fade"
+                                                                                    id="editAddressModal<%= address._id %>"
+                                                                                    tabindex="-1"
+                                                                                    role="dialog"
+                                                                                    aria-labelledby="exampleModalLabel"
+                                                                                    aria-hidden="true"
+                                                                                    style="padding-top: 80px;">
+                                                                                    <div
+                                                                                        class="modal-dialog"
+                                                                                        role="document">
+                                                                                        <div
+                                                                                            class="modal-content">
+                                                                                            <div
+                                                                                                class="modal-header">
+                                                                                                <h5
+                                                                                                    class="modal-title"
+                                                                                                    id="exampleModalLabel">edit
+                                                                                                    Address</h5>
+                                                                                                <button
+                                                                                                    type="button"
+                                                                                                    class="close"
+                                                                                                    data-dismiss="modal"
+                                                                                                    aria-label="Close">
+                                                                                                    <span
+                                                                                                        aria-hidden="true">&times;</span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="modal-body">
+                                                                                                <form
+                                                                                                   
+                                                                                                    class="row gx-2" id="edit-address-form">
+                                                                                                    <div
+                                                                                                        class="form-group col-md-6">
+                                                                                                        <label
+                                                                                                            for="fullname">Full
+                                                                                                            Name
+                                                                                                            *</label>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            class="form-control"
+                                                                                                            name="fullname"
+                                                                                                            id="edit-name"
+                                                                                                            value="<%= address.fullName %>"
+                                                                                                            required>
+                                                                                                        <input
+                                                                                                            type="hidden"
+                                                                                                            name="edit-addressId"
+                                                                                                            id="edit-addressId"
+                                                                                                            value="<%= address._id %>">
+                                                                                                        <div
+                                                                                                            id="fnameError"
+                                                                                                            style="display: none; color: red;"></div>
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="form-group col-md-6">
+                                                                                                        <label
+                                                                                                            for="mobile">Mobile
+                                                                                                            *</label>
+                                                                                                        <input
+                                                                                                            type="number"
+                                                                                                            class="form-control"
+                                                                                                            name="mobile"
+                                                                                                            id="edit-mobile"
+                                                                                                            value="<%= address.mobile %>"
+                                                                                                            required>
+                                                                                                        <div
+                                                                                                            id="mobiles"
+                                                                                                            style="display: none; color: red;"></div>
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="form-group col-md-12">
+                                                                                                        <label
+                                                                                                            for="email">Email
+                                                                                                            *</label>
+                                                                                                        <input
+                                                                                                            type="email"
+                                                                                                            class="form-control"
+                                                                                                            name="email"
+                                                                                                            id="edit-email"
+                                                                                                            value="<%= address.email %>"
+                                                                                                            required>
+                                                                                                        <div
+                                                                                                            id="addEmailError"
+                                                                                                            style="display: none; color: red;"></div>
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="form-group col-md-12">
+                                                                                                        <label
+                                                                                                            for="house">House
+                                                                                                            Name
+                                                                                                            *</label>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            class="form-control"
+                                                                                                            name="houseName"
+                                                                                                            id="edit-housename"
+                                                                                                            value="<%= address.houseName %>"
+                                                                                                            required>
+                                                                                                        <div
+                                                                                                            id="houseError"
+                                                                                                            style="display: none; color: red;"></div>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            class="form-control"
+                                                                                                            style="display: none;"
+                                                                                                            id="addressId"
+                                                                                                            name="addressId">
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="form-group col-md-4">
+                                                                                                        <label
+                                                                                                            for="state">State
+                                                                                                            *</label>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            class="form-control"
+                                                                                                            name="state"
+                                                                                                            id="edit-state"
+                                                                                                            value="<%= address.state %>"
+                                                                                                            required>
+                                                                                                        <div
+                                                                                                            id="stateError"
+                                                                                                            style="display: none; color: red;"></div>
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="form-group col-md-4">
+                                                                                                        <label
+                                                                                                            for="city">City
+                                                                                                            *</label>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            class="form-control"
+                                                                                                            name="city"
+                                                                                                            id="edit-city"
+                                                                                                            value="<%= address.city %>"
+                                                                                                            required>
+                                                                                                        <div
+                                                                                                            id="cityError"
+                                                                                                            style="display: none; color: red;"></div>
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="form-group col-md-4">
+                                                                                                        <label
+                                                                                                            for="pincode">Pincode
+                                                                                                            *</label>
+                                                                                                        <input
+                                                                                                            type="tel"
+                                                                                                            class="form-control"
+                                                                                                            name="pincode"
+                                                                                                            id="edit-pincode"
+                                                                                                            value="<%= address.pin %>"
+                                                                                                            autocomplete="off"
+                                                                                                            required>
+                                                                                                        <div
+                                                                                                            id="pinError"
+                                                                                                            style="display: none; color: red;"></div>
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="form-group col-md-12">
+                                                                                                        <button
+                                                                                                            id="editAddress"
+                                                                                                            type="submit"
+                                                                                                            class="btn btn-outline-primary">
+                                                                                                            <span>Add
+                                                                                                                Address</span>
+                                                                                                            <i
+                                                                                                                class="icon-long-arrow-right"></i>
+                                                                                                        </button>
+                                                                                                    </div>
+                                                                                                </form>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
-                                                                                 
                                                                                 </div>
-                                                                        
+
+                                                                                <button
+                                                                                    class="delete-address-btn"><i
+                                                                                        class="fas fa-trash-alt"></i>
+                                                                                    <a
+                                                                                        href="/delete-address?_id=<%= address._id %>">Delete</a></button>
+                                                                            </div>
+
+                                                                        </div>
+
                                                                     </div>
+                                                                </div>
+                                                                <% }); %>
+                                                                <% } else { %>
+                                                                <p>No address
+                                                                    data
+                                                                    available.</p>
+                                                                <% } %>
                                                             </div>
-                                                            <% }); %>
-                                                            <% } else { %>
-                                                                <p>No address data available.</p>
-                                                            <% } %>
-                                                            </div>
-                                                      
-                                            
-                                                            
+
                                                         </div>
-                                                    
+
                                                     </div>
                                                 </div>
                                             </div>
 
-                                         
-                                            
-                                            <div class="panel panel-default col-lg-12 col-md-12">
+                                            <div
+                                                class="panel panel-default col-lg-12 col-md-12">
                                                 <div class="panel-heading">
                                                     <h5 class="panel-title">
                                                         <span>2</span>
-                                                        <a data-toggle="collapse"
+                                                        <a
+                                                            data-toggle="collapse"
                                                             data-parent="#faq"
                                                             href="#my-account-6">
                                                             add address </a>
@@ -570,143 +621,243 @@
                                                 <div id="my-account-6"
                                                     class="panel-collapse collapse">
                                                     <div class="panel-body">
-                                                        
+
                                                         <div
                                                             class="billing-information-wrapper">
-                                                            <div class="account-info-wrapper">
-                                                                <h4>add address</h4>
-                                                              
+                                                            <div
+                                                                class="account-info-wrapper">
+                                                                <h4>add
+                                                                    address</h4>
+
                                                             </div>
                                                             <form id="form">
-                                                               <div class="row">
                                                                 <div
-                                                                    class="col-lg-6 col-md-6">
-                                                                    <div class="billing-info">
-                                                                        <label>name</label>
-                                                                        <input type="text" name="name" id="name">
-                                                                        <p id="nameError" style="color: red; font-size: 10px; display: none;"></p>
+                                                                    class="row">
+                                                                    <div
+                                                                        class="col-lg-6 col-md-6">
+                                                                        <div
+                                                                            class="billing-info">
+                                                                            <label>name</label>
+                                                                            <input
+                                                                                type="text"
+                                                                                name="name"
+                                                                                id="name">
+                                                                            <p
+                                                                                id="nameError"
+                                                                                style="color: red; font-size: 10px; display: none;"></p>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div
-                                                                    class="col-lg-6 col-md-6">
-                                                                    <div class="billing-info">
+                                                                    <div
+                                                                        class="col-lg-6 col-md-6">
+                                                                        <div
+                                                                            class="billing-info">
 
-                                                                        <label>mobile
-                                                                        </label>
-                                                                        <input type="number" name="mobile" id="mobile">
-                                                                        <p id="mobileError" style="color: red; font-size: 10px; display: none;"></p>
+                                                                            <label>mobile
+                                                                            </label>
+                                                                            <input
+                                                                                type="number"
+                                                                                name="mobile"
+                                                                                id="mobile">
+                                                                            <p
+                                                                                id="mobileError"
+                                                                                style="color: red; font-size: 10px; display: none;"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-lg-12 col-md-12">
+                                                                        <div
+                                                                            class="billing-info">
+                                                                            <label>email
+                                                                            </label>
+                                                                            <input
+                                                                                type="email"
+                                                                                name="email"
+                                                                                id="email">
+                                                                            <p
+                                                                                id="emailError"
+                                                                                style="color: red; font-size: 10px; display: none;"></p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div
-                                                                    class="col-lg-12 col-md-12">
-                                                                    <div class="billing-info">
-                                                                        <label>email
-                                                                        </label>
-                                                                        <input type="email" name="email" id="email">
-                                                                        <p id="emailError" style="color: red; font-size: 10px; display: none;"></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                            <div class="col-lg-4 col-md-4">
-                                                                <div class="billing-info">
-                                                                    <label for="state">State</label>
-                                                                    <div style="height: 50px; overflow-y: auto;">
-                                                                        <select id="state" name="state" style="width: 100%; ">
-                                                                            <option value="">Select State</option>
-                                                                            <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                                                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                                                            <option value="Assam">Assam</option>
-                                                                            <option value="Bihar">Bihar</option>
-                                                                            <option value="Chhattisgarh">Chhattisgarh</option>
-                                                                            <option value="Goa">Goa</option>
-                                                                            <option value="Gujarat">Gujarat</option>
-                                                                            <option value="Haryana">Haryana</option>
-                                                                            <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                                                            <option value="Jharkhand">Jharkhand</option>
-                                                                            <option value="Karnataka">Karnataka</option>
-                                                                            <option value="Kerala">Kerala</option>
-                                                                            <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                                                            <option value="Maharashtra">Maharashtra</option>
-                                                                            <option value="Manipur">Manipur</option>
-                                                                            <option value="Meghalaya">Meghalaya</option>
-                                                                            <option value="Mizoram">Mizoram</option>
-                                                                            <option value="Nagaland">Nagaland</option>
-                                                                            <option value="Odisha">Odisha</option>
-                                                                            <option value="Punjab">Punjab</option>
-                                                                            <option value="Rajasthan">Rajasthan</option>
-                                                                            <option value="Sikkim">Sikkim</option>
-                                                                            <option value="Tamil Nadu">Tamil Nadu</option>
-                                                                            <option value="Telangana">Telangana</option>
-                                                                            <option value="Tripura">Tripura</option>
-                                                                            <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                                                            <option value="Uttarakhand">Uttarakhand</option>
-                                                                            <option value="West Bengal">West Bengal</option>
-                                                                            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                                                                            <option value="Chandigarh">Chandigarh</option>
-                                                                            <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                                                                            <option value="Daman and Diu">Daman and Diu</option>
-                                                                            <option value="Delhi">Delhi</option>
-                                                                            <option value="Lakshadweep">Lakshadweep</option>
-                                                                            <option value="Puducherry">Puducherry</option>
-                                                                            
-                                                
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div
-                                                                    class="col-lg-4 col-md-4">
-                                                                    <div class="billing-info">
+                                                                    class="row">
+                                                                    <div
+                                                                        class="col-lg-4 col-md-4">
+                                                                        <div
+                                                                            class="billing-info">
+                                                                            <label
+                                                                                for="state">State</label>
+                                                                            <div
+                                                                                style="height: 50px; overflow-y: auto;">
+                                                                                <select
+                                                                                    id="state"
+                                                                                    name="state"
+                                                                                    style="width: 100%; ">
+                                                                                    <option
+                                                                                        value>Select
+                                                                                        State</option>
+                                                                                    <option
+                                                                                        value="Andhra Pradesh">Andhra
+                                                                                        Pradesh</option>
+                                                                                    <option
+                                                                                        value="Arunachal Pradesh">Arunachal
+                                                                                        Pradesh</option>
+                                                                                    <option
+                                                                                        value="Assam">Assam</option>
+                                                                                    <option
+                                                                                        value="Bihar">Bihar</option>
+                                                                                    <option
+                                                                                        value="Chhattisgarh">Chhattisgarh</option>
+                                                                                    <option
+                                                                                        value="Goa">Goa</option>
+                                                                                    <option
+                                                                                        value="Gujarat">Gujarat</option>
+                                                                                    <option
+                                                                                        value="Haryana">Haryana</option>
+                                                                                    <option
+                                                                                        value="Himachal Pradesh">Himachal
+                                                                                        Pradesh</option>
+                                                                                    <option
+                                                                                        value="Jharkhand">Jharkhand</option>
+                                                                                    <option
+                                                                                        value="Karnataka">Karnataka</option>
+                                                                                    <option
+                                                                                        value="Kerala">Kerala</option>
+                                                                                    <option
+                                                                                        value="Madhya Pradesh">Madhya
+                                                                                        Pradesh</option>
+                                                                                    <option
+                                                                                        value="Maharashtra">Maharashtra</option>
+                                                                                    <option
+                                                                                        value="Manipur">Manipur</option>
+                                                                                    <option
+                                                                                        value="Meghalaya">Meghalaya</option>
+                                                                                    <option
+                                                                                        value="Mizoram">Mizoram</option>
+                                                                                    <option
+                                                                                        value="Nagaland">Nagaland</option>
+                                                                                    <option
+                                                                                        value="Odisha">Odisha</option>
+                                                                                    <option
+                                                                                        value="Punjab">Punjab</option>
+                                                                                    <option
+                                                                                        value="Rajasthan">Rajasthan</option>
+                                                                                    <option
+                                                                                        value="Sikkim">Sikkim</option>
+                                                                                    <option
+                                                                                        value="Tamil Nadu">Tamil
+                                                                                        Nadu</option>
+                                                                                    <option
+                                                                                        value="Telangana">Telangana</option>
+                                                                                    <option
+                                                                                        value="Tripura">Tripura</option>
+                                                                                    <option
+                                                                                        value="Uttar Pradesh">Uttar
+                                                                                        Pradesh</option>
+                                                                                    <option
+                                                                                        value="Uttarakhand">Uttarakhand</option>
+                                                                                    <option
+                                                                                        value="West Bengal">West
+                                                                                        Bengal</option>
+                                                                                    <option
+                                                                                        value="Andaman and Nicobar Islands">Andaman
+                                                                                        and
+                                                                                        Nicobar
+                                                                                        Islands</option>
+                                                                                    <option
+                                                                                        value="Chandigarh">Chandigarh</option>
+                                                                                    <option
+                                                                                        value="Dadra and Nagar Haveli">Dadra
+                                                                                        and
+                                                                                        Nagar
+                                                                                        Haveli</option>
+                                                                                    <option
+                                                                                        value="Daman and Diu">Daman
+                                                                                        and
+                                                                                        Diu</option>
+                                                                                    <option
+                                                                                        value="Delhi">Delhi</option>
+                                                                                    <option
+                                                                                        value="Lakshadweep">Lakshadweep</option>
+                                                                                    <option
+                                                                                        value="Puducherry">Puducherry</option>
 
-                                                                        <label>city
-                                                                        </label>
-                                                                        <input type="text" name="city" id="city">
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                         
-                                                            <div
-                                                                    class="col-lg-4 col-md-4">
-                                                                    <div class="billing-info">
 
-                                                                        <label>pincode
-                                                                        </label>
-                                                                        <input type="number" name="pincode" id="pincode">
-                                                                        <p id="pincodeError" style="color: red; font-size: 10px; display: none;"></p>
+                                                                    <div
+                                                                        class="col-lg-4 col-md-4">
+                                                                        <div
+                                                                            class="billing-info">
+
+                                                                            <label>city
+                                                                            </label>
+                                                                            <input
+                                                                                type="text"
+                                                                                name="city"
+                                                                                id="city">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div
+                                                                        class="col-lg-4 col-md-4">
+                                                                        <div
+                                                                            class="billing-info">
+
+                                                                            <label>pincode
+                                                                            </label>
+                                                                            <input
+                                                                                type="number"
+                                                                                name="pincode"
+                                                                                id="pincode">
+                                                                            <p
+                                                                                id="pincodeError"
+                                                                                style="color: red; font-size: 10px; display: none;"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-lg-12 col-md-12">
+                                                                        <div
+                                                                            class="billing-info">
+                                                                            <label>house
+                                                                                name
+                                                                            </label>
+                                                                            <input
+                                                                                type="text"
+                                                                                name="houseName"
+                                                                                id="houseName">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+
                                                                 <div
-                                                                class="col-lg-12 col-md-12">
-                                                                <div class="billing-info">
-                                                                    <label>house name
-                                                                    </label>
-                                                                    <input type="text" name="houseName" id="houseName">
+                                                                    class="billing-back-btn">
+                                                                    <div
+                                                                        class="billing-back">
+                                                                        <a
+                                                                            href="#">
+                                                                            <i
+                                                                                class="fa fa-long-arrow-up"></i>
+                                                                            back</a>
+                                                                    </div>
+                                                                    <div
+                                                                        class="billing-btn">
+                                                                        <button
+                                                                            type="submit"
+                                                                            id="address-btn">add
+                                                                            address</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                         
-                                                            <div class="billing-back-btn">
-                                                                <div class="billing-back">
-                                                                    <a href="#">
-                                                                        <i
-                                                                            class="fa fa-long-arrow-up"></i>
-                                                                        back</a>
-                                                                </div>
-                                                                <div class="billing-btn">
-                                                                    <button
-                                                                        type="submit" id="address-btn">add address</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
-                                        
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -726,47 +877,77 @@
                                         <div
                                             class="billing-information-wrapper">
                                             <div class="account-info-wrapper">
-                                                <h4>your address details</h4>
+                                                <h4>your order details</h4>
                                             </div>
                                             <div class="entries-wrapper">
                                                 <div class="row">
                                                     <div
                                                         class="col-lg-12 col-md-6 col-sm-6 col-12 d-flex align-items-center justify-content-center">
-                                                        <div class="entries-info text-center">
-                                                            <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
+                                                        <div
+                                                            class="entries-info text-center">
+                                                            <table
+                                                                style="width: 100%; border-collapse: collapse; border-spacing: 0;">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width:auto;">No</th>
-                                                                        <th style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Date</th>
-                                                                        <th style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Price</th>
-                                                                        <th style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Payment Method</th>
-                                                                        <th style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Details</th>
+                                                                        <th
+                                                                            style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width:auto;">No</th>
+                                                                        <th
+                                                                            style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Date</th>
+                                                                        <th
+                                                                            style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Price</th>
+                                                                        <th
+                                                                            style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Payment
+                                                                            Method</th>
+                                                                        <th
+                                                                            style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Details</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <% for (let orderId in orderDetails) { %>
-                                                                        <% let order = orderDetails[orderId]; %>
-                                                                        <tr>
-                                                                            <td style="padding: 10px; border-bottom: 1px solid #ddd;"><%= orderId %></td>
-                                                                            <td style="padding: 10px; border-bottom: 1px solid #ddd;"><%= new Date(order.date).toLocaleDateString() %></td>
-                                                                            <td style="padding: 10px; border-bottom: 1px solid #ddd;">$<%= order.totalAmount %>.00</td>
-                                                                            <td style="padding: 10px; border-bottom: 1px solid #ddd;"><%= order.paymentMethod %></td>
-                                                                            <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">
-                                                                                <a href="/order-details?_id=<%=order._id %>" style="display: inline-block; padding: 8px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">View Details</a>
-                                                                            </td>
-                                                                        </tr>
+                                                                    <% let counter = 1; %> 
+                                                                    <% for (let
+                                                                    orderId in
+                                                                    orderDetails)
+                                                                    { %>
+                                                                    <% let order
+                                                                    =
+                                                                    orderDetails[orderId];
+                                                                    %>
+                                                                    <tr>
+                                                                        <td
+                                                                            style="padding: 10px; border-bottom: 1px solid #ddd;"><%= counter %>
+                                                                           </td>
+                                                                        <td
+                                                                            style="padding: 10px; border-bottom: 1px solid #ddd;"><%=
+                                                                            new
+                                                                            Date(order.date).toLocaleDateString()
+                                                                            %></td>
+                                                                        <td
+                                                                            style="padding: 10px; border-bottom: 1px solid #ddd;">$<%=
+                                                                            order.totalAmount
+                                                                            %>.00</td>
+                                                                        <td
+                                                                            style="padding: 10px; border-bottom: 1px solid #ddd;"><%=
+                                                                            order.paymentMethod
+                                                                            %></td>
+                                                                        <td
+                                                                            style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">
+                                                                            <a
+                                                                                href="/order-details?_id=<%=order._id %>"
+                                                                                style="display: inline-block; padding: 8px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">View
+                                                                                Details</a>
+                                                                        </td>
+                                                                    </tr>
                                                                     <% } %>
                                                                 </tbody>
                                                             </table>
-                                                            
-                                                            
+
                                                         </div>
-                                                        
+
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                 </div>
@@ -943,6 +1124,10 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+
+
+
+
 <script>
 document.getElementById('edit-btn').addEventListener('click', async (e) => {
     e.preventDefault();
@@ -972,7 +1157,7 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
             }
         });
 
-        // Move Swal alert checks here, after the axios.post call
+       
         if (response.data.passwordLength) {
             Swal.fire({
                 icon: 'warning',
@@ -1013,153 +1198,140 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
 
 </script>
 
-<script>
+    <script>
 
 
-document.getElementById('editAddress').addEventListener('click', function (e) {
-  e.preventDefault()
-  console.log('Edit address check')
-  const id = document.getElementById('addressId').value
-  const fullname = document.getElementById('edit-name').value
-  const pin = document.getElementById('edit-pin').value
-  const mobile = document.getElementById('edit-mobile').value
-  const email = document.getElementById('edit-email').value
-  const houseName = document.getElementById('edit-housename').value
-  const city = document.getElementById('edit-city').value
-  const state = document.getElementById('edit-state').value
-  const nameError = document.getElementById('nameError')
-  const pinError = document.getElementById('pinError')
-  const phoneError = document.getElementById('phoneError')
-  const EmailError = document.getElementById('EmailError')
-  const houseError = document.getElementById('houseError')
-  const cityError = document.getElementById('cityError')
-  const stateError = document.getElementById('stateError')
-  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
-  const mobilePattern = /^\d{10}$/
-  const namePattern = /^[a-zA-Z\s]+$/
-  const pincodePattern = /^\d{6}$/
-  if (fullname.trim() === '') {
-    console.log('check erorr validation')
-    nameError.style.display = 'block'
-    nameError.textContent = 'Name is required.'
-  } else if (!namePattern.test(fullname)) {
-   
 
-    nameError.style.display = 'block'
-    fnameError.textContent = 'Full name not contain any non alphabets.'
-  } else if (fullname.length < 3) {
-    nameError.style.display = 'block'
-    nameError.textContent = 'Full name atleast contain 3 letters.'
-  } else if (pin.trim() == '') {
-    pinError.style.display = 'block'
-    pinError.textContent = 'Pincode is required.'
-  } else if (!pincodePattern.test(pin)) {
-    pinError.style.display = 'block'
-    pinError.textContent = 'Enter the valid pincode.'
-  } else if (mobile.trim() === '') {
-    phoneError.style.display = 'block'
-    phoneError.textContent = 'Phone number is required.'
-  } else if (!mobilePattern.test(phone) || phone === '0000000000') {
-    phoneError.style.display = 'block'
-    phoneError.textContent =
-      'Enter the valid Phone number (must contain 10 numbers).'
-  } else if (addressEmail.trim() === '') {
-    addEmailError.style.display = 'block'
-    addEmailError.textContent = 'Email is required.'
-  } else if (!emailPattern.test(addressEmail)) {
-    addEmailError.style.display = 'block'
-    addEmailError.textContent = 'Enter the valid email address.'
-  } else if (houseName.trim() === '') {
-    houseError.style.display = 'block'
-    houseError.textContent = 'House name is required'
-  } else if (city.trim() === '') {
-    cityError.style.display = 'block'
-    cityError.textContent = 'City name is required'
-  } else if (state.trim() === '') {
-    stateError.style.display = 'block'
-    stateError.textContent = 'State name is required'
-  } else {
-    $.ajax({
-      url: '/edit-address',
-      data: {
-        fullname: fullname,
-        email: addressEmail,
-        mobile: phone,
-        houseName: houseName,
-        city: city,
-        state: state,
-        pincode: pin,
-        id: id,
-      },
-      method: 'post',
-      success: (response) => {
-        console.log(response, 'check the responce')
-        if (response.success) {
-          $('#editAddressModal').modal('hide')
-          $('.modal-dropback').remove()
-       
+  document.getElementById('edit-address-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+ ;
 
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-          })
+    
+    // Retrieving values from form fields
+    const editAddressId = document.getElementById('edit-addressId').value;
+    const fullname = document.getElementById('edit-name').value;
+    const pin = document.getElementById('edit-pincode').value;
+    const mobile = document.getElementById('edit-mobile').value;
+    const email = document.getElementById('edit-email').value;
+    const houseName = document.getElementById('edit-housename').value;
+    const city = document.getElementById('edit-city').value;
+    const state = document.getElementById('edit-state').value;
+    
+    // Retrieving error message elements
+    const nameError = document.getElementById('fnameError');
+    const pinError = document.getElementById('pinError');
+    const phoneError = document.getElementById('mobiles');
+    const addEmailError = document.getElementById('addEmailError');
+    const houseError = document.getElementById('houseError');
+    const cityError = document.getElementById('cityError');
+    const stateError = document.getElementById('stateError');
+    console.log('addreddddddsssssssss',fullname ,editAddressId,mobile,pin,email);
 
-          Toast.fire({
-            icon: 'success',
-            title: 'Billing address updated successfully.',
-          })
-          setTimeout(() => {
-            window.location.reload('/profile')
-          }, 2000)
-        } else {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2000,
-          })
+    // Regular expressions for validation
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const mobilePattern = /^\d{10}$/;
+    const namePattern = /^[a-zA-Z\s]+$/;
+    const pincodePattern = /^\d{6}$/;
 
-          Toast.fire({
-            icon: 'error',
-            title: 'Oops !! try again.',
-          })
+    if (fullname.trim() === '') {
+      nameError.style.display = 'block';
+      nameError.textContent = 'Name is required.';
+    } else if (!namePattern.test(fullname)) {
+      nameError.style.display = 'block';
+      nameError.textContent = 'Full name should contain only alphabets.';
+    } else if (fullname.length < 3) {
+      nameError.style.display = 'block';
+      nameError.textContent = 'Full name should be at least 3 characters long.';
+    } else if (pin.trim() === '') {
+      pinError.style.display = 'block';
+      pinError.textContent = 'Pincode is required.';
+    } else if (!pincodePattern.test(pin)) {
+      pinError.style.display = 'block';
+      pinError.textContent = 'Enter a valid pincode.';
+    } else if (mobile.trim() === '') {
+      phoneError.style.display = 'block';
+      phoneError.textContent = 'Phone number is required.';
+    } else if (!mobilePattern.test(mobile)) {
+      phoneError.style.display = 'block';
+      phoneError.textContent = 'Enter a valid phone number (10 digits).';
+    } else if (email.trim() === '') {
+      addEmailError.style.display = 'block';
+      addEmailError.textContent = 'Email is required.';
+    } else if (!emailPattern.test(email)) {
+      addEmailError.style.display = 'block';
+      addEmailError.textContent = 'Enter a valid email address.';
+    } else if (houseName.trim() === '') {
+      houseError.style.display = 'block';
+      houseError.textContent = 'House name is required.';
+    } else if (city.trim() === '') {
+      cityError.style.display = 'block';
+      cityError.textContent = 'City name is required.';
+    } else if (state.trim() === '') {
+      stateError.style.display = 'block';
+      stateError.textContent = 'State name is required.';
+    } else {
+     
+      $.ajax({
+        url: '/edit-address',
+        data: {
+          fullname: fullname,
+          editAddressId: editAddressId,
+          email: email,
+          mobile: mobile,
+          houseName: houseName,
+          city: city,
+          state: state,
+          pincode: pin
+        },
+        method: 'POST',
+        success: (response) => {
+          console.log(response, 'check the response');
+          if (response.success) {
+            $('#editAddressModal').modal('hide');
+            $('.modal-dropback').remove();
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000
+            });
+
+            Toast.fire({
+              icon: 'success',
+              title: 'Billing address updated successfully.'
+            });
+
+            setTimeout(() => {
+              window.location.reload('/profile');
+            }, 2000);
+          } else {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000
+            });
+
+            Toast.fire({
+              icon: 'error',
+              title: 'Oops! Try again.'
+            });
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
         }
-      },
-    })
-  }
-})
+      });
+    }
+  });
 
-function showEditAddressModal(
-  fullname,
-  mobile,
-  email,
-  houseName,
-  city,
-  state,
-  pincode,
-  addressId,
-) {
-    console.log('hallooo');
-  document.getElementById('fullnames').value = fullname
-  document.getElementById('emails').value = email
-  document.getElementById('mobiles').value = mobile
-  document.getElementById('states').value = state
-  document.getElementById('citys').value = city
-  document.getElementById('pincodes').value = pincode
-  document.getElementById('houseNames').value = houseName
-  document.getElementById('addressId').value = addressId
 
-  $('#editAddressModal').modal('show')
-}
+</script>
 
 
 
-        </script>
-
-
-        <script>
+<script>
 
     
         
@@ -1276,15 +1448,3 @@ function showEditAddressModal(
 </script>
 
 <%- include("../layouts/user/footer.ejs") %>
-
-
-
-
-
-
-
-
-
-
-
-

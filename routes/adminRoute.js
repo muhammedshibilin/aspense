@@ -5,6 +5,7 @@ const adminController = require("../controller/adminController");
 const productController = require('../controller/productController')
 const categoryController = require("../controller/categoryController")
 const orderController  = require('../controller/orderController')
+const offerController = require("../controller/offerController")
 const multer = require('../middleware/multer')
 const auth = require('../middleware/adminAuth')
 const path = require('path')
@@ -81,6 +82,13 @@ admin_route.get('/order-managment', auth.isLogin, orderController.orderdetailsLo
 admin_route.post('/update-order',orderController.updateOrder)
 
 
+admin_route.get("/offer",auth.isLogin,offerController.offerLoad)
+admin_route.get('/add-offer',auth.isLogin,offerController.addOfferLoad)
+admin_route.post("/add-offer",auth.isLogin,offerController.addOffer)
+admin_route.get('/edit-offer',auth.isLogin,offerController.editOfferLoad)
+admin_route.post('/edit-offer',auth.isLogin,offerController.editOffer)
+admin_route.post('/block-offer',auth.isLogin,offerController.blockOffer)
+admin_route.post('/delete-offer',auth.isLogin,offerController.deleteOffer)
 
 
 

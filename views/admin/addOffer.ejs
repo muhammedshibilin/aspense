@@ -42,11 +42,7 @@
             </div>
           </li>
         </ul>
-        <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown d-lg-flex d-none">
-                <button type="button" class="btn btn-info font-weight-bold">+ Create New</button>
-            </li>
-          
+        <ul class="navbar-nav navbar-nav-right">    
           <li class="nav-item dropdown d-flex mr-4 ">
             <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
               <i class="icon-cog"></i>
@@ -149,93 +145,184 @@
          
         </ul>
       </nav>
-      <!-- partial -->
-      <div class="main-panel">
-        
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  
-                  <div class="table-responsive">
-                    <table class="table table-striped">
-                      <thead>
-                        <tr>
-                          <th>
-                           <strong>Sl No</strong> 
-                          </th>
-                          <th>
-                           <strong>order id</strong> 
-                          </th>
-                          <!-- <th>
-                            <strong>User Address</strong>
-                          </th> -->
-                          <th>
-                            <strong>amount</strong>
-                          </th>
-                          <th>
-                           <strong>Payment Method</strong>
-                          </th>
-                          <th><strong>Date </strong></th>
-                          <th>
-                            Details
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <% orderData.forEach( (order,index)=> { %>
-                        <tr>
-                          <td>
-                            <%= index+1 %>
-                          </td>
-                          <td>
-                            <%= order.orderId %>
-                            
-                          </td>
-                          <!-- <td class="py-1">
-                            <img src="images/faces/face2.jpg" alt="image"/>
-                          </td> -->
-                          
-                          <td>
-                        
-                            <label class=" "><%= order.totalAmount %></label>
-                          </td>
 
-                          <td class="badge  badge-warning mt-2 ">
-                            <%= order.paymentMethod %>
-                          </td>
-                          <td><%= order.date.toDateString() %></td>
-                          <td>
-                           
-                            <a href="/admin/order-managment?_id=<%= order._id %>" class="btn btn-primary">Order Details</a>
 
-                          </td>
-                        </tr> 
-                        <% }) %>
-                      </tbody>
-                    </table>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+
+        <div class="col-12 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <form >
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="exampleInputName1">offer Name</label>
+                    <input type="text" class="form-control" id="offer-name" name="name" placeholder="offer name">
                   </div>
                 </div>
               </div>
+             
+
+              <div class="row ">
+                <div class="col-md-4">
+                  <div class="form-group row">
+                    <label class="col-sm-3  col-form-label">amount</label>
+                    <div class="col-sm-4  col-lg-4">
+                      <input type="number" name="offer-amount" class="form-control" id="offer-amount"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">activate date</label>
+                    <div class="col-sm-4  col-lg-4">
+                      <input type="date" name="active-date" class="form-control" id="active-date" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">expire date</label>
+                    <div class="col-sm-4  col-lg-4 ">
+                      <input type="date" name="expire-date" class="form-control" id="expire-date" />
+                    </div>
+                  </div>
+                </div>         
+                <div class="row col-12">
+                  <button type="submit" class="btn btn-primary mr-2" id="add-offer-btn">Save</button>
+                  <a href="/admin/offer" class="btn btn-primary  ">Back</a>
+                </div>
+              </div>
+            </form>
             </div>
-            
-            
-            
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
-      
-        <!-- partial -->
+          </div>
+        </div>
       </div>
-      <!-- main-panel ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- base:js -->
-  <script src="vendors/base/vendor.bundle.base.js"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+  document.getElementById("add-offer-btn").addEventListener('click', async (e) => {
+ e.preventDefault();
+ const offerName = document.getElementById("offer-name").value;
+ const offerAmount = document.getElementById("offer-amount").value;
+ const offerStartDate = document.getElementById('active-date').value;
+ const offerExpireDate = document.getElementById('expire-date').value;
+
+ Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to save this offer?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, save it!',
+    cancelButtonText: 'No, cancel!',
+ }).then(async (result) => {
+    if (result.isConfirmed) {
+      // Prepare the data as a JSON object
+      const offerData = {
+        name: offerName,
+        offerAmount: offerAmount,
+        activeDate: offerStartDate,
+        expireDate: offerExpireDate
+      };
+
+      try {
+        // Send the data as JSON
+        const response = await fetch('/admin/add-offer', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(offerData)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json(); // Assuming the server responds with JSON
+
+        if (data.success) {
+          Swal.fire(
+            'Success!',
+            'Offer added successfully.',
+            'success'
+          ).then(() => {
+            window.location.href = "/admin/offer";
+          });
+        } else {
+          Swal.fire(
+            'Error!',
+            'Failed to add offer.',
+            'error'
+          );
+        }
+      } catch (error) {
+        console.error('Fetch Error:', error);
+        Swal.fire(
+          'Error!',
+          'Failed to add offer. Please try again later.',
+          'error'
+        );
+      }
+    }
+ });
+});
+</script>
+
+
+
+
+
+<script src="vendors/base/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
   <script src="js/off-canvas.js"></script>
   <script src="js/hoverable-collapse.js"></script>
   <script src="js/template.js"></script>
 
-  <%- include('../layouts/admin/footer.ejs') %>
+<%- include('../layouts/admin/footer.ejs') %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
