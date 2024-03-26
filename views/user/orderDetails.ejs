@@ -1,183 +1,25 @@
-<!doctype html>
-<html class="no-js" lang="en">
+<%- include("../layouts/user/header.ejs") %>
+     
 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>aspens</title>
-        <meta name="robots" content="noindex, follow" />
-        <meta name="description" content>
-        <meta name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon"
-            href="user/images/favicon.ico">
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="user/css/vendor/bootstrap.min.css">
-        <link rel="stylesheet" href="user/css/plugins/plugins.css">
-
-        <!-- Main Style CSS -->
-        <link rel="stylesheet" href="user/css/style.css">
-        <!--<link rel="stylesheet" href="user/css/style.min.css">-->
-        <style>
-        /* Custom styles */
-        body {
-            background-color: #f8f9fa;
-            /* Light background color */
-        }
-
-        .page-title-box {
-            background-color: #007bff;
-            /* Blue background for the title box */
-            color: white;
-            /* White text for the title */
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .add-review-button {
-            background-color: #28a745;
-            /* Green background for the button */
-            color: white;
-            /* White text for the button */
-        }
-
-        .table-bordered {
-            border-color: #6c757d;
-            /* Gray border for the table */
-        }
-
-        .table-bordered th,
-        .table-bordered td {
-            border-color: #6c757d;
-            /* Gray border for table cells */
-        }
-
-        .card {
-            border-color: #6c757d;
-            /* Gray border for cards */
-        }
-
-        .card-body {
-            background-color: #e9ecef;
-            /* Light gray background for card bodies */
-        }
-
-        .header-title {
-            color: #007bff;
-            /* Blue text for headers */
-        }
-
-        .font-family-primary {
-            color: #28a745;
-            /* Green text for shipping information */
-        }
-
-        /* Center align tables */
-        .table-centered {
-            margin: 0 auto;
-            /* Center horizontally */
-            float: none;
-            /* Clear float */
-        }
-    </style>
-
-    </head>
-
-    <body>
-
-        <!-- Start Header -->
-        <header
-            class="header-area haeder-default header--transparent black-logo-version ptb_lg--40 ptb_md--40 ptb_sm--30">
-            <div class="header-wrapper container  bg-gradient ">
-                <div class="row align-items-center">
-                    <!-- Start Header Left -->
-                    <div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-6">
-                        <div class="logo">
-                            <a href="/">
-                                <img src="user/images/logo/logo-black.png"
-                                    alt="Draven logo">
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Start Header Center -->
-                    <div class="col-xl-9 d-none d-xl-block">
-                        <nav class="mainmenu__nav position-fixed ">
-                            <!-- Start Mainmanu Nav -->
-                            <ul class="primary-menu megamenu-wrapper">
-                                <li><a href="/">Home</a>
-                                </li>
-                                <li><a href="/about">About</a></li>
-                                <li class="lavel-1"><a href="/shop">Shop</a>
-                                    <ul class="dropdown__menu">
-                                        <li><a
-                                                href="/shop"><span>Shop</span></a></li>
-                                        <li><a
-                                                href="/shop-left-sidebar"><span>Shop
-                                                    Left Sidebar</span></a></li>
-                                        <li><a
-                                                href="/shop-right-sidebar"><span>Shop
-                                                    No Sidebar</span></a></li>
-                                        <li><a
-                                                href="/product-details"><span>Product
-                                                    Details</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="/blog">Blog</a>
-                                    <!-- <ul class="dropdown__menu">
-                                    <li><a href="blog.html"><span>Blog</span></a></li>
-                                    <li><a href="blog-left-sidebar.html"><span>Blog Left Sidebar</span></a></li>
-                                    <li><a href="blog-details.html"><span>Blog Details</span></a></li>
-                                </ul> -->
-                                </li>
-                                <li class="lavel-1"><a href="#">Pages</a>
-                                    <ul class="dropdown__menu">
-                                        <li><a
-                                                href="/cart"><span>Cart</span></a></li>
-                                        <li><a
-                                                href="/checkout"><span>Checkout</span></a></li>
-                                        <li><a
-                                                href="/wishlist"><span>Wishlist</span></a></li>
-                                        <li><a
-                                                href="/compare"><span>Compare</span></a></li>
-                                        <li><a href="/my-account"><span>My
-                                                    Account</span></a></li>
-                                        <li><a
-                                                href="/login"><span>Login</span></a></li>
-                                        <li><a href="/sign-up"><span>sign
-                                                    Up</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="/contact">Contact</a></li>
-
-                            </ul>
-                            <!-- End Mainmanu Nav -->
-                        </nav>
-                    </div>
-                    <!-- Start Header Right -->
-
+<div class="breadcumb-area ptb--100 ptb_md--100 ptb_sm--100  bg_image bg_image--3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="inner text-center">
+                    <h2 class="font--40 mb--0">order details</h2>
                 </div>
             </div>
-        </header>
-        <!-- End Header -->
-
-        <!-- Content -->
+        </div>
+    </div>
+</div>
+        
         <div class="content  " style="margin-top: 10rem;">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="card">
                             <div class="card-body">
-                                <!-- <div class="invoice d-flex justify-content-end">
-                                    <a href="#">
-                                        <button id="Invoice"
-                                            class="add-review-button btn btn-info">
-                                            <i class="fas fa-download"></i>
-                                            Invoice
-                                        </button>
-                                    </a>
-                                </div> -->
+                               
 
                                 <h4 class="header-title mb-3"></h4>
                                 <div class="table-responsive">
@@ -185,7 +27,7 @@
                                         class="table table-bordered table-centered mb-0">
                                         <thead class="table-light">
                                             <tr>
-                                                <th>Product id</th>
+                                                <th>Product name</th>
                                                 <th>Image</th>
                                                 <th>Quantity</th>
                                                 <th>Product Price</th>
@@ -221,8 +63,8 @@
                                                     "Delivered"
                                                     && product.status !==
                                                     "requested" && product.status
-                                                    !== "Accepted" &&
-                                                    product.status !=="Pending")
+                                                    !== "accepted" &&
+                                                    product.status !=="Pending"&&product.status !=="Out for Delivery" &&  product.status !=="Shipped" )
                                                     { %>
                                                     <button type="button"
                                                         onclick="cancelProduct('<%= product._id %>', '<%= orderItem._id %>')"
@@ -236,9 +78,19 @@
                                                         onclick="returnRequest('<%= product._id %>','<%= orderItem._id %>')"
                                                         style="background-color: #e66a35; color: rgb(239, 190, 167)">Return</button>
                                                     <% } else if (product.status
-                                                    == "Accepted") { %>
+                                                    == "accepted") { %>
                                                     <label
                                                         style="color: red;">OrderReturned</label>
+                                                    <% } else if (product.status
+                                                    == "Shipped") { %>
+                                                    <label
+                                                        style="color: blue;">shipped</label>
+                        
+                                                    <% } else if (product.status
+                                                    
+                                                    == "Out for Delivery") { %>
+                                                    <label
+                                                        style="color: blue;">out of delivery</label>
                                                     <% } else if (product.status
                                                     == "requested") { %>
                                                     <label
@@ -257,6 +109,7 @@
                                                         style="color: red;">Requested</label>
                                                     <% } %>
                                                 </td>
+                                             
                                             </tr>
                                             <% }); %>
                                             <% }); %>
@@ -279,7 +132,18 @@
 
                                             </tr>
                                         </tfoot>
+                                     
                                     </table>
+                                    <div class="invoice d-flex justify-content-center  mt-5 ">
+                                      
+                                        <a href="/invoice?id=<%= order._id %>">
+                                            <button id="Invoice"
+                                                class="add-review-button btn btn-info">
+                                                <i class="fas fa-download"></i>
+                                                Invoice
+                                            </button>
+                                        </a>
+                                    </div>
 
                                 </div>
                             </div>

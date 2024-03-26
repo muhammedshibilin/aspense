@@ -321,8 +321,9 @@
 
 
         </div>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
        
 
@@ -416,80 +417,100 @@
 
       console.log(category)
     
-     
-    if (!name.trim()) {
-        alertify.error('Please enter a product name.');
-        return;
-    }
-
-    if (!price.trim() || isNaN(price) || parseFloat(price) <= 0) {
-        alertify.error('Please enter a valid price.');
-        return;
-    }
-
-    if (!quantity.trim() || isNaN(quantity) || parseInt(quantity) <= 0) {
-        alertify.error('Please enter a valid quantity.');
-        return;
-    }
-
-    if (!description.trim()) {
-        alertify.error('Please enter a product description.');
-        return;
-    }
-
-    if (!offer.trim()) {
-        alertify.error('Please enter a product offer.');
-        return;
-    }
-        
-      
-      function validateImage(image) {
-      if (!image) {
-          return false;
-      }
-      return
-    }
-
-  
-
-    
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('productId',productId)
-      formData.append('price', price);
-      formData.append('quantity', quantity);
-      formData.append('category', category);
-      formData.append('description', description);
-      formData.append('offer', offer);
-      formData.append('size', size);
-      formData.append('imageFile1', image1);
-      formData.append('imageFile2', image2);
-      formData.append('imageFile3', image3);
-      formData.append('imageFile4', image4);
-
-
-      $.ajax({
-        type: 'post',
-        url: '/admin/edit-product',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: (response) => {
-            if (response.success) {
-                alertify.success('Product edited successfully', 2000);
-                setTimeout(() => {
-                    window.location.href = "/admin/product";
-                }, 2000);
-            } else {
-                alertify.error('Failed to add product. Please try again later.');
-            }
-        },
-        error: (xhr, status, error) => {
-            console.error(xhr.responseText);
-            alertify.error('An error occurred while adding the product. Please try again later.');
-        }
+      if (!name.trim()) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a product name.'
     });
+    return;
+}
+
+if (!price.trim() || isNaN(price) || parseFloat(price) <= 0) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a valid price.'
+    });
+    return;
+}
+
+if (!quantity.trim() || isNaN(quantity) || parseInt(quantity) <= 0) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a valid quantity.'
+    });
+    return;
+}
+
+if (!description.trim()) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a product description.'
+    });
+    return;
+}
+
+
+
+function validateImage(image) {
+    if (!image) {
+        return false;
+    }
+    return true; // You might want to return true here
+}
+
+const formData = new FormData();
+formData.append('name', name);
+formData.append('productId', productId);
+formData.append('price', price);
+formData.append('quantity', quantity);
+formData.append('category', category);
+formData.append('description', description);
+formData.append('offer', offer);
+formData.append('size', size);
+formData.append('imageFile1', image1);
+formData.append('imageFile2', image2);
+formData.append('imageFile3', image3);
+formData.append('imageFile4', image4);
+
+$.ajax({
+    type: 'post',
+    url: '/admin/edit-product',
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: (response) => {
+        if (response.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Product edited successfully',
+                timer: 2000
+            }).then(() => {
+                window.location.href = "/admin/product";
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Failed to edit product. Please try again later.'
+            });
+        }
+    },
+    error: (xhr, status, error) => {
+        console.error(xhr.responseText);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'An error occurred while editing the product. Please try again later.'
+        });
+    }
 });
+});
+
 
 
 document.addEventListener('DOMContentLoaded', function() {

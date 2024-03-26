@@ -48,7 +48,7 @@ const addToCart = async (req, res) => {
         if( productData.offer.discountAmount !=0 && productData.offer.is_block==0 && productData.offer.startDate <= new Date() && productData.offer.endDate >= new Date){
             let discount = productData.price*(productData.offer.discountAmount/100)
             console.log('discount',discount);
-            productPrice = (productData.price-discount)*count
+            productPrice = Math.floor((productData.price-discount)*count)
             console.log('is offer',productPrice);
         }else{
             productPrice = productData.price*count

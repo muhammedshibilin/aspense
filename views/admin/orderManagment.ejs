@@ -146,7 +146,7 @@
         </div>
       </nav>
       <!-- partial -->
-      <div class="container-fluid page-body-wrapper">
+      <div class="container-fluid page-body-wrapper m-0 ">
 
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -299,35 +299,7 @@
                       <th
                         style="border: 1px solid #dddddd; padding: 8px;">Status</th>
                     </tr>
-                    <!-- return reason modal -->
-                    <div class="modal fade" id="returnReasonModal" tabindex="-1"
-                      role="dialog" aria-labelledby="returnReasonModalLabel"
-                      aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content"
-                          style="border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                          <div class="modal-header"
-                            style="border-bottom: none; background-color: #007bff; color: white;">
-                            <h5 class="modal-title" id="returnReasonModalLabel"
-                              style="font-size: 1.5rem; font-weight: bold;">Return
-                              Reason</h5>
-                          </div>
-                          <div class="modal-body"
-                            style="padding: 20px; font-size: 1rem;">
-                            <p id="returnReasonText"></p>
-                          </div>
-                          <div class="modal-footer"
-                            style="border-top: none; background-color: #f9f9f9; color: #007bff;">
-                            <button type="button" class="close"
-                              data-dismiss="modal" aria-label="Close"
-                              onclick="$('#returnReasonModal').modal('hide');"
-                              style="color: #007bff; font-size: 1.5rem;">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                   
                   </thead>
                   <% orderData.products.forEach((product, index) => { %>
                   <tr style="border: 1px solid #dddddd;">
@@ -350,12 +322,39 @@
                     <% } else if (product.status=="requested" ) {%>
                     <td>
                       <button
-                        onclick="showReturnModal(`<%= product._id %>`,`<%= product.count %>`,`<%= product.returnReason %>`,`<%= orderData._id%>`)"
+                        onclick="showReturnModal(`<%= product._id %>`,`<%= product.count %>`,`<%= orderData.returnReason %>`,`<%= orderData._id%>,`)"
                         ` class="badge badge-warning">Return
                         Request
                       </button>
+                       <!-- return reason modal -->
+                    <div class="modal fade" id="returnReasonModal" tabindex="-1"
+                    role="dialog" aria-labelledby="returnReasonModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content"
+                        style="border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                        <div class="modal-header"
+                          style="border-bottom: none; background-color: #007bff; color: white;">
+                          <h5 class="modal-title" id="returnReasonModalLabel"
+                            style="font-size: 1.5rem; font-weight: bold;">Return
+                            Reason</h5>
+                        </div>
+                        <div class="modal-body"
+                          style="padding: 20px; font-size: 1rem;">
+                          <p id="returnReasonText"></p>
+                        </div>
+                        <div class="modal-footer" style="border-top: none; background-color: #f9f9f9; color: #007bff;">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" onclick="$('#returnReasonModal').modal('hide');" style="color:black; font-size: 1rem;">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                          <button type="button" class="btn btn-primary" onclick="acceptReturnRequest('<%= product._id %>','accepted');">Accept</button>
+                          <button type="button" class="btn btn-danger" onclick="rejectReturnRequest('<%= product._id %>','rejected');">Reject</button>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
                     </td>
-                    <% } else if(product.status=="Accepted" ) { %>
+                    <% } else if(product.status=="accepted" ) { %>
                     <td style="color: rgb(9, 16, 219);"
                       onclick="showReturnModal('Product 1', '1', '<%= orderData.returnReason %>')">Returned
                     </td>
@@ -393,7 +392,7 @@
               </div>
             </div>
           </div>
-        </div>
+       
 
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
@@ -408,10 +407,20 @@
         <!-- Bootstrap JavaScript -->
         <script
           src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+          
 
         <script>
+
+
+
+$(document).ready(function() {
+ $('.dropdown-toggle').dropdown();
+});
+
+
   function updateOrder(id, status) {
   const data = { orderId: id, status };
+  console.log('data',data);
 
   $.ajax({
     url: '/admin/update-order',
@@ -424,6 +433,7 @@
         $(`#${id}`).text(newStatus);
         if (newStatus === 'Delivered') {
           $(`#${id}`).removeClass('btn-primary').addClass('btn-success');
+          location.reload()
         } else if (newStatus === 'Cancelled') {
           $(`#${id}`).removeClass('btn-primary').addClass('btn-danger');
         }
@@ -437,10 +447,12 @@
           icon: "success",
           title: "Status changed",
         });
+        location.reload()
       } else {
         console.log('erroooooorororror');
         swal("Something went wrong", "", "error");
       }
+      
     },
     error: function () {
       swal("Something went wrong", "", "error");
@@ -450,15 +462,102 @@
 
 
 
-      function showReturnModal(productName, count, returnReason) {
-        console.log('jdhf',returnReason);
-          document.getElementById('returnReasonText').textContent = returnReason;
-          $('#returnReasonModal').modal('show');
+function showReturnModal(productId, count, returnReason, orderId, orderReturnReason) {
+    console.log('Product ID:', productId);
+    console.log('Count:', count);
+    console.log('Return Reason:', returnReason);
+    console.log('Order ID:', orderId);
+    console.log('Order Return Reason:', orderReturnReason);
+    document.getElementById('returnReasonText').textContent = returnReason;
+    $('#returnReasonModal').modal('show');
+}
+
+function acceptReturnRequest(id,status) {
+  const data = { orderId: id, status };
+  console.log('dataaaaaaas',data);
+  $.ajax({
+    url: '/admin/update-order',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    method: 'POST',
+    success: function (response) {
+      if (response.success) {
+        const newStatus = response.orderData.products.find(product => product._id === id).status;
+        $(`#${id}`).text(newStatus);
+        if (newStatus === 'accepted') {
+          $(`#${id}`).removeClass('btn-primary').addClass('btn-success');
+        } 
+        location.reload()
+
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
+          icon: "success",
+          title: "request accepted ,status changed",
+        });
+        
+      } else {
+        console.log('erroooooorororror');
+        swal("Something went wrong", "", "error");
       }
+    },
+    error: function () {
+      swal("Something went wrong", "", "error");
+    }
+  });
+
+    
+    console.log('Return request accepted.');
+
+    $('#returnReasonModal').modal('hide');
+}
+
+function rejectReturnRequest(id,status) {
+  const data = { orderId: id, status };
+
+  $.ajax({
+    url: '/admin/update-order',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    method: 'POST',
+    success: function (response) {
+      if (response.success) {
+        const newStatus = response.orderData.products.find(product => product._id === id).status;
+        $(`#${id}`).text(newStatus);
+        if (newStatus === 'rejected') {
+          $(`#${id}`).removeClass('btn-primary').addClass('btn-success');
+        } 
+        location.reload()
+
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        }).fire({
+          icon: "success",
+          title: "request rejected , status changed",
+        });
+      } else {
+        console.log('erroooooorororror');
+        swal("Something went wrong", "", "error");
+      }
+    },
+    error: function () {
+      swal("Something went wrong", "", "error");
+    }
+  });
+
+  
+    console.log('Return request rejected.');
+
+    $('#returnReasonModal').modal('hide');
+}
       
-$(document).ready(function() {
- $('.dropdown-toggle').dropdown();
-});
+
 
       </script>
         <script src="js/off-canvas.js"></script>

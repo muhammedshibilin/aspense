@@ -565,12 +565,26 @@
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
             <script>
+     
+
          $("#checkout-form").submit(function (e) {
             e.preventDefault();
             const selectedAddress = $("input[name='address']:checked").val();
+            if (!selectedAddress) {
+        // If no address is selected, show the SweetAlert2 message and redirect to the profile page
+        swal.fire({
+            title: "Please add an address using the profile page",
+            icon: "info",
+            button: false,
+            timer: 3000
+        }).then(function() {
+            window.location.href = "/profile";
+        });
+    } else {
 
             const address = selectedAddress ? JSON.parse(selectedAddress) : {};
             const paymentMethod = $("input[name='payment']:checked").val();
+    
 console.log('address',address);
 
             formData   = {
@@ -590,22 +604,12 @@ console.log(formData,"haaiiiiiiii");
                     }
                 },
             });
+        }
         });
 
 
     
-        document.getElementById("addAddressButton").addEventListener("click", function() {
-          
-            swal.fire({
-                title: "Please add an address using the profile page",
-                icon: "info",
-                button: false,
-                timer: 3000
-            }).then(function() {
-                
-                window.location.href = "/profile";
-            });
-        });
+        
     </script>
 
             <%- include("../layouts/user/footer.ejs") %>

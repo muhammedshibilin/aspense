@@ -2,53 +2,68 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags --> 
+  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>ASPENS</title>
+  <title>ASPENSE</title>
   <!-- base:css -->
   <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="vendors/feather/feather.css">
   <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
   <!-- endinject -->
-  <!-- plugin css for this page -->
-  <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css"/>
-  <link rel="stylesheet" href="vendors/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="vendors/jquery-bar-rating/fontawesome-stars-o.css">
-  <link rel="stylesheet" href="vendors/jquery-bar-rating/fontawesome-stars.css">
-  <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="css/style.css">
-
   <!-- endinject -->
-  <link rel="shortcut icon" href="images/favicon.png" />
+  <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
+  
+  <!-- Cropper.js CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.min.css" />
+
+<!-- Include alertify.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.min.js"></script>
 
 
+<!-- jQuery (required by Cropper.js) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Cropper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
+<style>
+  .image-preview-container {
+    position: relative;
+    margin-bottom: 10px; /* Adjust as needed */
+}
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-  <!-- Cropper CSS -->
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css'>
-  <!-- Cropper JS -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script>
-  <!-- SweetAlert CDN -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+#imagePreview {
+    position: absolute;
+    top: -100px; /* Adjust the negative value to position the image above the upload section */
+    left: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #ccc; /* Optional border styling */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Optional box shadow */
+    background-color: #fff; /* Optional background color */
+}
 
-
- 
+</style>
  
 </head>
+
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="/admin/home"></a>
-        <a class="navbar-brand brand-logo-mini" href="/admin/home"></a>
+        <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo" style="height: 30px;"  /></a>
+        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logogo-removebg-preview.png" alt="logo"/></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler  align-self-center" type="button" data-toggle="minimize">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
           <span class="icon-menu"></span>
         </button>
         <ul class="navbar-nav mr-lg-2">
@@ -138,79 +153,8 @@
     </nav>
     <!-- partial -->
 
-
-    <div class="container-fluid page-body-wrapper ">
-      <!-- partial:partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <div class="user-profile">
-          <div class="user-image">
-            <img src="images/faces/face28.png">
-          </div>
-          <div class="user-name">
-              shibili
-          </div>
-          <div class="user-designation">
-              entrepreneur
-          </div>
-        </div>
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="admin/home">
-              <i class="icon-box menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"  href="/admin/user-managment" >
-              <i class="icon-disc menu-icon"></i>
-              <span class="menu-title">customers</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/category">
-              <i class="icon-file menu-icon"></i>
-              <span class="menu-title">category</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/product">
-              <i class="icon-pie-graph menu-icon"></i>
-              <span class="menu-title">products</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="pages/tables/basic-table.html">
-              <i class="icon-command menu-icon"></i>
-              <span class="menu-title">orders</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="pages/icons/feather-icons.html">
-              <i class="icon-help menu-icon"></i>
-              <span class="menu-title">return request</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">            
-              <i class="icon-book menu-icon"></i>
-              <span class="menu-title">coupons</span>
-              <i class="menu-arrow"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="docs/documentation.html">
-              <i class="icon-book menu-icon"></i>
-              <span class="menu-title">banner</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="docs/documentation.html">          
-                <i class="icon-head menu-icon"></i>
-              <span class="menu-title">logout</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+<%- include("../layouts/admin/sidebar.ejs")
+%>
  
     <!-- partial -->
     <div class="main-panel">
@@ -278,9 +222,11 @@
                   <div class="form-group">
                       <label for="product-offer">Offer</label>
                       <select class="form-control" name="offer" id="product-offer">
+                        <option value="">none</option>
                           <% if (offerData.length > 0) { %>
                           <% offerData.forEach(offer => { %>
                           <option value="<%= offer._id %>"><%= offer.name %></option>
+                    
                           <% }) %>
                           <% } else { %>
                           <option disabled selected>There is no option available</option>
@@ -353,6 +299,9 @@
       </div>
     </div>
   </div>
+ 
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
   <script>
    
@@ -485,15 +434,9 @@ document.body.addEventListener('click', function (event) {
     }
 
    
-    if (!offer.trim()) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Please enter a product offer.'
-        });
-        return
+  
       
-    }
+    
     function validateImage(image) {
     if (!image) {
         return false;
@@ -565,6 +508,12 @@ document.body.addEventListener('click', function (event) {
     selectedCategoryInput.value=selectedCategory
   })
 </script>
+
+<script src="vendors/base/vendor.bundle.base.js"></script>
+<script src="js/off-canvas.js"></script>
+<script src="js/hoverable-collapse.js"></script>
+<script src="js/template.js"></script>
+
 
 
 

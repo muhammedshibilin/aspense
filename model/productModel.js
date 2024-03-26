@@ -42,10 +42,13 @@ const ProductSchema = new mongoose.Schema({
         required:true
        }
     },
+    date:{
+        type:Date,
+    },
     offer:{
         type:ObjectId,
         ref:'Offer',
-       
+        
     },
     discription:{
         type:String,

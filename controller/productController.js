@@ -56,10 +56,10 @@ const addProduct = async (req, res) => {
 
 
   try {
-    console.log("Processing images:", img); // Log the images to be processed
+    console.log("Processing images:", img);
     resizedImages = await Promise.all(img.map(async(imageName) => {
        const filePath = `C:/aspense/public/images/product/original/${imageName}`;
-       console.log("Processing image:", filePath); // Log the file path being processed
+       console.log("Processing image:", filePath);
        const resizedImage = await sharp(filePath)
          .resize({width:400,height:500})
          .toBuffer();
@@ -81,6 +81,8 @@ const addProduct = async (req, res) => {
     console.log("error while adding image:", e);
   }
 }
+
+console.log('ofeeeeer',req.body.offer);
    
 
     const product = new Product({
@@ -94,7 +96,8 @@ const addProduct = async (req, res) => {
       "images.image4": files.imageFile4[0].filename,
       discription: req.body.description,
       size: req.body.size,
-      offer:req.body.offer,
+      date:new Date(),
+      offer:req.body.offer || 0,
       Is_block: 0
     });
 
@@ -161,9 +164,9 @@ const editProduct = async (req, res) => {
 
 
     for (let i = 0; i < img.length; i++) {
-      await sharp('C:/aspens/public/images/product/original/' + img[i])
+      await sharp('C:/aspense/public/images/product/original/' + img[i])
       .resize({ width: 450, height: 500 })
-      .toFile('C:/aspens/public/images/product/sized/' + img[i])
+      .toFile('C:/aspense/public/images/product/sized/' + img[i])
     }
 
     await Product.findByIdAndUpdate(

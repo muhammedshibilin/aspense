@@ -25,7 +25,7 @@ const Address = require('../model/addressModel')
                 { user: user_id }, { $set: { user: user_id }, $push: { address: userdata } }, { upsert: true, new: true }
             )
 
-            const populatedAddress = await Address.findById(address._id).populate('User');
+            const populatedAddress = await Address.findById(address._id).populate('user');
 
             console.log(populatedAddress);
 

@@ -210,7 +210,7 @@ const profileLoad = async (req, res) => {
     try {
         const user = req.session.user_id
         const addressData = await Address.findOne({user}).populate("address")
-        const orderDetails = await Order.find({user})
+        const orderDetails = await Order.find({user}).sort({date:-1})
         console.log(orderDetails)
         if(addressData){
         console.log(addressData);
@@ -477,8 +477,11 @@ const verifyOtp = async (req, res) => {
                     if(!req.session.user_id){
                         res.json({changePassword:true})
 
+                    }else if(req.session.user_check){
+                        res.json({changePassword:true})
+                       
                     }else{
-                        res.json({success:true})
+                        res.json({login:true})
                     }
                    
                    
@@ -496,60 +499,64 @@ const verifyOtp = async (req, res) => {
     }
 }
 
-
 const shopLoad = async (req, res) => {
     try {
         const user = req.session.user_id;
-        const page = parseInt(req.query.page) || 1; 
-        const limit = 6; 
-        const skip = (page - 1) * limit; 
-        
-        let sortOption = {}; // Initialize sort option
-        
-        // Get sorting option from request query
+        const page = parseInt(req.query.page) || 1;
+        const limit = 8;
+        const skip = (page - 1) * limit;
+        const categoryData = await Category.find({is_block: 0});
+
+        let filter = {};
+        let sortOption = {};
         const sort = req.query.sort;
-        
-        // Define sorting criteria based on selected option
-        switch(sort) {
-            case 'low_to_high':
-                sortOption = { price: 1 }; // Sort by price low to high
-                break;
-            case 'high_to_low':
-                sortOption = { price: -1 }; // Sort by price high to low
-                break;
-            case 'average_rating':
-                sortOption = { averageRating: -1 }; // Sort by average rating
-                break;
-            default:
-                // Default sorting option (optional)
-                sortOption = {}; 
+        const searchTerm = req.query.search;
+
+        if (searchTerm) {
+            // Assuming your Product model has a 'name' field for searching
+            filter = { name: { $regex: searchTerm, $options: 'i' } };
         }
-        
-        // Fetch product data with sorting and pagination
-        const productData = await Product.find()
+
+        if (categoryData.some(category => category._id.toString() === sort)) {
+            filter.category = sort; // Filter by category
+        } else {
+            switch(sort) {
+                case 'low_to_high':
+                    sortOption = { price: 1 };
+                    break;
+                case 'high_to_low':
+                    sortOption = { price: -1 };
+                    break;
+                case 'new_arrival':
+                    sortOption = { date: -1 };
+                    break;
+                default:
+                    sortOption = {};
+            }
+        }
+
+        const productData = await Product.find(filter)
             .sort(sortOption)
             .skip(skip)
             .limit(limit);
 
-        // Get total count of products
-        const totalCount = await Product.countDocuments();
-
-        // Calculate total pages for pagination
+        const totalCount = await Product.countDocuments(filter);
         const totalPages = Math.ceil(totalCount / limit);
 
         res.render('shop', {
             productData,
             currentPage: page,
             totalPages,
-            user
+            user,
+            categoryData,
+            currentSort: req.query.sort,
+            searchTerm: req.query.search // Pass the search term to the template
         });
     } catch (error) {
         console.log('Error while loading the shop:', error);
         res.render('error');
     }
 };
-
-
 
 const logoutUser = async (req, res) => {
     try {

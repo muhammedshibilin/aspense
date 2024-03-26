@@ -32,15 +32,20 @@
                                         <p class="bk_pra">Showing 1–8 of 10 results</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-12">      
                                     <div class="archive-shop-inner text-center text-sm-right mt_mobile--20">
+                                        <input type="search" id="searchInput" placeholder="Search products...">
                                         <select onchange="handleChange(this)">
-                                            <option value="">Sort by</option>
-                                            <option value="low_to_high">Price: low to high</option>
-                                            <option value="high_to_low">Price: high to low</option>
-                                            <option value="average_rating">Average rating</option>
+                                            <option value="new_arrival" <% if (!currentSort) { %>selected<% } %>>New arrivals</option>
+                                            <option value="low_to_high" <% if (currentSort === 'low_to_high') { %>selected<% } %>>Price: low to high</option>
+                                            <option value="high_to_low" <% if (currentSort === 'high_to_low') { %>selected<% } %>>Price: high to low</option>
+                                            <% if (categoryData.length > 0) { %>
+                                                <% categoryData.forEach(category => { %>
+                                                    <option value="<%= category._id %>" <% if (currentSort === category._id.toString()) { %>selected<% } %>><%= category.name %></option>
+                                                <% }) %>
+                                            <% } %>
                                         </select>
-                                    </di
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -56,7 +61,7 @@
                                         <div class="inner">
                                             <div class="thumbnail" >
                                                 <a href="/product-details?_id=<%= product._id %>">
-                                                    <img src="images/product/original/<%= product.images.image1 %>" alt="<%= product.name %>" style="width: 1000px;">
+                                                    <img src="images/product/original/<%= product.images.image1 %>" alt="<%= product.name %>" style="width: 350px;">
                                                 </a>
                                             </div>
                                             <div class="product-hover-action">
@@ -82,10 +87,11 @@
 
                             </div>
                         </div>
+
+                           
                                 <!-- End Single Product -->
 
 
-                                <!-- Start Pagenation Area -->
                                 <ul class="pagination_style">
                                     <% for (let i = 1; i <= totalPages; i++) { %>
                                         <li <% if (i === currentPage) { %>class="active"<% } %>><a href="?page=<%= i %>"><%= i %></a></li>
@@ -101,9 +107,11 @@
                 </div>
             </div>
         </div>
+        <!-- Start Pagenation Area -->
+     
         <!-- End Shop Area -->
 
-    </div>
+   
 
     <!-- Quick View Modal -->
     <div class="quick-view-modal">
@@ -232,16 +240,23 @@
     </div>
     <!--// Quick View Modal -->
     <!-- Start Footer Area -->
+
+
+
 <script>
-    function handleChange(select) {
-    const sortOption = select.value;
-    window.location.href = '/shop?sort=' + sortOption;
+
+function handleChange(selectElement) {
+    const selectedValue = selectElement.value;
+    const searchTerm = document.getElementById('searchInput').value;
+    const currentUrl = window.location.href;
+    const baseUrl = currentUrl.split('?')[0]; // Get the base URL without query parameters
+
+    // Construct the new URL with the selected filter and search term as query parameters
+    const newUrl = `${baseUrl}?sort=${selectedValue}&search=${encodeURIComponent(searchTerm)}`;
+
+    // Redirect the user to the new URL
+    window.location.href = newUrl;
 }
-
-</script>
-
-
-<script>
 
 
     function toCart(productId) {
