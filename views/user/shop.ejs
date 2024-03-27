@@ -29,13 +29,13 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="archive-shop-inner text-center text-sm-left">
-                                        <p class="bk_pra">Showing 1–8 of 10 results</p>
+                                        <p class="bk_pra">Showing 1–8 of <%= productData.length %> results</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">      
-                                    <div class="archive-shop-inner text-center text-sm-right mt_mobile--20">
-                                        <input type="search" id="searchInput" placeholder="Search products...">
-                                        <select onchange="handleChange(this)">
+                                    <div class="archive-shop-inner text-center text-sm-right mt_mobile--20" style="display: flex; align-items: center;">
+                                        <input type="search" id="searchInput" placeholder="Search products..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px; height: 38px;">
+                                        <select onchange="handleChange(this)" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; height: 38px;">
                                             <option value="new_arrival" <% if (!currentSort) { %>selected<% } %>>New arrivals</option>
                                             <option value="low_to_high" <% if (currentSort === 'low_to_high') { %>selected<% } %>>Price: low to high</option>
                                             <option value="high_to_low" <% if (currentSort === 'high_to_low') { %>selected<% } %>>Price: high to low</option>
@@ -45,7 +45,9 @@
                                                 <% }) %>
                                             <% } %>
                                         </select>
+                                    
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -245,9 +247,7 @@
 
 <script>
 
-function handleChange(selectElement) {
-    const selectedValue = selectElement.value;
-    const searchTerm = document.getElementById('searchInput').value;
+function handleSearch(searchTerm, selectedValue) {
     const currentUrl = window.location.href;
     const baseUrl = currentUrl.split('?')[0]; // Get the base URL without query parameters
 
@@ -258,6 +258,21 @@ function handleChange(selectElement) {
     window.location.href = newUrl;
 }
 
+function handleChange(selectElement) {
+    const selectedValue = selectElement.value;
+    const searchTerm = document.getElementById('searchInput').value;
+    console.log('Search Term:', searchTerm);
+    handleSearch(searchTerm, selectedValue);
+}
+
+// Add an event listener to the search input field
+document.getElementById('searchInput').addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+        const selectedValue = document.querySelector('select').value;
+        const searchTerm = this.value;
+        handleSearch(searchTerm, selectedValue);
+    }
+});
 
     function toCart(productId) {
     

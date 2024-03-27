@@ -1,262 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>ASPENSE</title>
-  <!-- base:css -->
-  <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="css/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
- 
-</head>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>ASPENSE</title>
+        <!-- base:css -->
+        <link rel="stylesheet"
+            href="vendors/mdi/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="vendors/feather/feather.css">
+        <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+        <!-- endinject -->
+        <!-- inject:css -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- endinject -->
+        <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
 
-<body>
-  <div class="container-scroller">
-    <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo" style="height: 30px;"  /></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logogo-removebg-preview.png" alt="logo"/></a>
-      </div>
-                    <div
-                        class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-                        <button
-                            class="navbar-toggler navbar-toggler align-self-center"
-                            type="button" data-toggle="minimize">
-                            <span class="icon-menu"></span>
-                        </button>
-                        <ul class="navbar-nav">
-                            <li class="nav-item nav-search">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"
-                                            id="search">
-                                            <i class="icon-search"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        id="searchinput"
-                                        placeholder="Search users....."
+    </head>
+
+    <body>
+        <div class="container-scroller">
+            <!-- partial:partials/_navbar.html -->
+            <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+                <div
+                    class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                    <a class="navbar-brand brand-logo" href="index.html"><img
+                            src="images/logo.png" alt="logo"
+                            style="height: 30px;" /></a>
+                    <a class="navbar-brand brand-logo-mini"
+                        href="index.html"><img
+                            src="images/logogo-removebg-preview.png"
+                            alt="logo" /></a>
+                </div>
+                <div
+                    class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                    <button
+                        class="navbar-toggler navbar-toggler align-self-center"
+                        type="button" data-toggle="minimize">
+                        <span class="icon-menu"></span>
+                    </button>
+                    <ul class="navbar-nav">
+                        <li class="nav-item nav-search">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"
+                                        id="search">
+                                        <i class="icon-search"></i>
+                                    </span>
+                                </div>
+                                <div
+                                    class="search-container d-flex justify-content-between  ">
+                                    <input type="text" id="search-input"
+                                        class="form-control"
+                                        placeholder="Search Projects.."
                                         aria-label="search"
                                         aria-describedby="search">
+                                    <button id="search-button"
+                                        class="btn btn-primary">Search</button>
                                 </div>
-                            </li>
-                        </ul>
-                        <ul class="navbar-nav navbar-nav-right">
-                            <li class="nav-item dropdown d-lg-flex d-none">
-                                <button type="button"
-                                    class="btn btn-info font-weight-bold">+
-                                    Create New</button>
-                            </li>
-                            <li class="nav-item dropdown d-flex">
-                                <a
-                                    class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
-                                    id="messageDropdown" href="#"
-                                    data-toggle="dropdown">
-                                    <i class="icon-air-play mx-0"></i>
-                                </a>
-                                <div
-                                    class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                    aria-labelledby="messageDropdown">
-                                    <p
-                                        class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
-                                    <a class="dropdown-item preview-item">
-                                        <div class="preview-thumbnail">
-                                            <img src="images/faces/face4.jpg"
-                                                alt="image" class="profile-pic">
-                                        </div>
-                                        <div
-                                            class="preview-item-content flex-grow">
-                                            <h6
-                                                class="preview-subject ellipsis font-weight-normal">shibili
-                                            </h6>
-                                            <p
-                                                class="font-weight-light small-text text-muted mb-0">
-                                                The meeting is cancelled
-                                            </p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item preview-item">
-                                        <div class="preview-thumbnail">
-                                            <img src="images/faces/face2.jpg"
-                                                alt="image" class="profile-pic">
-                                        </div>
-                                        <div
-                                            class="preview-item-content flex-grow">
-                                            <h6
-                                                class="preview-subject ellipsis font-weight-normal">Tim
-                                                Cook
-                                            </h6>
-                                            <p
-                                                class="font-weight-light small-text text-muted mb-0">
-                                                New product launch
-                                            </p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item preview-item">
-                                        <div class="preview-thumbnail">
-                                            <img src="images/faces/face3.jpg"
-                                                alt="image" class="profile-pic">
-                                        </div>
-                                        <div
-                                            class="preview-item-content flex-grow">
-                                            <h6
-                                                class="preview-subject ellipsis font-weight-normal">
-                                                Johnson
-                                            </h6>
-                                            <p
-                                                class="font-weight-light small-text text-muted mb-0">
-                                                Upcoming board meeting
-                                            </p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown d-flex mr-4 ">
-                                <a
-                                    class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
-                                    id="notificationDropdown" href="#"
-                                    data-toggle="dropdown">
-                                    <i class="icon-cog"></i>
-                                </a>
-                                <div
-                                    class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                    aria-labelledby="notificationDropdown">
-                                    <p
-                                        class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
-                                    <a class="dropdown-item preview-item">
-                                        <i class="icon-head"></i> Profile
-                                    </a>
-                                    <a class="dropdown-item preview-item">
-                                        <i class="icon-inbox"></i> Logout
-                                    </a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown mr-4 d-lg-flex d-none">
-                                <a
-                                    class="nav-link count-indicatord-flex align-item s-center justify-content-center"
-                                    href="#">
-                                    <i class="icon-grid"></i>
-                                </a>
-                            </li>
-                        </ul>
-                        <button
-                            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
-                            type="button" data-toggle="offcanvas">
-                            <span class="icon-menu"></span>
-                        </button>
-                    </div>
-                </nav>
-                <!-- partial -->
-
-                <%- include("../layouts/admin/sidebar.ejs") %>
-
-                <div class="main-panel">
-                    <div class="content-wrapper">
-                        <div class="row">
-
-                            <div class="col-lg-12 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4
-                                            class="card-title d-flex justify-content-center">
-                                            User Management
-                                        </h4>
-                                        <div class="table-responsive">
-                                            <table class="table table-striped" id="usersTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No:</th>
-                                                        <th>Customer Name</th>
-                                                        <th>Email</th>
-                                                        <th>Contact</th>
-                                                        <th>Status</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <% if (users.length > 0) {
-                                                    %>
-                                                    <% let counter = 1; %>
-                                                    <% users.forEach(user => {
-                                                    %>
-                                                    <tr>
-                                                        <td class="py-1"><%=
-                                                            counter %></td>
-                                                        <td class="py-1"><%=
-                                                            user.name %></td>
-                                                        <td class="py-1"><%=
-                                                            user.email %></td>
-                                                        <td class="py-1"><%=
-                                                            user.mobile %></td>
-                                                        <td>
-                                                            <% if
-                                                            (user.is_verified ==
-                                                            0) { %>
-                                                            <p>Not Verified</p>
-                                                            <% } else { %>
-                                                            <p>Verified</p>
-                                                            <% } %>
-                                                        </td>
-                                                        <td>
-                                                            <% if (user.is_block
-                                                            == 0) { %>
-                                                            <button
-                                                                onclick="blockUser('<%= user._id %>')">
-                                                                <a
-                                                                    class="badge badge-success">BLOCK
-                                                                    USER</a>
-                                                            </button>
-                                                            <% } else { %>
-                                                            <button
-                                                                onclick="blockUser('<%= user._id %>')">
-                                                                <a
-                                                                    class="badge badge-danger">UNBLOCK</a>
-                                                            </button>
-                                                            <% } %>
-                                                        </td>
-                                                    </tr>
-                                                    <% counter++; %>
-                                                    <% }); %>
-                                                    <% } else { %>
-                                                    <tr>
-                                                        <td colspan="6">User not
-                                                            found</td>
-                                                    </tr>
-                                                    <% } %>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav navbar-nav-right">
+                        <li>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Action
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="#">Action</a>
+                              <a class="dropdown-item" href="#">Another action</a>
+                              <a class="dropdown-item" href="#">Something else here</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="nav-item dropdown d-lg-flex d-none">
+                            <button type="button"
+                                class="btn btn-info font-weight-bold">+
+                                Create New</button>
+                        </li>
+                        <li class="nav-item dropdown d-flex">
+                            <a
+                                class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
+                                id="messageDropdown" href="#"
+                                data-toggle="dropdown">
+                                <i class="icon-air-play mx-0"></i>
+                            </a>
+                            <div
+                                class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                                aria-labelledby="messageDropdown">
+                                <p
+                                    class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
+                                <a class="dropdown-item preview-item">
+                                    <div class="preview-thumbnail">
+                                        <img src="images/faces/face4.jpg"
+                                            alt="image" class="profile-pic">
                                     </div>
-                                    <div class="dropdown">
-                                        <button class="dropdown-button">filter</button>
-                                        <div class="dropdown-content">
-                                            <a href="#" id="sortAtoZ">A-Z</a>
-                                            <a href="#" id="sortZtoA">Z-A</a>
-                                        </div>
+                                    <div
+                                        class="preview-item-content flex-grow">
+                                        <h6
+                                            class="preview-subject ellipsis font-weight-normal">shibili
+                                        </h6>
+                                        <p
+                                            class="font-weight-light small-text text-muted mb-0">
+                                            The meeting is cancelled
+                                        </p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item preview-item">
+                                    <div class="preview-thumbnail">
+                                        <img src="images/faces/face2.jpg"
+                                            alt="image" class="profile-pic">
+                                    </div>
+                                    <div
+                                        class="preview-item-content flex-grow">
+                                        <h6
+                                            class="preview-subject ellipsis font-weight-normal">Tim
+                                            Cook
+                                        </h6>
+                                        <p
+                                            class="font-weight-light small-text text-muted mb-0">
+                                            New product launch
+                                        </p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item preview-item">
+                                    <div class="preview-thumbnail">
+                                        <img src="images/faces/face3.jpg"
+                                            alt="image" class="profile-pic">
+                                    </div>
+                                    <div
+                                        class="preview-item-content flex-grow">
+                                        <h6
+                                            class="preview-subject ellipsis font-weight-normal">
+                                            Johnson
+                                        </h6>
+                                        <p
+                                            class="font-weight-light small-text text-muted mb-0">
+                                            Upcoming board meeting
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown d-flex mr-4 ">
+                            <a
+                                class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
+                                id="notificationDropdown" href="#"
+                                data-toggle="dropdown">
+                                <i class="icon-cog"></i>
+                            </a>
+                            <div
+                                class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                                aria-labelledby="notificationDropdown">
+                                <p
+                                    class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
+                                <a class="dropdown-item preview-item">
+                                    <i class="icon-head"></i> Profile
+                                </a>
+                                <a class="dropdown-item preview-item">
+                                    <i class="icon-inbox"></i> Logout
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown mr-4 d-lg-flex d-none">
+                            <a
+                                class="nav-link count-indicatord-flex align-item s-center justify-content-center"
+                                href="#">
+                                <i class="icon-grid"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <button
+                        class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+                        type="button" data-toggle="offcanvas">
+                        <span class="icon-menu"></span>
+                    </button>
+                </div>
+            </nav>
+            <!-- partial -->
+
+            <%- include("../layouts/admin/sidebar.ejs") %>
+
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+
+                        <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4
+                                        class="card-title d-flex justify-content-center">
+                                        User Management
+                                    </h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped"
+                                            id="usersTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>No:</th>
+                                                    <th>Customer Name</th>
+                                                    <th>Email</th>
+                                                    <th>Contact</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% if (users.length > 0) {
+                                                %>
+                                                <% let counter = 1; %>
+                                                <% users.forEach(user => {
+                                                %>
+                                                <tr>
+                                                    <td class="py-1"><%=
+                                                        counter %></td>
+                                                    <td class="py-1"><%=
+                                                        user.name %></td>
+                                                    <td class="py-1"><%=
+                                                        user.email %></td>
+                                                    <td class="py-1"><%=
+                                                        user.mobile %></td>
+                                                    <td>
+                                                        <% if
+                                                        (user.is_verified ==
+                                                        0) { %>
+                                                        <p>Not Verified</p>
+                                                        <% } else { %>
+                                                        <p>Verified</p>
+                                                        <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (user.is_block
+                                                        == 0) { %>
+                                                        <button
+                                                            onclick="blockUser('<%= user._id %>')">
+                                                            <a
+                                                                class="badge badge-success">BLOCK
+                                                                USER</a>
+                                                        </button>
+                                                        <% } else { %>
+                                                        <button
+                                                            onclick="blockUser('<%= user._id %>')">
+                                                            <a
+                                                                class="badge badge-danger">UNBLOCK</a>
+                                                        </button>
+                                                        <% } %>
+                                                    </td>
+                                                </tr>
+                                                <% counter++; %>
+                                                <% }); %>
+                                                <% } else { %>
+                                                <tr>
+                                                    <td colspan="6">User not
+                                                        found</td>
+                                                </tr>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-
+                               
                             </div>
 
                         </div>
-                        <div class="pagination">
-                            <a id="prevPage">&laquo; Previous</a>
-                            <span id="pageNumbers"></span>
-                            <a id="nextPage">Next &raquo;</a>
-                        </div>
 
                     </div>
+                    <ul class="pagination_style d-flex justify-content-center">
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                        <li style="list-style: none; margin-right: 5px;">
+                            <button type="button"
+                                class="btn btn-primary <% if (i === currentPage) { %>active<% } %>">
+                                <a href="?page=<%= i %>"
+                                    style="color: inherit; text-decoration: none;">
+                                    <%= i %>
+                                </a>
+                            </button>
+                        </li>
+                        <% } %>
+                    </ul>
 
-                    <script>
+                </div>
+
+                <script>
                                          function blockUser(userId){
             swal
         .fire({
@@ -295,100 +326,46 @@
           }
                                     </script>
 
-                    <script
-                        src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                <script
+                    src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-                    <script
-                        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                    <script>
-                        
-
-$(document).ready(function () {
-    $('[data-toggle="dropdown"]').dropdown();
-});
-
-let currentPage = 0;
-let pageSize = 6;
-const users = JSON.parse('<%- JSON.stringify(users) %>');
-
-function* paginateUsers(users, pageSize, currentPage) {
-    const start = currentPage * pageSize;
-    const end = start + pageSize;
-    const pageUsers = users.slice(start, end);
-    if (pageUsers.length > 0) {
-        yield pageUsers;
-    }
-}
-
-function updatePagination(usersToDisplay) {
-    const totalPages = Math.ceil(usersToDisplay.length / pageSize);
-    $('#pageNumbers').text(`Page ${currentPage + 1} of ${totalPages}`);
-    $('#prevPage').prop('disabled', currentPage === 0);
-    $('#nextPage').prop('disabled', currentPage >= totalPages - 1);
-
-    $('tbody').empty();
-
-    const paginationGenerator = paginateUsers(usersToDisplay, pageSize, currentPage);
-    const nextPage = paginationGenerator.next();
-    if (!nextPage.done) {
-        nextPage.value.forEach((user, index) => {
-            $('tbody').append(`
-                <tr>
-                    <td class="py-1">${index + 1}</td>
-                    <td class="py-1">${user.name}</td>
-                    <td class="py-1">${user.email}</td>
-                    <td class="py-1">${user.mobile}</td>
-                    <td>${user.is_verified ? 'Verified' : 'Not Verified'}</td>
-                    <td>
-                        <button onclick="blockUser('${user._id}')">
-                            <a class="${user.is_block ? 'badge badge-danger' : 'badge badge-success'}">${user.is_block ? 'UNBLOCK' : 'BLOCK'} USER</a>
-                        </button>
-                    </td>
-                </tr>
-            `);
-        });
-    }
-}
-
-function sortUsersAlphabetically(direction) {
-    const sortedUsers = users.sort((a, b) => {
-        if (direction === 'asc') {
-            return a.name.localeCompare(b.name);
-        } else {
-            return b.name.localeCompare(a.name);
-        }
-    });
-
-    updatePagination(sortedUsers);
-}
-
-document.getElementById('sortAtoZ').addEventListener('click', () => sortUsersAlphabetically('asc'));
-document.getElementById('sortZtoA').addEventListener('click', () => sortUsersAlphabetically('desc'));
-
-$('#prevPage').click(function() {
-    if (currentPage > 0) {
-        currentPage--;
-        updatePagination(users); 
-    }
-});
-
-$('#nextPage').click(function() {
-    if (currentPage < Math.ceil(users.length / pageSize) - 1) {
-        currentPage++;
-        updatePagination(users); 
-    }
-});
+                <script
+                    src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const searchInput = document.getElementById('search-input');
+                        const searchButton = document.getElementById('search-button');
+                       
+                        searchButton.addEventListener('click', function() {
+                             const searchTerm = searchInput.value.trim();
+                             const currentUrl = new URL(window.location.href);
+                             currentUrl.searchParams.set('search', searchTerm);
+                             window.location.href = currentUrl.toString();
+                        });
+                       
+                        // Add event listeners to pagination buttons
+                        document.querySelectorAll('.pagination_style button').forEach(button => {
+                           button.addEventListener('click', function(event) {
+                             event.preventDefault(); // Prevent the default link behavior
+                             const pageNumber = event.target.textContent; // Assuming the button text is the page number
+                             const currentUrl = new URL(window.location.href);
+                             currentUrl.searchParams.set('page', pageNumber);
+                             // Preserve the search query if it exists
+                             if (currentUrl.searchParams.has('search')) {
+                               currentUrl.searchParams.set('search', currentUrl.searchParams.get('search'));
+                             }
+                             window.location.href = currentUrl.toString();
+                           });
+                        });
+                       });
 
 
-updatePagination(users);
-                        </script>
+                    </script>
+                       
 
+                <script src="vendors/base/vendor.bundle.base.js"></script>
+                <script src="js/off-canvas.js"></script>
+                <script src="js/hoverable-collapse.js"></script>
+                <script src="js/template.js"></script>
 
-
-
-<script src="vendors/base/vendor.bundle.base.js"></script>
-<script src="js/off-canvas.js"></script>
-<script src="js/hoverable-collapse.js"></script>
-<script src="js/template.js"></script>
-
-<%- include('../layouts/admin/footer.ejs') %>
+                <%- include('../layouts/admin/footer.ejs') %>

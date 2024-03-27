@@ -166,7 +166,7 @@
                                                 step="1"
                                                 min="1" name="quantity"
                                                 value="1"
-                                                title="Qty" id="quantity" >
+                                                title="Qty" id="quantity">
                                         </div>
 
                                         <div class="product-action">
@@ -557,21 +557,15 @@ console.log('quantity from frontend',quantity,productId);
 
                     }
                 } else if (response.exist) {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 2000,
-                    });
+    Toast.fire({
+        icon: "error", 
+        title: "Product already in cart",
+        text: "This product is already in your cart."
+    });
+    setTimeout(function () {
+        window.location.href = '/cart';
+    }, 2000);
 
-                    Toast.fire({
-                        icon: "error", 
-                        title: "exist!",
-                        text:"product is already exist"
-                    });
-                    setTimeout(function () {
-                        window.location.href = '/cart';
-                    }, 2000);
                 } else if (response.stock) {
                     const Toast = Swal.mixin({
                         toast: true,

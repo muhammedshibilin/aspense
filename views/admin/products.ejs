@@ -1,238 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>ASPENSE</title>
-  <!-- base:css -->
-  <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="css/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
- 
-</head>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ASPENSE</title>
+    <!-- base:css -->
+    <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="vendors/feather/feather.css">
+    <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
 
-<body>
-  <div class="container-scroller">
-    <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo" style="height: 30px;"  /></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logogo-removebg-preview.png" alt="logo"/></a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="search">
-                  <i class="icon-search"></i>
-                </span>
-              </div>
-              <input type="text" id="search-input" class="form-control" placeholder="Search Projects.." aria-label="search" aria-describedby="search">
-            </div>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown d-lg-flex d-none">
-                <button type="button" class="btn btn-info font-weight-bold"><a href="/admin/add-product">new product</a></button>
-            </li>
-          <li class="nav-item dropdown d-flex">
-            <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-air-play mx-0"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                    <img src="images/faces/face4.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-normal">shibili
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    The meeting is cancelled
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                    <img src="images/faces/face2.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-normal">Tim Cook
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    New product launch
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                    <img src="images/faces/face3.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-normal"> Johnson
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    Upcoming board meeting
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item dropdown d-flex mr-4 ">
-            <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-cog"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
-              <a class="dropdown-item preview-item">               
-                  <i class="icon-head"></i> Profile
-              </a>
-              <a class="dropdown-item preview-item">
-                  <i class="icon-inbox"></i> Logout
-              </a>
-            </div>
-          </li>
-          <li class="nav-item dropdown mr-4 d-lg-flex d-none">
-            <a class="nav-link count-indicatord-flex align-item s-center justify-content-center" href="#">
-              <i class="icon-grid"></i>
-            </a>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
-      </div>
-    </nav>
-    <!-- partial -->
-<%- include("../layouts/admin/sidebar.ejs") %>
-<!-- partial -->
+  </head>
 
-<div class="main-panel">
-    <div class="content-wrapper">
-        <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4
-                            class="card-title  d-flex  justify-content-center  ">
-                            product
-                            list</h4>
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            No
-                                        </th>
-                                        <th>
-                                            product name
-                                        </th>
-                                        <th>
-                                            category
-                                        </th>
-                                        <th>
-                                            price
-                                        </th>
-                                        <th>
-                                            image
-                                        </th>
-                                        <th>
-                                            quantity
-                                        </th>
-                                        <th>
-                                            size
-                                        </th>
-                                        <th>
-                                            offer
-                                        </th>
-                                        <th>
-                                            actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% let counter= 1; %>
-                                    <% productData.forEach( product => { %>
-                                    <tr>
-                                        <td class="py-1"> <%= counter %> </td>
-                                        <td class="py-1"> <%= product.name %>
-                                        </td>
-                                        <td class="py-1"> 
-                                            <% if (product.category) { %>
-                                                <%= product.category.name %>
-                                            <% } else { %>
-                                                N/A
-                                            <% } %>
-                                        <td class="py-1"><i
-                                                class="fa-solid fa-indian-rupee-sign"></i>
-                                            $<%= product.price %> </td>
-                                        <td class="py-1"><img
-                                                src="../images/product/sized/<%= product.images.image1 %>"
-                                                alt></td>
-                                        <!-- <span class="py-1 "><%= product.name
-                                            %></span> -->
-                                        <td class="py-1"> <%= product.quantity
-                                            %> </td>
-                                        <td class="py-1"> <%= product.size %>
-                                        </td>
-                                        <% if(product.offer) { %>
-                                        <td>flat off <%= product.offer.
-                                          discountAmount %> %</td>
-                                        <% } else { %>
-                                        <td class="py-1 ">offer not found</td>
-                                        <% } %>
-                                        <td>
-                                            <div class="btn-group dropdown">
-                                              <a href="/admin/edit-product?_id=<%= product._id%>" class="btn btn-outline-warning edit-button" onclick="return confirmAction('edit', this.href)">
-                                                Edit
-                                            </a>
-                                            <a href="/admin/block-product?_id=<%= product._id %>" class="btn btn-outline-danger block-button" data-initial-status="<%= product.is_block %>" onclick="return confirmAction('block', this.href)">
-                                                <%= product.is_block == 0 ? "Block" : "Unblock" %>
-                                            </a>
-                                            <a href="/admin/delete-product?_id=<%= product._id %>" data-category-id="<%= product._id %>" class="btn btn-outline-primary delete-button" onclick="return confirmAction('delete', this.href)">
-                                                Delete
-                                            </a>
-                                            </div>
-                                        </td>
-                                      
-                                    </tr>
-                                    <% counter++ %>
-                                    <% }) %>
-                                </tbody>
-                            </thead>
-                        </table>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div
+          class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+          <a class="navbar-brand brand-logo" href="index.html"><img
+              src="images/logo.png" alt="logo" style="height: 30px;" /></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img
+              src="images/logogo-removebg-preview.png" alt="logo" /></a>
         </div>
-        <div id="pagination ">
-          <button id="prevPage" onclick="changePage(-1)">Previous</button>
-          <button id="nextPage" onclick="changePage(1)">Next</button>
+        <div
+          class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+          <button class="navbar-toggler navbar-toggler align-self-center"
+            type="button" data-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+          <ul class="navbar-nav mr-lg-2">
+            <li class="nav-item nav-search d-none d-lg-block">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="search">
+                    <i class="icon-search"></i>
+                  </span>
+                </div>
+                <div class="search-container d-flex justify-content-between  ">
+                  <input type="text" id="search-input" class="form-control"
+                    placeholder="Search Projects.." aria-label="search"
+                    aria-describedby="search">
+                  <button id="search-button"
+                    class="btn btn-primary">Search</button>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown d-lg-flex d-none">
+              <button type="button" class="btn btn-info font-weight-bold"><a
+                  href="/admin/add-product">new product</a></button>
+            </li>
+            <li class="nav-item dropdown d-flex">
+              <a
+                class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
+                id="messageDropdown" href="#" data-toggle="dropdown">
+                <i class="icon-air-play mx-0"></i>
+              </a>
+              <div
+                class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                aria-labelledby="messageDropdown">
+                <p
+                  class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <img src="images/faces/face4.jpg" alt="image"
+                      class="profile-pic">
+                  </div>
+                  <div class="preview-item-content flex-grow">
+                    <h6
+                      class="preview-subject ellipsis font-weight-normal">shibili
+                    </h6>
+                    <p class="font-weight-light small-text text-muted mb-0">
+                      The meeting is cancelled
+                    </p>
+                  </div>
+                </a>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <img src="images/faces/face2.jpg" alt="image"
+                      class="profile-pic">
+                  </div>
+                  <div class="preview-item-content flex-grow">
+                    <h6 class="preview-subject ellipsis font-weight-normal">Tim
+                      Cook
+                    </h6>
+                    <p class="font-weight-light small-text text-muted mb-0">
+                      New product launch
+                    </p>
+                  </div>
+                </a>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <img src="images/faces/face3.jpg" alt="image"
+                      class="profile-pic">
+                  </div>
+                  <div class="preview-item-content flex-grow">
+                    <h6 class="preview-subject ellipsis font-weight-normal">
+                      Johnson
+                    </h6>
+                    <p class="font-weight-light small-text text-muted mb-0">
+                      Upcoming board meeting
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </li>
+            <li class="nav-item dropdown d-flex mr-4 ">
+              <a
+                class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
+                id="notificationDropdown" href="#" data-toggle="dropdown">
+                <i class="icon-cog"></i>
+              </a>
+              <div
+                class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                aria-labelledby="notificationDropdown">
+                <p
+                  class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
+                <a class="dropdown-item preview-item">
+                  <i class="icon-head"></i> Profile
+                </a>
+                <a class="dropdown-item preview-item">
+                  <i class="icon-inbox"></i> Logout
+                </a>
+              </div>
+            </li>
+            <li class="nav-item dropdown mr-4 d-lg-flex d-none">
+              <a
+                class="nav-link count-indicatord-flex align-item s-center justify-content-center"
+                href="#">
+                <i class="icon-grid"></i>
+              </a>
+            </li>
+          </ul>
+          <button
+            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+            type="button" data-toggle="offcanvas">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
+      <%- include("../layouts/admin/sidebar.ejs") %>
+      <!-- partial -->
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4
+                    class="card-title  d-flex  justify-content-center  ">
+                    product
+                    list</h4>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>
+                            No
+                          </th>
+                          <th>
+                            product name
+                          </th>
+                          <th>
+                            category
+                          </th>
+                          <th>
+                            price
+                          </th>
+                          <th>
+                            image
+                          </th>
+                          <th>
+                            quantity
+                          </th>
+                          <th>
+                            size
+                          </th>
+                          <th>
+                            offer
+                          </th>
+                          <th>
+                            actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% let counter= 1; %>
+                        <% productData.forEach( product => { %>
+                        <tr>
+                          <td class="py-1"> <%= counter %> </td>
+                          <td class="py-1"> <%= product.name %>
+                          </td>
+                          <td class="py-1">
+                            <% if (product.category) { %>
+                            <%= product.category.name %>
+                            <% } else { %>
+                            N/A
+                            <% } %>
+                            <td class="py-1"><i
+                                class="fa-solid fa-indian-rupee-sign"></i>
+                              $<%= product.price %> </td>
+                            <td class="py-1"><img
+                                src="../images/product/sized/<%= product.images.image1 %>"
+                                alt></td>
+                            <!-- <span class="py-1 "><%= product.name
+                                            %></span> -->
+                            <td class="py-1"> <%= product.quantity
+                              %> </td>
+                            <td class="py-1"> <%= product.size %>
+                            </td>
+                            <% if(product.offer) { %>
+                            <td>flat off <%= product.offer.
+                              discountAmount %> %</td>
+                            <% } else { %>
+                            <td class="py-1 ">offer not found</td>
+                            <% } %>
+                            <td>
+                              <div class="btn-group dropdown">
+                                <a
+                                  href="/admin/edit-product?_id=<%= product._id%>"
+                                  class="btn btn-outline-warning edit-button"
+                                  onclick="return confirmAction('edit', this.href)">
+                                  Edit
+                                </a>
+                                <a
+                                  href="/admin/block-product?_id=<%= product._id %>"
+                                  class="btn btn-outline-danger block-button"
+                                  data-initial-status="<%= product.is_block %>"
+                                  onclick="return confirmAction('block', this.href)">
+                                  <%= product.is_block == 0 ? "Block" :
+                                  "Unblock" %>
+                                </a>
+                                <a
+                                  href="/admin/delete-product?_id=<%= product._id %>"
+                                  data-category-id="<%= product._id %>"
+                                  class="btn btn-outline-primary delete-button"
+                                  onclick="return confirmAction('delete', this.href)">
+                                  Delete
+                                </a>
+                              </div>
+                            </td>
+
+                          </tr>
+                          <% counter++ %>
+                          <% }) %>
+                        </tbody>
+                      </thead>
+                    </table>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <ul class="pagination_style d-flex justify-content-center">
+            <% for (let i = 1; i <= totalPages; i++) { %>
+               <li style="list-style: none; margin-right: 5px;">
+                 <button type="button" class="btn btn-primary <% if (i === currentPage) { %>active<% } %>">
+                   <a href="?page=<%= i %><%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" style="color: inherit; text-decoration: none;">
+                     <%= i %>
+                   </a>
+                 </button>
+               </li>
+            <% } %>
+           </ul>
+
+        </div>
+
       </div>
-
-
     </div>
-    
-</div>
-</div>
 
-
-<script>
+    <script>
 
   
 
@@ -269,12 +319,32 @@
   }
   </script>
 
+    <script>
+  function changePage(pageNumber) {
+      // Construct the new URL with the updated page number
+      const newUrl = `${window.location.origin}${window.location.pathname}?page=${pageNumber}`;
 
-  <script src="vendors/base/vendor.bundle.base.js"></script>
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
+      // Redirect the user to the new URL
+      window.location.href = newUrl;
+  }
 
-  <%- include('../layouts/admin/footer.ejs') %>
 
-        
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+
+    searchButton.addEventListener('click', function() {
+        const searchTerm = searchInput.value.trim();
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('search', searchTerm);
+        window.location.href = currentUrl.toString();
+    });
+});
+</script>
+
+    <script src="vendors/base/vendor.bundle.base.js"></script>
+    <script src="js/off-canvas.js"></script>
+    <script src="js/hoverable-collapse.js"></script>
+    <script src="js/template.js"></script>
+
+    <%- include('../layouts/admin/footer.ejs') %>

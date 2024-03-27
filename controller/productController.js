@@ -6,22 +6,55 @@ const sharp = require('sharp')
 const fs = require('fs')
 const category = require("../model/categoryModel")
 const { trusted } = require("mongoose")
-
-
-
 const productLoad = async (req, res) => {
   try {
-
-    const productData = await Product.find().populate("category").populate("offer")
-    const categoryData = await Category.find()
-    res.render('products', {
-      productData,
-      categoryData
-    })
+       const page = parseInt(req.query.page) || 1;
+       const limit = 6;
+       const skip = (page - 1) * limit;
+ 
+       // Check for a search query
+       const searchQuery = req.query.search;
+       let query = {};
+       if (searchQuery) {
+           const isNumeric = !isNaN(parseFloat(searchQuery)) && isFinite(searchQuery);
+           // Use regex to search for the search query in the name field
+           query.name = { $regex: searchQuery, $options: 'i' };
+           // If the search query is a valid number, also search by price
+           if (isNumeric) {
+               // Convert the search query to a number before using it in the query
+               const priceQuery = parseFloat(searchQuery);
+               query.price = priceQuery;
+           }
+       }
+ 
+       // Query the total number of products
+       const totalProducts = await Product.countDocuments(query);
+ 
+       // Calculate the total number of pages
+       const totalPages = Math.ceil(totalProducts / limit);
+ 
+       // Query the products with pagination and search
+       const productData = await Product.find(query)
+           .skip(skip)
+           .limit(limit)
+           .populate("category")
+           .populate("offer");
+ 
+       const categoryData = await Category.find();
+ 
+       // Pass the pagination and search data to the view
+       res.render("products", {
+           productData,
+           categoryData,
+           currentPage: page,
+           totalPages: totalPages,
+           searchQuery: searchQuery // Pass the search query to the view
+       });
   } catch (e) {
-    console.log(e,"error in product load");
+       console.log(e, "error in product load");
+       res.status(500).send("Error loading products");
   }
-}
+ };
 
 const addProductLoad = async (req, res) => {
   try {

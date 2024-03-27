@@ -72,8 +72,8 @@
                 <div class="col-12">
                     <form>
                         <!-- Cart Table -->
-                        <div class="cart-table table-responsive mb--40"  id="reloadArea">
-                            <table class="table">
+                        <div class="cart-table table-responsive mb--40"  >
+                            <table class="table" id="reloadArea">
                                 <thead>
 
                                     <tr>
@@ -85,7 +85,7 @@
                                         <th class="pro-remove">Remove</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     <% if (cart && cart.products && cart.products.length > 0) { %>
                                         <% cart.products.forEach(product => { %>
                                             <tr>
@@ -126,6 +126,7 @@
                             </table>
                         </div>
                     </form>
+                </div>
 
                     <div class="row">
                         <div class="col-lg-6 col-12 mb--15">
@@ -363,7 +364,8 @@
     </div>
     <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
 
 <script>
      function removeItem(product_Id) {
@@ -451,14 +453,26 @@ function updateCart(productId, count) {
                         confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
                     });
-                $('#reloadArea').load('/cart #reloadArea'); 
+                    location.reload
             } else {
-                $('#reloadArea').load('/cart #reloadArea'); 
+                // Assuming the server response includes the updated quantity and total price
+                // Update the quantity input field
+                var quantityInput = $("#cartProductQuantity_" + productId);
+                quantityInput.val(response.newQuantity);
+
+                // Update the total price for the product
+                // This depends on how your HTML is structured and where the total price is displayed
+                // For example, if the total price is displayed in an element with an ID like "productTotalPrice_<productId>"
+                $("#productTotalPrice_" + productId).text(response.newTotalPrice);
+                location.reload()
+
+                // Optionally, update the cart subtotal and total amount displayed on the page
+                // This depends on your specific HTML structure and how you're displaying these values
             }
         },
         error: function (error) {
             console.error(error);
-            swal("Error", "An error occurred while updating the cart.", "error");
+            Swal.fire("Error", "An error occurred while updating the cart.", "error");
         }
     });
 }

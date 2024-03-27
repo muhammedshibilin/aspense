@@ -512,14 +512,18 @@ const shopLoad = async (req, res) => {
         const sort = req.query.sort;
         const searchTerm = req.query.search;
 
+        // Handle search term
         if (searchTerm) {
             // Assuming your Product model has a 'name' field for searching
             filter = { name: { $regex: searchTerm, $options: 'i' } };
         }
 
+        // Handle category filter
         if (categoryData.some(category => category._id.toString() === sort)) {
+            // If a category is selected, apply the category filter
             filter.category = sort; // Filter by category
         } else {
+            // If no category is selected, but a sort option is chosen, apply the sort option
             switch(sort) {
                 case 'low_to_high':
                     sortOption = { price: 1 };
@@ -535,6 +539,7 @@ const shopLoad = async (req, res) => {
             }
         }
 
+        // Combine filter and sort options
         const productData = await Product.find(filter)
             .sort(sortOption)
             .skip(skip)
