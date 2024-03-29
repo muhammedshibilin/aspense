@@ -61,10 +61,15 @@ const placeOrder = async (req, res) => {
 
     const productIds = cartData.products.map(product => product.productId);
     const products = await Product.find({ _id: { $in: productIds } });
-
-
     const productData = cartData.products.map(cartProduct => {
       const productDetails = products.find(p => p._id.toString() === cartProduct.productId.toString());
+
+    if (cartProduct.count > productDetails.quantity) {
+      return res.status(400).json({ quantity: `Insufficient stock for product with ID ${cartProduct.productId}.` });
+  }
+
+
+
       console.log('image', productDetails.images.image1);
       return {
 

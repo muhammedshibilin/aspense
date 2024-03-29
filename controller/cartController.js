@@ -38,7 +38,7 @@ const addToCart = async (req, res) => {
             let discount = productData.price * (productData.offer.discountAmount / 100);
             productPrice = Math.floor((productData.price - discount) * count);
         } else {
-            productPrice = productData.price * count;
+            productPrice = Math.floor(productData.price * count);
         }
 
 
@@ -99,26 +99,29 @@ const addToCart = async (req, res) => {
 
 const cartLoad = async (req, res) => {
     try {
+        const user_id = req.session.user_id;
+       
+        const cartData = await Cart.findOne({user: user_id}).populate({
+            path: "products",
+            model: "Product",
+            match: {is_block: 0}
+        });
 
-        const user_id = req.session.user_id
-        const cartData = await Cart.findOne({ user: user_id }).populate('products.productId')
-        const subTotal = cartData ? cartData.products.reduce((acc, val) => acc + val.totalPrice, 0) : 0
+        console.log('dara', cartData);
 
-        if (cartData) {
-
-            const shippingCharge = subTotal > 1500 ? 0 : 90
-            const grandTotal = subTotal + shippingCharge
-            res.render('cart', { cart: cartData, subTotal, user: user_id, grandTotal, shippingCharge })
-
+        if (cartData && cartData.products) {
+            const subTotal = cartData.products.reduce((acc, val) => acc + val.totalPrice, 0);
+            const shippingCharge = subTotal > 1500 ? 0 : 90;
+            const grandTotal = subTotal + shippingCharge;
+            res.render('cart', { cart: cartData, subTotal, user: user_id, grandTotal, shippingCharge });
         } else {
-            res.render('cart', { user: user_id, cart: [] })
+            res.render('cart', { user: user_id, cart: [] });
         }
     } catch (e) {
         console.log("error while loading cart", e);
         res.status(500).send("Error loading cart");
     }
 };
-
 
 const removeCartItem = async (req, res) => {
     try {
@@ -177,7 +180,7 @@ const updateCart = async (req, res) => {
                 { new: true }
             );
 
-            // Return the updated quantity and total price in the response
+       
             res.json({ newQuantity: updatedCount, newTotalPrice: total });
         } else {
              return res.json({ stock: true });

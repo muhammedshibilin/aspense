@@ -1,5 +1,6 @@
 const User = require("../model/userModel")
 const Product = require('../model/productModel')
+const Cart = require('../model/cartModel')
 const Category = require('../model/categoryModel')
 const Address = require('../model/addressModel')
 const Review = require('../model/reviewModel')
@@ -17,6 +18,11 @@ const { sendVerifyMail } = require('../utils/sendVerifyMail')
 const loadHome = async (req, res) => {
     try {
         const user = req.session.user_id
+        const cartData = await Cart.find({user:user}).populate({
+            path:"products",
+            model:"Product",
+            match:{is_block:0}
+        })
         const productData = await Product.find({ is_block: 0 }).populate({
             path: "category",
             match: { is_block: 0 }
@@ -29,12 +35,12 @@ const loadHome = async (req, res) => {
        
         if (!productData) {
 
-            return res.render("userHome", { productData: [], user, });
+            return res.render("userHome", { productData: [], user,cartData });
         }
 
 
 
-        res.render("userHome", { productData, user,categoryData })
+        res.render("userHome", { productData, user,categoryData ,cartData})
     } catch (error) {
         console.log(error);
     }
@@ -191,7 +197,7 @@ const loadProductDetails = async (req, res) => {
 
         const user_id = req.session.user_id
         const productData = await Product.findOne({ _id: productId }).populate("category")
-
+        
         const offer = productData.offer ? (productData.price - productData.offer) : productData.price;
 
         const categoryData = await Category.find()
@@ -577,12 +583,11 @@ const shopLoad = async (req, res) => {
             }
         }
 
-        // Combine filter and sort options
-        const productData = await Product.find(filter)
-            .sort(sortOption)
-            .skip(skip)
-            .limit(limit);
 
+        const productData = await Product.find({ ...filter, is_block: 0 })
+        .sort(sortOption)
+        .skip(skip)
+        .limit(limit);
         const totalCount = await Product.countDocuments(filter);
         const totalPages = Math.ceil(totalCount / limit);
 

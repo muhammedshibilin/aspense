@@ -410,7 +410,7 @@
 
             
             $(document).ready(function() {
-    // Use event delegation for dynamically added buttons
+    
     $(document).on('click', '.btn-decrement', function() {
         const productId = $(this).siblings(".quantity-input").attr("id").split("_")[1];
         updateQuantity(productId, -1);
@@ -427,10 +427,13 @@ function updateQuantity(productId, increment) {
     var currentValue = parseInt(quantityInput.val());
     var newValue = currentValue + increment;
 
-    if (newValue >= 0) {
-        quantityInput.val(newValue);
-        updateCart(productId, increment); // Call updateCart here
+  
+    if (newValue < 1) {
+        return; 
     }
+
+    quantityInput.val(newValue);
+    updateCart(productId, increment);
 }
 
 function updateCart(productId, count) {
@@ -454,16 +457,24 @@ function updateCart(productId, count) {
                         cancelButtonColor: "#d33",
                         timer:3000
                     });
-                    setTimeout(() => {
-                        location.reload()
-                    }, 2000);
+                    $(".btn-increment").prop("disabled", true);
+                setTimeout(() => {
+                    location.reload()
+                }, 2000);
                 
             } else {
                 var quantityInput = $("#cartProductQuantity_" + productId);
                 quantityInput.val(response.newQuantity);
                 $("#productTotalPrice_" + productId).text(response.newTotalPrice);
-                location.reload()
 
+                // Disable the decrement button if the quantity is 1
+                if (response.newQuantity <= 1) {
+                    $("#cartProductQuantity_" + productId).siblings(".btn-decrement").prop("disabled", true);
+                } else {
+                    $("#cartProductQuantity_" + productId).siblings(".btn-decrement").prop("disabled", false);
+                }
+
+                location.reload();
             }
         },
         error: function (error) {
@@ -472,7 +483,6 @@ function updateCart(productId, count) {
         }
     });
 }
-  
 
     </script>
 
