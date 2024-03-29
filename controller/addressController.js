@@ -38,14 +38,14 @@ const Address = require('../model/addressModel')
 
     const editAddress = async (req, res) => {
         try {
-          
+         
 
           console.log(req.body, 'hakiiiiiii')
           const updated = await Address.findOneAndUpdate(
             { user: req.session.user_id, 'address._id': req.body.editAddressId},
             {
               $set: {
-                'address.$.fullname': req.body.fullname,
+                'address.$.fullName': req.body.fullname,
                 'address.$.email': req.body.email,
                 'address.$.mobile': req.body.mobile,
                 'address.$.houseName': req.body.houseName,
@@ -57,7 +57,7 @@ const Address = require('../model/addressModel')
             { new: true },
           )
           console.log(updated, '00000000000000000000')
-          res.json({ success: true, message: 'Address edited !' })
+          res.json({ success: true, message: 'Address edited !', address: updated.address })
         } catch (error) {
           console.log(error.message)
         }

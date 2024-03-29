@@ -65,20 +65,8 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav navbar-nav-right">
-                        <li>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Action
-                            </button>
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" href="#">Action</a>
-                              <a class="dropdown-item" href="#">Another action</a>
-                              <a class="dropdown-item" href="#">Something else here</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#">Separated link</a>
-                            </div>
-                          </div>
-                        </li>
+                  
+                       
                         <li class="nav-item dropdown d-lg-flex d-none">
                             <button type="button"
                                 class="btn btn-info font-weight-bold">+
@@ -190,9 +178,12 @@
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
-
+                       
+                       
                         <div class="col-lg-12 grid-margin stretch-card">
+                            
                             <div class="card">
+                                
                                 <div class="card-body">
                                     <h4
                                         class="card-title d-flex justify-content-center">
@@ -331,37 +322,39 @@
 
                 <script
                     src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
+
+
+                    <script>
+
                     document.addEventListener('DOMContentLoaded', function() {
                         const searchInput = document.getElementById('search-input');
                         const searchButton = document.getElementById('search-button');
-                       
+                    
                         searchButton.addEventListener('click', function() {
-                             const searchTerm = searchInput.value.trim();
-                             const currentUrl = new URL(window.location.href);
-                             currentUrl.searchParams.set('search', searchTerm);
-                             window.location.href = currentUrl.toString();
+                            const searchTerm = searchInput.value.trim();
+                            const currentUrl = new URL(window.location.href);
+                            currentUrl.searchParams.set('search', searchTerm);
+                            window.location.href = currentUrl.toString();
                         });
-                       
+                    
                         // Add event listeners to pagination buttons
                         document.querySelectorAll('.pagination_style button').forEach(button => {
-                           button.addEventListener('click', function(event) {
-                             event.preventDefault(); // Prevent the default link behavior
-                             const pageNumber = event.target.textContent; // Assuming the button text is the page number
-                             const currentUrl = new URL(window.location.href);
-                             currentUrl.searchParams.set('page', pageNumber);
-                             // Preserve the search query if it exists
-                             if (currentUrl.searchParams.has('search')) {
-                               currentUrl.searchParams.set('search', currentUrl.searchParams.get('search'));
-                             }
-                             window.location.href = currentUrl.toString();
-                           });
+                            button.addEventListener('click', function(event) {
+                                event.preventDefault(); // Prevent the default link behavior
+                                // Extract the page number from the button's text content and convert it to an integer
+                                const pageNumber = parseInt(event.target.textContent, 10);
+                                const currentUrl = new URL(window.location.href);
+                                currentUrl.searchParams.set('page', pageNumber);
+                                // Preserve the search query if it exists
+                                if (currentUrl.searchParams.has('search')) {
+                                    currentUrl.searchParams.set('search', currentUrl.searchParams.get('search'));
+                                }
+                                window.location.href = currentUrl.toString();
+                            });
                         });
-                       });
-
+                    });
 
                     </script>
-                       
 
                 <script src="vendors/base/vendor.bundle.base.js"></script>
                 <script src="js/off-canvas.js"></script>

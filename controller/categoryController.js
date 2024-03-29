@@ -84,22 +84,37 @@ const categoryDelete = async (req, res) => {
     }
 };
 
-const editCategory = async (req,res) => {
+
+const editCategory = async (req, res) => {
     try {
-        const categoryId = req.query.id
-        const name = req.body.categoryName
-        console.log('id',"name" ,req.query.id,name);
+        const categoryId = req.body.categoryId;
+        const name = req.body.categoryName;
+        console.log('body',req.body);
 
-        console.log(name);
+      
+        const existingCategory = await Category.findOne({ name: name });
+        console.log('sd',existingCategory);
+        if (existingCategory) {
+            console.log('Existing Category ID:', existingCategory._id.toString());
+            console.log('Requested Category ID:', categoryId);
 
-        const updated = await Category.findOneAndUpdate({_id:categoryId},{$set:{name:name}})
+            // Ensure both IDs are strings before comparing
+            if (existingCategory._id.toString() !== categoryId) {
+                console.log('Category name already exists');
+                return res.json({ error: 'Category name already exists' });
+            }
+        }
+
+
+
+        const updated = await Category.findOneAndUpdate({ _id: categoryId }, { $set: { name: name } });
         console.log(updated);
-        res.redirect('/admin/category')
+        res.json({ success: true });
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        res.status(500).json({ error: 'Server error' });
     }
-}
-
+};
 
 module.exports = {
     loadCategory,

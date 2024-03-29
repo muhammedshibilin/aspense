@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>ASPENSE</title>
-  <!-- base:css -->
-  <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="css/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
-  
-  <!-- Cropper.js CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.min.css" />
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ASPENSE</title>
+    <!-- base:css -->
+    <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="vendors/feather/feather.css">
+    <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
 
-<!-- Include alertify.js library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.min.js"></script>
+    <!-- Cropper.js CSS -->
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.min.css" />
 
+    <!-- Include alertify.js library -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.min.js"></script>
 
-<!-- jQuery (required by Cropper.js) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery (required by Cropper.js) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Cropper.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <!-- Cropper.js -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
-<style>
+    <style>
   .image-preview-container {
     position: relative;
     margin-bottom: 10px; /* Adjust as needed */
@@ -51,283 +56,370 @@
 }
 
 </style>
- 
-</head>
 
-<body>
-  <div class="container-scroller">
-    <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo" style="height: 30px;"  /></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logogo-removebg-preview.png" alt="logo"/></a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="search">
-                  <i class="icon-search"></i>
-                </span>
+  </head>
+
+  <body>
+    <div class="container-scroller">
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div
+          class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+          <a class="navbar-brand brand-logo" href="index.html"><img
+              src="images/logo.png" alt="logo" style="height: 30px;" /></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img
+              src="images/logogo-removebg-preview.png" alt="logo" /></a>
+        </div>
+        <div
+          class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+          <button class="navbar-toggler navbar-toggler align-self-center"
+            type="button" data-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+          <ul class="navbar-nav mr-lg-2">
+            <li class="nav-item nav-search d-none d-lg-block">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="search">
+                    <i class="icon-search"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control"
+                  placeholder="Search Projects.." aria-label="search"
+                  aria-describedby="search">
               </div>
-              <input type="text" class="form-control" placeholder="Search Projects.." aria-label="search" aria-describedby="search">
-            </div>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown d-lg-flex d-none">
-                <button type="button" class="btn btn-info font-weight-bold">+ Create New</button>
             </li>
-          <li class="nav-item dropdown d-flex">
-            <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-air-play mx-0"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                    <img src="images/faces/face4.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-normal">shibili
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    The meeting is cancelled
-                  </p>
-                </div>
+          </ul>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown d-lg-flex d-none">
+              <button type="button" class="btn btn-info font-weight-bold">+
+                Create New</button>
+            </li>
+            <li class="nav-item dropdown d-flex">
+              <a
+                class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
+                id="messageDropdown" href="#" data-toggle="dropdown">
+                <i class="icon-air-play mx-0"></i>
               </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                    <img src="images/faces/face2.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-normal">Tim Cook
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    New product launch
-                  </p>
-                </div>
+              <div
+                class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                aria-labelledby="messageDropdown">
+                <p
+                  class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <img src="images/faces/face4.jpg" alt="image"
+                      class="profile-pic">
+                  </div>
+                  <div class="preview-item-content flex-grow">
+                    <h6
+                      class="preview-subject ellipsis font-weight-normal">shibili
+                    </h6>
+                    <p class="font-weight-light small-text text-muted mb-0">
+                      The meeting is cancelled
+                    </p>
+                  </div>
+                </a>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <img src="images/faces/face2.jpg" alt="image"
+                      class="profile-pic">
+                  </div>
+                  <div class="preview-item-content flex-grow">
+                    <h6 class="preview-subject ellipsis font-weight-normal">Tim
+                      Cook
+                    </h6>
+                    <p class="font-weight-light small-text text-muted mb-0">
+                      New product launch
+                    </p>
+                  </div>
+                </a>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <img src="images/faces/face3.jpg" alt="image"
+                      class="profile-pic">
+                  </div>
+                  <div class="preview-item-content flex-grow">
+                    <h6 class="preview-subject ellipsis font-weight-normal">
+                      Johnson
+                    </h6>
+                    <p class="font-weight-light small-text text-muted mb-0">
+                      Upcoming board meeting
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </li>
+            <li class="nav-item dropdown d-flex mr-4 ">
+              <a
+                class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
+                id="notificationDropdown" href="#" data-toggle="dropdown">
+                <i class="icon-cog"></i>
               </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                    <img src="images/faces/face3.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-normal"> Johnson
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    Upcoming board meeting
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item dropdown d-flex mr-4 ">
-            <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-cog"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
-              <a class="dropdown-item preview-item">               
+              <div
+                class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                aria-labelledby="notificationDropdown">
+                <p
+                  class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
+                <a class="dropdown-item preview-item">
                   <i class="icon-head"></i> Profile
-              </a>
-              <a class="dropdown-item preview-item">
+                </a>
+                <a class="dropdown-item preview-item">
                   <i class="icon-inbox"></i> Logout
+                </a>
+              </div>
+            </li>
+            <li class="nav-item dropdown mr-4 d-lg-flex d-none">
+              <a
+                class="nav-link count-indicatord-flex align-item s-center justify-content-center"
+                href="#">
+                <i class="icon-grid"></i>
               </a>
-            </div>
-          </li>
-          <li class="nav-item dropdown mr-4 d-lg-flex d-none">
-            <a class="nav-link count-indicatord-flex align-item s-center justify-content-center" href="#">
-              <i class="icon-grid"></i>
-            </a>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
-      </div>
-    </nav>
-    <!-- partial -->
+            </li>
+          </ul>
+          <button
+            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+            type="button" data-toggle="offcanvas">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
 
-<%- include("../layouts/admin/sidebar.ejs")
-%>
- 
-    <!-- partial -->
-    <div class="main-panel">
-      <div class="content-wrapper">
-       
+      <%- include("../layouts/admin/sidebar.ejs")
+      %>
 
-        <div class="col-12 grid-margin">
-          <div class="card">
-            <div class="card-body">
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+
+          <div class="col-12 grid-margin">
+            <div class="card">
+              <div class="card-body">
                 <h2>edit product</h2>
-              <form id="form" enctype="multipart/form-data">
+                <form id="form" enctype="multipart/form-data">
 
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="exampleInputName1">Product Name</label>
-                  
-                    <input type="text" class="form-control" id="product-name" name="name"  value="<%= productData.name %>" >
-                    <input type="hidden" id="product-id" name="productId" value="<%= productData._id %>">
-                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="exampleInputName1">Product Name</label>
 
-                </div>
+                        <input type="text" class="form-control"
+                          id="product-name" name="name"
+                          value="<%= productData.name %>">
+                        <input type="hidden" id="product-id" name="productId"
+                          value="<%= productData._id %>">
+                      </div>
 
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group ">
-                    <label class="col-sm-3 col-form-label">Category</label>
-                    <div class="col-sm-12">
-                      <select class="form-control" name="category" id="product-category">
-                        <% if (categoryData.length > 0) { %>
-                            <% categoryData.forEach(category => { %>
-                                <option value="<%= category._id %>"><%= category.name %></option>
-                            <% }) %>
-                        <% } else { %>
-                            <option disabled selected>There is no option available</option>
-                        <% } %>
-                    </select>
                     </div>
-                  </div>
-                </div>
-              </div>
 
-              <input type="hidden" id="selected-category" name="category">
-
-              <div class="row ">
-                <div class="col-md-3">
-                  <div class="form-group row">
-                    <label class="col-sm-3  col-form-label">Price</label>
-                    <div class="col-sm-4  col-lg-4">
-                  
-                      <input type="text" name="price" class="form-control" id="product-price"  value="<%= productData.price %>"/>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Quantity</label>
-                    <div class="col-sm-4  col-lg-4">
-
-                      <input type="text" name="quantity" class="form-control" id="product-quantity" value="<%= productData.quantity %>" />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Size</label>
-                    <div class="col-sm-4  col-lg-4 ">
-                    
-                      <input type="text" name="size" class="form-control" id="product-size" value="<%= productData.size %>" />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                      <label for="product-offer">Offer</label>
-                      <select class="form-control" name="offer" id="product-offer">
-                          <% if (offerData.length > 0) { %>
-                          <% offerData.forEach(offer => { %>
-                          <option value="<%= offer._id %>"><%= offer.name %></option>
-                          <% }) %>
-                          <% } else { %>
-                          <option disabled selected>There is no option available</option>
-                          <% } %>
-                      </select>
-                  </div>
-              </div>
-              </div>
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label for="exampleTextarea1">Description</label>
-                   
-                      <textarea class="form-control" id="product-description" name="description" rows="4" ><%= productData.discription %></textarea>
-                    </div>
-  
                   </div>
                   <div class="row">
-                    <% for (let i = 1; i <= 4; i++) { %>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="form-group">
-                                <label>Image upload <%= i %></label>
-                                <input type="file" id="imageFile<%= i %>" name="image<%= i %>" class="file-upload-default">
-                                <div class="input-group col-xs-12">
-                                    <span class="input-group-append preview-container" style="display: flex; flex-direction: column; align-items: center; width: 200px;">
-                                        <% if (productData.images && productData.images['image' + i]) { %>
-                                            <div class="preview-image<%= i %>" style="width: 150px; height: 200px; background-color: #f0f0f0; border: 1px solid #ccc; background-size: cover; background-position: center; overflow: hidden; ">
-                                                <img src="/images/product/original/<%= productData.images['image' + i] %>" style="width: 150px; height: 200px;">
-                                            </div>
-                                        <!-- <% } else { %> -->
-                                            <!-- <div class="preview-image<%= i %>" style="width: 200px; height: 200px; background-color: #f0f0f0; border: 1px solid #ccc; background-size: cover; background-position: center;"></div> -->
-                                        <% } %>
-                                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image" style="width: 100%;">
-                                        <!-- Crop button -->
-                                        <button class="file-upload-browse btn btn-primary mt-2" type="button" data-toggle="modal" data-target="#cropModal<%= i %>">Upload</button>
-                                        <!-- Remove button -->
-                                        <button class="remove-image btn btn-danger mt-2" type="button" data-image-number="<%= i %>">Remove Image</button>
-                                    </span>
-                                </div>
-                            </div>
+                    <div class="col-md-12">
+                      <div class="form-group ">
+                        <label class="col-sm-3 col-form-label">Category</label>
+                        <div class="col-sm-12">
+                          <select class="form-control" name="category"
+                            id="product-category">
+                            <% if (categoryData.length > 0) { %>
+                            <% categoryData.forEach(category => { %>
+                            <option value="<%= category._id %>"><%=
+                              category.name %></option>
+                            <% }) %>
+                            <% } else { %>
+                            <option disabled selected>There is no option
+                              available</option>
+                            <% } %>
+                          </select>
                         </div>
-                        <!-- Modal for cropping -->
-                        <div class="modal fade" id="cropModal<%= i %>" tabindex="-1" role="dialog" aria-labelledby="cropModalLabel<%= i %>" aria-hidden="true">
-                            <div class="modal-dialog custom-size" role="document" style="max-width: 500px; max-height: 700px;">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="cropModalLabel<%= i %>">Crop Image <%= i %></h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body d-flex flex-column justify-content-center align-items-center">
-                                        <div id="cropperContainer">
-                                            <img id="cropperImage<%= i %>" src="" alt="Crop image" style="max-width: 100px; max-height: 300px;">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        <button type="button" class="btn btn-primary applyCropBtn" data-image-number="<%= i %>" data-dismiss="modal">Apply Crop</button>
-                                    </div>
-                                </div>
-                            </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input type="hidden" id="selected-category" name="category">
+
+                  <div class="row ">
+                    <div class="col-md-3">
+                      <div class="form-group row">
+                        <label class="col-sm-3  col-form-label">Price</label>
+                        <div class="col-sm-4  col-lg-4">
+
+                          <input type="text" name="price" class="form-control"
+                            id="product-price"
+                            value="<%= productData.price %>" />
                         </div>
-                    <% } %>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Quantity</label>
+                        <div class="col-sm-4  col-lg-4">
+
+                          <input type="text" name="quantity"
+                            class="form-control" id="product-quantity"
+                            value="<%= productData.quantity %>" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Size</label>
+                        <div class="col-sm-4  col-lg-4 ">
+
+                          <input type="text" name="size" class="form-control"
+                            id="product-size" value="<%= productData.size %>" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="product-offer">Offer</label>
+                        <select class="form-control" name="offer"
+                          id="product-offer">
+                          <% if (offerData.length > 0) { %>
+                          <% offerData.forEach(offer => { %>
+                          <option value="<%= offer._id %>"><%= offer.name
+                            %></option>
+                          <% }) %>
+                          <% } else { %>
+                          <option disabled selected>There is no option
+                            available</option>
+                          <% } %>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="exampleTextarea1">Description</label>
+
+                        <textarea class="form-control" id="product-description"
+                          name="description"
+                          rows="4"><%= productData.discription %></textarea>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <% for (let i = 1; i <= 4; i++) { %>
+                      <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                          <label>Image upload <%= i %></label>
+                          <input type="file" id="imageFile<%= i %>"
+                            name="image<%= i %>" value="<%=`productData.images.image${[i]}` %>" class="file-upload-default">
+                          <div class="input-group col-xs-12">
+                            <span class="input-group-append preview-container"
+                              style="display: flex; flex-direction: column; align-items: center; width: 200px;">
+                              <% if (productData.images &&
+                              productData.images['image' + i]) { %>
+                              <div class="preview-image<%= i %>"
+                                style="width: 150px; height: 200px; background-color: #f0f0f0; border: 1px solid #ccc; background-size: cover; background-position: center; overflow: hidden; ">
+                                <img
+                                  src="/images/product/original/<%= productData.images['image' + i] %>"
+                                  style="width: 150px; height: 200px;">
+                              </div>
+                               <% } else { %>
+                               <div class="preview-image<%= i %>" style="width: 200px; height: 200px; background-color: #f0f0f0; border: 1px solid #ccc; background-size: cover; background-position: center;"></div>
+                              <% } %>
+                              <input type="text"
+                                class="form-control file-upload-info" disabled
+                                placeholder="Upload Image" value="<%= productData.images['image' + i] %>" style="width: 100%;">
+                              <!-- Crop button -->
+                              <button
+                                class="file-upload-browse btn btn-primary mt-2"
+                                type="button" data-toggle="modal"
+                                data-target="#cropModal<%= i %>">Upload</button>
+                              <!-- Remove button -->
+                              <button class="remove-image btn btn-danger mt-2"
+                                type="button" data-image-number="<%= i %>"
+                                onclick="removeImage(event,'<%= productData._id %>')">Remove
+                                Image</button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Modal for cropping -->
+                      <div class="modal fade" id="cropModal<%= i %>"
+                        tabindex="-1" role="dialog"
+                        aria-labelledby="cropModalLabel<%= i %>"
+                        aria-hidden="true">
+                        <div class="modal-dialog custom-size" role="document"
+                          style="max-width: 500px; max-height: 700px;">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title"
+                                id="cropModalLabel<%= i %>">Crop Image <%= i
+                                %></h5>
+                              <button type="button" class="close"
+                                data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div
+                              class="modal-body d-flex flex-column justify-content-center align-items-center">
+                              <div id="cropperContainer">
+                                <img id="cropperImage<%= i %>" src
+                                  alt="Crop image"
+                                  style="max-width: 100px; max-height: 300px;">
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Cancel</button>
+                              <button type="button"
+                                class="btn btn-primary applyCropBtn"
+                                data-image-number="<%= i %>"
+                                data-dismiss="modal">Apply Crop</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <% } %>
+                    </div>
+                  </div>
+
+                  <div class="row col-12">
+                    <button type="submit" id="edit-product-btn"
+                      class="btn btn-primary mr-2">Save</button>
+
+                    <a href="/admin/product" class="btn btn-primary  ">Back</a>
+                  </div>
+
                 </div>
-              </div>
-                
-                  
-                
-                <div class="row col-12">
-                  <button type="submit" id="edit-product-btn" class="btn btn-primary mr-2">Save</button>
-                 
-                  <a href="/admin/product" class="btn btn-primary  ">Back</a>
-                </div>
-
-
-
-
-              </div>
-            </form>
+              </form>
             </div>
           </div>
 
-
         </div>
-   
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-       
+        <script
+          src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-          <script>
+        <script>
+
+            function removeImage(event,id){
+              console.log('ud',id);
+              const imageNumber = event.target.getAttribute('data-image-number')
+                            
+              fetch('/admin/delete-image',{
+                method:"delete",
+                headers:{
+                  'content-type':'application/json'
+                },
+                body:JSON.stringify({imageNumber:imageNumber,id})
+              }).then((response) => response.json()).then( data => {
+                if(data.success){
+                  Swal.fire({
+                     icon: 'success',
+                     title: 'deleted...',
+                     text: 'image deleted'
+                     });
+                }
+              })
+
+            }
 
   let croppers = [];
 
@@ -338,11 +430,11 @@
           const cropperImage = document.getElementById('cropperImage' + imageNumber);
           cropperImage.src = e.target.result;
           croppers[imageNumber - 1] = new Cropper(cropperImage, {
-              aspectRatio: 1,
-              viewMode: 2,
-              cropBoxResizable: true, 
-              CropBoxWidth: 200, 
-              CropBoxHeight: 600,
+            aspectRatio:-2,
+            viewMode: 2,
+            cropBoxResizable: true, 
+            CropBoxWidth: 200, 
+            CropBoxHeight: 600,
           });
         
           $('#cropModal' + imageNumber).modal('show');
@@ -364,23 +456,7 @@
           }
       });
   }
-      document.querySelectorAll('.remove-image').forEach(function (button) {
-          button.addEventListener('click', function () {
-              const imageNumber = button.dataset.imageNumber;
-        
-              const previewImage = document.querySelector('.preview-image' + imageNumber);
-              previewImage.style.backgroundImage = '';
-
-              button.style.display = 'none';
-        
-              if (croppers[imageNumber - 1]) {
-                  croppers[imageNumber - 1].destroy();
-                  croppers[imageNumber - 1] = null;
-              }
       
-              document.getElementById('imageFile' + imageNumber).value = '';  
-          });
-      });
 
 
       document.querySelectorAll('.applyCropBtn').forEach(function (button) {
@@ -414,6 +490,7 @@
       const image3 = document.getElementById('imageFile3').files[0];
       const image4 = document.getElementById('imageFile4').files[0];
       console.log("hgkhjsgjs")
+      console.log('image',image1,image2,image3,image4);
 
       console.log(category)
     
@@ -523,10 +600,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
           </script>
 
+        <script src="vendors/base/vendor.bundle.base.js"></script>
+        <script src="js/off-canvas.js"></script>
+        <script src="js/hoverable-collapse.js"></script>
+        <script src="js/template.js"></script>
 
-<script src="vendors/base/vendor.bundle.base.js"></script>
-<script src="js/off-canvas.js"></script>
-<script src="js/hoverable-collapse.js"></script>
-<script src="js/template.js"></script>
-
-<%- include('../layouts/admin/footer.ejs') %>
+        <%- include('../layouts/admin/footer.ejs') %>

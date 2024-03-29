@@ -1,12 +1,11 @@
 const Order = require('../model/orderModel')
-const User = require('../model/userModel')
-const Address = require('../model/addressModel')
 const Cart = require('../model/cartModel')
 
 const Product = require('../model/productModel')
 const crypto = require("crypto")
 const path = require('path')
 const easyInvoice = require("easyinvoice")
+const PDFDocument = require('pdfkit');
 const fs = require('fs')
 
 
@@ -178,17 +177,32 @@ const cancelOrder = async (req, res) => {
 
 const orderLoad = async (req, res) => {
   try {
-    const orderData = await Order.find({
-      'products.status': { $nin: ['pending'] },
-    }).sort({ date: -1 })
+     const page = parseInt(req.query.page) || 1;
+     const limit = 6;
+     const skip = (page - 1) * limit;
+ 
 
+     const totalOrders = await Order.countDocuments({
+       'products.status': { $nin: ['pending'] },
+     });
 
-    console.log("ordeeeeeeeerrrrrrrrrrrrrr", orderData)
-    res.render("order", { orderData })
+     const totalPages = Math.ceil(totalOrders / limit);
+ 
+     
+     const orderData = await Order.find({
+       'products.status': { $nin: ['pending'] },
+     }).sort({ date: -1 }).skip(skip).limit(limit);
+ 
+     res.render("order", {
+       orderData,
+       currentPage: page,
+       totalPages: totalPages,
+     });
   } catch (error) {
-    console.log(error, "while loading admin order");
+     console.log(error, "while loading admin order");
+     res.status(500).render("500");
   }
-}
+ };
 
 
 
@@ -329,7 +343,48 @@ const returnOrder = async (req, res) => {
 const invoice = async (req,res) => {
   try {
     const orderId = req.query.id
+    console.log('id',req.query.id);
+    const orderDetails = await Order.findById({_id:orderId})
+    console.log('detrail',orderDetails);
+
+    let document = new PDFDocument({margin:50})
+
+    function generateHeader(document) {
+      document.image('./public/user/images/logo.png', 50, 40, { width: 100 });
+      document.fontSize(25).text('aspense', 150, 50);
+    }
+    
+    function generateFooter(document) {
+      document.fontSize(10).text('Page ' + document.pageNumber, 50, document.page.height - 10);
+    }
+
+   
+
+    generateHeader(document)
+    generateFooter(document)
+
+    document.text('invoice Number:'+ orderDetails._id,50,50)
+    document.text('Date:'+ new Date().toLocaleDateString(),50,70)
+    document.end()
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+
+
+    document.pipe(res)
+
+
+    document.on('end', () => {
+      console.log('PDF generation completed');
+    });
+
+    res.json({invoicePath:'invoice.pdf'})
+
+
+
+
   } catch (error) {
+    console.log('while invoice',error);
     
   }
 }

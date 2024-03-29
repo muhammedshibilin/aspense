@@ -1,10 +1,10 @@
 const express = require('express');
 const user_route = express()
-const User = require('../model/userModel')
 const userController = require("../controller/userController");
 const cartController = require('../controller/cartController')
 const addressController = require('../controller/addressController')
 const orderController = require('../controller/orderController')
+const asyncHandler = require('express-async-handler')
 const multer1 = require('multer');
 const upload = multer1();
 
@@ -74,6 +74,7 @@ user_route.get('/auth/google/callback',
 
 user_route.get("/profile", auth.isLogin, userController.profileLoad)
 user_route.post('/edit-profile',multer.uploadProfile.single('image'),userController.editProfile)
+user_route.post('/password-change',upload.none(),userController.passwordChange)
 user_route.get('/forgot-password',userController.forgotPassword)
 user_route.post('/get-email',userController.getEmail)
 user_route.get('/change-password',userController.changePasswordLoad)
@@ -102,6 +103,7 @@ user_route.get('/order-success',auth.isLogin,orderController.orderSuccess)
 user_route.get('/order-details',auth.isLogin,orderController.orderDetails)
 user_route.post('/cancel-order',auth.isLogin,orderController.cancelOrder)
 user_route.post('/return-request',auth.isLogin,orderController.returnOrder)
+user_route.get('/invoice',asyncHandler(orderController.invoice))
 
 
 user_route.get('/shop',userController.shopLoad)

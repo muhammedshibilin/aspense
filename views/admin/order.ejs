@@ -227,8 +227,22 @@
       
         <!-- partial -->
       </div>
+      <ul class="pagination_style d-flex justify-content-center">
+        <% for (let i = 1; i <= totalPages; i++) { %>
+        <li style="list-style: none; margin-right: 5px;">
+            <button type="button"
+                class="btn btn-primary <% if (i === currentPage) { %>active<% } %>">
+                <a href="?page=<%= i %>"
+                    style="color: inherit; text-decoration: none;">
+                    <%= i %>
+                </a>
+            </button>
+        </li>
+        <% } %>
+    </ul>
       <!-- main-panel ends -->
     </div>
+    
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->

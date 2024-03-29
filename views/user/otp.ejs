@@ -109,9 +109,10 @@ $.ajax({
         }else if(response.error){
         message.style.display = "block";
         message.textContent = "Sorry , Got some technical issues, please enter the otp again."
-        }else if(response.changePassword){
+        }else if(response.profile){
           window.location.href="/change-password"
-
+        }else if(response.login){
+          window.location.href="/change-password"
         }else{
             const Toast = swal.mixin({
                 toast: true,

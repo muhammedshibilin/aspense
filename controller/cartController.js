@@ -44,19 +44,22 @@ const addToCart = async (req, res) => {
 
         const existCartData = await Cart.findOne({ user: user_id })
 
-        const existProductIndex = existCartData.products.findIndex(
-            (p) => p.productId == product_id,
-        )
+        if (existCartData) {
+            const existProductIndex = existCartData.products.findIndex(
+                (p) => p.productId == product_id,
+            )
 
-        if (existProductIndex !== -1) {
-            return res.json({
-                exist: true,
+            if (existProductIndex !== -1) {
+                return res.json({
+                    exist: true,
 
-            })
+                })
+            }
+            console.log('esxis', existCartData);
+            console.log('shh', existProductIndex);
         }
 
-        console.log('esxis',existCartData);
-        console.log('shh',existProductIndex);
+
 
 
 
@@ -177,7 +180,7 @@ const updateCart = async (req, res) => {
             // Return the updated quantity and total price in the response
             res.json({ newQuantity: updatedCount, newTotalPrice: total });
         } else {
-            res.json({ stock: true });
+             return res.json({ stock: true });
         }
     } catch (error) {
         console.log(error.message);

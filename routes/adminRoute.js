@@ -75,6 +75,7 @@ admin_route.get("/edit-product",auth.isLogin,productController.editProductLoad)
 admin_route.post("/edit-product",auth.isLogin,multer.uploadProduct,productController.editProduct)
 admin_route.get('/block-product',auth.isLogin,productController.blockProduct)
 admin_route.get('/delete-product',auth.isLogin,productController.deleteProduct)
+admin_route.delete('/delete-image',auth.isLogin,productController.deleteImage)
 
 
 admin_route.get('/order',auth.isLogin,orderController.orderLoad)

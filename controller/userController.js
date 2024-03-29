@@ -21,14 +21,20 @@ const loadHome = async (req, res) => {
             path: "category",
             match: { is_block: 0 }
         })
+
+        const categoryData = await Category.find({is_block:0})
+        console.log('sds',categoryData);
+       
+
+       
         if (!productData) {
 
-            return res.render("userHome", { productData: [] ,user });
+            return res.render("userHome", { productData: [], user, });
         }
 
 
 
-        res.render("userHome", { productData,user })
+        res.render("userHome", { productData, user,categoryData })
     } catch (error) {
         console.log(error);
     }
@@ -37,7 +43,7 @@ const loadHome = async (req, res) => {
 const loadSignup = async (req, res) => {
     try {
         const user = req.session.user_id
-        res.render('signUp',{user})
+        res.render('signUp', { user })
     } catch (error) {
         console.log(error);
     }
@@ -63,7 +69,7 @@ const insertUser = async (req, res) => {
 
         const emailCheck = await User.findOne({ email: req.body.email })
         if (emailCheck) {
-           return res.json({ emailExist: true })
+            return res.json({ emailExist: true })
         }
 
         const passwordHash = await bcrypt.hash(password, 10)
@@ -134,7 +140,7 @@ const successLoad = async (req, res) => {
 const loadLogin = async (req, res) => {
     try {
         const user = req.session.user_id
-        res.render('login',{user})
+        res.render('login', { user })
     } catch (error) {
         console.log(error);
     }
@@ -145,35 +151,35 @@ const loadLogin = async (req, res) => {
 const verifyLogin = async (req, res) => {
     try {
         const { email, password } = req.body
-       
+
         const userData = await User.findOne({ email: email })
-      
-      
+
+
         const productData = await Product.find({ Is_block: 0 }).populate({
             path: "category",
             match: { is_block: 0 }
         })
 
-        if (userData.is_block==0) {
+        if (userData.is_block == 0) {
             const passwordMatch = await bcrypt.compare(password, userData.password)
             const productData = await Product.find({})
 
             if (passwordMatch) {
-                console.log(passwordMatch,"1");
+                console.log(passwordMatch, "1");
                 req.session.user_id = userData._id;
-                return res.json({success:true}) 
+                return res.json({ success: true })
             } else {
-                console.log(passwordMatch,"2");
-                return res.json({success:false}) 
-              
+                console.log(passwordMatch, "2");
+                return res.json({ success: false })
+
             }
         } else {
             console.log('hailiiiii');
-        
-           return res.json({error:true,error:"you are blocked,please contact for more information"})
+
+            return res.json({ error: true, error: "you are blocked,please contact for more information" })
         }
     } catch (e) {
-        console.log(e,"error occured in verify login");
+        console.log(e, "error occured in verify login");
         res.status(500).json({ success: false, error: "Internal server error" });
     }
 }
@@ -199,7 +205,7 @@ const loadProductDetails = async (req, res) => {
             relatedImg,
             offer,
             reviews,
-            user:user_id
+            user: user_id
         })
     } catch (error) {
         console.log(error);
@@ -209,202 +215,232 @@ const loadProductDetails = async (req, res) => {
 const profileLoad = async (req, res) => {
     try {
         const user = req.session.user_id
-        const addressData = await Address.findOne({user}).populate("address")
-        const orderDetails = await Order.find({user}).sort({date:-1})
-        console.log(orderDetails)
-        if(addressData){
-        console.log(addressData);
-        console.log(addressData.address.fullName)
+        const addressData = await Address.findOne({ user }).populate("address")
+        const orderDetails = await Order.find({ user }).sort({ date: -1 })
+      
+        if (addressData) {
+            console.log(addressData);
+            console.log(addressData.address.fullName)
         }
-   
-        console.log("session profile",req.session.user_id);
+
+        console.log("session profile", req.session.user_id);
         const userData = await User.findOne({ _id: user })
         console.log(userData.image)
-       if(userData.is_admin==0){
-        res.render("profile",{userData,addressData,orderDetails,user})
-       }else{
-        req.session.admin_id=userData
-        res.redirect("/profile")
-       }
+        if (userData.is_admin == 0) {
+            res.render("profile", { userData, addressData, orderDetails, user })
+        } else {
+            req.session.admin_id = userData
+            res.redirect("/profile")
+        }
     } catch (e) {
-        console.log("error while loading profile",e);
+        console.log("error while loading profile", e);
     }
 }
 
 
-const editProfile = async (req,res) => {
-    try{
-        console.log("hiiii",req.session.user_id)
-        const userData = await User.findById({_id:req.session.user_id})
+const editProfile = async (req, res) => {
+    try {
+        console.log("hiiii", req.session.user_id)
+        const userData = await User.findById({ _id: req.session.user_id })
         const newPassword = req.body.newPassword
         console.log(newPassword);
-        const currentPassword = req.body.currentPassword
-        console.log(currentPassword);
+
+
         let image
-        let passwordHash
 
-        if(currentPassword||newPassword){
-            if(newPassword.length<8){
-                return res.json({passwordLength:true})
-            }else{
-                const passwordMatch = await bcrypt.compare(currentPassword,userData.password)
-                if(passwordMatch){
-                    try {
-                        passwordHash = await bcrypt.hash(newPassword, 10);
-                    } catch (error) {
-                        console.error('Error while hashing password:', error);
-                        return res.status(500).json({ error: 'Internal Server Error' });
-                    }
-                    
-                }else{
-                   return res.json({passwordMatch:true})
-                }
-            }
-        }else{
-            passwordHash = userData.password
-        }
 
-        if(req.file&&req.file.originalname){
+        if (req.file && req.file.originalname) {
             image = req.file.originalname
-            const imagePath = `public/images/product/orginal/${userData.image}`
-        }else{
+            const imagePath = `public/images/user/orginal/${userData.image}`
+        } else {
             image = userData.image
         }
-        
 
-        const editedData = await User.findOneAndUpdate({_id:userData._id},{$set:{
-            name:req.body.name,
-            email:req.body.email,
-            mobile:req.body.mobile,
-            image:image,
-            password:passwordHash
-        }}) 
 
-        console.log("'ferere");
+        const editedData = await User.findOneAndUpdate({ _id: userData._id }, {
+            $set: {
+                name: req.body.name,
+                email: req.body.email,
+                mobile: req.body.mobile,
+                image: image,
+
+            }
+        })
+
+        console.log("'ferere", editedData);
         console.log(userData.image);
 
-        res.json({profileEdit:true})
-       
+        return res.json({ profileEdit: true })
 
-    }catch(e){
-        console.log('error while editing profile:',e);
+
+    } catch (e) {
+        console.log('error while editing profile:', e);
         res.status(500).render(500)
+    }
+}
+
+const passwordChange = async (req, res) => {
+    try {
+        console.log('body', req.body);
+
+        const userData = await User.findById({ _id: req.session.user_id })
+        const newPassword = req.body.newPassword
+        const confirmPassword = req.body.confirm
+        const current = req.body.current
+
+        let passwordHash
+
+
+        const passwordMatch = await bcrypt.compare(current, userData.password)
+        if (passwordMatch) {
+            try {
+                passwordHash = await bcrypt.hash(newPassword, 10);
+            } catch (error) {
+                console.error('Error while hashing password:', error);
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+
+        } else {
+            return res.json({ passwordMatch: false })
+        }
+
+        if (userData) {
+            const editedData = await User.findOneAndUpdate({ _id: userData._id }, {
+                $set: {
+                    password: passwordHash
+                }
+            })
+            console.log('edi', editedData);
+            res.json({ password: true })
+        } else {
+            res.json({ user: true });
+        }
+
+
+
+
+    } catch (error) {
+
     }
 }
 
 const forgotPassword = async (req, res) => {
     try {
-       console.log(req.session.user_id,"inddd")
-      if(req.session.user_id){
-  
-        const userData =await User.findOne({_id:req.session.user_id})
+        console.log(req.session.user_id, "inddd")
+        if (req.session.user_id) {
 
-        
-        let randomNumber = Math.floor(Math.random() * 9000) + 1000
-
-        otp = randomNumber
+            const userData = await User.findOne({ _id: req.session.user_id })
 
 
-        sendVerifyMail(userData.name,userData.email,randomNumber)
+            let randomNumber = Math.floor(Math.random() * 9000) + 1000
 
-        req.session.otpsend = true;
+            otp = randomNumber
 
-        setTimeout(() => {
-            otp = Math.floor(Math.random() * 9000) + 1000
-        }, 60000)
-        let verifyErr = req.session.verifyErr;
-        let otpsend = req.session.otpsend;
-        req.session.email = userData.email;
 
-        res.render('otp',
-        {email:userData.email,
-            verifyErr,
-            otpsend
-           
-        })
-  
-      }else{
-        console.log(req.session.user_id,"illaa")
-        res.render('getEmail')
-      }
-    } catch(error) {
-      console.log(error.message);
-      res.render('500Error')
+            sendVerifyMail(userData.name, userData.email, randomNumber)
+
+            req.session.otpsend = true;
+
+            setTimeout(() => {
+                otp = Math.floor(Math.random() * 9000) + 1000
+            }, 60000)
+            let verifyErr = req.session.verifyErr;
+            let otpsend = req.session.otpsend;
+            req.session.email = userData.email;
+
+            res.render('otp',
+                {
+                    email: userData.email,
+                    verifyErr,
+                    otpsend
+
+                })
+
+        } else {
+            console.log(req.session.user_id, "illaa")
+            res.render('getEmail')
+        }
+    } catch (error) {
+        console.log(error.message);
+        res.render('500Error')
     }
-  };
+};
 
-  const getEmail= async (req, res) => {
+const getEmail = async (req, res) => {
     try {
-     
-     req.session.user_check = req.body.email
-     const userData = await User.findOne({email:req.body.email})
-     console.log(req.session.user_check);
-  
-     if(userData){
 
-        let randomNumber = Math.floor(Math.random() * 9000) + 1000
+        req.session.user_check = req.body.email
+        const userData = await User.findOne({ email: req.body.email })
+        console.log(req.session.user_check);
 
-        otp = randomNumber
-  
-      sendVerifyMail('user',req.body.email,randomNumber)
+        if (userData) {
 
-      req.session.otpsend = true;
-      req.session.email = userData.email;
+            let randomNumber = Math.floor(Math.random() * 9000) + 1000
 
-      setTimeout(() => {
-          otp = Math.floor(Math.random() * 9000) + 1000
-      }, 60000)
+            otp = randomNumber
 
-      let verifyErr = req.session.verifyErr;
-      let otpsend = req.session.otpsend;
-      res.render('otp',{email:req.body.email,
-        verifyErr,
-        otpsend
-    })
-  
-     }else{
-      res.render(getEmail,{error:'Email not found'})
-     }
-     
-    } catch(error) {
-      console.log(error.message);
-      res.render('500Error')
+            sendVerifyMail('user', req.body.email, randomNumber)
+
+            req.session.otpsend = true;
+            req.session.email = userData.email;
+
+            setTimeout(() => {
+                otp = Math.floor(Math.random() * 9000) + 1000
+            }, 60000)
+
+            let verifyErr = req.session.verifyErr;
+            let otpsend = req.session.otpsend;
+            res.render('otp', {
+                email: req.body.email,
+                verifyErr,
+                otpsend
+            })
+
+        } else {
+            res.render(getEmail, { error: 'Email not found' })
+        }
+
+    } catch (error) {
+        console.log(error.message);
+        res.render('500Error')
     }
-  };
+};
 
-  const changePasswordLoad = async (req,res) => {
+const changePasswordLoad = async (req, res) => {
     try {
         res.render('resetPassword')
     } catch (error) {
-        console.log(error,"error while loading password change")
+        console.log(error, "error while loading password change")
     }
-  }
-  const changePassword= async (req, res) => {
+}
+const changePassword = async (req, res) => {
     try {
         const user_id = req.session.user_id
         const newPassword = req.body.newPassword
         console.log(newPassword);
-    if (req.session.user_id) {
-  
-  
-      const passwordHash = await bcrypt.hash(newPassword,10)
-      await User.findOneAndUpdate({_id:user_id},{$set:{password:passwordHash}})
-      res.redirect("/profile")
-  
-    }else{
-  
-        const passwordHash = await bcrypt.hash(newPassword,10)
-      await User.findOneAndUpdate({email:req.session.user_check},{$set:{password:passwordHash}})
-      res.redirect("/login")
-  
+        if (req.session.user_id) {
+
+
+            const passwordHash = await bcrypt.hash(newPassword, 10)
+            const changed = await User.findOneAndUpdate({ _id: user_id }, { $set: { password: passwordHash } })
+            console.log('prof',changed);
+            res.redirect("/profile")
+
+        } else {
+
+            const passwordHash = await bcrypt.hash(newPassword, 10)
+            const changed =  await User.findOneAndUpdate({ email: req.session.user_check }, { $set: { password: passwordHash } })
+            console.log("login",changed);
+            res.redirect("/login")
+
+        }
+
+    } catch (error) {
+        console.log(error.message);
+        res.render('500Error')
     }
-     
-    } catch(error) {
-      console.log(error.message);
-      res.render('500Error')
-    }
-  };
-  
+};
+
 const otpLoad = async (req, res) => {
     try {
         let verifyErr = req.session.verifyErr;
@@ -453,10 +489,11 @@ const verifyOtp = async (req, res) => {
         req.session.verifyErr = false;
         req.session.otpsend = false;
 
+
         const otpinput = parseInt(req.body.otp)
         const email = req.session.email
 
-        console.log(otpinput,email);
+        console.log(otpinput, email);
 
 
 
@@ -467,34 +504,35 @@ const verifyOtp = async (req, res) => {
 
             if (otpinput === otp) {
                 const verified = await User.findOneAndUpdate({ email: email }, { $set: { is_verified: 1 } }, { new: true })
-             
+
 
 
 
                 if (verified) {
                     req.session.regSuccess = true;
                     console.log(req.session.user_id);
-                    if(!req.session.user_id){
-                        res.json({changePassword:true})
+                    console.log('ema', req.session.user_check)
 
-                    }else if(req.session.user_check){
-                        res.json({changePassword:true})
-                       
-                    }else{
-                        res.json({login:true})
+                    if (req.session.user_id) {
+                        return res.json({ profile: true })
+                    } else {
+                        const userData = await User.findOne({ email: req.session.user_check })
+                        console.log('use',userData);
+                        if (userData) {
+                            res.json({ login: true })
+                        } else {
+                            res.json({ signup: true })
+                        }
                     }
-                   
-                   
-                } else {
-                    res.json({ error: true })
-                }
-            } else {
-                res.json({ wrong: true })
-            }
 
+
+
+                }
+            }
         }
+
     } catch (e) {
-        console.log(e,"error in verify otp")
+        console.log(e, "error in verify otp")
         res.status('500').render("500")
     }
 }
@@ -505,7 +543,7 @@ const shopLoad = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = 8;
         const skip = (page - 1) * limit;
-        const categoryData = await Category.find({is_block: 0});
+        const categoryData = await Category.find({ is_block: 0 });
 
         let filter = {};
         let sortOption = {};
@@ -524,7 +562,7 @@ const shopLoad = async (req, res) => {
             filter.category = sort; // Filter by category
         } else {
             // If no category is selected, but a sort option is chosen, apply the sort option
-            switch(sort) {
+            switch (sort) {
                 case 'low_to_high':
                     sortOption = { price: 1 };
                     break;
@@ -579,6 +617,7 @@ module.exports = {
     loadProductDetails,
     profileLoad,
     editProfile,
+    passwordChange,
     forgotPassword,
     getEmail,
     changePasswordLoad,
@@ -595,5 +634,5 @@ module.exports = {
     verifyLogin,
     logoutUser,
 
-    
+
 }

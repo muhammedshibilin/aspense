@@ -224,8 +224,8 @@
                 </td>
                 <td>
                   <a  type="button" class="btn btn-outline-warning"
-                      data-toggle="modal" data-target="#exampleModal<%= cat._id %>"
-                      onclick="return showConfirmation('edit');">
+                       data-target="exampleModal1"
+                      onclick="editCategory('<%= cat.name %>','<%= cat._id %>')">
                      edit
                   </a>
                   <a href="/admin/delete-category?id=<%=cat._id%>"
@@ -244,44 +244,7 @@
                      </a>
                   <% } %>
                
-                  <div class="modal fade" id="exampleModal<%= cat._id %>" tabindex="-1"
-                    role="dialog" aria-labelledby="exampleModal<%= cat._id %>"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="#exampleModal<%= cat._id %>">edit
-                            category</h5>
-                          <button type="button" class="close"
-                            data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-
-                        <div class="modal-body">
-                          <form action="/admin/edit-category?id=<%= cat._id %>"
-                            method="post">
-                            <div class="form-group">
-                              <label for="exampleFormControlInput1">Category
-                                name</label>
-                              <input name="categoryName" type="text"
-                                class="form-control"
-                                id="<%= cat._id %>" value="<%= cat.name %>">
-
-                            </div>
-
-                          </div>
-
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                              data-dismiss="modal">Close</button>
-                            <button type="submit"
-                              class="btn btn-primary">done</button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
+                  
                </td>
               </tr>
               <%}); %>
@@ -294,7 +257,38 @@
 </div>
 </div>
 
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModal1">Edit Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="cat-name">Category Name</label>
+            <input name="categoryName" type="text" class="form-control" id="cat-name">
+            <input type="hidden" id="category_id">
+          </div>
+     
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="edit-category-btn" class="btn btn-primary">Done</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 
 <script src="vendors/base/vendor.bundle.base.js"></script>
   <!-- endinject -->
@@ -304,4 +298,50 @@
   <script src="js/off-canvas.js"></script>
   <script src="js/hoverable-collapse.js"></script>
   <script src="js/template.js"></script>
+
+  <script>
+
+function editCategory(name, id) {
+    console.log(name, id);
+    document.getElementById('cat-name').value = name;
+    document.getElementById('category_id').value = id;
+    $('#exampleModal1').modal('show');
+    
+}
+
+
+
+  document.getElementById("edit-category-btn").addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const categoryId = document.getElementById('category_id').value
+    const categoryName = document.getElementById('cat-name').value;
+    console.log(categoryId,categoryName);
+
+    try {
+        const response = await fetch('/admin/edit-category', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ categoryName,categoryId }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        if (data.success) {
+           
+            $('#exampleModal1').modal('hide');
+            location.reload()
+        } else {
+            alert(data.error);
+        }
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+});
+    </script>
 <%- include('../layouts/admin/footer.ejs') %>

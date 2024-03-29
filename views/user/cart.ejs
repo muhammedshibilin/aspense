@@ -104,7 +104,7 @@
                                                 <td class="pro-quantity">
                                                     <div class="cart-product-quantity">
                                                         <button class="btn btn-decrement" type="button">-</button>
-                                                        <input type="text" id="cartProductQuantity_<%= product.productId._id %>" class="form-control quantity-input" value="<%= product.count %>" readonly>
+                                                        <input type="text" id="cartProductQuantity_<%= product.productId._id %>" class="form-control quantity-input" value="<%= product.count %>" min="1" max="product.quantity" readonly>
                                                         <button class="btn btn-increment" type="button">+</button>
                                                     </div>
                                                 </td>
@@ -452,22 +452,18 @@ function updateCart(productId, count) {
                         icon: "warning",
                         confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
+                        timer:3000
                     });
-                    location.reload
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000);
+                
             } else {
-                // Assuming the server response includes the updated quantity and total price
-                // Update the quantity input field
                 var quantityInput = $("#cartProductQuantity_" + productId);
                 quantityInput.val(response.newQuantity);
-
-                // Update the total price for the product
-                // This depends on how your HTML is structured and where the total price is displayed
-                // For example, if the total price is displayed in an element with an ID like "productTotalPrice_<productId>"
                 $("#productTotalPrice_" + productId).text(response.newTotalPrice);
                 location.reload()
 
-                // Optionally, update the cart subtotal and total amount displayed on the page
-                // This depends on your specific HTML structure and how you're displaying these values
             }
         },
         error: function (error) {

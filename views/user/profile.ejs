@@ -74,6 +74,7 @@
      
         position: relative;
         overflow: hidden;
+        text-align: center;
         display: inline-block;
         border-radius: 50%; 
         width: 150px; 
@@ -181,785 +182,830 @@
                                             data-parent="#faq"
                                             href="#my-account-1"
                                             class="toggle-edit"
-                                            data-user-id="<%= userData._id %>">Edit
-                                            your
-                                            profile </a>
+                                            data-user-id="<%= userData._id %>">
+
+                                            profile info</a>
                                     </h5>
 
                                     <div id="my-account-1"
-                                        class="panel-collapse collapse show">
+                                        class="panel-collapse collapse ">
                                         <div class="panel-body">
-                                            <form enctype="multipart/form-data"
+                                            <div
+                                                class="billing-information-wrapper">
+
+                                                <div class="panel-heading">
+                                                    <h5 class="panel-title">
+                                                        <span>1</span>
+                                                        <a
+                                                            data-toggle="collapse"
+                                                            data-parent="#faq"
+                                                            href="#my-account-edit"
+                                                            class="toggle-edit"
+                                                            data-user-id="<%= userData._id %>">Edit
+                                                            your
+                                                            profile </a>
+                                                    </h5>
+
+                                                    <div
+                                                        id="my-account-edit"
+                                                        class="panel-collapse collapse">
+                                                        <div
+                                                            class="panel-body">
+                                                            <form
+                                                                enctype="multipart/form-data">
+                                                                <div
+                                                                    class="billing-information-wrapper">
+                                                                    <div
+                                                                        class="account-info-wrapper">
+                                                                        <h4>My
+                                                                            Account
+                                                                            Information</h4>
+                                                                        <h5>edit
+                                                                            profile</h5>
+                                                                    </div>
+                                                                    <div
+                                                                        class="row">
+
+                                                                        <div
+                                                                            class="col-lg-12 col-md-12">
+                                                                            <div
+                                                                                class="profile-info">
+                                                                                <!-- Added a class to target the profile field -->
+                                                                                <label
+                                                                                    for="profileImage">Profile
+                                                                                    Image</label>
+                                                                                <input
+                                                                                    type="file"
+                                                                                    id="profileImage" />
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-lg-6 col-md-6">
+                                                                            <div
+                                                                                class="billing-info">
+                                                                                <label>username</label>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    id="edit-name"
+                                                                                    value="<%= userData.name %>">
+
+                                                                            </div>
+                                                                            <p
+                                                                                id="name-error"
+                                                                                style="font-size: 10px; color: red; display: none;"></p>
+                                                                        </div>
+
+                                                                        <div
+                                                                            class="col-lg-6 col-md-6">
+                                                                            <div
+                                                                                class="billing-info"
+                                                                                name="mobile">
+                                                                                <label>mobile</label>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    id="edit-mobile"
+                                                                                    name="mobile"
+                                                                                    value="<%= userData.mobile %>">
+                                                                            </div>
+                                                                            <p
+                                                                                id="mobile-error"
+                                                                                style="font-size: 10px; color: red; display: none;"></p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-lg-12 col-md-12">
+                                                                            <div
+                                                                                class="billing-info">
+                                                                                <label>Email</label>
+                                                                                <input
+                                                                                    type="email"
+                                                                                    id="edit-email"
+                                                                                    name="email"
+                                                                                    value="<%= userData.email %>"">
+                                                                            </div>
+                                                                            <p
+                                                                                id="email-error"
+                                                                                style="font-size: 10px; color: red; display: none;"></p>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <div
+                                                                        class="billing-back-btn">
+                                                                        <div
+                                                                            class="billing-back">
+                                                                            <a
+                                                                                href="#">
+                                                                                <i
+                                                                                    class="fa fa-long-arrow-up"></i>
+                                                                                back</a>
+                                                                        </div>
+                                                                        <div
+                                                                            class="billing-btn">
+                                                                            <button
+                                                                                type="submit"
+                                                                                id="edit-btn">save</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- change passsword -->
+
+                                                <div class="panel-heading">
+                                                    <h5 class="panel-title">
+                                                        <span>1</span>
+                                                        <a
+                                                            data-toggle="collapse"
+                                                            data-parent="#faq"
+                                                            href="#my-account-password"
+                                                            class="toggle-edit"
+                                                            data-user-id="<%= userData._id %>">password
+                                                            & security
+                                                        </a>
+                                                    </h5>
+
+                                                    <div
+                                                        id="my-account-password"
+                                                        class="panel-collapse collapse ">
+                                                        <div
+                                                            class="panel-body">
+                                                            <form>
+                                                                <div
+                                                                    class="billing-information-wrapper">
+                                                                    <div
+                                                                        class="account-info-wrapper">
+
+                                                                        <h5>reset
+                                                                            password</h5>
+                                                                    </div>
+                                                                    <div
+                                                                        class="row">
+
+                                                                        <div
+                                                                            class="col-lg-12 col-md-12">
+                                                                            <div
+                                                                                class="billing-info">
+                                                                                <label>current
+                                                                                    password</label>
+                                                                                <input
+                                                                                    type="password"
+                                                                                    id="current-password"
+                                                                                    name="current-password">
+                                                                                <p
+                                                                                    id="currentError"
+                                                                                    style="font-size: 15px; display: none; color:red ;"></p>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div
+                                                                            class="col-lg-12 col-md-12">
+                                                                            <div
+                                                                                class="billing-info"
+                                                                                name="mobile">
+                                                                                <label>new
+                                                                                    password</label>
+                                                                                <input
+                                                                                    type="password"
+                                                                                    id="new-password"
+                                                                                    name="new-password" />
+                                                                                <p
+                                                                                    id="newError"
+                                                                                    style="font-size: 15px; display: none; color:red ;"></p>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-lg-12 col-md-12">
+                                                                            <div
+                                                                                class="billing-info">
+                                                                                <label>confirm
+                                                                                    password</label>
+                                                                                <input
+                                                                                    type="password"
+                                                                                    id="confirm-password"
+                                                                                    name="confirm-password" />
+                                                                                <p
+                                                                                    id="confirmError"
+                                                                                    style="font-size: 15px; display: none; color:red ;"></p>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <h3><a
+                                                                            href="/forgot-password">forgot
+                                                                            password?</a></h3>
+                                                                    <div
+                                                                        class="billing-back-btn">
+                                                                        <div
+                                                                            class="billing-back">
+                                                                            <a
+                                                                                href="#">
+                                                                                <i
+                                                                                    class="fa fa-long-arrow-up"></i>
+                                                                                back</a>
+                                                                        </div>
+                                                                        <div
+                                                                            class="billing-btn">
+                                                                            <button
+                                                                                type="submit"
+                                                                                id="password-btn">save</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <span>2</span>
+                                            <a data-toggle="collapse"
+                                                data-parent="#faq"
+                                                href="#my-account-2">
+                                                address </a>
+                                        </h5>
+                                    </div>
+
+                                    <div id="my-account-2"
+                                        class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div
+                                                class="billing-information-wrapper">
                                                 <div
+                                                    class="panel panel-default col-lg-12 col-md-12">
+                                                    <div class="panel-heading">
+                                                        <h5 class="panel-title">
+                                                            <span>2</span>
+                                                            <a
+                                                                data-toggle="collapse"
+                                                                data-parent="#faq"
+                                                                href="#my-account-7">
+                                                                your addresses
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="my-account-7"
+                                                        class="panel-collapse collapse">
+                                                        <div class="panel-body">
+                                                            <div
+                                                                class="billing-information-wrapper">
+                                                                <div
+                                                                    class="row">
+                                                                    <% if
+                                                                    (addressData
+                                                                    &&
+                                                                    addressData.address
+                                                                    &&
+                                                                    addressData.address.length
+                                                                    > 0) { %>
+                                                                    <%
+                                                                    addressData.address.forEach(function(address)
+                                                                    { %>
+                                                                    <div
+                                                                        class="col-lg-4 col-md-6"
+                                                                        style="margin-bottom: 2rem;">
+                                                                        <div
+                                                                            id="address-list"
+                                                                            style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+                                                                            <div
+                                                                                class="address-item-container">
+                                                                                <p
+                                                                                    class="address-item">Name:
+                                                                                    <%=
+                                                                                    address.fullName
+                                                                                    %></p>
+                                                                                <p
+                                                                                    class="address-item">Email:
+                                                                                    <%=
+                                                                                    address.email
+                                                                                    %></p>
+                                                                                <p
+                                                                                    class="address-item">Mobile:
+                                                                                    <%=
+                                                                                    address.mobile
+                                                                                    %></p>
+                                                                                <p
+                                                                                    class="address-item">State:
+                                                                                    <%=
+                                                                                    address.state
+                                                                                    %></p>
+                                                                                <p
+                                                                                    class="address-item">City:
+                                                                                    <%=
+                                                                                    address.city
+                                                                                    %></p>
+                                                                                <p
+                                                                                    class="address-item">Pincode:
+                                                                                    <%=
+                                                                                    address.pin
+                                                                                    %></p>
+                                                                                <p
+                                                                                    class="address-item">HouseName:
+                                                                                    <%=
+                                                                                    address.houseName
+                                                                                    %></p>
+                                                                                <div
+                                                                                    class="address-buttons-container">
+
+                                                                                    <a
+                                                                                        href="#"
+                                                                                        onclick="showEditAddressModal('<%= address.fullName %>','<%= address.mobile %>', '<%= address.email %>', '<%= address.houseName %>', '<%= address.city %>', '<%= address.state %>',  '<%= address.pin %>','<%= address._id %>')"
+                                                                                        class="edit-link"
+                                                                                        data-toggle="modal"
+                                                                                        data-target="#editAddressModal">
+                                                                                        Edit
+                                                                                        <i
+                                                                                            class="fa-sharp fa-solid fa-pen"
+                                                                                            style="color: #cc9966;"></i>
+                                                                                    </a>
+
+                                                                                    <button
+                                                                                        class="delete-address-btn"><i
+                                                                                            class="fas fa-trash-alt"></i>
+                                                                                        <a
+                                                                                            href="/delete-address?_id=<%= address._id %>">Delete</a></button>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <% }); %>
+                                                                    <% } else {
+                                                                    %>
+                                                                    <p>No
+                                                                        address
+                                                                        data
+                                                                        available.</p>
+                                                                    <% } %>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- edit address modal -->
+
+                                                <div class="modal fade" id="editAddressModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true"
+                                                style="padding-top: 80px;">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">edit
+                                                                Address</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form  id="editAddressform"  class="row gx-2">
+                                                                <div class="form-group col-md-6">
+                                                                    <label for="fullname">Full Name *</label>
+                                                                    <input type="text" class="form-control" name="fullname" id="fullnames" required>
+                                                                    <div id="fnameError" style="display: none; color: red;"></div>
+                                                                </div>
+                                                            
+                                                                <div class="form-group col-md-6">
+                                                                    <label for="mobile">Mobile *</label>
+                                                                    <input type="tel" class="form-control" name="mobile" id="mobiles" required>
+                                                                    <div id="mobiles" style="display: none; color: red;"></div>
+                                                                </div>
+                                                            
+                                                                <div class="form-group col-md-12">
+                                                                    <label for="email">Email *</label>
+                                                                    <input type="email" class="form-control" name="email" id="emails" required>
+                                                                    <div id="addEmailError" style="display: none; color: red;"></div>
+                                                                </div>
+                                                            
+                                                                <div class="form-group col-md-12">
+                                                                    <label for="house">House Name *</label>
+                                                                    <input type="text" class="form-control" name="houseName" id="houseNames" required>
+                                                                    <div id="houseError" style="display: none; color: red;"></div>
+                                                                    <input type="text" class="form-control" style="display: none;" id="addressId" name="addressId">
+                                                                </div>
+                                                            
+                                                                <div class="form-group col-md-4">
+                                                                    <label for="state">State *</label>
+                                                                    <input type="text" class="form-control" name="state" id="states" required>
+                                                                    <div id="stateError" style="display: none; color: red;"></div>
+                                                                </div>
+                                                            
+                                                                <div class="form-group col-md-4">
+                                                                    <label for="city">City *</label>
+                                                                    <input type="text" class="form-control" name="city" id="citys" required>
+                                                                    <div id="cityError" style="display: none; color: red;"></div>
+                                                                </div>
+                                                            
+                                                                <div class="form-group col-md-4">
+                                                                    <label for="pincode">Pincode *</label>
+                                                                    <input type="tel" class="form-control" name="pincode" id="pincodes" autocomplete="off" required>
+                                                                    <div id="pinError" style="display: none; color: red;"></div>
+                                                                </div>
+                                                            
+                                                                <div class="form-group col-md-12">
+                                                                    <button id="editAddress" type="submit" class="btn btn-outline-primary">
+                                                                        <span>Add Address</span>
+                                                                        <i class="icon-long-arrow-right"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+
+                                                <div
+                                                    class="panel panel-default col-lg-12 col-md-12">
+                                                    <div class="panel-heading">
+                                                        <h5 class="panel-title">
+                                                            <span>2</span>
+                                                            <a
+                                                                data-toggle="collapse"
+                                                                data-parent="#faq"
+                                                                href="#my-account-6">
+                                                                add address </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="my-account-6"
+                                                        class="panel-collapse collapse">
+                                                        <div class="panel-body">
+
+                                                            <div
+                                                                class="billing-information-wrapper">
+                                                                <div
+                                                                    class="account-info-wrapper">
+                                                                    <h4>add
+                                                                        address</h4>
+
+                                                                </div>
+                                                                <form id="form">
+                                                                    <div
+                                                                        class="row">
+                                                                        <div
+                                                                            class="col-lg-6 col-md-6">
+                                                                            <div
+                                                                                class="billing-info">
+                                                                                <label>name</label>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    name="name"
+                                                                                    id="name">
+                                                                                <p
+                                                                                    id="nameError"
+                                                                                    style="color: red; font-size: 10px; display: none;"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-lg-6 col-md-6">
+                                                                            <div
+                                                                                class="billing-info">
+
+                                                                                <label>mobile
+                                                                                </label>
+                                                                                <input
+                                                                                    type="number"
+                                                                                    name="mobile"
+                                                                                    id="mobile">
+                                                                                <p
+                                                                                    id="mobileError"
+                                                                                    style="color: red; font-size: 10px; display: none;"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-lg-12 col-md-12">
+                                                                            <div
+                                                                                class="billing-info">
+                                                                                <label>email
+                                                                                </label>
+                                                                                <input
+                                                                                    type="email"
+                                                                                    name="email"
+                                                                                    id="email">
+                                                                                <p
+                                                                                    id="emailError"
+                                                                                    style="color: red; font-size: 10px; display: none;"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="row">
+                                                                        <div
+                                                                            class="col-lg-4 col-md-4">
+                                                                            <div
+                                                                                class="billing-info">
+                                                                                <label
+                                                                                    for="state">State</label>
+                                                                                <div
+                                                                                    style="height: 50px; overflow-y: auto;">
+                                                                                    <select
+                                                                                        id="state"
+                                                                                        name="state"
+                                                                                        style="width: 100%; ">
+                                                                                        <option
+                                                                                            value>Select
+                                                                                            State</option>
+                                                                                        <option
+                                                                                            value="Andhra Pradesh">Andhra
+                                                                                            Pradesh</option>
+                                                                                        <option
+                                                                                            value="Arunachal Pradesh">Arunachal
+                                                                                            Pradesh</option>
+                                                                                        <option
+                                                                                            value="Assam">Assam</option>
+                                                                                        <option
+                                                                                            value="Bihar">Bihar</option>
+                                                                                        <option
+                                                                                            value="Chhattisgarh">Chhattisgarh</option>
+                                                                                        <option
+                                                                                            value="Goa">Goa</option>
+                                                                                        <option
+                                                                                            value="Gujarat">Gujarat</option>
+                                                                                        <option
+                                                                                            value="Haryana">Haryana</option>
+                                                                                        <option
+                                                                                            value="Himachal Pradesh">Himachal
+                                                                                            Pradesh</option>
+                                                                                        <option
+                                                                                            value="Jharkhand">Jharkhand</option>
+                                                                                        <option
+                                                                                            value="Karnataka">Karnataka</option>
+                                                                                        <option
+                                                                                            value="Kerala">Kerala</option>
+                                                                                        <option
+                                                                                            value="Madhya Pradesh">Madhya
+                                                                                            Pradesh</option>
+                                                                                        <option
+                                                                                            value="Maharashtra">Maharashtra</option>
+                                                                                        <option
+                                                                                            value="Manipur">Manipur</option>
+                                                                                        <option
+                                                                                            value="Meghalaya">Meghalaya</option>
+                                                                                        <option
+                                                                                            value="Mizoram">Mizoram</option>
+                                                                                        <option
+                                                                                            value="Nagaland">Nagaland</option>
+                                                                                        <option
+                                                                                            value="Odisha">Odisha</option>
+                                                                                        <option
+                                                                                            value="Punjab">Punjab</option>
+                                                                                        <option
+                                                                                            value="Rajasthan">Rajasthan</option>
+                                                                                        <option
+                                                                                            value="Sikkim">Sikkim</option>
+                                                                                        <option
+                                                                                            value="Tamil Nadu">Tamil
+                                                                                            Nadu</option>
+                                                                                        <option
+                                                                                            value="Telangana">Telangana</option>
+                                                                                        <option
+                                                                                            value="Tripura">Tripura</option>
+                                                                                        <option
+                                                                                            value="Uttar Pradesh">Uttar
+                                                                                            Pradesh</option>
+                                                                                        <option
+                                                                                            value="Uttarakhand">Uttarakhand</option>
+                                                                                        <option
+                                                                                            value="West Bengal">West
+                                                                                            Bengal</option>
+                                                                                        <option
+                                                                                            value="Andaman and Nicobar Islands">Andaman
+                                                                                            and
+                                                                                            Nicobar
+                                                                                            Islands</option>
+                                                                                        <option
+                                                                                            value="Chandigarh">Chandigarh</option>
+                                                                                        <option
+                                                                                            value="Dadra and Nagar Haveli">Dadra
+                                                                                            and
+                                                                                            Nagar
+                                                                                            Haveli</option>
+                                                                                        <option
+                                                                                            value="Daman and Diu">Daman
+                                                                                            and
+                                                                                            Diu</option>
+                                                                                        <option
+                                                                                            value="Delhi">Delhi</option>
+                                                                                        <option
+                                                                                            value="Lakshadweep">Lakshadweep</option>
+                                                                                        <option
+                                                                                            value="Puducherry">Puducherry</option>
+
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div
+                                                                            class="col-lg-4 col-md-4">
+                                                                            <div
+                                                                                class="billing-info">
+
+                                                                                <label>city
+                                                                                </label>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    name="city"
+                                                                                    id="city">
+                                                                                <p
+                                                                                    id="cityError"
+                                                                                    style="color: red; font-size: 10px; display: none;"></p>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div
+                                                                            class="col-lg-4 col-md-4">
+                                                                            <div
+                                                                                class="billing-info">
+
+                                                                                <label>pincode
+                                                                                </label>
+                                                                                <input
+                                                                                    type="number"
+                                                                                    name="pincode"
+                                                                                    id="pincode">
+                                                                                <p
+                                                                                    id="pincodeError"
+                                                                                    style="color: red; font-size: 10px; display: none;"></p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-lg-12 col-md-12">
+                                                                            <div
+                                                                                class="billing-info">
+                                                                                <label>house
+                                                                                    name
+                                                                                </label>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    name="houseName"
+                                                                                    id="houseName">
+                                                                                <p
+                                                                                    id="houseError"
+                                                                                    style="color: red; font-size: 10px; display: none; "></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div
+                                                                        class="billing-back-btn">
+                                                                        <div
+                                                                            class="billing-back">
+                                                                            <a
+                                                                                href="#">
+                                                                                <i
+                                                                                    class="fa fa-long-arrow-up"></i>
+                                                                                back</a>
+                                                                        </div>
+                                                                        <div
+                                                                            class="billing-btn">
+                                                                            <button
+                                                                                type="submit"
+                                                                                id="address-btn">add
+                                                                                address</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <span>3</span>
+                                            <a data-toggle="collapse"
+                                                data-parent="#faq"
+                                                href="#my-account-3">order
+                                                details </a>
+                                        </h5>
+                                    </div>
+                                    <div id="my-account-3"
+                                        class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div
                                                 class="billing-information-wrapper">
                                                 <div
                                                     class="account-info-wrapper">
-                                                    <h4>My Account
-                                                        Information</h4>
-                                                    <h5>edit profile</h5>
+                                                    <h4>your order details</h4>
                                                 </div>
-                                                <div class="row">
-
-                                                    <div
-                                                        class="col-lg-12 col-md-12">
+                                                <div class="entries-wrapper">
+                                                    <div class="row">
                                                         <div
-                                                            class="profile-info">
-                                                            <!-- Added a class to target the profile field -->
-                                                            <label
-                                                                for="profileImage">Profile
-                                                                Image</label>
-                                                            <input type="file"
-                                                                id="profileImage"
-                                                                <!-- Added an ID
-                                                                to target the
-                                                                profile input
-                                                                field -->
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="col-lg-6 col-md-6">
-                                                        <div
-                                                            class="billing-info">
-                                                            <label>username</label>
-                                                            <input type="text"
-                                                                id="edit-name"
-                                                                value="<%= userData.name %>">
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div
-                                                        class="col-lg-6 col-md-6">
-                                                        <div
-                                                            class="billing-info"
-                                                            name="mobile">
-                                                            <label>mobile</label>
-                                                            <input type="text"
-                                                                id="edit-mobile"
-                                                                name="mobile"
-                                                                value="<%= userData.mobile %>">
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="col-lg-12 col-md-12">
-                                                        <div
-                                                            class="billing-info">
-                                                            <label>Email</label>
-                                                            <input type="email"
-                                                                id="edit-email"
-                                                                name="email"
-                                                                value="<%= userData.email %>"">
-                                                        </div>
-                                                    </div>
-
-                                                    <div
-                                                        class="col-lg-12 col-md-12">
-                                                        <div
-                                                            class="billing-info">
-                                                            <label>current
-                                                                password</label>
-                                                            <input type="text"
-                                                                name="currentPassword"
-                                                                id="edit-current-password">
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="col-lg-12 col-md-12">
-                                                        <div
-                                                            class="billing-info">
-                                                            <label>new
-                                                                password</label>
-                                                            <input type="text"
-                                                                id="edit-new-password"
-                                                                name="newPassword">
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <h3><a
-                                                        href="/forgot-password">forgot
-                                                        password?</a></h3>
-                                                <div class="billing-back-btn">
-                                                    <div class="billing-back">
-                                                        <a href="#">
-                                                            <i
-                                                                class="fa fa-long-arrow-up"></i>
-                                                            back</a>
-                                                    </div>
-                                                    <div class="billing-btn">
-                                                        <button type="submit"
-                                                            id="edit-btn">save</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h5 class="panel-title">
-                                        <span>2</span>
-                                        <a data-toggle="collapse"
-                                            data-parent="#faq"
-                                            href="#my-account-2">
-                                            address </a>
-                                    </h5>
-                                </div>
-
-                                <div id="my-account-2"
-                                    class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <div
-                                            class="billing-information-wrapper">
-                                            <div
-                                                class="panel panel-default col-lg-12 col-md-12">
-                                                <div class="panel-heading">
-                                                    <h5 class="panel-title">
-                                                        <span>2</span>
-                                                        <a
-                                                            data-toggle="collapse"
-                                                            data-parent="#faq"
-                                                            href="#my-account-7">
-                                                            your addresses </a>
-                                                    </h5>
-                                                </div>
-                                                <div id="my-account-7"
-                                                    class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        <div
-                                                            class="billing-information-wrapper">
-                                                            <div class="row">
-                                                                <% if
-                                                                (addressData &&
-                                                                addressData.address
-                                                                &&
-                                                                addressData.address.length
-                                                                > 0) { %>
-                                                                <%
-                                                                addressData.address.forEach(function(address)
-                                                                { %>
-                                                                <div
-                                                                    class="col-lg-4 col-md-6"
-                                                                    style="margin-bottom: 2rem;">
-                                                                    <div
-                                                                        id="address-list"
-                                                                        style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
-                                                                        <div
-                                                                            class="address-item-container">
-                                                                            <p
-                                                                                class="address-item">Name:
-                                                                                <%=
-                                                                                address.fullName
-                                                                                %></p>
-                                                                            <p
-                                                                                class="address-item">Email:
-                                                                                <%=
-                                                                                address.email
-                                                                                %></p>
-                                                                            <p
-                                                                                class="address-item">Mobile:
-                                                                                <%=
-                                                                                address.mobile
-                                                                                %></p>
-                                                                            <p
-                                                                                class="address-item">State:
-                                                                                <%=
-                                                                                address.state
-                                                                                %></p>
-                                                                            <p
-                                                                                class="address-item">City:
-                                                                                <%=
-                                                                                address.city
-                                                                                %></p>
-                                                                            <p
-                                                                                class="address-item">Pincode:
-                                                                                <%=
-                                                                                address.pin
-                                                                                %></p>
-                                                                            <p
-                                                                                class="address-item">HouseName:
-                                                                                <%=
-                                                                                address.houseName
-                                                                                %></p>
-                                                                            <div
-                                                                                class="address-buttons-container">
-
-                                                                                <a
-                                                                                    href="#"
-                                                                                    class="edit-link"
-                                                                                    data-toggle="modal"
-                                                                                    data-target="#editAddressModal<%= address._id %>">
-                                                                                    Edit
-                                                                                    <i
-                                                                                        class="fa-sharp fa-solid fa-pen"
-                                                                                        style="color: #cc9966;"></i>
-                                                                                </a>
-
-                                                                                <div
-                                                                                    class="modal fade"
-                                                                                    id="editAddressModal<%= address._id %>"
-                                                                                    tabindex="-1"
-                                                                                    role="dialog"
-                                                                                    aria-labelledby="exampleModalLabel"
-                                                                                    aria-hidden="true"
-                                                                                    style="padding-top: 80px;">
-                                                                                    <div
-                                                                                        class="modal-dialog"
-                                                                                        role="document">
-                                                                                        <div
-                                                                                            class="modal-content">
-                                                                                            <div
-                                                                                                class="modal-header">
-                                                                                                <h5
-                                                                                                    class="modal-title"
-                                                                                                    id="exampleModalLabel">edit
-                                                                                                    Address</h5>
-                                                                                                <button
-                                                                                                    type="button"
-                                                                                                    class="close"
-                                                                                                    data-dismiss="modal"
-                                                                                                    aria-label="Close">
-                                                                                                    <span
-                                                                                                        aria-hidden="true">&times;</span>
-                                                                                                </button>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="modal-body">
-                                                                                                <form
-                                                                                                   
-                                                                                                    class="row gx-2" id="edit-address-form">
-                                                                                                    <div
-                                                                                                        class="form-group col-md-6">
-                                                                                                        <label
-                                                                                                            for="fullname">Full
-                                                                                                            Name
-                                                                                                            *</label>
-                                                                                                        <input
-                                                                                                            type="text"
-                                                                                                            class="form-control"
-                                                                                                            name="fullname"
-                                                                                                            id="edit-name"
-                                                                                                            value="<%= address.fullName %>"
-                                                                                                            required>
-                                                                                                        <input
-                                                                                                            type="hidden"
-                                                                                                            name="edit-addressId"
-                                                                                                            id="edit-addressId"
-                                                                                                            value="<%= address._id %>">
-                                                                                                        <div
-                                                                                                            id="fnameError"
-                                                                                                            style="display: none; color: red;"></div>
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-group col-md-6">
-                                                                                                        <label
-                                                                                                            for="mobile">Mobile
-                                                                                                            *</label>
-                                                                                                        <input
-                                                                                                            type="number"
-                                                                                                            class="form-control"
-                                                                                                            name="mobile"
-                                                                                                            id="edit-mobile"
-                                                                                                            value="<%= address.mobile %>"
-                                                                                                            required>
-                                                                                                        <div
-                                                                                                            id="mobiles"
-                                                                                                            style="display: none; color: red;"></div>
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-group col-md-12">
-                                                                                                        <label
-                                                                                                            for="email">Email
-                                                                                                            *</label>
-                                                                                                        <input
-                                                                                                            type="email"
-                                                                                                            class="form-control"
-                                                                                                            name="email"
-                                                                                                            id="edit-email"
-                                                                                                            value="<%= address.email %>"
-                                                                                                            required>
-                                                                                                        <div
-                                                                                                            id="addEmailError"
-                                                                                                            style="display: none; color: red;"></div>
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-group col-md-12">
-                                                                                                        <label
-                                                                                                            for="house">House
-                                                                                                            Name
-                                                                                                            *</label>
-                                                                                                        <input
-                                                                                                            type="text"
-                                                                                                            class="form-control"
-                                                                                                            name="houseName"
-                                                                                                            id="edit-housename"
-                                                                                                            value="<%= address.houseName %>"
-                                                                                                            required>
-                                                                                                        <div
-                                                                                                            id="houseError"
-                                                                                                            style="display: none; color: red;"></div>
-                                                                                                        <input
-                                                                                                            type="text"
-                                                                                                            class="form-control"
-                                                                                                            style="display: none;"
-                                                                                                            id="addressId"
-                                                                                                            name="addressId">
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-group col-md-4">
-                                                                                                        <label
-                                                                                                            for="state">State
-                                                                                                            *</label>
-                                                                                                        <input
-                                                                                                            type="text"
-                                                                                                            class="form-control"
-                                                                                                            name="state"
-                                                                                                            id="edit-state"
-                                                                                                            value="<%= address.state %>"
-                                                                                                            required>
-                                                                                                        <div
-                                                                                                            id="stateError"
-                                                                                                            style="display: none; color: red;"></div>
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-group col-md-4">
-                                                                                                        <label
-                                                                                                            for="city">City
-                                                                                                            *</label>
-                                                                                                        <input
-                                                                                                            type="text"
-                                                                                                            class="form-control"
-                                                                                                            name="city"
-                                                                                                            id="edit-city"
-                                                                                                            value="<%= address.city %>"
-                                                                                                            required>
-                                                                                                        <div
-                                                                                                            id="cityError"
-                                                                                                            style="display: none; color: red;"></div>
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-group col-md-4">
-                                                                                                        <label
-                                                                                                            for="pincode">Pincode
-                                                                                                            *</label>
-                                                                                                        <input
-                                                                                                            type="tel"
-                                                                                                            class="form-control"
-                                                                                                            name="pincode"
-                                                                                                            id="edit-pincode"
-                                                                                                            value="<%= address.pin %>"
-                                                                                                            autocomplete="off"
-                                                                                                            required>
-                                                                                                        <div
-                                                                                                            id="pinError"
-                                                                                                            style="display: none; color: red;"></div>
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-group col-md-12">
-                                                                                                        <button
-                                                                                                            id="editAddress"
-                                                                                                            type="submit"
-                                                                                                            class="btn btn-outline-primary">
-                                                                                                            <span>Add
-                                                                                                                Address</span>
-                                                                                                            <i
-                                                                                                                class="icon-long-arrow-right"></i>
-                                                                                                        </button>
-                                                                                                    </div>
-                                                                                                </form>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <button
-                                                                                    class="delete-address-btn"><i
-                                                                                        class="fas fa-trash-alt"></i>
-                                                                                    <a
-                                                                                        href="/delete-address?_id=<%= address._id %>">Delete</a></button>
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                                <% }); %>
-                                                                <% } else { %>
-                                                                <p>No address
-                                                                    data
-                                                                    available.</p>
-                                                                <% } %>
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="panel panel-default col-lg-12 col-md-12">
-                                                <div class="panel-heading">
-                                                    <h5 class="panel-title">
-                                                        <span>2</span>
-                                                        <a
-                                                            data-toggle="collapse"
-                                                            data-parent="#faq"
-                                                            href="#my-account-6">
-                                                            add address </a>
-                                                    </h5>
-                                                </div>
-                                                <div id="my-account-6"
-                                                    class="panel-collapse collapse">
-                                                    <div class="panel-body">
-
-                                                        <div
-                                                            class="billing-information-wrapper">
+                                                            class="col-lg-12 col-md-6 col-sm-6 col-12 d-flex align-items-center justify-content-center">
                                                             <div
-                                                                class="account-info-wrapper">
-                                                                <h4>add
-                                                                    address</h4>
+                                                                class="entries-info text-center">
+                                                                <table
+                                                                    style="width: 100%; border-collapse: collapse; border-spacing: 0;">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th
+                                                                                style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width:auto;">No</th>
+                                                                            <th
+                                                                                style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Date</th>
+                                                                            <th
+                                                                                style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Price</th>
+                                                                            <th
+                                                                                style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Payment
+                                                                                Method</th>
+                                                                            <th
+                                                                                style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Details</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <% let
+                                                                        counter
+                                                                        = 1; %>
+                                                                        <% for
+                                                                        (let
+                                                                        orderId
+                                                                        in
+                                                                        orderDetails)
+                                                                        { %>
+                                                                        <% let
+                                                                        order
+                                                                        =
+                                                                        orderDetails[orderId];
+                                                                        %>
+                                                                        <tr>
+                                                                            <td
+                                                                                style="padding: 10px; border-bottom: 1px solid #ddd;"><%=
+                                                                                counter
+                                                                                %>
+                                                                            </td>
+                                                                            <td
+                                                                                style="padding: 10px; border-bottom: 1px solid #ddd;"><%=
+                                                                                new
+                                                                                Date(order.date).toLocaleDateString()
+                                                                                %></td>
+                                                                            <td
+                                                                                style="padding: 10px; border-bottom: 1px solid #ddd;">$<%=
+                                                                                order.totalAmount
+                                                                                %>.00</td>
+                                                                            <td
+                                                                                style="padding: 10px; border-bottom: 1px solid #ddd;"><%=
+                                                                                order.paymentMethod
+                                                                                %></td>
+                                                                            <td
+                                                                                style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">
+                                                                                <a
+                                                                                    href="/order-details?_id=<%=order._id %>"
+                                                                                    style="display: inline-block; padding: 8px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">View
+                                                                                    Details</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <%
+                                                                        counter++;
+                                                                        %>
+                                                                        <% } %>
+                                                                    </tbody>
+                                                                </table>
 
                                                             </div>
-                                                            <form id="form">
-                                                                <div
-                                                                    class="row">
-                                                                    <div
-                                                                        class="col-lg-6 col-md-6">
-                                                                        <div
-                                                                            class="billing-info">
-                                                                            <label>name</label>
-                                                                            <input
-                                                                                type="text"
-                                                                                name="name"
-                                                                                id="name">
-                                                                            <p
-                                                                                id="nameError"
-                                                                                style="color: red; font-size: 10px; display: none;"></p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div
-                                                                        class="col-lg-6 col-md-6">
-                                                                        <div
-                                                                            class="billing-info">
-
-                                                                            <label>mobile
-                                                                            </label>
-                                                                            <input
-                                                                                type="number"
-                                                                                name="mobile"
-                                                                                id="mobile">
-                                                                            <p
-                                                                                id="mobileError"
-                                                                                style="color: red; font-size: 10px; display: none;"></p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div
-                                                                        class="col-lg-12 col-md-12">
-                                                                        <div
-                                                                            class="billing-info">
-                                                                            <label>email
-                                                                            </label>
-                                                                            <input
-                                                                                type="email"
-                                                                                name="email"
-                                                                                id="email">
-                                                                            <p
-                                                                                id="emailError"
-                                                                                style="color: red; font-size: 10px; display: none;"></p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="row">
-                                                                    <div
-                                                                        class="col-lg-4 col-md-4">
-                                                                        <div
-                                                                            class="billing-info">
-                                                                            <label
-                                                                                for="state">State</label>
-                                                                            <div
-                                                                                style="height: 50px; overflow-y: auto;">
-                                                                                <select
-                                                                                    id="state"
-                                                                                    name="state"
-                                                                                    style="width: 100%; ">
-                                                                                    <option
-                                                                                        value>Select
-                                                                                        State</option>
-                                                                                    <option
-                                                                                        value="Andhra Pradesh">Andhra
-                                                                                        Pradesh</option>
-                                                                                    <option
-                                                                                        value="Arunachal Pradesh">Arunachal
-                                                                                        Pradesh</option>
-                                                                                    <option
-                                                                                        value="Assam">Assam</option>
-                                                                                    <option
-                                                                                        value="Bihar">Bihar</option>
-                                                                                    <option
-                                                                                        value="Chhattisgarh">Chhattisgarh</option>
-                                                                                    <option
-                                                                                        value="Goa">Goa</option>
-                                                                                    <option
-                                                                                        value="Gujarat">Gujarat</option>
-                                                                                    <option
-                                                                                        value="Haryana">Haryana</option>
-                                                                                    <option
-                                                                                        value="Himachal Pradesh">Himachal
-                                                                                        Pradesh</option>
-                                                                                    <option
-                                                                                        value="Jharkhand">Jharkhand</option>
-                                                                                    <option
-                                                                                        value="Karnataka">Karnataka</option>
-                                                                                    <option
-                                                                                        value="Kerala">Kerala</option>
-                                                                                    <option
-                                                                                        value="Madhya Pradesh">Madhya
-                                                                                        Pradesh</option>
-                                                                                    <option
-                                                                                        value="Maharashtra">Maharashtra</option>
-                                                                                    <option
-                                                                                        value="Manipur">Manipur</option>
-                                                                                    <option
-                                                                                        value="Meghalaya">Meghalaya</option>
-                                                                                    <option
-                                                                                        value="Mizoram">Mizoram</option>
-                                                                                    <option
-                                                                                        value="Nagaland">Nagaland</option>
-                                                                                    <option
-                                                                                        value="Odisha">Odisha</option>
-                                                                                    <option
-                                                                                        value="Punjab">Punjab</option>
-                                                                                    <option
-                                                                                        value="Rajasthan">Rajasthan</option>
-                                                                                    <option
-                                                                                        value="Sikkim">Sikkim</option>
-                                                                                    <option
-                                                                                        value="Tamil Nadu">Tamil
-                                                                                        Nadu</option>
-                                                                                    <option
-                                                                                        value="Telangana">Telangana</option>
-                                                                                    <option
-                                                                                        value="Tripura">Tripura</option>
-                                                                                    <option
-                                                                                        value="Uttar Pradesh">Uttar
-                                                                                        Pradesh</option>
-                                                                                    <option
-                                                                                        value="Uttarakhand">Uttarakhand</option>
-                                                                                    <option
-                                                                                        value="West Bengal">West
-                                                                                        Bengal</option>
-                                                                                    <option
-                                                                                        value="Andaman and Nicobar Islands">Andaman
-                                                                                        and
-                                                                                        Nicobar
-                                                                                        Islands</option>
-                                                                                    <option
-                                                                                        value="Chandigarh">Chandigarh</option>
-                                                                                    <option
-                                                                                        value="Dadra and Nagar Haveli">Dadra
-                                                                                        and
-                                                                                        Nagar
-                                                                                        Haveli</option>
-                                                                                    <option
-                                                                                        value="Daman and Diu">Daman
-                                                                                        and
-                                                                                        Diu</option>
-                                                                                    <option
-                                                                                        value="Delhi">Delhi</option>
-                                                                                    <option
-                                                                                        value="Lakshadweep">Lakshadweep</option>
-                                                                                    <option
-                                                                                        value="Puducherry">Puducherry</option>
-
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div
-                                                                        class="col-lg-4 col-md-4">
-                                                                        <div
-                                                                            class="billing-info">
-
-                                                                            <label>city
-                                                                            </label>
-                                                                            <input
-                                                                                type="text"
-                                                                                name="city"
-                                                                                id="city">
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div
-                                                                        class="col-lg-4 col-md-4">
-                                                                        <div
-                                                                            class="billing-info">
-
-                                                                            <label>pincode
-                                                                            </label>
-                                                                            <input
-                                                                                type="number"
-                                                                                name="pincode"
-                                                                                id="pincode">
-                                                                            <p
-                                                                                id="pincodeError"
-                                                                                style="color: red; font-size: 10px; display: none;"></p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div
-                                                                        class="col-lg-12 col-md-12">
-                                                                        <div
-                                                                            class="billing-info">
-                                                                            <label>house
-                                                                                name
-                                                                            </label>
-                                                                            <input
-                                                                                type="text"
-                                                                                name="houseName"
-                                                                                id="houseName">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div
-                                                                    class="billing-back-btn">
-                                                                    <div
-                                                                        class="billing-back">
-                                                                        <a
-                                                                            href="#">
-                                                                            <i
-                                                                                class="fa fa-long-arrow-up"></i>
-                                                                            back</a>
-                                                                    </div>
-                                                                    <div
-                                                                        class="billing-btn">
-                                                                        <button
-                                                                            type="submit"
-                                                                            id="address-btn">add
-                                                                            address</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h5 class="panel-title">
-                                        <span>3</span>
-                                        <a data-toggle="collapse"
-                                            data-parent="#faq"
-                                            href="#my-account-3">order
-                                            details </a>
-                                    </h5>
-                                </div>
-                                <div id="my-account-3"
-                                    class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <div
-                                            class="billing-information-wrapper">
-                                            <div class="account-info-wrapper">
-                                                <h4>your order details</h4>
-                                            </div>
-                                            <div class="entries-wrapper">
-                                                <div class="row">
-                                                    <div
-                                                        class="col-lg-12 col-md-6 col-sm-6 col-12 d-flex align-items-center justify-content-center">
-                                                        <div
-                                                            class="entries-info text-center">
-                                                            <table
-                                                                style="width: 100%; border-collapse: collapse; border-spacing: 0;">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th
-                                                                            style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width:auto;">No</th>
-                                                                        <th
-                                                                            style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Date</th>
-                                                                        <th
-                                                                            style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Price</th>
-                                                                        <th
-                                                                            style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Payment
-                                                                            Method</th>
-                                                                        <th
-                                                                            style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Details</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <% let counter = 1; %> 
-                                                                    <% for (let
-                                                                    orderId in
-                                                                    orderDetails)
-                                                                    { %>
-                                                                    <% let order
-                                                                    =
-                                                                    orderDetails[orderId];
-                                                                    %>
-                                                                    <tr>
-                                                                        <td
-                                                                            style="padding: 10px; border-bottom: 1px solid #ddd;"><%= counter %>
-                                                                           </td>
-                                                                        <td
-                                                                            style="padding: 10px; border-bottom: 1px solid #ddd;"><%=
-                                                                            new
-                                                                            Date(order.date).toLocaleDateString()
-                                                                            %></td>
-                                                                        <td
-                                                                            style="padding: 10px; border-bottom: 1px solid #ddd;">$<%=
-                                                                            order.totalAmount
-                                                                            %>.00</td>
-                                                                        <td
-                                                                            style="padding: 10px; border-bottom: 1px solid #ddd;"><%=
-                                                                            order.paymentMethod
-                                                                            %></td>
-                                                                        <td
-                                                                            style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">
-                                                                            <a
-                                                                                href="/order-details?_id=<%=order._id %>"
-                                                                                style="display: inline-block; padding: 8px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">View
-                                                                                Details</a>
-                                                                        </td>
-                                                                    </tr> 
-                                                                     <% counter++; %>
-                                                                    <% } %>
-                                                                </tbody>
-                                                            </table>
 
                                                         </div>
 
                                                     </div>
-
                                                 </div>
-                                            </div>
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h5 class="panel-title">
-                                        <span>4</span>
-                                        <a href="wishlist.html">Modify your wish
-                                            list </a>
-                                    </h5>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <span>4</span>
+                                            <a href="wishlist.html">Modify your
+                                                wish
+                                                list </a>
+                                        </h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -967,177 +1013,210 @@
                 </div>
             </div>
         </div>
+        <!-- End My Account Area -->
     </div>
-    <!-- End My Account Area -->
-</div>
 
-<!-- Quick View Modal -->
-<div class="quick-view-modal">
-    <div class="quick-view-modal-inner">
-        <div class="container">
-            <div class="product-details">
-                <!-- Product Details Left -->
-                <div class="product-details-left">
-                    <div class="product-details-images slider-navigation-2">
-                        <a href="#">
-                            <img class="w-100"
-                                src="assets/images/product/product-01.jpg"
-                                alt="product image">
-                        </a>
-                        <a href="#">
-                            <img class="w-100"
-                                src="assets/images/product/product-02.jpg"
-                                alt="product image">
-                        </a>
-                        <a href="#">
-                            <img class="w-100"
-                                src="assets/images/product/product-03.jpg"
-                                alt="product image">
-                        </a>
-                        <a href="#">
-                            <img class="w-100"
-                                src="assets/images/product/product-04.jpg"
-                                alt="product image">
-                        </a>
-                        <a href="#">
-                            <img class="w-100"
-                                src="assets/images/product/product-05.jpg"
-                                alt="product image">
-                        </a>
-                    </div>
-                    <div class="product-details-thumbs slider-navigation-2">
-                        <img src="assets/images/product/product-01.jpg"
-                            alt="product image thumb">
-                        <img src="assets/images/product/product-02.jpg"
-                            alt="product image thumb">
-                        <img src="assets/images/product/product-03.jpg"
-                            alt="product image thumb">
-                        <img src="assets/images/product/product-04.jpg"
-                            alt="product image thumb">
-                        <img src="assets/images/product/product-05.jpg"
-                            alt="product image thumb">
-                    </div>
-                </div>
-                <!--// Product Details Left -->
-
-                <!-- Product Details Right -->
-                <div class="product-details-right">
-                    <h5 class="product-title">Demo Product Name</h5>
-
-                    <div class="ratting-stock-availbility">
-                        <div class="ratting-box">
-                            <span><i class="fa fa-star"></i></span>
-                            <span><i class="fa fa-star"></i></span>
-                            <span><i class="fa fa-star"></i></span>
-                            <span><i class="fa fa-star"></i></span>
-                            <span><i class="fa fa-star"></i></span>
+    <!-- Quick View Modal -->
+    <div class="quick-view-modal">
+        <div class="quick-view-modal-inner">
+            <div class="container">
+                <div class="product-details">
+                    <!-- Product Details Left -->
+                    <div class="product-details-left">
+                        <div class="product-details-images slider-navigation-2">
+                            <a href="#">
+                                <img class="w-100"
+                                    src="assets/images/product/product-01.jpg"
+                                    alt="product image">
+                            </a>
+                            <a href="#">
+                                <img class="w-100"
+                                    src="assets/images/product/product-02.jpg"
+                                    alt="product image">
+                            </a>
+                            <a href="#">
+                                <img class="w-100"
+                                    src="assets/images/product/product-03.jpg"
+                                    alt="product image">
+                            </a>
+                            <a href="#">
+                                <img class="w-100"
+                                    src="assets/images/product/product-04.jpg"
+                                    alt="product image">
+                            </a>
+                            <a href="#">
+                                <img class="w-100"
+                                    src="assets/images/product/product-05.jpg"
+                                    alt="product image">
+                            </a>
                         </div>
-                        <span class="stock-available">In stock</span>
+                        <div class="product-details-thumbs slider-navigation-2">
+                            <img src="assets/images/product/product-01.jpg"
+                                alt="product image thumb">
+                            <img src="assets/images/product/product-02.jpg"
+                                alt="product image thumb">
+                            <img src="assets/images/product/product-03.jpg"
+                                alt="product image thumb">
+                            <img src="assets/images/product/product-04.jpg"
+                                alt="product image thumb">
+                            <img src="assets/images/product/product-05.jpg"
+                                alt="product image thumb">
+                        </div>
                     </div>
+                    <!--// Product Details Left -->
 
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Nam fringilla augue nec est
-                        tristique auctor. Donec non est at libero vulputate
-                        rutrum. Morbi ornare lectus quis
-                        justo gravida semper. Nulla tellus mi, vulputate
-                        adipiscing cursus eu, suscipit id
-                        nulla. adipiscing cursus eu, suscipit id nulla.</p>
+                    <!-- Product Details Right -->
+                    <div class="product-details-right">
+                        <h5 class="product-title">Demo Product Name</h5>
 
-                    <div class="price-box">
-                        <span class="pricebox-price">£80.00</span>
-                    </div>
-
-                    <div class="product-details-quantity">
-                        <div class="quantity-select">
-                            <div class="pro-quantity">
-                                <div class="pro-qty"><input type="text"
-                                        value="1"></div>
+                        <div class="ratting-stock-availbility">
+                            <div class="ratting-box">
+                                <span><i class="fa fa-star"></i></span>
+                                <span><i class="fa fa-star"></i></span>
+                                <span><i class="fa fa-star"></i></span>
+                                <span><i class="fa fa-star"></i></span>
+                                <span><i class="fa fa-star"></i></span>
                             </div>
+                            <span class="stock-available">In stock</span>
                         </div>
-                        <a href="#" class="add-to-cart-button">
-                            <span>ADD TO CART</span>
-                        </a>
-                    </div>
 
-                    <div class="product-details-color">
-                        <span>Color :</span>
-                        <ul>
-                            <li class="red"><span></span></li>
-                            <li class="green checked"><span></span></li>
-                            <li class="blue"><span></span></li>
-                            <li class="black"><span></span></li>
-                        </ul>
-                    </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit.
+                            Nam fringilla augue nec est
+                            tristique auctor. Donec non est at libero vulputate
+                            rutrum. Morbi ornare lectus quis
+                            justo gravida semper. Nulla tellus mi, vulputate
+                            adipiscing cursus eu, suscipit id
+                            nulla. adipiscing cursus eu, suscipit id nulla.</p>
 
-                    <div class="product-details-size">
-                        <span>Size :</span>
-                        <ul>
-                            <li class="checked"><span>S</span></li>
-                            <li><span>M</span></li>
-                            <li><span>L</span></li>
-                            <li><span>XL</span></li>
-                            <li><span>XXL</span></li>
-                        </ul>
-                    </div>
+                        <div class="price-box">
+                            <span class="pricebox-price">£80.00</span>
+                        </div>
 
-                    <div class="product-details-categories">
-                        <span>Categories :</span>
-                        <ul>
-                            <li><a href="shop.html">Accessories</a></li>
-                            <li><a href="shop.html">Kids</a></li>
-                            <li><a href="shop.html">Women</a></li>
-                        </ul>
-                    </div>
+                        <div class="product-details-quantity">
+                            <div class="quantity-select">
+                                <div class="pro-quantity">
+                                    <div class="pro-qty"><input type="text"
+                                            value="1"></div>
+                                </div>
+                            </div>
+                            <a href="#" class="add-to-cart-button">
+                                <span>ADD TO CART</span>
+                            </a>
+                        </div>
 
-                    <div class="product-details-tags">
-                        <span>Tags :</span>
-                        <ul>
-                            <li><a href="shop.html">Electronic</a></li>
-                            <li><a href="shop.html">Television</a></li>
-                        </ul>
-                    </div>
+                        <div class="product-details-color">
+                            <span>Color :</span>
+                            <ul>
+                                <li class="red"><span></span></li>
+                                <li class="green checked"><span></span></li>
+                                <li class="blue"><span></span></li>
+                                <li class="black"><span></span></li>
+                            </ul>
+                        </div>
 
-                    <div class="product-details-socialshare">
-                        <span>Share :</span>
-                        <ul>
-                            <li><a class="facebook" href="#"><i
-                                        class="fa fa-facebook"></i></a></li>
-                            <li><a class="twitter" href="#"><i
-                                        class="fa fa-twitter"></i></a></li>
-                            <li><a class="google-plus" href="#"><i
-                                        class="fa fa-google-plus"></i></a></li>
-                            <li><a class="linkedin" href="#"><i
-                                        class="fa fa-linkedin"></i></a></li>
-                            <li><a class="instagram" href="#"><i
-                                        class="fa fa-instagram"></i></a></li>
-                        </ul>
+                        <div class="product-details-size">
+                            <span>Size :</span>
+                            <ul>
+                                <li class="checked"><span>S</span></li>
+                                <li><span>M</span></li>
+                                <li><span>L</span></li>
+                                <li><span>XL</span></li>
+                                <li><span>XXL</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="product-details-categories">
+                            <span>Categories :</span>
+                            <ul>
+                                <li><a href="shop.html">Accessories</a></li>
+                                <li><a href="shop.html">Kids</a></li>
+                                <li><a href="shop.html">Women</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="product-details-tags">
+                            <span>Tags :</span>
+                            <ul>
+                                <li><a href="shop.html">Electronic</a></li>
+                                <li><a href="shop.html">Television</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="product-details-socialshare">
+                            <span>Share :</span>
+                            <ul>
+                                <li><a class="facebook" href="#"><i
+                                            class="fa fa-facebook"></i></a></li>
+                                <li><a class="twitter" href="#"><i
+                                            class="fa fa-twitter"></i></a></li>
+                                <li><a class="google-plus" href="#"><i
+                                            class="fa fa-google-plus"></i></a></li>
+                                <li><a class="linkedin" href="#"><i
+                                            class="fa fa-linkedin"></i></a></li>
+                                <li><a class="instagram" href="#"><i
+                                            class="fa fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
+                    <!--// Product Details Right -->
+
                 </div>
-                <!--// Product Details Right -->
-
             </div>
+
         </div>
-
+        <button class="close-quickview-modal"><i
+                class="fa fa-close"></i></button>
     </div>
-    <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
-</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-
-
-
-
-<script>
+    <script>
 document.getElementById('edit-btn').addEventListener('click', async (e) => {
     e.preventDefault();
     const name = document.getElementById('edit-name').value;
     const email = document.getElementById('edit-email').value;
     const mobile = document.getElementById('edit-mobile').value;
     const image = document.getElementById('profileImage');
-    const newPassword = document.getElementById('edit-new-password').value;
-    const currentPassword = document.getElementById('edit-current-password').value;
+    const nameError = document.getElementById("name-error")
+    const emailError = document.getElementById("email-error")
+    const mobileError = document.getElementById("mobile-error")
+    const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    console.log('hsjhfd',name,email,mobile,image);
+
+
+    if(name.trim()==""){
+      nameError.style.display="block"
+      nameError.textContent="name is required"
+    }
+
+    if (email.trim() === "") {
+            emailError.style.display="block" 
+            emailError.textContent = "Email is required.";
+           
+            } else if (!emailPattern.test(email)) {
+                emailError.style.display="block" 
+                emailError.textContent = "Invalid email format.";
+             
+            } else {
+                emailError.style.display="block" 
+                emailError.textContent = "";
+            }
+            if (mobile.length!=10) {
+                mobileError.style.display="block" 
+                mobileError.textContent = "Mobile number must be at least 10 digits"
+                return
+               
+            } 
+            else  {
+                mobileError.style.display="block" 
+                mobileError.textContent = ""
+            }
+
+
+    
 
     
 
@@ -1148,8 +1227,6 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
     formData.append('name', name);
     formData.append('email', email);
     formData.append('mobile', mobile);
-    formData.append('newPassword', newPassword);
-    formData.append('currentPassword', currentPassword);
 
     try {
         const response = await axios.post('/edit-profile', formData, {
@@ -1159,19 +1236,7 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
         });
 
        
-        if (response.data.passwordLength) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Failed',
-                text: 'Password must be 8 characters',
-            });
-        } else if (response.data.passwordMatch) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Failed',
-                text: 'Current password is not matching, try again later',
-            });
-        } else if (response.data.profileEdit) {
+      if (response.data.profileEdit) {
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
@@ -1197,26 +1262,168 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
     }
 });
 
+<!-- password change -->
+
+document.getElementById("password-btn").addEventListener("click", async (e) => {
+    e.preventDefault()
+    const current = document.getElementById("current-password").value
+    const newPassword = document.getElementById("new-password").value
+    const confirm = document.getElementById("confirm-password").value
+    const currentError = document.getElementById('currentError')
+    const newError = document.getElementById('newError')
+    const confirmError = document.getElementById('confirmError')
+
+    console.log('shdk',current,newPassword,confirm);
+
+    if (current.trim() === '') {
+            currentError.style.display= "block"
+            currentError.textContent = 'Password is required';
+            isValid = false;
+        } else if (current.length < 8) {
+           currentError.style.display= "block"
+           currentError.textContent = 'Password must be at least 8 characters';
+            isValid = false;
+        } else if (!/[A-Z]/.test(current)) {
+           currentError.style.display= "block"
+           currentError.textContent = 'Password must contain at least one uppercase letter';
+            isValid = false;
+        } else if (!/[a-z]/.test(current)) {
+           currentError.style.display= "block"
+           currentError.textContent = 'Password must contain at least one lowercase letter';
+            isValid = false;
+        } else if (!/\d/.test(current)) {
+           currentError.style.display= "block"
+           currentError.textContent = 'Password must contain at least one number';
+            isValid = false;
+        }
+
+
+    if (newPassword.trim() === '') {
+           newError.style.display= "block"
+           newError.textContent = 'New Password is required';
+            isValid = false;
+        } else if (newPassword.length < 8) {
+          newError.style.display= "block"
+          newError.textContent = 'Password must be at least 8 characters';
+            isValid = false;
+        } else if (!/[A-Z]/.test(newPassword)) {
+          newError.style.display= "block"
+          newError.textContent = 'Password must contain at least one uppercase letter';
+            isValid = false;
+        } else if (!/[a-z]/.test(newPassword)) {
+          newError.style.display= "block"
+          newError.textContent = 'Password must contain at least one lowercase letter';
+            isValid = false;
+        } else if (!/\d/.test(newPassword)) {
+          newError.style.display= "block"
+          newError.textContent = 'Password must contain at least one number';
+            isValid = false;
+        }
+
+        
+        if (confirm.trim() === '') {
+           confirmError.style.display= "block"
+           confirmError.textContent = 'Confirm password is required';
+            isValid = false;
+        } else if (confirm !== newPassword) {
+           confirmError.style.display="block"
+           confirmError.textContent = 'confirm password do not match';
+            isValid = false;
+        }
+
+        if(current===confirm){
+            newError.style.display= "block"
+            newError.textContent = 'new password must be different';
+        }
+
+
+        const formData = new FormData()
+
+        formData.append('current', current);
+        formData.append('newPassword', newPassword);
+        formData.append('confirm', confirm);
+
+        try {
+            const response = await axios.post('/password-change', formData,{
+                header:{
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+          
+
+            if(response.data.passwordMatch){
+                Swal.fire({
+                icon: 'warning',
+                title: 'error',
+                text: 'current password is incorrect',
+                })
+                }else if(response.data.password){
+                    Swal.fire({
+                icon: 'success',
+                title: 'updated',
+                text: 'your password is changed',
+
+            }).then(()=>{
+                window.location.href="/profile"
+                location.reload()
+            })
+            }
+       
+    
+        } catch (e) {
+            console.log('while password change in frontend',e);
+            
+        }
+
+
+})
+
 </script>
+
+    <!-- edit addresssss -->
 
     <script>
 
+function showEditAddressModal(
+  fullname,
+  mobile,
+  email,
+  houseName,
+  city,
+  state,
+  pincode,
+  addressId,
+) {
+  document.getElementById('fullnames').value = fullname
+  document.getElementById('emails').value = email
+  document.getElementById('mobiles').value = mobile
+  document.getElementById('states').value = state
+  document.getElementById('citys').value = city
+  document.getElementById('pincodes').value = pincode
+  document.getElementById('houseNames').value = houseName
+  document.getElementById('addressId').value = addressId
 
 
-  document.getElementById('edit-address-form').addEventListener('submit', function (e) {
+  $('#editAddressModal').modal('show')
+}
+
+
+
+  document.getElementById('editAddress').addEventListener('click', function (e) {
     e.preventDefault();
- ;
 
     
-    // Retrieving values from form fields
-    const editAddressId = document.getElementById('edit-addressId').value;
-    const fullname = document.getElementById('edit-name').value;
-    const pin = document.getElementById('edit-pincode').value;
-    const mobile = document.getElementById('edit-mobile').value;
-    const email = document.getElementById('edit-email').value;
-    const houseName = document.getElementById('edit-housename').value;
-    const city = document.getElementById('edit-city').value;
-    const state = document.getElementById('edit-state').value;
+    const editAddressId = document.getElementById('addressId').value;
+    const fullname = document.getElementById('fullnames').value;
+    const pin = document.getElementById('pincodes').value;
+    const mobile = document.getElementById('mobiles').value;
+    const email = document.getElementById('emails').value;
+    const houseName = document.getElementById('houseNames').value;
+    const city = document.getElementById('citys').value;
+    const state = document.getElementById('states').value;
+
+    console.log('full',fullname,pin,mobile,email,houseName,city,state);
+    console.log('fulssname',fullname);
     
     // Retrieving error message elements
     const nameError = document.getElementById('fnameError');
@@ -1289,7 +1496,7 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
           console.log(response, 'check the response');
           if (response.success) {
             $('#editAddressModal').modal('hide');
-            $('.modal-dropback').remove();
+      
 
             const Toast = Swal.mixin({
               toast: true,
@@ -1330,9 +1537,9 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
 
 </script>
 
+    <!-- add address -->
 
-
-<script>
+    <script>
 
     
         
@@ -1352,38 +1559,75 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
         const state = document.getElementById('state').value;
         const city = document.getElementById('city').value;
         const houseName = document.getElementById('houseName').value;
+        const cityError = document.getElementById('cityError');
+        const houseError = document.getElementById('houseError');
+        console.log('entries',name,email,mobile,pincode,city,houseName);
 
      
-        if (email.trim() === "") {
-            emailError.style.display="block" 
-            emailError.textContent = "Email is required.";
-           
-            } else if (!emailPattern.test(email)) {
+        nameError.style.display = "none";
+        emailError.style.display = "none";
+        mobileError.style.display = "none";
+        pincodeError.style.display = "none";
+        cityError.style.display = "none";
+        houseError.style.display = "none";
+
+        // Check if any field is empty
+        if (email === "" || name === "" || pincode === "" || city === "" || mobile === "" || houseName === "") {
+            if (email === "") {
+                emailError.style.display = "block";
+                emailError.textContent = "Email is required.";
+            }
+            if (name === "") {
+                nameError.style.display = "block";
+                nameError.textContent = "Name is required.";
+            }
+            if (pincode === "") {
+                pincodeError.style.display = "block";
+                pincodeError.textContent = "Pincode is required.";
+            }
+            if (city === "") {
+                cityError.style.display = "block";
+                cityError.textContent = "City is required.";
+            }
+            if (mobile === "") {
+                mobileError.style.display = "block";
+                mobileError.textContent = "Mobile is required.";
+            }
+            if (houseName === "") {
+                houseError.style.display = "block";
+                houseError.textContent = "House name is required.";
+            }
+            return;
+        }
+            
+        console.log('st1');    
+            
+            if (!emailPattern.test(email)) {
                 emailError.style.display="block" 
                 emailError.textContent = "Invalid email format.";
+                console.log('hsdfjkh');
+                return
              
             } else {
                 emailError.style.display="block" 
                 emailError.textContent = "";
+                console.log('hsfh');
+               
             }
             if (mobile.length!=10) {
                 mobileError.style.display="block" 
                 mobileError.textContent = "Mobile number must be at least 10 digits"
+                console.log('aghfjhag');
                 return
-
                
             } 
             else  {
                 mobileError.style.display="block" 
                 mobileError.textContent = ""
             }
-
-            if (name.trim()===""){
-                nameError.style.display="block" 
-            nameError.textContent = "name is required."
-
-            }
-            else if (name.length < 4) {
+console.log('st2');
+          
+           if (name.length < 4) {
                 nameError.style.display="block"
                 nameError.textContent = "User name  must be at least 4 characters"
                 return
@@ -1425,7 +1669,7 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
     })
             .then(response => {
 
-               
+               console.log('response',response);
                 const Toast = Swal.mixin({
                     toast: true,
                     position: "top-end",
@@ -1438,7 +1682,10 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
                         title: "added",
                         text:"your address added successfully"
                     });
-                    window.location.href="/profile";
+                    setTimeout(() => {
+                        window.location.href="/profile";
+                    }, 3000);
+                 
                 }
             })
             .catch(e => {
@@ -1448,4 +1695,4 @@ document.getElementById('edit-btn').addEventListener('click', async (e) => {
 });
 </script>
 
-<%- include("../layouts/user/footer.ejs") %>
+    <%- include("../layouts/user/footer.ejs") %>

@@ -181,7 +181,13 @@ const editProduct = async (req, res) => {
     console.log("id",_id)
  
    
-    const imagesFiles = await req.files
+    const imagesFiles = {
+      image1: req.files['imageFile1'],
+      image2: req.files['imageFile2'],
+      image3: req.files['imageFile3'],
+      image4: req.files['imageFile4'],
+  };
+    console.log('fle',imagesFiles);
     const productData = await Product.findOne({ _id: _id })
     
     console.log(productData,"idaan produc")
@@ -194,6 +200,8 @@ const editProduct = async (req, res) => {
       imagesFiles.image3 ? imagesFiles.image3[0].filename : productData.images.image3,
       imagesFiles.image4 ? imagesFiles.image4[0].filename : productData.images.image4,
     ];
+
+    console.log('img',img);
 
 
     for (let i = 0; i < img.length; i++) {
@@ -284,6 +292,33 @@ res.redirect('/admin/product')
   }
 }
 
+const deleteImage = async (req,res) => {
+  try {
+    console.log('image ',req.body.imageNumber);
+    const product_id = req.body.id
+    const imageNumber = req.body.imageNumber
+    const imageField = `images.image${imageNumber}`;
+    console.log('dsa',imageField);
+
+
+    const productData = await Product.updateOne({_id:product_id},{$unset:{[imageField]:""}})
+
+    if (productData.nModified > 0) {
+      console.log('Image deleted successfully:', productData);
+      res.json({ success: true, message: 'Image deleted successfully!' });
+  } else {
+      console.log('No image was deleted.');
+      res.json({ success: false, message: 'No image was deleted. The product might not exist or the image number is incorrect.' });
+  }
+ 
+
+    
+    
+  } catch (error) {
+    console.log('while deleting the image',error);
+  }
+}
+
 
 
 
@@ -296,4 +331,5 @@ module.exports = {
   addProduct,
   editProductLoad,
   editProduct,
+  deleteImage
 }
