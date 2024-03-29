@@ -199,8 +199,8 @@
                                 </div>
                                 
                                 <div class="cart-summary-button">
-                                    <button class="checkout-btn"><a
-                                            href="/checkout">Checkout</a></button>
+                                    <button class="checkout-btn" id="checkout" type="submit"><a
+                                            >Checkout</a></button>
                                     <button class="update-btn"
                                         id="updateCartButton">Update
                                         Cart</button>
@@ -368,6 +368,38 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
 
 <script>
+
+document.getElementById('checkout').addEventListener('click',async (e) => {
+    e.preventDefault()
+    const response = await fetch('/checkout', {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json', 
+        },
+      
+    });
+
+   
+    if (response.ok) {
+      
+        const data = await response.json();
+       if(data.price){
+        Swal
+                    .fire({
+                        title: "updated !",
+                        text: " product price is updated ,please check the details",
+                        icon: "warning",
+                        timer:3000
+                    })
+       }
+    } else {
+       
+        console.error('Error:', response.status, response.statusText);
+    }
+});
+
+
+
      function removeItem(product_Id) {
                 Swal
                     .fire({

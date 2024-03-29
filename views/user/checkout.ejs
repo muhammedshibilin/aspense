@@ -629,6 +629,7 @@ console.log(formData,"haaiiiiiiii");
                 contentType: 'application/json',
                 data: JSON.stringify({ formData }),
                 success: (response) => {
+                    console.log('rs',response);
                     if(response.quantity){
                         swal.fire({
                           title: "info",
@@ -636,9 +637,8 @@ console.log(formData,"haaiiiiiiii");
                           title:"product is out of stock,better luck next timecart",
                           button: false,
                           timer: 3000
-                           })
-
-                    } else if (response.codsuccess == true) {
+                           })               
+                    }else if (response.codsuccess == true) {
                           swal.fire({
                           title: "success",
                           icon: "success",

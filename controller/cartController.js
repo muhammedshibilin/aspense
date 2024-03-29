@@ -10,7 +10,7 @@ const addToCart = async (req, res) => {
     try {
         const user_id = req.session.user_id;
         if (!user_id) {
-            console.log("no user Id");
+          
             return res.json({
                 login: true,
                 message: 'Please log in to add products into your cart.',
@@ -55,15 +55,14 @@ const addToCart = async (req, res) => {
 
                 })
             }
-            console.log('esxis', existCartData);
-            console.log('shh', existProductIndex);
+          
         }
 
 
 
 
 
-        // If the product is not in the cart, proceed to add it
+       
         let productDetails = {
             productId: product_id,
             productName: productData.name,
@@ -107,7 +106,6 @@ const cartLoad = async (req, res) => {
             match: {is_block: 0}
         });
 
-        console.log('dara', cartData);
 
         if (cartData && cartData.products) {
             const subTotal = cartData.products.reduce((acc, val) => acc + val.totalPrice, 0);
@@ -196,7 +194,28 @@ const checkoutLoad = async (req, res) => {
 
         const user_id = req.session.user_id
         const cartData = await Cart.findOne({ user: user_id }).populate('products.productId')
-        console.log(cartData, "huhjknnnnnnnnnnnnnnnnnnnh")
+      
+        const currentProductPrices = await Promise.all(cartData.products.map(async (item) => {
+            const product = await Product.findById(item.productId._id);
+            return { productId: item.productId._id, currentPrice: product.price };
+        }));
+        console.log('saaaaaaaaaa',currentProductPrices);
+
+        const hasPriceChanged = cartData.products.some((item) => {
+            const currentPrice = currentProductPrices.find(p => p.productId.toString() === item.productId._id.toString()).currentPrice;
+            console.log('carcurrentttcur',currentPrice);
+            console.log('item.price',item.price);
+            return Number(item.price) !== Number(currentPrice);
+        });
+
+        if (hasPriceChanged) {
+        
+            return res.json({ price: true });
+        }
+
+
+       
+        
 
 
         if (cartData) {
@@ -207,7 +226,7 @@ const checkoutLoad = async (req, res) => {
             console.log(addressData, "cvghgcgcv")
 
 
-            // console.log(cartData.products.map(product => product.productId));
+           
             console.log(cartData.products, "here the cart products");
             console.log('productid', cartData.products.productId);
 
