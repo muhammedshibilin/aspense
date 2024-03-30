@@ -220,7 +220,7 @@
                         <label class="col-sm-3 col-form-label">Category</label>
                         <div class="col-sm-12">
                           <select class="form-control" name="category"
-                            id="product-category">
+                            id="product-category" value="<%= productData.category.name %>">
                             <% if (categoryData.length > 0) { %>
                             <% categoryData.forEach(category => { %>
                             <option value="<%= category._id %>"><%=

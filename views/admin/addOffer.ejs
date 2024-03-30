@@ -214,6 +214,28 @@
  const offerStartDate = document.getElementById('active-date').value;
  const offerExpireDate = document.getElementById('expire-date').value;
 
+ console.log('sd',offerExpireDate,offerExpireDate);
+
+ if(offerStartDate<new Date()){
+  Swal.fire({
+    icon:"warning",
+    title:"invalid date",
+    text:"you want to choose a valid date",
+    timer:2000
+  })
+  return
+ }
+
+ if(offerStartDate>offerExpireDate){
+  return Swal.fire({
+    icon:"warning",
+    title:"invalid date",
+    text:"you want to choose a valid date",
+    timer:2000
+  })
+  return
+ }
+
  Swal.fire({
     title: 'Are you sure?',
     text: 'Do you want to save this offer?',

@@ -85,7 +85,7 @@
                                         <th class="pro-remove">Remove</th>
                                     </tr>
                                 </thead>
-                                <tbody >
+                                <tbody id="carttable" >
                                     <% if (cart && cart.products && cart.products.length > 0) { %>
                                         <% cart.products.forEach(product => { %>
                                             <tr>
@@ -99,7 +99,7 @@
                                                         <%= product.productName %>
                                                     </a>
                                                 </td>
-                                                <td class="pro-price"><span><%= product.price %></span></td>
+                                                <td class="pro-price" id="price"><span><%= product.price %></span></td>
                                                
                                                 <td class="pro-quantity">
                                                     <div class="cart-product-quantity">
@@ -109,7 +109,7 @@
                                                     </div>
                                                 </td>
                                                 
-                                                <td class="pro-total"><span><%= product.totalPrice %></span></td>
+                                                <td class="pro-total" id="totalprice"><span><%= product.totalPrice %></span></td>
                                                 <td>
                                                     <button type="button" onclick="removeItem('<%= product.productId._id %>')">
                                                         <i class="fa fa-trash-o"></i>
@@ -188,9 +188,9 @@
                                 <div class="cart-summary-wrap">
                                     <h4>Cart Summary</h4>
                                     <% if (cart && cart.products && cart.products.length > 0 && subTotal > 0) { %>
-                                        <p>Sub Total <span>$<%= subTotal %>.00</span></p>
-                                        <p>Shipping Cost <span>$<%= shippingCharge %>.00</span></p>
-                                        <h2>Grand Total <span>$<%= grandTotal %>.00</span></h2>
+                                        <p id="subtotal">Sub Total <span>$<%= subTotal %>.00</span></p>
+                                        <p id="shippingCharge">Shipping Cost <span>$<%= shippingCharge %>.00</span></p>
+                                        <h2 id="grandtotal">Grand Total <span>$<%= grandTotal %>.00</span></h2>
                                     <% } else { %>
                                         <p>Sub Total <span>$0.00</span></p>
                                         <p>Shipping Cost <span>$0.00</span></p>
@@ -379,15 +379,16 @@ document.getElementById('checkout').addEventListener('click',async (e) => {
       
     });
 
-   
+    
     if (response.ok) {
       
-        const data = await response.json();
+        const data = await response.json()
+       
        if(data.price){
         Swal
                     .fire({
                         title: "updated !",
-                        text: " product price is updated ,please check the details",
+                        text: " product price is updated ! make sure after you can purchase ",
                         icon: "warning",
                         timer:3000
                     })
@@ -499,14 +500,14 @@ function updateCart(productId, count) {
                 quantityInput.val(response.newQuantity);
                 $("#productTotalPrice_" + productId).text(response.newTotalPrice);
 
-                // Disable the decrement button if the quantity is 1
+               
                 if (response.newQuantity <= 1) {
                     $("#cartProductQuantity_" + productId).siblings(".btn-decrement").prop("disabled", true);
                 } else {
                     $("#cartProductQuantity_" + productId).siblings(".btn-decrement").prop("disabled", false);
                 }
 
-                location.reload();
+                location.reload("#carttable");
             }
         },
         error: function (error) {

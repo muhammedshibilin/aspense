@@ -196,9 +196,9 @@ const loadProductDetails = async (req, res) => {
 
 
         const user_id = req.session.user_id
-        const productData = await Product.findOne({ _id: productId }).populate("category")
+        const productData = await Product.findOne({ _id: productId }).populate("category").populate("offer")
         
-        const offer = productData.offer ? (productData.price - productData.offer) : productData.price;
+        const offer = productData.offer ? productData.price-Math.floor(productData.price*productData.offer.discountAmount/100) : productData.price;
 
         const categoryData = await Category.find()
         const relatedImg = await Product.find({ category: productData.category._id, _id: { $ne: productData._id } }).limit(8)
@@ -583,11 +583,15 @@ const shopLoad = async (req, res) => {
             }
         }
 
-
-        const productData = await Product.find({ ...filter, is_block: 0 })
-        .sort(sortOption)
-        .skip(skip)
-        .limit(limit);
+const productData = await Product.find({...filter})
+    .populate({
+        path: 'category', 
+        match: { is_block: 0 } 
+    })
+    .sort(sortOption)
+    .skip(skip)
+    .limit(limit)
+    .exec();
         const totalCount = await Product.countDocuments(filter);
         const totalPages = Math.ceil(totalCount / limit);
 

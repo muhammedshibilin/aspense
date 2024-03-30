@@ -199,6 +199,7 @@ const checkoutLoad = async (req, res) => {
             const product = await Product.findById(item.productId._id);
             return { productId: item.productId._id, currentPrice: product.price };
         }));
+        
         console.log('saaaaaaaaaa',currentProductPrices);
 
         const hasPriceChanged = cartData.products.some((item) => {
@@ -207,28 +208,17 @@ const checkoutLoad = async (req, res) => {
             console.log('item.price',item.price);
             return Number(item.price) !== Number(currentPrice);
         });
-
-        if (hasPriceChanged) {
         
-            return res.json({ price: true });
-        }
-
-
-       
-        
-
-
         if (cartData) {
 
 
 
             let addressData = await Address.findOne({ user: user_id }).populate("address")
-            console.log(addressData, "cvghgcgcv")
+            
 
 
            
-            console.log(cartData.products, "here the cart products");
-            console.log('productid', cartData.products.productId);
+           
 
             const subTotal = cartData.products.reduce((acc, val) => {
                 if (val && val.totalPrice) {
@@ -257,10 +247,15 @@ const checkoutLoad = async (req, res) => {
 
 
 
+            if (hasPriceChanged) {
+                return res.json({ price: true });
+            } else {
+
+                res.render("checkout", { addressData, cart: cartData, subTotal, total: totalAmount, user: user_id, shippingAmount });
+            }
 
 
-
-            res.render("checkout", { addressData, cart: cartData, subTotal: subTotal, total: totalAmount, user: user_id, shippingAmount })
+           
         } else {
             res.redirect('/')
         }
@@ -268,7 +263,7 @@ const checkoutLoad = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
-        res.render('500Error')
+        res.status(500).json({ error: 'Internal server error' });
     }
 }
 

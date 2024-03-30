@@ -282,6 +282,9 @@
       </div>
     </div>
 
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
 
   
@@ -321,10 +324,10 @@
 
     <script>
   function changePage(pageNumber) {
-      // Construct the new URL with the updated page number
+      
       const newUrl = `${window.location.origin}${window.location.pathname}?page=${pageNumber}`;
 
-      // Redirect the user to the new URL
+    
       window.location.href = newUrl;
   }
 

@@ -72,10 +72,10 @@ const categoryDelete = async (req, res) => {
         const deletedCategory = await Category.findOneAndDelete({ _id: categoryId });
 
         if (deletedCategory) {
-            console.log('Category successfully deleted:', deletedCategory);
+    
             res.redirect('/admin/category');
         } else {
-            console.log('Category not found or already deleted');
+       
             res.status(404).send('Category not found or already deleted');
         }
     } catch (err) {
@@ -98,7 +98,7 @@ const editCategory = async (req, res) => {
             console.log('Existing Category ID:', existingCategory._id.toString());
             console.log('Requested Category ID:', categoryId);
 
-            // Ensure both IDs are strings before comparing
+          
             if (existingCategory._id.toString() !== categoryId) {
                 console.log('Category name already exists');
                 return res.json({ error: 'Category name already exists' });

@@ -218,6 +218,26 @@
      const offerAmount = document.getElementById("edit-offer-amount").value;
      const offerStartDate = document.getElementById('edit-active-date').value;
      const offerExpireDate = document.getElementById('edit-expire-date').value;
+
+     if(offerStartDate<new Date()){
+  Swal.fire({
+    icon:"warning",
+    title:"invalid date",
+    text:"you want to choose a valid date",
+    timer:2000
+  })
+  return
+ }
+
+ if(offerStartDate>offerExpireDate){
+  Swal.fire({
+    icon:"warning",
+    title:"invalid date",
+    text:"you want to choose a valid date",
+    timer:2000
+  })
+  return
+ }
     
      Swal.fire({
         title: 'Are you sure?',

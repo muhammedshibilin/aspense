@@ -80,15 +80,15 @@ const adminLogin = async (req,res) => {
   const userLoad = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit = 6; // Adjust the limit as needed
+        const limit = 6; 
         const skip = (page - 1) * limit;
 
-        // Check for a search query
+    
         const searchQuery = req.query.search;
         let query = {};
-        if (searchQuery && searchQuery.trim().length >= 1) { // Adjust the minimum length as needed
-            // Use regex to search for the search query in the name and email fields
-            // Ensure the search query is trimmed and sanitized properly
+        if (searchQuery && searchQuery.trim().length >= 1) { 
+      
+
             const sanitizedQuery = searchQuery.trim();
             query.$or = [
                 { name: { $regex: sanitizedQuery, $options: 'i' } },
@@ -96,12 +96,11 @@ const adminLogin = async (req,res) => {
             ];
         }
 
-        // Find the total number of users
         const totalUsers = await User.countDocuments(query);
-        // Calculate the total number of pages
+     
         const totalPages = Math.ceil(totalUsers / limit);
 
-        // Query the users with pagination and search
+
         const userData = await User.find(query).skip(skip).limit(limit);
 
         res.render('userManagment', {
