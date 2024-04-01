@@ -64,12 +64,12 @@ const failureLoad = async (req, res) => {
 }
 
 
-let otp;
+
 
 
 const insertUser = async (req, res) => {
     try {
-        const { name, email, mobile, password, confirmPassword } = req.body
+        const { name, email, mobile, password } = req.body
         console.log(req.body);
 
 
@@ -91,32 +91,26 @@ const insertUser = async (req, res) => {
         const userData = await user.save()
 
 
-        let randomNumber = Math.floor(Math.random() * 9000) + 1000
-
-        otp = randomNumber
+        let otp = Math.floor(Math.random() * 9000) + 1000
+        req.session.otp = otp;
+        req.session.otpTimestamp = Date.now();
+       
 
         req.session.email = req.body.email;
         req.session.password = passwordHash;
         req.session.name = req.body.name;
         req.session.mobile = req.body.mobile;
 
-        console.log(otp)
+        console.log("otp:---",otp)
 
         sendVerifyMail(
             req.body.name,
             req.body.email,
-            randomNumber
+            otp
         )
-        setTimeout(() => {
-            otp = Math.floor(Math.random() * 9000) + 1000
-        }, 60000)
-
-        req.session.otpsend = true;
-
-        res.json({ success: true })
-
-
-
+     
+    
+        res.json({success:true})
 
 
     } catch (error) {
@@ -285,50 +279,50 @@ const editProfile = async (req, res) => {
     }
 }
 
-const passwordChange = async (req, res) => {
-    try {
-        console.log('body', req.body);
+// const passwordChange = async (req, res) => {
+//     try {
+//         console.log('body', req.body);
 
-        const userData = await User.findById({ _id: req.session.user_id })
-        const newPassword = req.body.newPassword
-        const confirmPassword = req.body.confirm
-        const current = req.body.current
+//         const userData = await User.findById({ _id: req.session.user_id })
+//         const newPassword = req.body.newPassword
+//         const confirmPassword = req.body.confirm
+//         const current = req.body.current
 
-        let passwordHash
-
-
-        const passwordMatch = await bcrypt.compare(current, userData.password)
-        if (passwordMatch) {
-            try {
-                passwordHash = await bcrypt.hash(newPassword, 10);
-            } catch (error) {
-                console.error('Error while hashing password:', error);
-                return res.status(500).json({ error: 'Internal Server Error' });
-            }
-
-        } else {
-            return res.json({ passwordMatch: false })
-        }
-
-        if (userData) {
-            const editedData = await User.findOneAndUpdate({ _id: userData._id }, {
-                $set: {
-                    password: passwordHash
-                }
-            })
-            console.log('edi', editedData);
-            res.json({ password: true })
-        } else {
-            res.json({ user: true });
-        }
+//         let passwordHash
 
 
+//         const passwordMatch = await bcrypt.compare(current, userData.password)
+//         if (passwordMatch) {
+//             try {
+//                 passwordHash = await bcrypt.hash(newPassword, 10);
+//             } catch (error) {
+//                 console.error('Error while hashing password:', error);
+//                 return res.status(500).json({ error: 'Internal Server Error' });
+//             }
+
+//         } else {
+//             return res.json({ passwordMatch: false })
+//         }
+
+//         if (userData) {
+//             const editedData = await User.findOneAndUpdate({ _id: userData._id }, {
+//                 $set: {
+//                     password: passwordHash
+//                 }
+//             })
+//             console.log('edi', editedData);
+//             res.json({ password: true })
+//         } else {
+//             res.json({ user: true });
+//         }
 
 
-    } catch (error) {
 
-    }
-}
+
+//     } catch (error) {
+
+//     }
+// }
 
 const forgotPassword = async (req, res) => {
     try {
@@ -345,20 +339,17 @@ const forgotPassword = async (req, res) => {
 
             sendVerifyMail(userData.name, userData.email, randomNumber)
 
-            req.session.otpsend = true;
+            
 
             setTimeout(() => {
                 otp = Math.floor(Math.random() * 9000) + 1000
             }, 60000)
-            let verifyErr = req.session.verifyErr;
-            let otpsend = req.session.otpsend;
+
             req.session.email = userData.email;
 
             res.render('otp',
                 {
                     email: userData.email,
-                    verifyErr,
-                    otpsend
 
                 })
 
@@ -387,7 +378,7 @@ const getEmail = async (req, res) => {
 
             sendVerifyMail('user', req.body.email, randomNumber)
 
-            req.session.otpsend = true;
+            
             req.session.email = userData.email;
 
             setTimeout(() => {
@@ -449,13 +440,11 @@ const changePassword = async (req, res) => {
 
 const otpLoad = async (req, res) => {
     try {
-        let verifyErr = req.session.verifyErr;
-        let otpsend = req.session.otpsend;
-        res.render("otp", { verifyErr, otpsend })
+        res.render("otp")
     } catch (error) {
         console.log(error);
-        res.status("500")
-        res.render("500")
+        res.status("500").render('500')
+      
     }
 }
 
@@ -464,10 +453,10 @@ const otpLoad = async (req, res) => {
 
 const resendOtp = async (req, res) => {
     try {
-        let otpsend = req.session.otpsend;
-        let verifyErr = req.session.verifyErr;
+      
         let email = req.session.email;
         let name = req.session.name;
+        console.log('asasdfasd',email,name);
         let randomNumber = Math.floor(Math.random() * 9000) + 1000;
         otp = randomNumber;
         setTimeout(() => {
@@ -475,12 +464,8 @@ const resendOtp = async (req, res) => {
         }, 60000);
         console.log(otp)
         sendVerifyMail(name, email, randomNumber);
-        console.log(name, email);
-        res.render("otp", {
-            verifyErr,
-            otpsend,
-            resend: "Resend the otp to your email address.",
-        });
+        res.json({resend:true})
+       
     } catch (error) {
         console.log(error)
         res.status(500).render("500");
@@ -491,53 +476,39 @@ const resendOtp = async (req, res) => {
 const verifyOtp = async (req, res) => {
     try {
 
-        console.log("verify");
-        req.session.verifyErr = false;
-        req.session.otpsend = false;
-
-
-        const otpinput = parseInt(req.body.otp)
-        const email = req.session.email
-
-        console.log(otpinput, email);
-
-
-
-        if (req.body.otp.trim() == "") {
-            res.json({ fill: true })
-        } else {
-
-
-            if (otpinput === otp) {
+      
+      const inputOtp = req.body.input1+req.body.input2+req.body.input3+req.body.input4
+      const otpAge = Date.now() - req.session.otpTimestamp;
+      console.log('age',otpAge);
+      const email = req.session.email
+      console.log(inputOtp,"otppppppppppppp");
+      console.log('seesionotp:',req.session.otp);
+    
+      if (otpAge<=5*60*1000&&inputOtp===req.session.otp) {
+        console.log('asfhkjlfdhkdsadfhjkdhfdhfdasjhkfdajhfhajdk'); 
                 const verified = await User.findOneAndUpdate({ email: email }, { $set: { is_verified: 1 } }, { new: true })
-
-
-
-
+            
+                req.session.otp = null;
+                req.session.otpTimestamp = null;
                 if (verified) {
-                    req.session.regSuccess = true;
-                    console.log(req.session.user_id);
-                    console.log('ema', req.session.user_check)
-
+                    console.log('haaaaaaaaayyyyyyyyyyy');
                     if (req.session.user_id) {
                         return res.json({ profile: true })
                     } else {
                         const userData = await User.findOne({ email: req.session.user_check })
-                        console.log('use',userData);
                         if (userData) {
                             res.json({ login: true })
                         } else {
                             res.json({ signup: true })
                         }
                     }
-
-
-
                 }
+                res.json({valid:true})
+            }else{
+                res.json({valid:false})
             }
         }
-
-    } catch (e) {
+     catch (e) {
         console.log(e, "error in verify otp")
         res.status('500').render("500")
     }
@@ -626,7 +597,6 @@ module.exports = {
     loadProductDetails,
     profileLoad,
     editProfile,
-    passwordChange,
     forgotPassword,
     getEmail,
     changePasswordLoad,

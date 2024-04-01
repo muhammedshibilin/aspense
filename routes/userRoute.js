@@ -74,7 +74,7 @@ user_route.get('/auth/google/callback',
 
 user_route.get("/profile", auth.isLogin, userController.profileLoad)
 user_route.post('/edit-profile',multer.uploadProfile.single('image'),userController.editProfile)
-user_route.post('/password-change',upload.none(),userController.passwordChange)
+// user_route.post('/password-change',upload.none(),userController.passwordChange)
 user_route.get('/forgot-password',userController.forgotPassword)
 user_route.post('/get-email',userController.getEmail)
 user_route.get('/change-password',userController.changePasswordLoad)

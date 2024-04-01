@@ -249,12 +249,12 @@
 
 function handleSearch(searchTerm, selectedValue) {
     const currentUrl = window.location.href;
-    const baseUrl = currentUrl.split('?')[0]; // Get the base URL without query parameters
+    const baseUrl = currentUrl.split('?')[0]; 
 
-    // Construct the new URL with the selected filter and search term as query parameters
+  
     const newUrl = `${baseUrl}?sort=${selectedValue}&search=${encodeURIComponent(searchTerm)}`;
 
-    // Redirect the user to the new URL
+   
     window.location.href = newUrl;
 }
 
@@ -265,7 +265,7 @@ function handleChange(selectElement) {
     handleSearch(searchTerm, selectedValue);
 }
 
-// Add an event listener to the search input field
+
 document.getElementById('searchInput').addEventListener('keyup', function(event) {
     if (event.key === 'Enter') {
         const selectedValue = document.querySelector('select').value;

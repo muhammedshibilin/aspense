@@ -27,6 +27,7 @@
     "morgan": "~1.9.1",
     "multer": "^1.4.5-lts.1",
     "nocache": "^4.0.0",
+    "node-emoji": "^2.1.3",
     "nodemailer": "^6.9.9",
     "passport": "^0.7.0",
     "passport-facebook": "^3.0.0",

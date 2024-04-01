@@ -345,54 +345,59 @@ const returnOrder = async (req, res) => {
 }
 
 
-const invoice = async (req,res) => {
+const invoice = async (req, res) => {
   try {
-    const orderId = req.query.id
-    console.log('id',req.query.id);
-    const orderDetails = await Order.findById({_id:orderId})
-    console.log('detrail',orderDetails);
-
-    let document = new PDFDocument({margin:50})
-
-    function generateHeader(document) {
-      document.image('./public/user/images/logo.png', 50, 40, { width: 100 });
-      document.fontSize(25).text('aspense', 150, 50);
-    }
+     const orderId = req.query.id;
+     console.log('id', orderId);
+     const orderDetails = await Order.findById(orderId);
+     console.log('details', orderDetails);
+ 
+     let document = new PDFDocument({ margin: 50 });
+ 
+     function generateHeader(document) {
+       document.image('./public/user/images/logo.png', 50, 40, { width: 100 });
+       document.fontSize(25).text('aspense', 150, 50);
+     }
+ 
+     function generateFooter(document) {
+       document.fontSize(10).text('Page ' + document.pageNumber, 50, document.page.height - 10);
+     }
+ 
+     function generateOrderDetails(document, orderDetails) {
+       document.fontSize(15).text('Order Details', 50, 100);
+       document.fontSize(12).text('Invoice Number: ' + orderDetails._id, 50, 120);
+       document.fontSize(12).text('Date: ' + new Date().toLocaleDateString(), 50, 140);
     
-    function generateFooter(document) {
-      document.fontSize(10).text('Page ' + document.pageNumber, 50, document.page.height - 10);
-    }
-
-   
-
-    generateHeader(document)
-    generateFooter(document)
-
-    document.text('invoice Number:'+ orderDetails._id,50,50)
-    document.text('Date:'+ new Date().toLocaleDateString(),50,70)
-    document.end()
-
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
-
-
-    document.pipe(res)
-
-
-    document.on('end', () => {
-      console.log('PDF generation completed');
-    });
-
-    res.json({invoicePath:'invoice.pdf'})
-
-
-
-
+       document.fontSize(12).text('Customer Name: ' + orderDetails.customerName, 50, 160);
+       document.fontSize(12).text('Items:', 50, 180);
+       let y = 200; 
+       orderDetails.items.forEach((item, index) => {
+         document.fontSize(12).text(`${index + 1}. ${item.name} - ${item.quantity} x $${item.price}`, 50, y);
+         y += 20; 
+       });
+       document.fontSize(12).text('Total Amount: $' + orderDetails.totalAmount, 50, y + 20);
+     }
+ 
+     generateHeader(document);
+     generateOrderDetails(document, orderDetails);
+     generateFooter(document);
+ 
+     res.setHeader('Content-Type', 'application/pdf');
+     res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+ 
+     document.pipe(res);
+     document.end();
+ 
+     document.on('end', () => {
+       console.log('PDF generation completed');
+     });
+ 
   } catch (error) {
-    console.log('while invoice',error);
-    
+     console.log('while invoice', error);
+     res.status(500).json({ error: 'Failed to generate invoice' });
   }
-}
+ };
+ 
 
 
 

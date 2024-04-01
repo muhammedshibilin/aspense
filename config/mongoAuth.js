@@ -1,21 +1,21 @@
-const mongoose = require('mongoose')
-const dotenv = require('dotenv').config()
-
+const mongoose = require("mongoose");
+const dotenv = require("dotenv").config();
+const emoji = require("node-emoji");
 
 module.exports = {
-    connectDB:() => {
+  connectDB: () => {
+    mongoose.set("bufferCommands", true);
 
-
-        mongoose.set('bufferCommands', true);  
-
-        mongoose.connect(process.env.mongo,{
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            bufferCommands: false 
-        }).then(()=> {
-            console.log("db connected");
-        }).catch(error => {
-            console.log(error);
-        })
-    }
-}
+    mongoose
+      .connect(process.env.mongo, {})
+      .then(() => {
+        console.log(
+          "Server is running on http://localhost:7000 " + emoji.get("rocket")
+        );
+      })
+      .catch((e) => {
+        console.log("server having some trouble....!" + emoji.get("sad"));
+        console.log(e);
+      });
+  },
+};

@@ -3,8 +3,23 @@ const Category = require("../model/categoryModel");
 
 const loadCategory = async (req, res) => {
     try {
-        const categoryData = await Category.find();
-        res.render('category', { category: categoryData });
+        const page = parseInt(req.query.page) || 1;
+        const limit = 6;
+        const skip = (page - 1) * limit;
+
+      
+        const searchQuery = req.query.search;
+        let query = {}
+        if (searchQuery) {        
+            query.name = { $regex: searchQuery, $options: 'i' };
+        }
+
+       const totalCategory = await Category.countDocuments(query);
+       const totalPages = Math.ceil(totalCategory / limit);
+
+
+        const categoryData = await Category.find(query).skip(skip).limit(limit);
+        res.render('category', { category: categoryData,currentPage:page,totalPages,searchQuery });
     } catch (error) {
         console.log(error.message);
         res.render('500Error');
@@ -101,7 +116,7 @@ const editCategory = async (req, res) => {
           
             if (existingCategory._id.toString() !== categoryId) {
                 console.log('Category name already exists');
-                return res.json({ error: 'Category name already exists' });
+                return res.json({exist:true});
             }
         }
 

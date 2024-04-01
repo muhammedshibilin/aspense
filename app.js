@@ -3,6 +3,8 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session')
 const noCache = require('nocache')
+const morgan = require('morgan')
+
 
 
 const app = express();
@@ -13,6 +15,7 @@ app.use(session({
     saveUninitialized:true
 }))
 app.use(noCache())
+app.use(morgan('tiny'))
 
 
 
@@ -44,8 +47,6 @@ app.use(session({
   }));
   
 
-app.listen(7000, () => {
-    console.log(`Server is running on http://localhost:7000`);
-});
+app.listen(7000);
 
 module.exports = app;

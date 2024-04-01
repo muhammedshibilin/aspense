@@ -44,9 +44,13 @@
                     <i class="icon-search"></i>
                   </span>
                 </div>
-                <input type="text" class="form-control"
-                  placeholder="Search Projects.." aria-label="search"
-                  aria-describedby="search">
+                <div class="search-container d-flex justify-content-between  ">
+                  <input type="text" id="search-input" class="form-control"
+                    placeholder="Search Projects.." aria-label="search"
+                    aria-describedby="search">
+                  <button id="search-button"
+                    class="btn btn-primary">Search</button>
+                </div>
               </div>
             </li>
           </ul>
@@ -259,13 +263,13 @@
 
                           <% if (cat.is_block == 0) { %>
                           <a href="/admin/block-category?id=<%=cat._id%>"
-                            onclick="return showConfirmation('block', event);"> 
+                            onclick="return confirmAction('block', this.href)">
                             <button class="btn btn-outline-danger ml-2"
                               type="button">block</button>
                           </a>
                           <% } else { %>
                           <a href="/admin/unblock-category?id=<%=cat._id%>"
-                            onclick="return showConfirmation('unblock', event);">
+                            onclick="return confirmAction('unblock', this.href)">
                             <button class="btn btn-outline-success ml-2"
                               type="button">unblock</button>
                           </a>
@@ -278,8 +282,21 @@
                   </table>
                 </div>
               </div>
+              <ul class="pagination_style d-flex justify-content-center">
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                   <li style="list-style: none; margin-right: 5px;">
+                     <button type="button" class="btn btn-primary <% if (i === currentPage) { %>active<% } %>">
+                       <a href="?page=<%= i %><%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" style="color: inherit; text-decoration: none;">
+                         <%= i %>
+                       </a>
+                     </button>
+                   </li>
+                <% } %>
+               </ul>
             </div>
+            
           </div>
+         
         </div>
       </div>
 
@@ -350,9 +367,9 @@ function confirmAction(action, url) {
   
   function getConfirmationText(action) {
       switch (action) {
-          case 'edit':
-              return "Are you sure you want to edit this product?";
           case 'block':
+              return "Are you sure you want to change the block status of this product?";
+          case 'unblock':
               return "Are you sure you want to change the block status of this product?";
           case 'delete':
               return "Are you sure you want to delete this product? This action cannot be undone.";
@@ -386,8 +403,10 @@ function editCategory(name, id) {
       swal.fire({
         icon:"warning",
         title:"catergory name",
-        text:"categoryname is required"
+        text:"categoryname is required",
+        time:1500
       })
+      return
     }
 
     try {
@@ -409,7 +428,11 @@ function editCategory(name, id) {
             $('#exampleModal1').modal('hide');
             location.reload()
         } else {
-            alert(data.error);
+          swal.fire({
+        icon:"warning",
+        title:"exist",
+        text:"categoryname is exist in your collection"
+      }) 
         }
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
