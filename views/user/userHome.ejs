@@ -139,7 +139,7 @@
 
             <div class="row mt--20">
                 <% if (productData.length > 0) { %>
-                <% productData.forEach(product => { %>
+                <% productData.forEach((product,index) => { %>
                 <% if (product.is_block==0) { %>
 
                 <!-- Start Single Product -->
@@ -147,11 +147,11 @@
                     <div class="product ">
                         <div class="inner ">
                             <div class="thumbnail"
-                                style="width: 300px; height: 300px;">
+                            >
                                 <a
                                     href="/product-details?_id=<%= product._id %>">
                                     <img
-                                        src="/images/product/sized/<%= product.images.image1 %>"
+                                        src="/images/product/original/<%= product.images[index] %>"
                                         alt="<%= product.name %>">
                                 </a>
                             </div>

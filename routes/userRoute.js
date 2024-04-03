@@ -71,6 +71,9 @@ user_route.get('/auth/google/callback',
 // }))
 
 
+user_route.get('/otp', userController.otpLoad);
+user_route.post('/verify-otp', userController.verifyOtp);
+user_route.get('/resend-otp', userController.resendOtp);
 
 user_route.get("/profile", auth.isLogin, userController.profileLoad)
 user_route.post('/edit-profile',multer.uploadProfile.single('image'),userController.editProfile)
@@ -80,16 +83,13 @@ user_route.post('/get-email',userController.getEmail)
 user_route.get('/change-password',userController.changePasswordLoad)
 user_route.post('/change-password',userController.changePassword)
 user_route.post('/add-address', upload.none(), addressController.addAddress);
-user_route.get('/delete-address',addressController.deleteAddress)
+user_route.post('/delete-address',addressController.deleteAddress)
 user_route.post('/edit-address',addressController.editAddress)
 
 user_route.get('/logout', auth.isLogin, userController.logoutUser)
 
 
 
-user_route.get('/otp', userController.otpLoad);
-user_route.post('/verify-otp', userController.verifyOtp);
-user_route.get('/resend-otp', auth.isLogout, userController.resendOtp);
 
 
 

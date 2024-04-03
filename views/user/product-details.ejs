@@ -35,84 +35,28 @@
                         <div class="single-product-left-side">
                             <div class="product__details__container">
                                 <div class="tab_container big_img_container">
-                                    <div
-                                        class="big_img tab-pane fade show active"
-                                        id="img1" role="tabpanel">
-                                        <div class="zoom-container">
-                                            <img class="w-100 zoomio"
-                                                id="zoomedImage1"
-                                                src="/images/product/sized/<%= productData.images.image1%>"
-                                                data-zoom-image="/images/product/original/<%= productData.images.image1%>"
-                                                alt="<%= productData.name %>">
-
+                                    <% productData.images.forEach((image, index) => { %>
+                                        <div class="big_img tab-pane fade <%= index === 0 ? 'show active' : '' %>" id="img<%= index + 1 %>" role="tabpanel">
+                                            <div class="zoom-container">
+                                                <img class="w-100 zoomio"
+                                                     id="zoomedImage<%= index + 1 %>"
+                                                     src="/images/product/original/<%= image %>"
+                                                     data-zoom-image="/images/product/original/<%= image %>"
+                                                     alt="<%= productData.name %>">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="big_img tab-pane fade "
-                                        id="img2" role="tabpanel">
-                                        <div class="zoom-container">
-                                            <img class="w-100 zoomio"
-                                                id="zoomedImage2"
-                                                src="/images/product/sized/<%= productData.images.image2%>"
-                                                data-zoom-image="/images/product/original/<%= productData.images.image2%>"
-                                                alt="gomes restaurant">
-                                        </div>
-                                    </div>
-                                    <div class="big_img tab-pane fade" id="img3"
-                                        role="tabpanel">
-                                        <div class="zoom-container">
-                                            <img class="w-100 zoomio"
-                                                id="zoomedImage3"
-                                                src="/images/product/sized/<%= productData.images.image3%>"
-                                                data-zoom-image="/images/product/original/<%= productData.images.image3%>"
-                                                alt="gomes restaurant">
-                                        </div>
-                                    </div>
-                                    <div class="big_img tab-pane fade" id="img4"
-                                        role="tabpanel">
-                                        <div class="zoom-container">
-                                            <img class="w-100 zoomio"
-                                                id="zoomedImage4"
-                                                src="/images/product/sized/<%= productData.images.image4%>"
-                                                data-zoom-image="/images/product/original/<%= productData.images.image4%>"
-                                                alt="gomes restaurant">
-                                        </div>
-                                    </div>
+                                    <% }); %>
                                 </div>
-                                <div class="sm_roduct_nav nav nav-tabs"
-                                    role="tablist">
-                                    <a class="active" id="nav-img-tab"
-                                        data-toggle="tab" href="#img1"
-                                        role="tab"
-                                        aria-controls="img1"
-                                        aria-selected="true">
-                                        <img
-                                            src="/images/product/sized/<%= productData.images.image1%>"
-                                            alt="gomes restaurant">
-                                    </a>
-                                    <a id="nav-img2-tab" data-toggle="tab"
-                                        href="#img2" role="tab"
-                                        aria-controls="img2"
-                                        aria-selected="false">
-                                        <img
-                                            src="/images/product/sized/<%= productData.images.image2%>"
-                                            alt="gomes restaurant">
-                                    </a>
-                                    <a id="nav-img3-tab" data-toggle="tab"
-                                        href="#img3" role="tab"
-                                        aria-controls="img3"
-                                        aria-selected="false">
-                                        <img
-                                            src="/images/product/sized/<%= productData.images.image3%>"
-                                            alt="gomes restaurant">
-                                    </a>
-                                    <a id="nav-img4-tab" data-toggle="tab"
-                                        href="#img4" role="tab"
-                                        aria-controls="img4"
-                                        aria-selected="false">
-                                        <img
-                                            src="/images/product/sized/<%= productData.images.image4%>"
-                                            alt="gomes restaurant">
-                                    </a>
+                                <div class="sm_roduct_nav nav nav-tabs" role="tablist">
+                                    <% productData.images.forEach((image, index) => { %>
+                                        <a class="<%= index === 0 ? 'active' : '' %>" id="nav-img-tab<%= index + 1 %>"
+                                           data-toggle="tab" href="#img<%= index + 1 %>"
+                                           role="tab"
+                                           aria-controls="img<%= index + 1 %>"
+                                           aria-selected="<%= index === 0 ? 'true' : 'false' %>">
+                                            <img src="/images/product/original/<%= image %>" alt="<%= productData.name %>">
+                                        </a>
+                                    <% }); %>
                                 </div>
                             </div>
                         </div>
@@ -128,17 +72,12 @@
                                         </div>
                                         <h4
                                             class="heading heading-h4 text-black "><%=
-                                            productData.name %> <p
-                                                style="color: red;;">(<%=
-                                                productData.offer.discountAmount %>%  
-                                                off)</p></h4>
+                                            productData.name %> </h4>
                                     </div>
                                     <div class="price">
+                                     
                                         <p class="theme-color text-black"
-                                            style="font-weight: bold; font-size: 20px;">$<%=
-                                            offer %></p>
-                                        <p class="theme-color text-black"
-                                            style="text-decoration: line-through; color: #999; font-size: 12px;">$<%=
+                                            style=" color: #999; font-size: 12px;">$<%=
                                             productData.price %></p>
                                     </div>
                                     <% if(productData.quantity <= 4){ %>

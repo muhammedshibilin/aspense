@@ -185,77 +185,52 @@
                             quantity
                           </th>
                           <th>
-                            size
-                          </th>
-                          <th>
-                            offer
-                          </th>
-                          <th>
                             actions
                           </th>
                         </tr>
                       </thead>
                       <tbody>
-                        <% let counter= 1; %>
-                        <% productData.forEach( product => { %>
-                        <tr>
-                          <td class="py-1"> <%= counter %> </td>
-                          <td class="py-1"> <%= product.name %>
-                          </td>
-                          <td class="py-1">
-                            <% if (product.category) { %>
-                            <%= product.category.name %>
-                            <% } else { %>
-                            N/A
-                            <% } %>
-                            <td class="py-1"><i
-                                class="fa-solid fa-indian-rupee-sign"></i>
-                              $<%= product.price %> </td>
-                            <td class="py-1"><img
-                                src="../images/product/sized/<%= product.images.image1 %>"
-                                alt></td>
-                            <!-- <span class="py-1 "><%= product.name
-                                            %></span> -->
-                            <td class="py-1"> <%= product.quantity
-                              %> </td>
-                            <td class="py-1"> <%= product.size %>
-                            </td>
-                            <% if(product.offer) { %>
-                            <td>flat off <%= product.offer.
-                              discountAmount %> %</td>
-                            <% } else { %>
-                            <td class="py-1 ">offer not found</td>
-                            <% } %>
-                            <td>
-                              <div class="btn-group dropdown">
-                                <a
-                                  href="/admin/edit-product?_id=<%= product._id%>"
-                                  class="btn btn-outline-warning edit-button"
-                                  onclick="return confirmAction('edit', this.href)">
-                                  Edit
-                                </a>
-                                <a
-                                  href="/admin/block-product?_id=<%= product._id %>"
-                                  class="btn btn-outline-danger block-button"
-                                  data-initial-status="<%= product.is_block %>"
-                                  onclick="return confirmAction('block', this.href)">
-                                  <%= product.is_block == 0 ? "Block" :
-                                  "Unblock" %>
-                                </a>
-                                <a
-                                  href="/admin/delete-product?_id=<%= product._id %>"
-                                  data-category-id="<%= product._id %>"
-                                  class="btn btn-outline-primary delete-button"
-                                  onclick="return confirmAction('delete', this.href)">
-                                  Delete
-                                </a>
-                              </div>
-                            </td>
-
-                          </tr>
-                          <% counter++ %>
-                          <% }) %>
-                        </tbody>
+                        <% let counter = 1; %>
+                        <% productData.forEach((product, index) => { %>
+                            <tr>
+                                <td class="py-1"> <%= counter %> </td>
+                                <td class="py-1"> <%= product.name %> </td>
+                                <td class="py-1">
+                                    <% if (product.category) { %>
+                                        <%= product.category.name %>
+                                    <% } else { %>
+                                        N/A
+                                    <% } %>
+                                </td>
+                                <td class="py-1"><i class="fa-solid fa-indian-rupee-sign"></i> $<%= product.price %> </td>
+                                <td class="py-1">
+                                  <% if (product.images && product.images.length > 0) { %>
+                                      <img src="../images/product/original/<%= product.images[0] %>" alt="<%= product.name %>">
+                                  <% } else { %>
+                                      No Image Available
+                                  <% } %>
+                              </td>
+                              <td>
+                                <%= product.quantity %>
+                              </td>
+                                                              <td>
+                                    <div class="btn-group dropdown">
+                                        <a href="/admin/edit-product?_id=<%= product._id%>" class="btn btn-outline-warning edit-button" onclick="return confirmAction('edit', this.href)">
+                                            Edit
+                                        </a>
+                                        <a href="/admin/block-product?_id=<%= product._id %>" class="btn btn-outline-danger block-button" data-initial-status="<%= product.is_block %>" onclick="return confirmAction('block', this.href)">
+                                            <%= product.is_block == 0 ? "Block" : "Unblock" %>
+                                        </a>
+                                        <a href="/admin/delete-product?_id=<%= product._id %>" data-category-id="<%= product._id %>" class="btn btn-outline-primary delete-button" onclick="return confirmAction('delete', this.href)">
+                                            Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% counter++ %>
+                        <% }) %>
+                    </tbody>
+                    
                       </thead>
                     </table>
 

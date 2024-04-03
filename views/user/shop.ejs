@@ -56,14 +56,14 @@
                             <div class="row row--25">
 
                                 <% if(productData) {  %> 
-                                <% productData.forEach(product => { %>  
+                                <% productData.forEach((product,index) => { %>  
 
                                 <div class="col-lg-4 col-md-6 col-sm-6 col-12 col-xl-3 mt--60">
                                     <div class="product">
                                         <div class="inner">
                                             <div class="thumbnail" >
                                                 <a href="/product-details?_id=<%= product._id %>">
-                                                    <img src="images/product/original/<%= product.images.image1 %>" alt="<%= product.name %>" style="width: 350px;">
+                                                    <img src="images/product/original/<%= product.images[index] %>" alt="<%= product.name %>" style="width: 350px;">
                                                 </a>
                                             </div>
                                             <div class="product-hover-action">

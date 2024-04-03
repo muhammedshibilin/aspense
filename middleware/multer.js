@@ -11,13 +11,7 @@ const productStorage = multer.diskStorage({
 
 const productUpload = multer({ storage: productStorage });
 
-
-const uploadProduct = productUpload.fields([
-    { name: "imageFile1", maxCount: 1 },
-    { name: "imageFile2", maxCount: 1 },
-    { name: "imageFile3", maxCount: 1 },
-    { name: "imageFile4", maxCount: 1 },
-  ]);
+const uploadProduct = productUpload.array('images[]');
 
   const userStorage = multer.diskStorage({
 

@@ -15,7 +15,7 @@ app.use(session({
     saveUninitialized:true
 }))
 app.use(noCache())
-app.use(morgan('tiny'))
+// app.use(morgan('tiny'))
 
 
 

@@ -292,11 +292,13 @@ body {
         url:"/resend-otp",
         method:"get",
         success:(response) =>{
+          console.log('ere',response);
           if(response.resend){
-            swal.fire({
+            Swal.fire({
               icon:'success',
               title:'send ',
-              text:"resend otp to your email"
+              text:"resend otp to your email",
+              timer:3000
             })
           }
         } 

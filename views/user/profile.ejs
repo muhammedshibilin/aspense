@@ -11,6 +11,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
     transition: border-color 0.3s, box-shadow 0.3s;
+    overflow: hidden;
 }
 
 .profile-container:hover {
@@ -59,7 +60,7 @@
     }
 
     .profile-details {
-      text-align: center;
+      text-align: left;
       margin-top: 20px;
     }
     .address-buttons-container {
@@ -562,7 +563,7 @@
                                                                                             class="delete-address-btn"><i
                                                                                                 class="fas fa-trash-alt"></i>
                                                                                             <a
-                                                                                                href="/delete-address?_id=<%= address._id %>">Delete</a></button>
+                                                                                                onclick="deleteAddress('<%= address._id %>')">Delete</a></button>
                                                                                     </div>
 
                                                                                 </div>
@@ -1530,6 +1531,59 @@ document.getElementById("password-btn").addEventListener("click", async (e) => {
 <!-- edit addresssss -->
 
 <script>
+
+function deleteAddress(addressId) {
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+       
+            const id = addressId;
+            $.ajax({
+                url: "/delete-address",
+                method: "post",
+                data: { id: id }, 
+                success: (response) => {
+      
+                    if (response.success) {
+                 
+                        Swal.fire(
+                            'Deleted!',
+                            'Your address has been deleted.',
+                            'success'
+                        );
+                        
+                        setTimeout(() => {
+                            window.location.href="/profile"
+                        }, 3000);
+                    
+                    } else {
+                    
+                        Swal.fire(
+                            'Failed!',
+                            'Failed to delete address. Please try again.',
+                            'error'
+                        );
+                    }
+                },
+                error: () => {
+                    Swal.fire(
+                        'Error!',
+                        'An error occurred. Please try again.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+}
 
 function showEditAddressModal(
   fullname,

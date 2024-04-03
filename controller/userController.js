@@ -65,7 +65,7 @@ const failureLoad = async (req, res) => {
 
 
 
-
+let otp
 
 const insertUser = async (req, res) => {
     try {
@@ -91,7 +91,7 @@ const insertUser = async (req, res) => {
         const userData = await user.save()
 
 
-        let otp = Math.floor(Math.random() * 9000) + 1000
+        otp = Math.floor(Math.random() * 9000) + 1000
         req.session.otp = otp;
         req.session.otpTimestamp = Date.now();
        
@@ -190,9 +190,9 @@ const loadProductDetails = async (req, res) => {
 
 
         const user_id = req.session.user_id
-        const productData = await Product.findOne({ _id: productId }).populate("category").populate("offer")
+        const productData = await Product.findOne({ _id: productId }).populate("category")
         
-        const offer = productData.offer ? productData.price-Math.floor(productData.price*productData.offer.discountAmount/100) : productData.price;
+      
 
         const categoryData = await Category.find()
         const relatedImg = await Product.find({ category: productData.category._id, _id: { $ne: productData._id } }).limit(8)
@@ -203,7 +203,6 @@ const loadProductDetails = async (req, res) => {
             productData,
             categoryData,
             relatedImg,
-            offer,
             reviews,
             user: user_id
         })
@@ -332,18 +331,17 @@ const forgotPassword = async (req, res) => {
             const userData = await User.findOne({ _id: req.session.user_id })
 
 
-            let randomNumber = Math.floor(Math.random() * 9000) + 1000
+            otp = Math.floor(Math.random() * 9000) + 1000
 
-            otp = randomNumber
+          req.session.otp= otp
+          req.session.otpAge = Date.now()
 
 
-            sendVerifyMail(userData.name, userData.email, randomNumber)
+            sendVerifyMail(userData.name, userData.email,otp)
 
             
 
-            setTimeout(() => {
-                otp = Math.floor(Math.random() * 9000) + 1000
-            }, 60000)
+            
 
             req.session.email = userData.email;
 
@@ -367,34 +365,27 @@ const getEmail = async (req, res) => {
     try {
 
         req.session.user_check = req.body.email
+
         const userData = await User.findOne({ email: req.body.email })
         console.log(req.session.user_check);
 
         if (userData) {
 
-            let randomNumber = Math.floor(Math.random() * 9000) + 1000
+            otp = Math.floor(Math.random() * 9000) + 1000
+            req.session.otp=otp
+            req.session.otpTimestamp = Date.now();
 
-            otp = randomNumber
+            
 
-            sendVerifyMail('user', req.body.email, randomNumber)
+            sendVerifyMail('user', req.body.email, otp)
 
             
             req.session.email = userData.email;
 
-            setTimeout(() => {
-                otp = Math.floor(Math.random() * 9000) + 1000
-            }, 60000)
-
-            let verifyErr = req.session.verifyErr;
-            let otpsend = req.session.otpsend;
-            res.render('otp', {
-                email: req.body.email,
-                verifyErr,
-                otpsend
-            })
+           res.json({success:true})
 
         } else {
-            res.render(getEmail, { error: 'Email not found' })
+           res.json({found:false})
         }
 
     } catch (error) {
@@ -413,7 +404,7 @@ const changePasswordLoad = async (req, res) => {
 const changePassword = async (req, res) => {
     try {
         const user_id = req.session.user_id
-        const newPassword = req.body.newPassword
+        const newPassword = req.body.newPass
         console.log(newPassword);
         if (req.session.user_id) {
 
@@ -428,7 +419,7 @@ const changePassword = async (req, res) => {
             const passwordHash = await bcrypt.hash(newPassword, 10)
             const changed =  await User.findOneAndUpdate({ email: req.session.user_check }, { $set: { password: passwordHash } })
             console.log("login",changed);
-            res.redirect("/login")
+            res.json({changed:true})
 
         }
 
@@ -457,13 +448,11 @@ const resendOtp = async (req, res) => {
         let email = req.session.email;
         let name = req.session.name;
         console.log('asasdfasd',email,name);
-        let randomNumber = Math.floor(Math.random() * 9000) + 1000;
-        otp = randomNumber;
-        setTimeout(() => {
-            otp = Math.floor(Math.random() * 9000) + 1000;
-        }, 60000);
+        let otp = Math.floor(Math.random() * 9000) + 1000;
+       req.session.otp = otp
+       req.session.otpAge = Date.now()
         console.log(otp)
-        sendVerifyMail(name, email, randomNumber);
+        sendVerifyMail(name, email, otp);
         res.json({resend:true})
        
     } catch (error) {
@@ -484,7 +473,7 @@ const verifyOtp = async (req, res) => {
       console.log(inputOtp,"otppppppppppppp");
       console.log('seesionotp:',req.session.otp);
     
-      if (otpAge<=5*60*1000&&inputOtp===req.session.otp) {
+      if (otpAge<=5*60*1000&&inputOtp==req.session.otp) {
         console.log('asfhkjlfdhkdsadfhjkdhfdhfdasjhkfdajhfhajdk'); 
                 const verified = await User.findOneAndUpdate({ email: email }, { $set: { is_verified: 1 } }, { new: true })
             

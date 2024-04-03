@@ -4,8 +4,13 @@ const Offer = require('../model/offerModel')
 const Review = require('../model/reviewModel')
 const sharp = require('sharp')
 const fs = require('fs')
+const path = require('path')
 const category = require("../model/categoryModel")
 const { trusted } = require("mongoose")
+
+
+
+
 const productLoad = async (req, res) => {
   try {
        const page = parseInt(req.query.page) || 1;
@@ -38,7 +43,7 @@ const productLoad = async (req, res) => {
            .skip(skip)
            .limit(limit)
            .populate("category")
-           .populate("offer");
+         
  
        const categoryData = await Category.find();
  
@@ -59,9 +64,7 @@ const productLoad = async (req, res) => {
 const addProductLoad = async (req, res) => {
   try {
     const categoryData = await Category.find({is_block:0})
-    const offerData = await Offer.find({is_block:0})
-  
-    res.render("addProducts", { categoryData,offerData })
+    res.render("addProducts", { categoryData})
   } catch (error) {
     console.log(error);
   }
@@ -71,88 +74,50 @@ const addProductLoad = async (req, res) => {
 
 const addProduct = async (req, res) => {
   try {
+    const categoryName = req.body.category;
+    const category = await Category.findOne({ _id: categoryName });
 
-    const categoryName = req.body.category
-    console.log(categoryName);
-    const category = await Category.findOne({ _id: categoryName })
-    console.log("category is ",category);
-    const files = req.files;
-    console.log("her req files",req.files);
-    const img = [
-      files.imageFile1[0].filename,
-      files.imageFile2[0].filename,
-      files.imageFile3[0].filename,
-      files.imageFile4[0].filename
-  ];
+    // Ensure image directory exists (adjust path if needed)
+    const imageDir = 'C:/aspense/public/images/product/original';
+    if (!fs.existsSync(imageDir)) {
+      await fs.mkdirSync(imageDir, { recursive: true });
+    }
 
-  let resizedImages = [];
+    const images = req.files.map(file => file.filename); // Extract filenames
 
-
-  try {
-    console.log("Processing images:", img);
-    resizedImages = await Promise.all(img.map(async(imageName) => {
-       const filePath = `C:/aspense/public/images/product/original/${imageName}`;
-       console.log("Processing image:", filePath);
-       const resizedImage = await sharp(filePath)
-         .resize({width:400,height:500})
-         .toBuffer();
-         console.log('resized image',resizedImage);
-       return {imageName,resizedImage};
+    // Move uploaded images to the specified folder (using fs.promises.rename)
+    await Promise.all(req.files.map(async file => {
+      const oldPath = file.path;
+      const newPath = path.join(imageDir, file.filename);
+      await fs.promises.rename(oldPath, newPath);
     }));
-   } catch (error) {
-    console.error('Error opening image:', error);
-   }
-
- const productImages = {}
-
- for (const image of resizedImages) {
-  productImages[`images.${image.imageName}`] = image.imageName;
-  try {
-    await fs.promises.writeFile('C:/aspense/public/images/product/sized/' + image.imageName, image.resizedImage);
-    console.log('resized image is saved:', image.imageName);
-  } catch (e) {
-    console.log("error while adding image:", e);
-  }
-}
-
-console.log('ofeeeeer',req.body.offer);
-   
 
     const product = new Product({
       name: req.body.name,
       category: category.id,
       quantity: req.body.quantity,
       price: req.body.price,
-      "images.image1": files.imageFile1[0].filename,
-      "images.image2": files.imageFile2[0].filename,
-      "images.image3": files.imageFile3[0].filename,
-      "images.image4": files.imageFile4[0].filename,
-      discription: req.body.description,
-      size: req.body.size,
-      date:new Date(),
-      offer:req.body.offer || 0,
-      Is_block: 0
+      images: images,
+      description: req.body.description,
+      date: new Date(),
+      Is_block: 0 // Ensure consistent capitalization
     });
 
-
-    const validationError = product.validateSync();
-    if (validationError) {
-      console.error('Validation error:', validationError);
-      return res.status(400).json({ error: 'Validation error', details: validationError.errors });
+    try {
+      const productData = await product.save();
+      console.log('Product added successfully:', productData.images);
+      res.json({ success: true });
+    } catch (err) {
+      console.log('Error in adding product:', err);
+      res.status(500).json({ error: 'An error occurred while adding the product', details: err.message });
     }
-
-   
-    const productData = await product.save();
-    res.json({success:true})
-
-
-
-
   } catch (e) {
-    console.log(e,"error in while adding product");
-    res.status(500).render('500');
+    console.log('Error while adding product:', e);
+    res.status(500).json({ error: 'An error occurred while adding the product' });
   }
 };
+
+
 
 
 

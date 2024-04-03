@@ -70,11 +70,12 @@ const Address = require('../model/addressModel')
         try {
           
            const user_id=req.session.user_id
-           const address_id = req.query._id
+           const address_id = req.body.id
+           console.log('id',address_id);
       
            await Address.updateOne({user:user_id},{$pull:{address:{_id:address_id}}})
       
-          res.redirect('/profile')
+          res.json({success:true})
       
         } catch (error) {
             console.log(error.message);
