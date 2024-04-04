@@ -15,7 +15,7 @@ const uploadProduct = productUpload.array('images[]');
 
   const userStorage = multer.diskStorage({
 
-    destination: "public/images/user/orginal",
+    destination: "public/images/user/",
   
     filename: (req, file, cb)=> {
   

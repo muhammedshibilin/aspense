@@ -6,6 +6,7 @@ const Address = require('../model/addressModel')
 const Review = require('../model/reviewModel')
 const Order = require('../model/orderModel')
 const bcrypt = require("bcryptjs")
+const speakeasy = require('speakeasy');
 const { sendVerifyMail } = require('../utils/sendVerifyMail')
 
 
@@ -241,19 +242,34 @@ const editProfile = async (req, res) => {
     try {
         console.log("hiiii", req.session.user_id)
         const userData = await User.findById({ _id: req.session.user_id })
-        const newPassword = req.body.newPassword
-        console.log(newPassword);
-
-
+        console.log("haiiiiiiiiii",req.files);
         let image
-
 
         if (req.file && req.file.originalname) {
             image = req.file.originalname
-            const imagePath = `public/images/user/orginal/${userData.image}`
+            const imagePath = `public/images/user/${req.file.originalname}`
         } else {
             image = userData.image
         }
+
+        if(userData.email!==req.body.email){
+            const otp = speakeasy.totp({
+                secret: req.body.email,
+                encoding: 'base32',
+                digits: 4 
+            });
+            console.log('otp:',otp);
+            req.session.otp = otp
+            req.session.newEmail = req.body.email
+            req.session.otpTimestamp= Date.now()
+
+            sendVerifyMail(userData.name,userData.email,otp)
+
+             return res.json({verification:true})
+        }
+
+
+       
 
 
         const editedData = await User.findOneAndUpdate({ _id: userData._id }, {
@@ -278,50 +294,74 @@ const editProfile = async (req, res) => {
     }
 }
 
-// const passwordChange = async (req, res) => {
-//     try {
-//         console.log('body', req.body);
+const verifyEmailChange = async (req,res)=> {
+    try {
+        const inputOtp = req.body.input1+req.body.input2+req.body.input3+req.body.input4
+        const otpAge = Date.now() - req.session.otpTimestamp;
+        const user= req.session.user_id
+        
+      
+        if (otpAge<=5*60*1000&&inputOtp==req.session.otp) {
+          console.log('asfhkjlfdhkdsadfhjkdhfdhfdasjhkfdajhfhajdk'); 
+                  const verified = await User.findOneAndUpdate({_id:user}, { $set: { email:req.session.newEmail} }, { new: true })
+              
+                  
+                  if (verified) {
+                     res.json({change:true})
+                  }
+               
+              }else{
+                  res.json({valid:false})
+              }
+    } catch (e) {
+        console.log('while verifying otp of change email');
+    }
+}
 
-//         const userData = await User.findById({ _id: req.session.user_id })
-//         const newPassword = req.body.newPassword
-//         const confirmPassword = req.body.confirm
-//         const current = req.body.current
+const passwordChange = async (req, res) => {
+    try {
+        console.log('body', req.body);
 
-//         let passwordHash
+        const userData = await User.findById({ _id: req.session.user_id })
+        const newPassword = req.body.newPassword
+        const confirmPassword = req.body.confirm
+        const current = req.body.current
 
-
-//         const passwordMatch = await bcrypt.compare(current, userData.password)
-//         if (passwordMatch) {
-//             try {
-//                 passwordHash = await bcrypt.hash(newPassword, 10);
-//             } catch (error) {
-//                 console.error('Error while hashing password:', error);
-//                 return res.status(500).json({ error: 'Internal Server Error' });
-//             }
-
-//         } else {
-//             return res.json({ passwordMatch: false })
-//         }
-
-//         if (userData) {
-//             const editedData = await User.findOneAndUpdate({ _id: userData._id }, {
-//                 $set: {
-//                     password: passwordHash
-//                 }
-//             })
-//             console.log('edi', editedData);
-//             res.json({ password: true })
-//         } else {
-//             res.json({ user: true });
-//         }
+        let passwordHash
 
 
+        const passwordMatch = await bcrypt.compare(current, userData.password)
+        if (passwordMatch) {
+            try {
+                passwordHash = await bcrypt.hash(newPassword, 10);
+            } catch (error) {
+                console.error('Error while hashing password:', error);
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+
+        } else {
+            return res.json({ passwordMatch: false })
+        }
+
+        if (userData) {
+            const editedData = await User.findOneAndUpdate({ _id: userData._id }, {
+                $set: {
+                    password: passwordHash
+                }
+            })
+            console.log('edi', editedData);
+            res.json({ password: true })
+        } else {
+            res.json({ user: true });
+        }
 
 
-//     } catch (error) {
 
-//     }
-// }
+
+    } catch (error) {
+
+    }
+}
 
 const forgotPassword = async (req, res) => {
     try {
@@ -586,10 +626,12 @@ module.exports = {
     loadProductDetails,
     profileLoad,
     editProfile,
+    verifyEmailChange,
     forgotPassword,
     getEmail,
     changePasswordLoad,
     changePassword,
+    passwordChange,
     failureLoad,
     successLoad,
     loadSignup,

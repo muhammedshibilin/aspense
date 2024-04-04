@@ -428,6 +428,7 @@ $(document).ready(function() {
     contentType: 'application/json',
     method: 'POST',
     success: function (response) {
+      location.reload()
       if (response.success) {
         const newStatus = response.orderData.products.find(product => product._id === id).status;
         $(`#${id}`).text(newStatus);

@@ -139,33 +139,29 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% cart.products.forEach(product =>
-                                            { %>
-                                            <tr>
-                                                <td><%= product.productName
-                                                    %></td>
-                                                <td>$<%= product.totalPrice
-                                                    %>.00</td>
-                                            </tr>
+                                            <% cart.products.forEach((product,index) => { %>
+                                                <tr>
+                                                    <td><%= product.productId.name %></td>
+                                                    <td>$<%= eachTotal[index].toFixed(2) %></td>
+                                                </tr>
                                             <% }); %>
-                                            <!-- Subtotal and Grand Total under the product and total -->
                                             <tr>
                                                 <td>Sub Total</td>
-                                                <td>$<%= subTotal %>.00</td>
+                                                <td>$<%= subTotal.toFixed(2) %></td> <!-- Format subTotal to two decimal places -->
                                             </tr>
                                             <tr>
                                                 <td>Shipping Fee</td>
-                                                <td>$<%= shippingAmount
-                                                    %>.00</td>
+                                                <td>$<%= shippingAmount.toFixed(2) %></td> <!-- Format shippingAmount to two decimal places -->
                                             </tr>
                                             <tr>
                                                 <td>Grand Total</td>
-                                                <td>$<%= total %>.00</td>
+                                                <td>$<%= total.toFixed(2) %></td> <!-- Format total to two decimal places -->
                                             </tr>
                                         </tbody>
+                                        
                                     </table>
-                                    <div>
-                                        <h4 class="checkout-title">Payment
+                                    <div style="padding: 15px;">
+                                        <h4 class="checkout-title ">Payment
                                             Method</h4>
                                         <div class="single-method">
                                             <!-- Payment method options go here -->

@@ -1,11 +1,12 @@
 const Product = require("../model/productModel")
 const Category = require('../model/categoryModel')
 const Offer = require('../model/offerModel')
-const Review = require('../model/reviewModel')
+const Cart = require('../model/cartModel')
+
 const sharp = require('sharp')
 const fs = require('fs')
 const path = require('path')
-const category = require("../model/categoryModel")
+
 const { trusted } = require("mongoose")
 
 
@@ -236,11 +237,10 @@ if(productData.images){
  
     imageValues.forEach( value => {
       const imagePathOriginal = `public/images/product/original/${value}`
-      const imagePathSized = `public/images/product/sized/${value}`
+  
 
       try {
         fs.unlinkSync(imagePathOriginal)
-        fs.unlinkSync(imagePathSized)
       } catch (e) {
         console.log("error to delete images",e);
       }
@@ -249,8 +249,14 @@ if(productData.images){
 
 
 await Product.findByIdAndDelete({_id:product_id})
-res.redirect('/admin/product')
 
+const carts = await Cart.find({ 'products.productId': product_id });
+for (const cart of carts) {
+  cart.products = cart.products.filter(product => product.productId.toString() !== product_id);
+  await cart.save();
+}
+
+res.redirect('/admin/product')
 
   } catch (e) {
     console.log(e,"product deleting have an error occured")

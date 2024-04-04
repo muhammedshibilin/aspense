@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>ASPENSE</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- aspense -->
+    <link rel="shortcut icon" type="image/x-icon"
+    href="user/images/logogo-removebg-preview.png">
+  <style>
+    html {
+  height: 100%;
+}
+body {
+  margin:1110;
+  padding:1110;
+  font-family: sans-serif;
+  background:url("/user/images/backround.png");
+}
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: black;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #448bf6;
+  font-size: 12px;
+}
+
+.login-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #26a6b7;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box a:hover {
+  background: #03a8f4;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #0327f4,
+              0 0 25px #0b26bd,
+              0 0 50px #0343f4,
+              0 0 100px #1e58d5;
+}
+
+.login-box a span {
+  position: absolute;
+  display: block;
+}
+
+.login-box a span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #0388f4);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,100% {
+    left: 100%;
+  }
+}
+
+.login-box a span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #0394f4);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,100% {
+    top: 100%;
+  }
+}
+
+.login-box a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent, #039cf4);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,100% {
+    right: 100%;
+  }
+}
+
+.login-box a span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #036bf4);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,100% {
+    bottom: 100%;
+  }
+}
+.form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(185, 180, 180)
+}
+
+.message {
+  color: #b9b7b7;
+  font-size: 14px;
+  margin-top: 4px;
+  text-align: center
+}
+
+.inputs {
+  margin-top: 10px
+}
+
+.inputs input {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  border: none;
+  border-bottom: 1.5px solid #d2d2d2;
+  margin: 0 10px;
+}
+
+.inputs input:focus {
+  border-bottom: 1.5px solid royalblue;
+  outline: none;
+}
+
+
+  </style>
+  
+</head>
+
+<body>
+  <div class="login-box">
+    <form class="form">
+      <div class="title">OTP</div>
+      <div class="title">Verification Code</div>
+      <p class="message">We have sent a verification code to your mobile number</p>
+      <div class="inputs"> <input id="input1" type="text" maxlength="1"> <input id="input2" type="text" maxlength="1">
+        <input id="input3" type="text" maxlength="1"> <input id="input4" type="text" maxlength="1"> </div> 
+        <div id="error" style="display: none; color: red; margin-top:20px "></div>
+     
+
+         <div id="timer"  style="color: white; margin-top: 20px; font-weight:bold ;">Time remaining: 1:00</div>
+<button id="resend" style="display: none; color: white; background-color: transparent; border: 1px solid white; padding: 5px 10px; cursor: pointer; margin-top: 20px;" onclick="resendOTP()" onmousedown="this.style.backgroundColor='white'" onmouseup="this.style.backgroundColor='blue'" >Resend</button>
+
+        <a>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <button id="submit" type="submit" style="border: none; background-color: black; color: white; font-size: 20px;" onmouseover="this.style.backgroundColor='transparent'" >Submit</button>
+        </a>
+       
+
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Include SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+  
+  <script>
+    var timerElement = document.getElementById('timer');
+    var resendButton = document.getElementById('resend');
+    
+    var timer = 60;
+
+    function startTimer() {
+      var interval = setInterval(function() {
+        timer--;
+        var minutes = Math.floor(timer / 60);
+        var seconds = timer % 60;
+        if (seconds < 10) {
+          seconds = '0' + seconds;
+        }
+        timerElement.textContent = 'Time remaining: ' + minutes + ':' + seconds;
+        if (timer <= 0) {
+          clearInterval(interval);
+          timerElement.style.display = 'none';
+          resendButton.style.display = 'inline-block';
+        }
+      }, 1000);
+    }
+
+    startTimer();
+
+    function resendOTP() {
+      timer = 60;
+      timerElement.style.display = 'block';
+      resendButton.style.display = 'none';
+      startTimer();
+
+      $.ajax({
+        url:"/resend-otp",
+        method:"get",
+        success:(response) =>{
+          console.log('ere',response);
+          if(response.resend){
+            Swal.fire({
+              icon:'success',
+              title:'send ',
+              text:"resend otp to your email",
+              timer:3000
+            })
+          }
+        } 
+      })
+    }
+  </script>
+
+  <script>
+    document.getElementById("submit").addEventListener('click',function(e){
+e.preventDefault()
+
+  const input1 = document.getElementById("input1").value
+  const input2 = document.getElementById("input2").value
+  const input3 = document.getElementById("input3").value
+  const input4 = document.getElementById("input4").value
+  const errorMessage = document.getElementById("error")
+
+  if (input1 === '' || input2 === '' || input3 === '' || input4 === '') {
+    errorMessage.style.display="block"
+    errorMessage.textContent="must be filled"
+    return
+  }
+
+  if (isNaN(input1) || isNaN(input2) || isNaN(input3) || isNaN(input4)) {
+    errorMessage.style.display="block"
+    errorMessage.textContent="enter number only"
+    return
+  }
+
+$.ajax({
+    url:"/email-verification",
+    data:{
+        input1,input2,input3,input4
+    },
+    method:"post",
+    success:(response)=>{
+      console.log('resonse',response);
+        if(response.valid==false){
+        errorMessage.style.display = "block";
+        errorMessage.textContent = "enter valid otp"
+        }else if(response.change){
+          swal.fire({
+            icon:"success",
+            text:"your emali is changed"
+          }).then(()=> {
+             window.location.href="/profile"
+          })
+          
+        }else{
+            const Toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Your aspens account is verified.'
+              })
+
+              setTimeout(()=>{
+                window.location.href="/login"
+              },3000)
+        }
+    }
+
+
+})
+
+})
+</script>
+
+</body>
+
+</html>

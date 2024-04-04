@@ -77,7 +77,15 @@ user_route.get('/resend-otp', userController.resendOtp);
 
 user_route.get("/profile", auth.isLogin, userController.profileLoad)
 user_route.post('/edit-profile',multer.uploadProfile.single('image'),userController.editProfile)
-// user_route.post('/password-change',upload.none(),userController.passwordChange)
+user_route.get('/email-verification',auth.isLogin,userController.emailVerification = async (req,res)=> {
+  try{
+     res.render('changemail')
+  }catch(e){
+   console.log('while change email',e);
+  }
+})
+user_route.post('/email-verification',userController.verifyEmailChange)
+user_route.post('/password-change',upload.none(),userController.passwordChange)
 user_route.get('/forgot-password',userController.forgotPassword)
 user_route.post('/get-email',userController.getEmail)
 user_route.get('/change-password',userController.changePasswordLoad)
@@ -103,7 +111,8 @@ user_route.get('/order-success',auth.isLogin,orderController.orderSuccess)
 user_route.get('/order-details',auth.isLogin,orderController.orderDetails)
 user_route.post('/cancel-order',auth.isLogin,orderController.cancelOrder)
 user_route.post('/return-request',auth.isLogin,orderController.returnOrder)
-user_route.get('/invoice',asyncHandler(orderController.invoice))
+user_route.get('/invoice/pdf', asyncHandler(orderController.generateInvoicePDF));
+user_route.get('/invoice/success', asyncHandler(orderController.invoiceSuccess));
 
 
 user_route.get('/shop',userController.shopLoad)

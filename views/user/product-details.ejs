@@ -54,7 +54,7 @@
                                            role="tab"
                                            aria-controls="img<%= index + 1 %>"
                                            aria-selected="<%= index === 0 ? 'true' : 'false' %>">
-                                            <img src="/images/product/original/<%= image %>" alt="<%= productData.name %>">
+                                            <img src="/images/product/original/<%= image %>" alt="<%= productData.name %>" >
                                         </a>
                                     <% }); %>
                                 </div>
@@ -248,7 +248,7 @@
                                     <a
                                         href="/product-details?_id=<%= related._id %>">
                                         <img
-                                            src="/images/product/sized/<%= related.images.image1%>"
+                                            src="/images/product/original/<%= related.images[0]%>"
                                             alt="<%= related.name %>">
                                     </a>
                                 </div>
@@ -270,7 +270,7 @@
                                 <h2><a
                                         href="/product-details?_id=<%=productData._id %>"><%=
                                         related.name %></a></h2>
-                                <span class="prize"><%= related.price %></span>
+                                <span class="prize">$<%= related.price %>.00</span>
                             </div>
                         </div>
 
@@ -463,17 +463,10 @@ console.log('quantity from frontend',quantity,productId);
                  quantity
             },
             success: (response) => {  
-                const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 2000,
-})
-
                 if (response.login) {    
                     Toast.fire({
                         icon: "error",
-                        title: response.message
+                        title: "pleasse login to add product "
                     });
                     setTimeout(function () {
                         window.location.href = '/login';
@@ -481,43 +474,26 @@ console.log('quantity from frontend',quantity,productId);
 
                 } else if (response.success) {
                     if (response.newProduct) {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: "top-end",
-                            showConfirmButton: false,
-                            timer: 2000,
-                        });
-
-                        Toast.fire({
-                            icon: "success",
-                            title: "Product added to cart"
-                        });
+                       swal.fire({
+                        icon:"success",
+                        text:"added to cart"
+                       })
                         $('#reloadArea').load('/shop #reloadArea');
-
                     }
                 } else if (response.exist) {
-    Toast.fire({
-        icon: "error", 
-        title: "Product already in cart",
-        text: "This product is already in your cart."
-    });
+   Swal.fire({
+    icon:"warning",
+    text:"product already in cart"
+   })
     setTimeout(function () {
         window.location.href = '/cart';
     }, 2000);
 
                 } else if (response.stock) {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 2000,
-                    });
-
-                    Toast.fire({
-                        icon: "error", 
-                        title: "out of stock!",
-                        text:"the product is available soon"
-                    });
+                    Swal.fire({
+                        icon:'error',
+                        text:"product out of stock!.will update soon"
+                    })
                     return
                 }
             },
@@ -563,12 +539,12 @@ console.log('quantity from frontend',quantity,productId);
                 lensSize: 400 ,
             
             });
-            var lastScrollTop = 0; // Initialize last scroll top position
+            var lastScrollTop = 0; 
         $(window).scroll(function() {
-            // Reset the zoom when scrolling up
+           
             if ($(this).scrollTop() < lastScrollTop) {
-                $('.zoomContainer').remove(); // Remove zoom container
-                // Reinitialize elevateZoom for the active image
+                $('.zoomContainer').remove();
+               
                 $('#zoomedImage1').elevateZoom({
                     zoomType: "inner",
                     cursor: "crosshair"

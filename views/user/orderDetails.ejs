@@ -44,7 +44,7 @@
 
                                                 <td><%= product.productId.name %></td>
                                                 <td><img
-                                                        src="/images/product/original/<%= product.image %>"
+                                                        src="/images/product/original/<%= product.productId.images[0] %>"
                                                         alt="Product Image"
                                                         width="50"
                                                         height="50"></td>
@@ -135,15 +135,11 @@
                                      
                                     </table>
                                     <div class="invoice d-flex justify-content-center  mt-5 ">
-                                   
-                                      
-                                        <a href="/invoice?id=<%= order[0]._id %>">
-                                            <button id="Invoice"
+                                            <button id="Invoice" onclick="invoice('<%= order[0]._id %>')"
                                                 class="add-review-button btn btn-info">
                                                 <i class="fas fa-download"></i>
                                                 Invoice
-                                            </button>
-                                        </a>
+                                            </button>   
                                     </div>
 
                                 </div>
@@ -252,6 +248,30 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
+
+function downloadPDF(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function invoice(orderId) {
+    console.log('ore', orderId);
+    const pdfUrl = `/invoice/pdf?id=${orderId}`;
+    downloadPDF(pdfUrl, 'invoice.pdf');
+
+    // Display a SweetAlert message after the PDF download is initiated
+    Swal.fire({
+        icon: 'success',
+        title: 'Invoice Generated',
+        text: 'Your invoice is ready. Please check your downloads folder.',
+        confirmButtonText: 'OK'
+    });
+}
+
 
 function cancelProduct(orderProductId, orderId) {
         console.log('orderProductId',orderProductId,orderId);

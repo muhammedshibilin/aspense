@@ -27,7 +27,7 @@ const placeOrder = async (req, res) => {
     const user_id = req.session.user_id;
     console.log(user_id);
 
-    const cartData = await Cart.findOne({ user: user_id });
+    const cartData = await Cart.findOne({ user: user_id }).populate("products.productId");
     if (!cartData) {
       res.status(404).json({ error: "Cart data not found" });
       return;
@@ -36,17 +36,15 @@ const placeOrder = async (req, res) => {
 
     const paymentMethod = req.body.formData.payment;
     const status = paymentMethod === 'COD' ? 'Placed' : 'Pending';
-    console.log(paymentMethod, "method", req.body.formData.address, "address");
-
     const address = req.body.formData.address;
 
 
     const subtotalAmount = cartData.products.reduce(
-      (acc, val) => acc + (val.totalPrice || 0),
-      0,
-    );
+      (acc, val) => acc + (val.productId.price * val.count || 0),
+       0,
+     );
     let totalAmount = subtotalAmount;
-    console.log('hhalallllllllllllllllllllllllllll', subtotalAmount);
+   
 
     let shippingAmount = totalAmount < 1500 ? 90 : 0
 
@@ -62,22 +60,20 @@ const placeOrder = async (req, res) => {
     const productIds = cartData.products.map(product => product.productId);
     const products = await Product.find({ _id: { $in: productIds } });
     const productData = cartData.products.map(cartProduct => {
-      const productDetails = products.find(p => p._id.toString() === cartProduct.productId.toString());
+      const productDetails = products.find(p => p._id.toString() === cartProduct.productId._id.toString());
+      console.log('log',productDetails);
 
     if (cartProduct.count > productDetails.quantity) {
-      return res.status(400).json({ quantity: `Insufficient stock for product with ID ${cartProduct.productId}.` });
+      return res.status(400).json({ quantity:true});
   }
-
-
-
-      console.log('image', productDetails.images.image1);
+      console.log('image', productDetails.images);
       return {
 
-        productId: cartProduct.productId,
+        productId: cartProduct.productId._id,
         count: cartProduct.count,
         productPrice: productDetails ? productDetails.price : 0,
-        image: productDetails.images.image1 ? productDetails.images.image1 : '',
-        totalPrice: cartProduct.totalPrice,
+        image: productDetails.images ? productDetails.images : '',
+        totalPrice: productDetails.price*cartProduct.count,
         status: status,
         name: productDetails ? productDetails.name : '',
       };
@@ -85,9 +81,6 @@ const placeOrder = async (req, res) => {
     console.log('halpppppppppppppppppp', productData);
 
     totalAmount += shippingAmount;
-
-
-
 
     const order = new Order({
       user: user_id,
@@ -344,59 +337,108 @@ const returnOrder = async (req, res) => {
   }
 }
 
+const generateInvoicePDF = async (req, res) => {
+  const orderId = req.query.id;
+  const orderDetails = await Order.findById(orderId);
 
-const invoice = async (req, res) => {
-  try {
-     const orderId = req.query.id;
-     console.log('id', orderId);
-     const orderDetails = await Order.findById(orderId);
-     console.log('details', orderDetails);
- 
-     let document = new PDFDocument({ margin: 50 });
- 
-     function generateHeader(document) {
-       document.image('./public/user/images/logo.png', 50, 40, { width: 100 });
-       document.fontSize(25).text('aspense', 150, 50);
-     }
- 
-     function generateFooter(document) {
-       document.fontSize(10).text('Page ' + document.pageNumber, 50, document.page.height - 10);
-     }
- 
-     function generateOrderDetails(document, orderDetails) {
-       document.fontSize(15).text('Order Details', 50, 100);
-       document.fontSize(12).text('Invoice Number: ' + orderDetails._id, 50, 120);
-       document.fontSize(12).text('Date: ' + new Date().toLocaleDateString(), 50, 140);
-    
-       document.fontSize(12).text('Customer Name: ' + orderDetails.customerName, 50, 160);
-       document.fontSize(12).text('Items:', 50, 180);
-       let y = 200; 
-       orderDetails.items.forEach((item, index) => {
-         document.fontSize(12).text(`${index + 1}. ${item.name} - ${item.quantity} x $${item.price}`, 50, y);
-         y += 20; 
-       });
-       document.fontSize(12).text('Total Amount: $' + orderDetails.totalAmount, 50, y + 20);
-     }
- 
-     generateHeader(document);
-     generateOrderDetails(document, orderDetails);
-     generateFooter(document);
- 
-     res.setHeader('Content-Type', 'application/pdf');
-     res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
- 
-     document.pipe(res);
-     document.end();
- 
-     document.on('end', () => {
-       console.log('PDF generation completed');
-     });
- 
-  } catch (error) {
-     console.log('while invoice', error);
-     res.status(500).json({ error: 'Failed to generate invoice' });
+  if (!orderDetails) {
+      return res.status(404).json({ error: 'Order not found' });
   }
- };
+
+  let document = new PDFDocument({ margin: 50 });
+
+  function generateHeader(document) {
+      document.image('./public/user/images/logo.png', 50, 40, { width: 100 });
+      document.fontSize(16).text('Your Company Name', 180, 50, { align: 'center' });
+      document.fontSize(10).text('You can feel comfort', { align: 'center' });
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleDateString();
+      const formattedTime = currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      document.fontSize(12).text('Date: ' + formattedDate, 400, 70, { width: 150, align: 'right' });
+      document.fontSize(12).text('Time: ' + formattedTime, 400, 90, { width: 150, align: 'right' });
+      document.moveTo(50, 120).lineTo(550, 120).stroke();
+  }
+
+  function generateOrderDetails(document, orderDetails) {
+      document.fontSize(18).text('Order Details', 50, 160);
+
+      const headers = ['No.', 'Product', 'Quantity', 'Price', 'Total', 'Status', 'Payment Method'];
+      const rows = orderDetails.products.map((product, index) => {
+          const productName = product.name ? product.name.toString() : 'N/A';
+          const productCount = product.count ? product.count.toString() : '0';
+          const productPrice = product.productPrice ? '$' + product.productPrice.toString() : '$0';
+          const totalPrice = product.totalPrice ? '$' + product.totalPrice.toString() : '$0';
+          const productStatus = product.status ? product.status.toString() : 'N/A';
+          const paymentMethod = product.paymentMethod ? product.paymentMethod.toString() : 'N/A';
+
+          return [
+              (index + 1).toString(),
+              productName,
+              productCount,
+              productPrice,
+              totalPrice,
+              productStatus,
+              paymentMethod
+          ];
+      });
+
+      const columnWidths = [30, 150, 70, 70, 70, 70, 100];
+      let y = 200; // Adjusted to start below the header
+
+      headers.forEach((header, columnIndex) => {
+          document.fontSize(12).text(header, 50 + columnWidths.slice(0, columnIndex).reduce((acc, width) => acc + width, 0), y, { width: columnWidths[columnIndex], align: 'center' });
+      });
+
+      // Draw horizontal lines between rows and vertical lines between columns
+      rows.forEach((row, rowIndex) => {
+          y += 20;
+          row.forEach((cell, columnIndex) => {
+              document.fontSize(12).text(cell, 50 + columnWidths.slice(0, columnIndex).reduce((acc, width) => acc + width, 0), y, { width: columnWidths[columnIndex], align: 'center' });
+              if (rowIndex === 0) {
+                  document.moveTo(50 + columnWidths.slice(0, columnIndex).reduce((acc, width) => acc + width, 0), 160)
+                      .lineTo(50 + columnWidths.slice(0, columnIndex).reduce((acc, width) => acc + width, 0), y + 20)
+                      .stroke();
+              }
+          });
+          document.moveTo(50, y).lineTo(550, y).stroke();
+      });
+
+      // Write total amount
+      const totalAmountText = 'Total Amount: $' + orderDetails.totalAmount;
+      document.fontSize(12).text(totalAmountText, 50, y + 20, { align: 'right' });
+  }
+
+  function generateFooter(document) {
+      document.fontSize(15).text('Thanks for your presence. Please keep purchasing', { align: 'center' });
+  }
+
+  generateHeader(document);
+  generateOrderDetails(document, orderDetails);
+  generateFooter(document);
+
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+
+  document.pipe(res);
+  document.end();
+
+  document.on('end', () => {
+      console.log('PDF generation completed');
+  });
+}
+
+
+
+ 
+
+
+
+const invoiceSuccess = async (req, res) => {
+  res.json({invoice: true});
+};
+
+
+
  
 
 
@@ -415,7 +457,7 @@ module.exports = {
   orderLoad,
   orderdetailsLoad,
   updateOrder,
-  invoice
-
+  generateInvoicePDF,
+  invoiceSuccess
 
 }

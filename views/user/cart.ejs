@@ -85,31 +85,33 @@
                                         <th class="pro-remove">Remove</th>
                                     </tr>
                                 </thead>
-                                <tbody id="carttable" >
+                                <tbody id="carttable">
                                     <% if (cart && cart.products && cart.products.length > 0) { %>
                                         <% cart.products.forEach(product => { %>
                                             <tr>
                                                 <td class="pro-thumbnail">
                                                     <a href="/product-details?_id=<%= product.productId._id %>">
-                                                        <img src="/images/product/original/<%= product.image %>" alt="Product" style="width: 50px; height: 60px;">
+                                                        <% if (product.productId.images && product.productId.images.length > 0) { %>
+                                                            <img src="/images/product/original/<%= product.productId.images[0] %>" alt="Product" style="width: 50px; height: 60px;">
+                                                        <% } else { %>
+                                                            <img src="/placeholder-image.jpg" alt="Placeholder Image" style="width: 50px; height: 60px;">
+                                                        <% } %>
                                                     </a>
                                                 </td>
                                                 <td class="pro-title">
-                                                    <a href="/product-details?_id=<%= product.productId %>">
-                                                        <%= product.productName %>
+                                                    <a href="/product-details?_id=<%= product.productId._id %>">
+                                                        <%= product.productId.name %>
                                                     </a>
                                                 </td>
-                                                <td class="pro-price" id="price"><span><%= product.price %></span></td>
-                                               
+                                                <td class="pro-price"><span><%= product.productId.price %></span></td>
                                                 <td class="pro-quantity">
                                                     <div class="cart-product-quantity">
                                                         <button class="btn btn-decrement" type="button">-</button>
-                                                        <input type="text" id="cartProductQuantity_<%= product.productId._id %>" class="form-control quantity-input" value="<%= product.count %>" min="1" max="product.quantity" readonly>
+                                                        <input type="text" id="cartProductQuantity_<%= product.productId._id %>" class="form-control quantity-input" value="<%= product.count %>" min="1" max="<%= product.quantity %>" readonly>
                                                         <button class="btn btn-increment" type="button">+</button>
                                                     </div>
                                                 </td>
-                                                
-                                                <td class="pro-total" id="totalprice"><span><%= product.totalPrice %></span></td>
+                                                <td class="pro-total" id="totalprice<%= product.productId._id %>"><%= product.totalPrice ? product.totalPrice.toFixed(2) : 'N/A' %></td>
                                                 <td>
                                                     <button type="button" onclick="removeItem('<%= product.productId._id %>')">
                                                         <i class="fa fa-trash-o"></i>
@@ -119,7 +121,13 @@
                                         <% }); %>
                                     <% } else { %>
                                         <tr>
-                                            <td colspan="6">No products available</td>
+                                            <td colspan="6">
+                                                <% if (message) { %>
+                                                    <%= message %>
+                                                <% } else { %>
+                                                    No products available
+                                                <% } %>
+                                            </td>
                                         </tr>
                                     <% } %>
                                 </tbody>
@@ -199,11 +207,11 @@
                                 </div>
                                 
                                 <div class="cart-summary-button">
-                                    <button class="checkout-btn" id="checkout" type="submit"><a
+                                    <button class="checkout-btn" id="checkout" type="submit"><a href="/checkout"
                                             >Checkout</a></button>
-                                    <button class="update-btn"
+                                    <!-- <button class="update-btn"
                                         id="updateCartButton">Update
-                                        Cart</button>
+                                        Cart</button> -->
                                 </div>
                             </div>
                         </div>
@@ -368,155 +376,125 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
 
 <script>
-
-document.getElementById('checkout').addEventListener('click',async (e) => {
-    e.preventDefault()
-    const response = await fetch('/checkout', {
-        method: 'get',
-        headers: {
-            'Content-Type': 'application/json', 
-        },
-      
-    });
-
-    
-    if (response.ok) {
-      
-        const data = await response.json()
-       
-       if(data.price){
-        Swal
-                    .fire({
-                        title: "updated !",
-                        text: " product price is updated ! make sure after you can purchase ",
-                        icon: "warning",
-                        timer:3000
-                    })
-       }
-    } else {
-       
-        console.error('Error:', response.status, response.statusText);
-    }
-});
-
-
-
-     function removeItem(product_Id) {
-                Swal
-                    .fire({
-                        title: "Are You Sure?",
-                        text: " You wont be able to revert this!",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, delete it!",
-                        cancelButtonText: "cancel",
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: "/removeCartItem",
-                                data: {
-                                    product: product_Id,
-                                },
-                                method: "post",
-                                success: (response) => {
-                                    if ((response.success)) {
-                                     
-                                        Swal.fire({
-                                            title: "Deleted!",
-                                            text: "Your item has been deleted.",
-                                            icon: "success",
-                                            timer: 1500,
-                                            showConfirmButton: false,
-                                        }).then(() => {
-                                            location.reload();
-                                        });
-                                    }
-                                },
+   
+    function removeItem(product_Id) {
+        Swal.fire({
+            title: "Are You Sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/removeCartItem",
+                    data: {
+                        product: product_Id,
+                    },
+                    method: "post",
+                    success: (response) => {
+                        if (response.success) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your item has been deleted.",
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false,
+                            }).then(() => {
+                                location.reload();
                             });
                         }
-                    });
+                    },
+                });
             }
-
-
-            
-            $(document).ready(function() {
-    
-    $(document).on('click', '.btn-decrement', function() {
-        const productId = $(this).siblings(".quantity-input").attr("id").split("_")[1];
-        updateQuantity(productId, -1);
-    });
-
-    $(document).on('click', '.btn-increment', function() {
-        const productId = $(this).siblings(".quantity-input").attr("id").split("_")[1];
-        updateQuantity(productId, 1);
-    });
-});
-
-function updateQuantity(productId, increment) {
-    var quantityInput = $("#cartProductQuantity_" + productId); 
-    var currentValue = parseInt(quantityInput.val());
-    var newValue = currentValue + increment;
-
-  
-    if (newValue < 1) {
-        return; 
+        });
     }
-
-    quantityInput.val(newValue);
-    updateCart(productId, increment);
-}
-
-function updateCart(productId, count) {
-    const data = {productId: productId, count: count};
-    console.log('dataaaaa', data);
-                 
-    $.ajax({
-        method: 'POST',
-        url: '/update-cart', 
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function (response) {
-            if(response.stock){
-                console.log(response.stock);
-              
-                Swal.fire({
+    
+    $(document).ready(function() {
+        $(document).on('click', '.btn-decrement', function() {
+            const productId = $(this).siblings(".quantity-input").attr("id").split("_")[1];
+            updateQuantity(productId, -1);
+        });
+    
+        $(document).on('click', '.btn-increment', function() {
+            const productId = $(this).siblings(".quantity-input").attr("id").split("_")[1];
+            updateQuantity(productId, 1);
+        });
+    });
+    
+    function updateQuantity(productId, increment) {
+        var quantityInput = $("#cartProductQuantity_" + productId);
+        var currentValue = parseInt(quantityInput.val());
+        var newValue = currentValue + increment;
+    
+        if (newValue < 1) {
+            return;
+        }
+    
+        quantityInput.val(newValue);
+        updateCart(productId, increment);
+    }
+    
+    function updateCart(productId, count) {
+        const data = {productId: productId, count: count};
+        console.log('dataaaaa', data);
+    
+        $.ajax({
+            method: 'POST',
+            url: '/update-cart',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (response) {
+                console.log(response);
+                if (response.stock) {
+                    console.log(response.stock);
+                    Swal.fire({
                         title: "Warning!",
                         text: "Product is out of stock. Will update soon!",
                         icon: "warning",
                         confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
-                        timer:3000
+                        timer: 3000,
                     });
                     $(".btn-increment").prop("disabled", true);
-                setTimeout(() => {
-                    location.reload()
-                }, 2000);
-                
-            } else {
-                var quantityInput = $("#cartProductQuantity_" + productId);
-                quantityInput.val(response.newQuantity);
-                $("#productTotalPrice_" + productId).text(response.newTotalPrice);
-
-               
-                if (response.newQuantity <= 1) {
-                    $("#cartProductQuantity_" + productId).siblings(".btn-decrement").prop("disabled", true);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
                 } else {
-                    $("#cartProductQuantity_" + productId).siblings(".btn-decrement").prop("disabled", false);
-                }
-
-                location.reload("#carttable");
-            }
-        },
-        error: function (error) {
-            console.error(error);
-            Swal.fire("Error", "An error occurred while updating the cart.", "error");
-        }
-    });
+                    var quantityInput = $("#cartProductQuantity_" + productId);
+                    quantityInput.val(response.newQuantity);
+    
+                    var totalPriceElement = document.getElementById("totalprice" + productId);
+                    totalPriceElement.textContent = response.newTotalPrice.toFixed(2);
+    
+                    var subtotalSpan = document.querySelector("#subtotal span");
+if (subtotalSpan) {
+    subtotalSpan.textContent = "$" + response.newSubTotal.toFixed(2);
 }
 
+// Update the shipping charge
+var shippingChargeSpan = document.querySelector("#shippingCharge span");
+if (shippingChargeSpan) {
+    shippingChargeSpan.textContent = "$" + response.newShippingCharge.toFixed(2);
+}
+
+// Update the grand total
+var grandTotalSpan = document.querySelector("#grandtotal span");
+if (grandTotalSpan) {
+    grandTotalSpan.textContent = "$" + response.newGrandTotal.toFixed(2);
+}
+                }
+            },
+            error: function (error) {
+                console.error(error);
+                Swal.fire("Error", "An error occurred while updating the cart.", "error");
+            }
+        });
+    }
     </script>
+    
 
 <%- include("../layouts/user/footer.ejs") %>
