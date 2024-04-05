@@ -125,7 +125,6 @@ const orderDetails = async (req, res) => {
 
     const userId = req.body.user_id
     const orderDetails = await Order.find({ _id: req.query._id }).populate("products.productId")
-    console.log(orderDetails, "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
     res.render('orderDetails', { order: orderDetails,user:userId })
   } catch (error) {
     console.log(error);
@@ -207,31 +206,24 @@ const orderLoad = async (req, res) => {
 
 
 
-const orderdetailsLoad = async (req, res) => {
+ const orderdetailsLoad = async (req, res) => {
   try {
     const orderId = req.query._id;
     console.log(orderId, "Order ID");
 
-
     const orderData = await Order.findOne({ _id: orderId }).populate({
-      path: 'products',
+      path: 'products.productId',
       populate: {
-        path: 'productId',
-        populate: { path: 'category' }
+        path: 'category'
       }
-    })
-
-
-
+    });
+    
+    console.log('jsfaf',orderData.products);
 
     if (orderData) {
-
       const totalItems = orderData.products.reduce((total, product) => total + product.count, 0);
       const subtotal = orderData.products.reduce((total, product) => total + product.totalPrice, 0);
-
-
       const tax = subtotal * 0.1;
-
 
       res.render('orderManagment', { orderData, totalItems, subtotal, tax });
     } else {

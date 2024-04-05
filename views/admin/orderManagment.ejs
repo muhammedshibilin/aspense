@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,59 +16,114 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
-    <link rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <style>
- 
-    /* styles.css */
-    h4 {
-      border-radius: 5px;
-      text-align: center;
-      background-color: #ec37fc;
-      color: aliceblue
-    }
-  
-    .start {
-      padding: 20px;
-    }
-  
-    .start h2 {
-      margin-bottom: 20px;
-    }
-  
-    .start h3 {
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-  
-    .start p {
-      margin-bottom: 10px;
-    }
-  
-    .start input[type="text"],
-    .start select {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-  
-    /* Add more space between rows */
-    .start .row {
-      margin-bottom: 20px;
-    }
-  
-    /* Make address field a multiline input */
-    .start .address-input {
-      height: 90px;
-      /* Set height to accommodate 3 lines */
-      resize: vertical;
-      /* Allow vertical resizing */
-    }
-    .start .return-input {
-      height: 90px;
-      resize: vertical;
-    }
-  </style>
+      /* Global styles */
+      body {
+        font-family: Arial, sans-serif; /* Default font family */
+        background-color: #f8f9fa; /* Page background color */
+      }
+    
+      .container {
+        margin-top: 20px; /* Add some space on top */
+      }
+    
+      /* Header styles */
+      .header {
+        background-color: #343a40; /* Header background color */
+        color: white; /* Header text color */
+        padding: 10px 0; /* Padding top and bottom */
+      }
+    
+      .header h1 {
+        margin: 0; /* Remove margin */
+        text-align: center; /* Center align header text */
+      }
+    
+      /* Table styles */
+      .table th,
+      .table td {
+        vertical-align: middle; /* Align content vertically centered */
+        border: none; /* Remove border from table cells */
+      }
+    
+      .table th {
+        background-color: #007bff; /* Header background color */
+        color: white; /* Header text color */
+      }
+    
+      .table tbody tr:nth-child(even) {
+        background-color: #f8f9fa; /* Alternate row background color */
+      }
+    
+      .table tbody tr:hover {
+        background-color: #e2e6ea; /* Hover row background color */
+      }
+    
+      /* Footer styles */
+      .footer {
+        background-color: #343a40; /* Footer background color */
+        color: white; /* Footer text color */
+        padding: 10px 0; /* Padding top and bottom */
+        text-align: center; /* Center align footer text */
+      }
+    
+      /* Additional styles for specific elements */
+      h4 {
+        border-radius: 5px; /* Rounded corners for h4 elements */
+        text-align: center; /* Center align h4 text */
+        background-color: #ec37fc; /* Background color for h4 elements */
+        color: aliceblue; /* Text color for h4 elements */
+      }
+    
+      .start {
+        padding: 20px; /* Padding for elements with class 'start' */
+      }
+    
+      .start h2 {
+        margin-bottom: 20px; /* Margin bottom for h2 elements inside 'start' class */
+      }
+    
+      .start h3 {
+        margin-top: 20px; /* Margin top for h3 elements inside 'start' class */
+        margin-bottom: 10px; /* Margin bottom for h3 elements inside 'start' class */
+      }
+    
+      .start p {
+        margin-bottom: 10px; /* Margin bottom for p elements inside 'start' class */
+      }
+    
+      .start input[type="text"],
+      .start select {
+        width: 100%; /* Set width to 100% for input[type="text"] and select elements inside 'start' class */
+        margin-bottom: 10px; /* Margin bottom for input[type="text"] and select elements inside 'start' class */
+      }
+    
+      /* Add more space between rows */
+      .start .row {
+        margin-bottom: 20px; /* Margin bottom for rows inside 'start' class */
+      }
+    
+      /* Make address field a multiline input */
+      .start .address-input {
+        height: 90px; /* Set height to accommodate 3 lines */
+        resize: vertical; /* Allow vertical resizing */
+      }
+    
+      .start .return-input {
+        height: 90px; /* Set height to accommodate 3 lines */
+        resize: vertical; /* Allow vertical resizing */
+      }
+    
+      /* Line between tables */
+      .line {
+        border-top: 1px solid #ccc; /* Line color */
+        margin-top: 20px; /* Margin top */
+        margin-bottom: 20px; /* Margin bottom */
+      }
+    </style>
+    
+    
 
   </head>
 
@@ -146,7 +199,7 @@
         </div>
       </nav>
       <!-- partial -->
-      <div class="container-fluid page-body-wrapper m-0 ">
+      <div class="container-fluid page-body-wrapper">
 
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -223,71 +276,99 @@
           </ul>
         </nav>
         <!-- partial -->
-
-        <!-- partial -->
         <div class="main-panel">
+
           <div class="content-wrapper">
+
             <div class="row">
               <!-- Order Details -->
-              <div class="col-lg-6 mb-4"
-                style="border: 1px solid #ccc; border-radius: 10px;">
-                <h4 style="color: #007bff; padding: 20px 0 20px 20px;">Order
-                  Details</h4>
-                <div style="margin-bottom: 10px;">
-                  <h5>Shipping Address</h5>
-                  <p style="margin-bottom: 5px;">Full Name: <%=
-                    orderData.deliveryDetails.fullName %></p>
-                  <p style="margin-bottom: 5px;">Address: <%=
-                    orderData.deliveryDetails.houseName %>, <%=
-                    orderData.deliveryDetails.city %> - <%=
-                    orderData.deliveryDetails.pin %></p>
-                  <p style="margin-bottom: 5px;">State: <%=
-                    orderData.deliveryDetails.state %></p>
-                  <p style="margin-bottom: 5px;">Mobile: <%=
-                    orderData.deliveryDetails.mobile %></p>
-                  <p style="margin-bottom: 5px;">city: <%=
-                    orderData.deliveryDetails.city %></p>
-                </div>
-                <hr style="border-color: #ccc;">
-                <div>
-                  <h5>Delivery Details</h5>
-                  <p style="margin-bottom: 5px;">Expected Delivery Date: <%=
-                    orderData.date.toDateString() %></p>
-                  <p style="margin-bottom: 5px;">Delivery Method: <%=
-                    orderData.shippingMethod %></p>
-                </div>
-
+              <div class="col-lg-6 mb-4">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th colspan="2" class="bg-primary text-white">Order Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <h5>Shipping Address</h5>
+                        <p>Full Name: <%= orderData.deliveryDetails.fullName %></p>
+                        <p>Address: <%= orderData.deliveryDetails.houseName %>, <%= orderData.deliveryDetails.city %> - <%= orderData.deliveryDetails.pin %></p>
+                        <p>State: <%= orderData.deliveryDetails.state %></p>
+                        <p>Mobile: <%= orderData.deliveryDetails.mobile %></p>
+                        <p>City: <%= orderData.deliveryDetails.city %></p>
+                      </td>
+                      <td>
+                        <h5>Delivery Details</h5>
+                        <p>Expected Delivery Date: <%= orderData.date.toDateString() %></p>
+                        <p>Delivery Method: <%= orderData.shippingMethod %></p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="col-lg-6 mb-4"
-                style="border: 1px solid #ccc; border-radius: 10px;">
-                <h4 style="color: #007bff; padding: 20px 0 20px 20px;">Order
-                  Summary</h4>
-                <div style="margin-bottom: 10px;">
-                  <p style="margin-bottom: 5px;">Total Items: <%= totalItems
-                    %></p>
-                  <p style="margin-bottom: 5px;">Subtotal: $<%=
-                    subtotal.toFixed(2) %></p>
-                  <p style="margin-bottom: 5px;">Shipping: $<%=
-                    orderData.shippingAmount %></p>
-                </div>
-                <hr style="border-color: #ccc;">
-                <div>
-                  <p style="margin-bottom: 5px; font-weight: bold;">Total: $<%=
-                    (subtotal +orderData.shippingAmount).toFixed(2) %></p>
-                </div>
+              <!-- Order Summary -->
+              <div class="col-lg-6 mb-4">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th colspan="2" class="bg-primary text-white">Order Summary</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="width: 50%; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6;">
+                        <div class="mb-3">
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <td>Total Items:</td>
+                                <td><%= totalItems %></td>
+                              </tr>
+                              <tr>
+                                <td>Subtotal:</td>
+                                <td>$<%= subtotal.toFixed(2) %></td>
+                              </tr>
+                              <tr>
+                                <td>Shipping:</td>
+                                <td>$<%= orderData.shippingAmount %></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
+                      <td style="width: 50%; border-bottom: 1px solid #dee2e6;">
+                        <div>
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <td>Total:</td>
+                                <td class="font-weight-bold">$<%= (subtotal + orderData.shippingAmount).toFixed(2) %></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-
+              
+              
             </div>
+            <div class="line"></div>
+            
+            
+            
+
             <div class="row">
-              <!-- Table -->
               <div class="col-lg-12" style="margin-bottom: 20px;">
                 <table style="width: 100%; border-collapse: collapse;">
                   <thead style="background-color: #007bff; color: white;">
                     <tr>
-                      <th
-                        style="border: 1px solid #dddddd; padding: 8px;">No</th>
-                      <th
-                        style="border: 1px solid #dddddd; padding: 8px;">Name</th>
+                      <th style="border: 1px solid #dddddd; padding: 8px;">No</th>
+                      <th style="border: 1px solid #dddddd; padding: 8px;">Name</th>
                       <th
                         style="border: 1px solid #dddddd; padding: 8px;">Category</th>
                       <th
@@ -299,107 +380,80 @@
                       <th
                         style="border: 1px solid #dddddd; padding: 8px;">Status</th>
                     </tr>
-                   
                   </thead>
-                  <% orderData.products.forEach((product, index) => { %>
-                  <tr style="border: 1px solid #dddddd;">
-                    <td style="border: 1px solid #dddddd; padding: 8px;"><%=
-                      index + 1 %></td>
-                    <td style="border: 1px solid #dddddd; padding: 8px;"><%=
-                      product.productId.name %></td>
-                    <td style="border: 1px solid #dddddd; padding: 8px;"><%=
-                      product.productId.category.name %></td>
-                    <td style="border: 1px solid #dddddd; padding: 8px;"><%=
-                      product.count %></td>
-                    <td style="border: 1px solid #dddddd; padding: 8px;">$<%=
-                      product.productPrice %>.00</td>
-                    <td style="border: 1px solid #dddddd; padding: 8px;">$<%=
-                      product.totalPrice %>.00</td>
-                    <% if (product.status=="pending" ) { %>
-                    <td style="color: yellow;">Pending</td>
-                    <% } else if (product.status=='Delivered' ) { %>
-                    <td style="color: limegreen;">Delivered</td>
-                    <% } else if (product.status=="requested" ) {%>
-                    <td>
-                      <button
-                        onclick="showReturnModal(`<%= product._id %>`,`<%= product.count %>`,`<%= orderData.returnReason %>`,`<%= orderData._id%>,`)"
-                        ` class="badge badge-warning">Return
-                        Request
-                      </button>
-                       <!-- return reason modal -->
-                    <div class="modal fade" id="returnReasonModal" tabindex="-1"
-                    role="dialog" aria-labelledby="returnReasonModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content"
-                        style="border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                        <div class="modal-header"
-                          style="border-bottom: none; background-color: #007bff; color: white;">
-                          <h5 class="modal-title" id="returnReasonModalLabel"
-                            style="font-size: 1.5rem; font-weight: bold;">Return
-                            Reason</h5>
+                  <tbody>
+                    <% orderData.products.forEach((product, index) => { %>
+                    <tr style="border: 1px solid #dddddd;">
+                      <!-- Product Details -->
+                      <td style="border: 1px solid #dddddd; padding: 8px;"><%= index
+                        + 1 %></td>
+                      <td style="border: 1px solid #dddddd; padding: 8px;"><%=
+                        product.name %></td>
+                      <td style="border: 1px solid #dddddd; padding: 8px;">
+                        <% if (product.category && product.category.name) { %>
+                        <%= product.category.name %>
+                        <% } else { %>
+                        N/A
+                        <% } %>
+                      </td>
+                      <td style="border: 1px solid #dddddd; padding: 8px;"><%=
+                        product.count %></td>
+                      <td style="border: 1px solid #dddddd; padding: 8px;">$<%=
+                        product.productPrice %>.00</td>
+                      <td style="border: 1px solid #dddddd; padding: 8px;">$<%=
+                        product.totalPrice %>.00</td>
+                      <% if (product.status == "pending") { %>
+                      <td style="color: yellow;">Pending</td>
+                      <% } else if (product.status == 'Delivered') { %>
+                      <td style="color: limegreen;">Delivered</td>
+                      <% } else if (product.status == "requested") { %>
+                      <td>
+                        <button
+                          onclick="showReturnModal('<%= product._id %>','<%= product.count %>','<%= orderData.returnReason %>','<%= orderData._id %>')"
+                          class="badge badge-warning">Return Request</button>
+                      </td>
+                      <% } else if (product.status == "accepted") { %>
+                      <td style="color: rgb(9, 16, 219);"
+                        onclick="showReturnModal('Product 1', '1', '<%= orderData.returnReason %>')">Returned</td>
+                      <% } else if (product.status == 'Cancelled') { %>
+                      <td style="color: red;">Cancelled</td>
+                      <% } else { %>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-primary dropdown-toggle"
+                            type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false"><%= product.status %></button>
+                          <div class="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton">
+                            <button class="dropdown-item" type="button"
+                              onclick="updateOrder('<%= product._id %>','Placed')">Placed</button>
+                            <button class="dropdown-item" type="button"
+                              onclick="updateOrder('<%= product._id %>','Shipped')">Shipped</button>
+                            <button class="dropdown-item" type="button"
+                              onclick="updateOrder('<%= product._id %>','Out for Delivery')">Out
+                              for Delivery</button>
+                            <button class="dropdown-item" type="button"
+                              onclick="updateOrder('<%= product._id %>','Delivered')">Delivered</button>
+                          </div>
                         </div>
-                        <div class="modal-body"
-                          style="padding: 20px; font-size: 1rem;">
-                          <p id="returnReasonText"></p>
-                        </div>
-                        <div class="modal-footer" style="border-top: none; background-color: #f9f9f9; color: #007bff;">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" onclick="$('#returnReasonModal').modal('hide');" style="color:black; font-size: 1rem;">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                          <button type="button" class="btn btn-primary" onclick="acceptReturnRequest('<%= product._id %>','accepted');">Accept</button>
-                          <button type="button" class="btn btn-danger" onclick="rejectReturnRequest('<%= product._id %>','rejected');">Reject</button>
-                      </div>
-                      </div>
-                    </div>
-                  </div>
-                    </td>
-                    <% } else if(product.status=="accepted" ) { %>
-                    <td style="color: rgb(9, 16, 219);"
-                      onclick="showReturnModal('Product 1', '1', '<%= orderData.returnReason %>')">Returned
-                    </td>
-
-                    <% } else if (product.status=='Cancelled' ) { %>
-                    <td style="color: red;">Cancelled</td>
-                    <% } else { %>
-                    <td>
-                      <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle"
-                          type="button" id="dropdownMenuButton"
-                          data-toggle="dropdown" aria-haspopup="true"
-                          aria-expanded="false">
-                          <%= product.status %>
-                        </button>
-                        <div class="dropdown-menu"
-                          aria-labelledby="dropdownMenuButton">
-                          <button class="dropdown-item" type="button"
-                            onclick="updateOrder('<%= product._id %>','Placed')">Placed</button>
-                          <button class="dropdown-item" type="button"
-                            onclick="updateOrder('<%= product._id %>','Shipped')">Shipped</button>
-                          <button class="dropdown-item" type="button"
-                            onclick="updateOrder('<%= product._id %>','Out for Delivery')">Out
-                            for Delivery</button>
-                          <button class="dropdown-item" type="button"
-                            onclick="updateOrder('<%= product._id %>','Delivered')">Delivered</button>
-                        </div>
-                      </div>
-                    </td>
-                    <% } %>
-
-                  </tr>
-                  <% }); %>
+                      </td>
+                      <% } %>
+                    </tr>
+                    <% }); %>
+                  </tbody>
                 </table>
               </div>
             </div>
-          </div>
-       
 
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        
-        <script src="//cdn.jsdelivr.net/npm/sweetalert@2"></script>
+          </div>
+        </div>
+
       
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+        <script src="//cdn.jsdelivr.net/npm/sweetalert@2"></script>
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script
           src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -407,7 +461,6 @@
         <!-- Bootstrap JavaScript -->
         <script
           src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-          
 
         <script>
 
@@ -566,3 +619,9 @@ function rejectReturnRequest(id,status) {
         <script src="js/template.js"></script>
 
         <%- include('../layouts/admin/footer.ejs') %>
+
+      
+
+      
+
+       

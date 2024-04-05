@@ -28,7 +28,7 @@ const ProductSchema = new mongoose.Schema({
   date: {
     type: Date,
   },
-  discription: {
+  description: {
     type: String,
     requird: true,
   },

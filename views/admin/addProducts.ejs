@@ -419,7 +419,7 @@
         const file = document.getElementById('imageFiles').files[count - 1];
 if (file) {
      originalFileName = file.name;
-    // Your existing code to create a File object from the Blob...
+
 } else {
     console.error('File not found for image number:', count);
 }
@@ -445,7 +445,7 @@ if (file) {
               const price = document.getElementById('product-price').value;
               const quantity = document.getElementById('product-quantity').value;
               const description = document.getElementById('product-description').value;
-              const images = document.getElementById('imageFiles').files;
+              
             
           
           
@@ -465,14 +465,7 @@ if (file) {
                 });
                 return;
               }
-              if (images.length === 0) {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Error',
-                  text: 'Please select at least one image!'
-                });
-                return;
-              }
+             
               if (!quantity.trim() || isNaN(quantity) || parseInt(quantity) <= 0) {
                 Swal.fire({
                   icon: 'error',

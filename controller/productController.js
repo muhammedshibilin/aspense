@@ -77,16 +77,15 @@ const addProduct = async (req, res) => {
   try {
     const categoryName = req.body.category;
     const category = await Category.findOne({ _id: categoryName });
-
-    // Ensure image directory exists (adjust path if needed)
+    
     const imageDir = 'C:/aspense/public/images/product/original';
     if (!fs.existsSync(imageDir)) {
       await fs.mkdirSync(imageDir, { recursive: true });
     }
 
-    const images = req.files.map(file => file.filename); // Extract filenames
+    const images = req.files.map(file => file.filename);
 
-    // Move uploaded images to the specified folder (using fs.promises.rename)
+  
     await Promise.all(req.files.map(async file => {
       const oldPath = file.path;
       const newPath = path.join(imageDir, file.filename);
@@ -101,7 +100,7 @@ const addProduct = async (req, res) => {
       images: images,
       description: req.body.description,
       date: new Date(),
-      Is_block: 0 // Ensure consistent capitalization
+      Is_block: 0 
     });
 
     try {
@@ -143,68 +142,46 @@ const editProductLoad = async (req, res) => {
 
 const editProduct = async (req, res) => {
   try {
-    const _id = req.body.productId
-    console.log("id",_id)
+     const _id = req.body.productId;
+     const categoryData = await Category.findOne({ _id: req.body.category });
+     
+     const imageDir = 'C:/aspense/public/images/product/original';
+     if (!fs.existsSync(imageDir)) {
+       await fs.mkdirSync(imageDir, { recursive: true });
+     }
  
-   
-    const imagesFiles = {
-      image1: req.files['imageFile1'],
-      image2: req.files['imageFile2'],
-      image3: req.files['imageFile3'],
-      image4: req.files['imageFile4'],
-  };
-    console.log('fle',imagesFiles);
-    const productData = await Product.findOne({ _id: _id })
-    
-    console.log(productData,"idaan produc")
-    console.log(req.body.category)
-    const categoryData = await Category.findOne({ _id: req.body.category })
-    
-    const img = [
-      imagesFiles.image1 ? imagesFiles.image1[0].filename : productData.images.image1,
-      imagesFiles.image2 ? imagesFiles.image2[0].filename : productData.images.image2,
-      imagesFiles.image3 ? imagesFiles.image3[0].filename : productData.images.image3,
-      imagesFiles.image4 ? imagesFiles.image4[0].filename : productData.images.image4,
-    ];
-
-    console.log('img',img);
-
-
-    for (let i = 0; i < img.length; i++) {
-      await sharp('C:/aspense/public/images/product/original/' + img[i])
-      .resize({ width: 450, height: 500 })
-      .toFile('C:/aspense/public/images/product/sized/' + img[i])
-    }
-
-    await Product.findByIdAndUpdate(
-      { _id: _id },
-      {
-        $set: {
-          name: req.body.name,
-          category: categoryData._id,
-          quantity: req.body.quantity,
-          price: req.body.price,
-          "images.image1": img[0],
-          "images.image2": img[1],
-          "images.image3": img[2],
-          "images.image4": img[3],
-          description: req.body.discription,
-          size:req.body.size,
-          offer:req.body.offer
-
-        }
+     const images = req.files.map(file => file.filename);
+     await Promise.all(req.files.map(async file => {
+       const oldPath = file.path;
+       const newPath = path.join(imageDir, file.filename);
+       await fs.promises.rename(oldPath, newPath);
+     }));
+ 
+     const update = {
+      $set: {
+         name: req.body.name,
+         category: categoryData._id,
+         quantity: req.body.quantity,
+         price: req.body.price,
+         description: req.body.description
       }
-    )
-    res.json({success:true})
-    
-
-   
-
+     };
+     
+     if (images && images.length > 0) {
+      update.$push = { images: { $each: images } };
+     }
+         
+     await Product.findByIdAndUpdate(
+       { _id: _id },
+       update
+     );
+     
+     res.json({success: true});
   } catch (error) {
-    console.log(error);
+     console.log(error);
   }
-}
-
+ }
+ 
 
 const blockProduct = async(req,res)=>{
   try {
@@ -263,32 +240,46 @@ res.redirect('/admin/product')
   }
 }
 
-const deleteImage = async (req,res) => {
+const deleteImage = async (req, res) => {
   try {
-    console.log('image ',req.body.imageNumber);
-    const product_id = req.body.id
-    const imageNumber = req.body.imageNumber
-    const imageField = `images.image${imageNumber}`;
-    console.log('dsa',imageField);
-
-
-    const productData = await Product.updateOne({_id:product_id},{$unset:{[imageField]:""}})
-
-    if (productData.nModified > 0) {
-      console.log('Image deleted successfully:', productData);
-      res.json({ success: true, message: 'Image deleted successfully!' });
-  } else {
-      console.log('No image was deleted.');
-      res.json({ success: false, message: 'No image was deleted. The product might not exist or the image number is incorrect.' });
-  }
+     const product_id = req.body.id;
+     const imageNumber = req.body.imageNumber;
+     console.log('num',imageNumber);
  
 
-    
-    
+     const productData = await Product.findOne({ _id: product_id });
+     if (!productData) {
+       return res.status(404).json({ success: false, message: 'Product not found.' });
+     }
+ 
+
+     const updatedProduct = await Product.updateOne(
+       { _id: product_id },
+       { $pull: { images: { $eq: productData.images[imageNumber - 1] } } }
+     );
+     console.log('updarted',updatedProduct);
+     console.log('log',updatedProduct.modifiedCount);
+ 
+     if (updatedProduct.modifiedCount > 0) {
+  
+       const reorderedImages = productData.images.filter((_, index) => index !== imageNumber - 1);
+
+       const finalUpdate = await Product.updateOne(
+         { _id: product_id },
+         { $set: { images: reorderedImages } }
+       );
+ 
+       console.log('Image deleted successfully:', finalUpdate);
+       res.json({ success: true, message: 'Image deleted successfully!' });
+     } else {
+       console.log('No image was deleted.');
+       res.json({ success: false, message: 'No image was deleted. The product might not exist or the image number is incorrect.' });
+     }
   } catch (error) {
-    console.log('while deleting the image',error);
+     console.log('while deleting the image', error);
+     res.status(500).json({ success: false, message: 'An error occurred while deleting the image.' });
   }
-}
+ };
 
 
 

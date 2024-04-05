@@ -11,11 +11,6 @@ const { sendVerifyMail } = require('../utils/sendVerifyMail')
 
 
 
-
-
-
-
-
 const loadHome = async (req, res) => {
     try {
         const user = req.session.user_id
