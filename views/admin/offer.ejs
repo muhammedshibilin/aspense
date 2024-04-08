@@ -51,10 +51,6 @@
             </li>
           </ul>
           <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown d-lg-flex d-none">
-              <button type="button" class="btn btn-info font-weight-bold"><a
-                  href="/admin/add-offer">add offer</a></button>
-            </li>
 
             <li class="nav-item dropdown d-flex mr-4 ">
               <a
@@ -216,18 +212,18 @@
                                   Edit
                                 </a>
                                 <a
-                                 
-                                  class="btn btn-outline-danger block-button" class="block-btn"
+                                  class="btn btn-outline-danger block-button"
+                                  class="block-btn"
                                   data-initial-status="<%= offer.is_block %>">
                                   <%= offer.is_block == 0 ? "Block" : "Unblock"
                                   %>
-                                  <input type="hidden" id="block-offer-id" value="<%= offer._id %>">
+                                  <input type="hidden" id="block-offer-id"
+                                    value="<%= offer._id %>">
                                 </a>
                                 <a
-                                  
-                                
                                   class="btn btn-outline-primary delete-button delete-btn">
-                                  <input type="hidden" id="delete-offer-id" value="<%= offer._id %>">
+                                  <input type="hidden" id="delete-offer-id"
+                                    value="<%= offer._id %>">
                                   Delete
                                 </a>
                               </div>
@@ -240,12 +236,126 @@
                           </tr>
                           <% } %>
                         </tbody>
-
                       </table>
+
+                    </div>
+
+                  </div>
+                  <button type="button"
+                    class="btn btn-primary btn-block text-uppercase mb-3 "
+                    data-toggle="modal" data-target="#categorymodal">
+                    ADD CATEGORY OFFER
+                  </button>
+                  <button type="button"
+                    class="btn btn-primary btn-block text-uppercase mb-3 "
+                    data-toggle="modal" data-target="#productmodal">
+                    ADD PRODUCT OFFER
+                  </button>
+
+                  <div class="modal fade" id="productmodal" tabindex="-1"
+                    role="dialog" aria-labelledby="exampleModalCenterTitle"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered"
+                      role="document">
+                      <div class="modal-content"
+                        style="background-color: #435c70;">
+                        <div class="modal-header">
+                          <h5 class="modal-title" style="color: aliceblue;"
+                            id="exampleModalLongTitle">ADD PRODUCT OFFER </h5>
+                          <button type="button" class="close"
+                            data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="product-offer" enctype="multipart/form-data">
+                            <input type="text" name="name"
+                              placeholder="offer name">
+                            <select name="product"
+                              style="width:190px; height: 30px;" id>
+                              <% if(productData.length>0){
+                              productData.forEach(data=>{ %>
+
+                              <option
+                                value="<%=data._id%>"><%=data.name%></option>
+                              <%})}%>
+
+                            </select>
+                            <input type="number" min="1" placeholder="amount"
+                              name="amount">
+
+                            <input type="date" name="exprDate"
+                              style="width: 190px; height: 30px;">
+                          </div>
+                          <div class="modal-footer">
+
+                            <button type="submit" id="submit1"
+                              class="btn btn-primary">ADD NEW</button>
+                          </form>
+                        </div>
+                      </div>
                     </div>
                   </div>
+
+                  <div class="modal fade" id="categorymodal" tabindex="-1"
+                    role="dialog" aria-labelledby="exampleModalCenterTitle"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered"
+                      role="document">
+                      <div class="modal-content"
+                        style="background-color: #435c70;">
+                        <div class="modal-header">
+                          <h5 class="modal-title" style="color: aliceblue;"
+                            id="exampleModalLongTitle"> ADD CATEGORY OFFER</h5>
+                          <button type="button" class="close"
+                            data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="category-offer"
+                            enctype="multipart/form-data">
+                            <input type="text" name="name"
+                              placeholder="offer name" >
+                            <select name="category"
+                              style="width:190px; height: 30px;" id>
+                              <% if(categoryData.length>0){
+                              categoryData.forEach(data=>{ %>
+
+                              <option
+                                value="<%=data._id%>"><%=data.name%></option>
+                              <%})}%>
+
+                            </select>
+                            <input type="number" min="1" placeholder="amount"
+                              name="amount">
+
+                            <input type="date" name="exprDate" id="exprDate1"
+                              style="width: 190px; height: 30px;" >
+                          </div>
+                          <div class="modal-footer">
+
+                            <button type="submit" id="add-category-offer"
+                              class="btn btn-primary">ADD NEW</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
+              <ul class="pagination_style d-flex justify-content-center">
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                   <li style="list-style: none; margin-right: 5px;">
+                     <button type="button" class="btn btn-primary <% if (i === currentPage) { %>active<% } %>">
+                       <a href="?page=<%= i %><%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" style="color: inherit; text-decoration: none;">
+                         <%= i %>
+                       </a>
+                     </button>
+                   </li>
+                <% } %>
+               </ul>
 
             </div>
 
@@ -254,7 +364,181 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <script>
+   
+          <!-- Bootstrap CSS -->
+
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+
+ //--------------------- add offer
+
+                        document.getElementById('category-offer').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const  name = form.querySelector('input[name="name"]').value.trim();
+        const category = form.querySelector('select[name="category"]').value;
+        const amount = form.querySelector('input[name="amount"]').value.trim();
+        const exprDate = form.querySelector('input[name="exprDate"]').value;
+
+        console.log('ashkdfsadkfhas',name,category,amount,exprDate);
+
+        if (!name) {
+            Swal.fire({
+              icon:"error",
+              text:"please enter valid name"
+            })
+            return;
+        }
+
+        if (!(/^\d{2}$/.test(amount))) {
+            Swal.fire({
+              icon:"error",
+              text:"please enter two digit or positive amount"
+            })
+            return;
+        }
+
+     
+        var today = new Date().toISOString().slice(0,10);
+        if (exprDate < today) {
+           Swal.fire({
+            icon:"error",
+            text:"please select valid date"
+           })
+            return;
+        }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('category', category);
+    formData.append('amount', amount);
+    formData.append('exprDate', exprDate);
+
+    try {
+        const response = await fetch('/admin/add-offer', {
+            method: 'POST',
+            body: formData
+        });
+
+        const responseData = await response.json();
+        
+        if (responseData.categoryExist) {
+            Swal.fire({
+                icon: "error",
+                text: "An offer for this  category already exists."
+            });
+        }else if(responseData.categorySuccess){
+          Swal.fire({
+            icon:"success",
+            text:"category offer added successfully"
+          }).then(()=>{
+            $('#categorymodal').modal('hide');
+            $('.modal-backdrop').remove(); 
+            location.reload() 
+          })
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                text: "An error occurred. Please try again later."
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+    }
+});
+
+
+//--------------------------- product offer
+
+document.getElementById('product-offer').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+       const  name = form.querySelector('input[name="name"]').value.trim();
+        const product = form.querySelector('select[name="product"]').value;
+        const amount = form.querySelector('input[name="amount"]').value.trim();
+        const exprDate = form.querySelector('input[name="exprDate"]').value;
+
+        console.log('ashkdfsadkfhas',name,product,amount,exprDate);
+
+        if (!name) {
+            Swal.fire({
+              icon:"error",
+              text:"please enter valid name"
+            })
+            return;
+        }
+
+        if (!(/^\d{2}$/.test(amount))) {
+            Swal.fire({
+              icon:"error",
+              text:"please enter two digit or positive amount"
+            })
+            return;
+        }
+
+     
+        var today = new Date().toISOString().slice(0,10);
+        if (exprDate < today) {
+           Swal.fire({
+            icon:"error",
+            text:"please select valid date"
+           })
+            return;
+        }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('product',product);
+    formData.append('amount', amount);
+    formData.append('exprDate', exprDate);
+
+    try {
+        const response = await fetch('/admin/add-offer', {
+            method: 'POST',
+            body: formData
+        });
+
+        const responseData = await response.json();
+        
+        if (responseData.productExist) {
+            Swal.fire({
+                icon: "error",
+                text: "An offer for this  product already exists."
+            });
+        }else if(responseData.productSuccess){
+          Swal.fire({
+                icon: "success",
+                text: "product offer added successfully."
+            }).then(()=>{
+              $('#productmodal').modal('hide');
+              $('.modal-backdrop').remove();  
+              location.reload()
+            })  
+        }else {
+            Swal.fire({
+                icon: "error",
+                text: "An error occurred. Please try again later."
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+    }
+});
+
+
+
+
 document.querySelectorAll('.block-button').forEach(button => {
   button.addEventListener('click', async (e) => {
     e.preventDefault();

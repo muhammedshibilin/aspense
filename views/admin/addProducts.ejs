@@ -508,8 +508,10 @@ if (file) {
                       title: 'Product added successfully',
                       showConfirmButton: false,
                       timer: 2000
-                    });
-                    window.location.href='/admin/product'
+                    }).then(()=> {
+                      window.location.href='/admin/product'
+                    })
+                   
                   } else {
                     Swal.fire({
                       icon: 'error',

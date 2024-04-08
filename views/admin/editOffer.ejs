@@ -154,153 +154,183 @@
 
         <div class="col-12 grid-margin">
           <div class="card">
-         
-            <div class="card-body">
-              <h3 style="color: black;">edit offer</h3>
-              <form >
-
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="exampleInputName1">offer Name</label>
-                    <input type="text" class="form-control" id="edit-offer-name" name="name" value="<%= offer.name %>" placeholder="offer name">
-                    <input type="hidden" id="edit-offer-id" value="<%= offer._id %>" name="offer-id">
-                  </div>
-                </div>
+              <div class="card-body">
+                  <h3 style="color: black;">Edit Offer</h3>
+                  <form>
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="form-group">
+                                  <label for="exampleInputName1">Offer Name</label>
+                                  <input type="text" class="form-control" id="edit-offer-name" name="name" value="<%= offer.name %>" placeholder="Offer name">
+                                  <input type="hidden" id="edit-offer-id" value="<%= offer._id %>" name="offer-id">
+                              </div>
+                          </div>
+                      </div>
+      
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Amount</label>
+                                  <div class="col-sm-4 col-lg-4">
+                                      <input type="number" name="offer-amount" class="form-control" value="<%= offer.discountAmount %>" id="edit-offer-amount"/>
+                                  </div>
+                              </div>
+                          </div>
+      
+                          <div class="col-md-4">
+                              <div class="form-group row">
+                                  <label class="col-sm-3 col-form-label">Expire Date</label>
+                                  <div class="col-sm-4 col-lg-4">
+                                      <input type="date" name="expire-date" class="form-control" value="<%= new Date(offer.endDate).toISOString().split('T')[0] %>" id="edit-expire-date" />
+                                  </div>
+                              </div>
+                          </div>
+      
+                          <% if (offer.categoryId && offer.categoryId.length > 0) { %>
+                              <!-- Category Selection -->
+                              <div class="col-md-4">
+                                  <div class="form-group row">
+                                    <label for="category">category offer</label>
+                                    <select name="category" style="width:190px; height: 30px;" id>
+                                      <% categoryData.forEach(data => { %>
+                                          <option value="<%=data._id%>" <%= data._id === selectedCategoryId ? 'selected' : '' %>><%=data.name%></option>
+                                      <% }) %>
+                                  </select>
+                                  </div>
+                              </div>
+                          <% } else if (offer.productId && offer.productId.length > 0) { %>
+                              <!-- Product Selection -->
+                              <div class="col-md-4">
+                                  <div class="form-group row">
+                                    <label for="product">product offer</label>
+                                    <select name="product" style="width:190px; height: 30px;" id>
+                                      <% productData.forEach(data => { %>
+                                          <option value="<%=data._id%>" <%= data._id === selectedProductId ? 'selected' : '' %>><%=data.name%></option>
+                                      <% }) %>
+                                  </select>
+                                  </div>
+                              </div>
+                          <% } %>
+                      </div>
+      
+                      <div class="row col-12">
+                          <button type="submit" class="btn btn-primary mr-2" id="edit-offer-btn">Save</button>
+                          <a href="/admin/offer" class="btn btn-primary">Back</a>
+                      </div>
+                  </form>
               </div>
-            
-
-              <div class="row ">
-                <div class="col-md-4">
-                  <div class="form-group row">
-                    <label class="col-sm-3  col-form-label">amount</label>
-                    <div class="col-sm-4  col-lg-4">
-                      <input type="number" name="offer-amount" class="form-control"  value="<%= offer.discountAmount %>" id="edit-offer-amount"/>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">activate date</label>
-                    <div class="col-sm-4  col-lg-4">
-                      <input type="date" name="active-date" class="form-control" value="<%= new Date(offer.startDate).toISOString().split('T')[0] %>" id="edit-active-date" />
-
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">expire date</label>
-                    <div class="col-sm-4  col-lg-4 ">
-                      <input type="date" name="expire-date" class="form-control" value="<%= new Date(offer.endDate).toISOString().split('T')[0] %>" id="edit-expire-date" />
-                    </div>
-                  </div>
-                </div>         
-                <div class="row col-12">
-                  <button type="submit" class="btn btn-primary mr-2" id="edit-offer-btn">Save</button>
-                  <a href="/admin/offer" class="btn btn-primary  ">Back</a>
-                </div>
-              </div>
-            </form>
-            </div>
           </div>
-        </div>
+      </div>
+      
       </div>
     </div>
 
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
     <script>
       document.getElementById("edit-offer-btn").addEventListener('click', async (e) => {
-     e.preventDefault();
-     const offerName = document.getElementById("edit-offer-name").value;
-     const offerId = document.getElementById("edit-offer-id").value
-     const offerAmount = document.getElementById("edit-offer-amount").value;
-     const offerStartDate = document.getElementById('edit-active-date').value;
-     const offerExpireDate = document.getElementById('edit-expire-date').value;
-
-     if(offerStartDate<new Date()){
-  Swal.fire({
-    icon:"warning",
-    title:"invalid date",
-    text:"you want to choose a valid date",
-    timer:2000
-  })
-  return
- }
-
- if(offerStartDate>offerExpireDate){
-  Swal.fire({
-    icon:"warning",
-    title:"invalid date",
-    text:"you want to choose a valid date",
-    timer:2000
-  })
-  return
- }
-    
-     Swal.fire({
-        title: 'Are you sure?',
-        text: 'Do you want to edit this offer?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, save it!',
-        cancelButtonText: 'No, cancel!',
-     }).then(async (result) => {
-        if (result.isConfirmed) {
-          console.log('offerSta',offerStartDate,offerExpireDate);
-
-          const editOfferData = {
-            name: offerName,
-            offerId:offerId,
-            offerAmount: offerAmount,
-            activeDate: offerStartDate,
-            expireDate: offerExpireDate
-          };
-    
-          try {
-            // Send the data as JSON
-            const response = await fetch('/admin/edit-offer', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(editOfferData)
-            });
-    
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-    
-            const data = await response.json(); 
-    
-            if (data.success) {
-              Swal.fire(
-                'Success!',
-                'Offer edited successfully.',
-                'success'
-              ).then(() => {
-                window.location.href = "/admin/offer";
+          e.preventDefault();
+          const offerName = document.getElementById("edit-offer-name").value;
+          const offerId = document.getElementById("edit-offer-id").value;
+          const offerAmount = document.getElementById("edit-offer-amount").value;
+          const offerExpireDate = document.getElementById('edit-expire-date').value;
+      
+  
+          const categorySelect = document.querySelector('select[name="category"]');
+          const productSelect = document.querySelector('select[name="product"]');
+      
+          const isCategorySelected = categorySelect && categorySelect.value !== '';
+          const isProductSelected = productSelect && productSelect.value !== '';
+      
+          if (!isCategorySelected && !isProductSelected) {
+              Swal.fire({
+                  icon: "warning",
+                  title: "Selection Required",
+                  text: "Please select either a category or a product.",
+                  timer: 2000
               });
-            } else {
-              Swal.fire(
-                'Error!',
-                'Failed to add offer.',
-                'error'
-              );
-            }
-          } catch (error) {
-            console.error('Fetch Error:', error);
-            Swal.fire(
-              'Error!',
-              'Failed to add offer. Please try again later.',
-              'error'
-            );
+              return;
           }
-        }
-     });
-    });
-    </script>
+      
+          
+          if(offerExpireDate < Date.now()){
+              Swal.fire({
+                  icon: "warning",
+                  title: "Invalid Date",
+                  text: "The start date must be before the expire date.",
+                  timer: 2000
+              });
+              return;
+          }
+      
+          Swal.fire({
+              title: 'Are you sure?',
+              text: 'Do you want to edit this offer?',
+              icon: 'question',
+              showCancelButton: true,
+              confirmButtonText: 'Yes, save it!',
+              cancelButtonText: 'No, cancel!',
+          }).then(async (result) => {
+              if (result.isConfirmed) {
+                
+                  const formData = new FormData();
+                  formData.append('name', offerName);
+                  formData.append('offerId', offerId);
+                  formData.append('offerAmount', offerAmount);
+                  formData.append('expireDate', offerExpireDate);
+                
+                  if (isCategorySelected) {
+                      formData.append('categoryId', categorySelect.value);
+                  }
+                  if (isProductSelected) {
+                      formData.append('productId', productSelect.value);
+                  }
+
+                  console.log('formdata', Array.from(formData.entries()));
+      
+                  try {
+                      // Send the data as FormData
+                      const response = await fetch('/admin/edit-offer', {
+                          method: 'POST',
+                          body: formData
+                      });
+      
+                      if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`);
+                      }
+      
+                      const data = await response.json(); 
+      
+                      if (data.success) {
+                          Swal.fire(
+                              'Success!',
+                              'Offer edited successfully.',
+                              'success'
+                          ).then(() => {
+                              window.location.href = "/admin/offer";
+                          });
+                      } else {
+                          Swal.fire(
+                              'Error!',
+                              'Failed to edit offer.',
+                              'error'
+                          );
+                      }
+                  } catch (error) {
+                      console.error('Fetch Error:', error);
+                      Swal.fire(
+                          'Error!',
+                          'Failed to edit offer. Please try again later.',
+                          'error'
+                      );
+                  }
+              }
+          });
+      });
+      </script>
+      
+      
     
     
     

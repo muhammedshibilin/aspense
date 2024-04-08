@@ -17,6 +17,8 @@ const addToCart = async (req, res) => {
     );
 
     const productData = await Product.findById(product_id);
+
+    
     const userData = await User.findOne({ _id: user_id });
 
     let count = 1;
@@ -34,6 +36,8 @@ const addToCart = async (req, res) => {
       const existProductIndex = existCartData.products.findIndex(
         (p) => p.productId == product_id
       );
+
+      console.log('eso',existProductIndex);
 
       if (existProductIndex !== -1) {
         return res.json({

@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------
  [Master Stylesheet]
 
-  Project:	Regal Admin
+  Project:	Aspense
   Version:	1.0.0
 -------------------------------------------------------------------*/
 /*-------------------------------------------------------------------
@@ -8645,7 +8645,7 @@ html {
   font-family: sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgba(253, 244, 244, 0);
 }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -12287,7 +12287,7 @@ input[type="button"].btn-block {
 
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
-  border-color: #007bff;
+  border-color: #3b5e85;
   background-color: #007bff;
 }
 

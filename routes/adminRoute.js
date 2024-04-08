@@ -6,9 +6,12 @@ const productController = require('../controller/productController')
 const categoryController = require("../controller/categoryController")
 const orderController  = require('../controller/orderController')
 const offerController = require("../controller/offerController")
+const couponController = require('../controller/couponController')
 const multer = require('../middleware/multer')
 const auth = require('../middleware/adminAuth')
 const path = require('path')
+const multerUpload = require('multer');
+const upload = multerUpload().none();
 
 
 const session = require('express-session');
@@ -84,12 +87,15 @@ admin_route.post('/update-order',orderController.updateOrder)
 
 
 admin_route.get("/offer",auth.isLogin,offerController.offerLoad)
-admin_route.get('/add-offer',auth.isLogin,offerController.addOfferLoad)
-admin_route.post("/add-offer",auth.isLogin,offerController.addOffer)
+admin_route.post('/add-offer',auth.isLogin,upload,offerController.addOffer)
 admin_route.get('/edit-offer',auth.isLogin,offerController.editOfferLoad)
-admin_route.post('/edit-offer',auth.isLogin,offerController.editOffer)
+admin_route.post('/edit-offer',auth.isLogin,upload,offerController.editOffer)
 admin_route.post('/block-offer',auth.isLogin,offerController.blockOffer)
 admin_route.post('/delete-offer',auth.isLogin,offerController.deleteOffer)
+
+
+
+admin_route.get('/coupon',couponController.couponLoad)
 
 
 

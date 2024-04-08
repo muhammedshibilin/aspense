@@ -408,6 +408,33 @@
                       <td style="color: limegreen;">Delivered</td>
                       <% } else if (product.status == "requested") { %>
                       <td>
+                         <!-- return reason modal -->
+                    <div class="modal fade" id="returnReasonModal" tabindex="-1"
+                    role="dialog" aria-labelledby="returnReasonModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content"
+                        style="border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                        <div class="modal-header"
+                          style="border-bottom: none; background-color: #007bff; color: white;">
+                          <h5 class="modal-title" id="returnReasonModalLabel"
+                            style="font-size: 1.5rem; font-weight: bold;">Return
+                            Reason</h5>
+                        </div>
+                        <div class="modal-body"
+                          style="padding: 20px; font-size: 1rem;">
+                          <p id="returnReasonText"></p>
+                        </div>
+                        <div class="modal-footer" style="border-top: none; background-color: #f9f9f9; color: #007bff;">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" onclick="$('#returnReasonModal').modal('hide');" style="color:black; font-size: 1rem;">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                          <button type="button" class="btn btn-primary" onclick="acceptReturnRequest('<%= product._id %>','accepted');">Accept</button>
+                          <button type="button" class="btn btn-danger" onclick="rejectReturnRequest('<%= product._id %>','rejected');">Reject</button>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
                         <button
                           onclick="showReturnModal('<%= product._id %>','<%= product.count %>','<%= orderData.returnReason %>','<%= orderData._id %>')"
                           class="badge badge-warning">Return Request</button>

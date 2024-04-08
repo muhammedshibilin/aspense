@@ -454,8 +454,8 @@ function toCart(productId) {
 var quantity = parseInt($("#quantity").val());
 
 console.log('quantity from frontend',quantity,productId);
-        $.ajax({
 
+        $.ajax({
             url: "/add-to-cart",
             method: "post",
             data: {
@@ -464,14 +464,12 @@ console.log('quantity from frontend',quantity,productId);
             },
             success: (response) => {  
                 if (response.login) {    
-                    Toast.fire({
-                        icon: "error",
-                        title: "pleasse login to add product "
-                    });
-                    setTimeout(function () {
+                    swal.fire({
+                        icon:"error",
+                        text:"please login to add product"
+                       }).then(()=> {
                         window.location.href = '/login';
-                    }, 2000);
-
+                    })
                 } else if (response.success) {
                     if (response.newProduct) {
                        swal.fire({
@@ -481,9 +479,9 @@ console.log('quantity from frontend',quantity,productId);
                         $('#reloadArea').load('/shop #reloadArea');
                     }
                 } else if (response.exist) {
-   Swal.fire({
-    icon:"warning",
-    text:"product already in cart"
+                        Swal.fire({
+                         icon:"warning",
+                         text:"product already in cart"
    })
     setTimeout(function () {
         window.location.href = '/cart';
