@@ -390,11 +390,11 @@
                       <td style="border: 1px solid #dddddd; padding: 8px;"><%=
                         product.name %></td>
                       <td style="border: 1px solid #dddddd; padding: 8px;">
-                        <% if (product.category && product.category.name) { %>
-                        <%= product.category.name %>
-                        <% } else { %>
-                        N/A
-                        <% } %>
+                        <% if (product.productId && product.productId.category && product.productId.category.name) { %>
+                          <%= product.productId.category.name %>
+                       <% } else { %>
+                          N/A
+                       <% } %>
                       </td>
                       <td style="border: 1px solid #dddddd; padding: 8px;"><%=
                         product.count %></td>
@@ -435,13 +435,14 @@
                       </div>
                     </div>
                   </div>
-                        <button
-                          onclick="showReturnModal('<%= product._id %>','<%= product.count %>','<%= orderData.returnReason %>','<%= orderData._id %>')"
-                          class="badge badge-warning">Return Request</button>
+                  <button
+                  onclick="showReturnModal('<%= JSON.stringify(product._id) %>','<%= JSON.stringify(product.count) %>',' <%= JSON.stringify(orderData.returnReason) %>','<%= JSON.stringify(orderData._id) %>')"
+                  class="badge badge-warning">Return Request</button>
+                 
                       </td>
                       <% } else if (product.status == "accepted") { %>
                       <td style="color: rgb(9, 16, 219);"
-                        onclick="showReturnModal('Product 1', '1', '<%= orderData.returnReason %>')">Returned</td>
+                        >Returned</td>
                       <% } else if (product.status == 'Cancelled') { %>
                       <td style="color: red;">Cancelled</td>
                       <% } else { %>
@@ -486,8 +487,10 @@
           src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
         <!-- Bootstrap JavaScript -->
-        <script
-          src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      <!-- Ensure jQuery is loaded before Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
         <script>
 

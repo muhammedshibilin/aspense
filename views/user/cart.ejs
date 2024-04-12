@@ -22,31 +22,35 @@
         font-weight: bold;
         color: #333;
     }
-    /* Style for the cart-product-quantity container */
+
 .cart-product-quantity {
-    display: flex; /* Display buttons in a row */
-    align-items: center; /* Vertically align items */
+    display: flex; 
+    align-items: center; 
 }
 
-/* Style for the plus and minus buttons */
+
 .btn-decrement,
 .btn-increment {
-    background-color: #f8f9fa; /* Button background color */
-    border: 1px solid #dee2e6; /* Button border */
-    color: #495057; /* Button text color */
-    cursor: pointer; /* Cursor style */
-    padding: 6px 10px; /* Button padding */
-    font-size: 14px; /* Button font size */
-    line-height: 1.5; /* Button line height */
-    margin-right: 5px; /* Margin between buttons */
+    background-color: #f8f9fa; 
+    border: 1px solid #dee2e6; 
+    color: #495057; 
+    cursor: pointer; 
+    padding: 6px 10px;
+    font-size: 14px;
+    line-height: 1.5; 
+    margin-right: 5px; 
 }
 
-/* Style for the input field */
+
 .quantity-input {
-    width: 40px; /* Set the width of the input field */
-    text-align: center; /* Center-align text */
+    width: 40px; 
+    text-align: center;
 }
+th.pro-price,
+td.pro-price {
+    width: auto;
 
+}
     </style>
 
 <div
@@ -452,17 +456,22 @@
                 if (response.stock) {
                     console.log(response.stock);
                     Swal.fire({
-                        title: "Warning!",
+                      
                         text: "Product is out of stock. Will update soon!",
                         icon: "warning",
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        timer: 3000,
                     });
                     $(".btn-increment").prop("disabled", true);
-                    setTimeout(() => {
                         location.reload();
-                    }, 2000);
+                }else if(response.limit){
+                    Swal.fire({
+                        icon:"warning",
+                        
+                        text:"you can buy only 5 pieces at a time"
+                    }).then(()=> {                   
+                        $(".btn-increment").prop("disabled", true);
+                        location.reload();
+                    })
+
                 } else {
                     var quantityInput = $("#cartProductQuantity_" + productId);
                     quantityInput.val(response.newQuantity);

@@ -49,6 +49,7 @@ admin_route.get('/',auth.isLogin,adminController.adminHome)
 admin_route.get("/logout",auth.isLogin,adminController.adminLogout)
 
 
+
 //----------------->  user managment
 
 
@@ -96,7 +97,12 @@ admin_route.post('/delete-offer',auth.isLogin,offerController.deleteOffer)
 
 
 admin_route.get('/coupon',couponController.couponLoad)
-
+admin_route.get('/add-coupon',couponController.addCouponLoad)
+admin_route.post('/generate-coupon-code',couponController.codeGenerator)
+admin_route.post('/add-coupon',couponController.addCoupon)
+admin_route.delete('/delete-coupon',couponController.deleteCoupon)
+admin_route.get('/edit-coupon',couponController.editCouponLoad)
+admin_route.post('/edit-coupon',couponController.editCoupon)
 
 
 

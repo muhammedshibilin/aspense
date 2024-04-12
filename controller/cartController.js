@@ -26,6 +26,10 @@ const addToCart = async (req, res) => {
       count = parseInt(quantity);
     }
 
+    if (count > 5) {
+      return res.json({limit:true});
+    }
+
     if (productData.quantity < quantity) {
       return res.json({ stock: true });
     }
@@ -105,7 +109,6 @@ const cartLoad = async (req, res) => {
          shippingCharge,
        });
      } else {
-       // If cartData is null or there are no products in the cart, render the cart with a message indicating no products are available.
        res.render("cart", { user: user_id, cart: null, message: "No products available in your cart." });
      }
   } catch (e) {
@@ -143,77 +146,74 @@ const removeCartItem = async (req, res) => {
 
 const updateCart = async (req, res) => {
   try {
-    const product_id = req.body.productId;
-    const user_id = req.session.user_id;
-    const increment = req.body.count;
-    console.log('incremee',increment);
-
-    const cartData = await Cart.findOne({ user: user_id });
-    const product = cartData.products.find(
-      (obj) => obj.productId.toString() === product_id
-    );
-    const productData = await Product.findById(product_id);
-    console.log('current',product.count+increment);
-
-    if (
-      product &&
-      ((increment > 0 && product.count + increment <= productData.quantity) ||
-        increment < 0)
-    ) {
-      const update = await Cart.findOneAndUpdate(
-        { user: user_id, "products.productId": product_id },
-        { $inc: { "products.$.count": increment } }
-      );
-      console.log('update',update);
-
-      const updatedCartData = await Cart.findOne({ user: user_id });
-      console.log('upcart',updatedCartData);
-
-      let updatedCount = product.count + increment;
-      let totalPrice = productData.price * updatedCount;
-
-    
-      console.log('cartData.products:', cartData.products);
-
-      let newSubTotal = 0;
-      for (const product of updatedCartData.products) {
-       const productData = await Product.findById(product.productId);
-       const productPrice = parseFloat(productData.price);
-       const productCount = parseFloat(product.count);
-      
-       if (!isNaN(productPrice) && !isNaN(productCount)) {
-          newSubTotal += productPrice * productCount;
-       } else {
-          console.log('Invalid product price or count:', productPrice, productCount);
+     const product_id = req.body.productId;
+     const user_id = req.session.user_id;
+     const increment = req.body.count;
+ 
+     const cartData = await Cart.findOne({ user: user_id });
+     const product = cartData.products.find(
+       (obj) => obj.productId.toString() === product_id
+     );
+     const productData = await Product.findById(product_id);  
+     if (product && (product.count + increment > 5)) {
+       return res.json({ limit: true });
+     }
+ 
+     if (
+       product &&
+       ((increment > 0 && product.count + increment <= productData.quantity) ||
+         increment < 0)
+     ) {
+       const update = await Cart.findOneAndUpdate(
+         { user: user_id, "products.productId": product_id },
+         { $inc: { "products.$.count": increment } }
+       );
+       console.log('update', update);
+ 
+       const updatedCartData = await Cart.findOne({ user: user_id });
+       console.log('upcart', updatedCartData);
+ 
+       let updatedCount = product.count + increment;
+       let totalPrice = productData.price * updatedCount;
+ 
+       console.log('cartData.products:', cartData.products);
+ 
+       let newSubTotal = 0;
+       for (const product of updatedCartData.products) {
+         const productData = await Product.findById(product.productId);
+         const productPrice = parseFloat(productData.price);
+         const productCount = parseFloat(product.count);
+ 
+         if (!isNaN(productPrice) && !isNaN(productCount)) {
+           newSubTotal += productPrice * productCount;
+         } else {
+           console.log('Invalid product price or count:', productPrice, productCount);
+         }
        }
-      }
-      
-      // Now, newSubTotal should correctly reflect the updated cart total
-      let shippingCharge = newSubTotal > 1500 ? 0 : 90;
-      let grandTotal = newSubTotal + shippingCharge;
-      
-      // Debugging: Print calculated values
-      console.log('newSubTotal:', newSubTotal);
-      console.log('shippingCharge:', shippingCharge);
-      console.log('grandTotal:', grandTotal);
-      
-      res.json({
-       newQuantity: updatedCount,
-       newTotalPrice: totalPrice,
-       newSubTotal: newSubTotal,
-       newShippingCharge: shippingCharge,
-       newGrandTotal: grandTotal,
-       productId:product_id
-      });
-    } else {
-      return res.json({ stock: true });
-    }
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Error updating cart");
-  }
-};
+ 
+   
+       let shippingCharge = newSubTotal > 1500 ? 0 : 90;
+       let grandTotal = newSubTotal + shippingCharge;
 
+      
+ 
+       res.json({
+         newQuantity: updatedCount,
+         newTotalPrice: totalPrice,
+         newSubTotal: newSubTotal,
+         newShippingCharge: shippingCharge,
+         newGrandTotal: grandTotal,
+         productId: product_id
+       });
+     } else {
+       return res.json({ stock: true });
+     }
+  } catch (error) {
+     console.log(error.message);
+     res.status(500).send("Error updating cart");
+  }
+ };
+ 
  
  
 const checkoutLoad = async (req, res) => {
@@ -225,7 +225,6 @@ const checkoutLoad = async (req, res) => {
        let addressData = await Address.findOne({ user: user_id });
        console.log('addressData', addressData);
  
-       // Calculate the subtotal by summing up the total price of each product
        const subTotal = cartData.products.reduce((acc, val) => {
          if (val && val.productId && val.productId.price && val.count) {
            return acc + (val.productId.price * val.count);
@@ -243,7 +242,6 @@ const checkoutLoad = async (req, res) => {
  
        console.log(totalAmount);
  
-       // Calculate the total price for each product
        const eachTotal = cartData.products.map(val => {
          if (val && val.productId && val.productId.price && val.count) {
            return val.productId.price * val.count;
@@ -251,7 +249,7 @@ const checkoutLoad = async (req, res) => {
          return 0;
        });
  
-       // Render the checkout page with the necessary data
+   
        res.render("checkout", {
          addressData,
          cart: cartData,
@@ -259,7 +257,7 @@ const checkoutLoad = async (req, res) => {
          total: totalAmount,
          user: user_id,
          shippingAmount,
-         eachTotal, // Pass the eachTotal array to the template
+         eachTotal, 
        });
      } else {
        res.redirect("/cart");

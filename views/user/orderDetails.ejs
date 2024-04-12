@@ -64,7 +64,7 @@
                                                     && product.status !==
                                                     "requested" && product.status
                                                     !== "accepted" &&
-                                                    product.status !=="Pending"&&product.status !=="Out for Delivery" &&  product.status !=="Shipped" )
+                                                    product.status !=="Pending" &&product.status !=="Out for Delivery" &&  product.status !=="Shipped" && product.status!=='rejected' )
                                                     { %>
                                                     <button type="button"
                                                         onclick="cancelProduct('<%= product._id %>', '<%= orderItem._id %>')"
@@ -81,6 +81,11 @@
                                                     == "accepted") { %>
                                                     <label
                                                         style="color: red;">OrderReturned</label>
+                                                    <% } else if (product.status
+                                                    == "rejected") { %>
+                                                    <label
+                                                        style="color: blue;">rejected</label>
+                        
                                                     <% } else if (product.status
                                                     == "Shipped") { %>
                                                     <label

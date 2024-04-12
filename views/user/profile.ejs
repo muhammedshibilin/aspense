@@ -639,9 +639,7 @@
                                                                                     name="fullname"
                                                                                     id="fullnames"
                                                                                     required>
-                                                                                <div
-                                                                                    id="fnameError"
-                                                                                    style="display: none; color: red;"></div>
+                                                                               <p id="error-name"  style="display: none; color: red;"></p>
                                                                             </div>
 
                                                                             <div
@@ -655,9 +653,7 @@
                                                                                     name="mobile"
                                                                                     id="mobiles"
                                                                                     required>
-                                                                                <div
-                                                                                    id="mobiles"
-                                                                                    style="display: none; color: red;"></div>
+                                                                                <p id="error-mobile"  style="display: none; color: red;"></p>
                                                                             </div>
 
                                                                             <div
@@ -671,9 +667,7 @@
                                                                                     name="email"
                                                                                     id="emails"
                                                                                     >
-                                                                                <div
-                                                                                    id="addEmailError"
-                                                                                    style="display: none; color: red;"></div>
+                                                                               <p id="error-email"  style="display: none; color: red;"></p>
                                                                             </div>
 
                                                                             <div
@@ -688,9 +682,7 @@
                                                                                     name="houseName"
                                                                                     id="houseNames"
                                                                                     >
-                                                                                <div
-                                                                                    id="houseError"
-                                                                                    style="display: none; color: red;"></div>
+                                                                               <p id="error-housename"  style="display: none; color: red;"></p>
                                                                                 <input
                                                                                     type="text"
                                                                                     class="form-control"
@@ -710,9 +702,7 @@
                                                                                     name="state"
                                                                                     id="states"
                                                                                     >
-                                                                                <div
-                                                                                    id="stateError"
-                                                                                    style="display: none; color: red;"></div>
+                                                                               <p id="error-state"  style="display: none; color: red;"></p>
                                                                             </div>
 
                                                                             <div
@@ -726,9 +716,7 @@
                                                                                     name="city"
                                                                                     id="citys"
                                                                                     >
-                                                                                <div
-                                                                                    id="cityError"
-                                                                                    style="display: none; color: red;"></div>
+                                                                                <p id="error-city"  style="display: none; color: red;"></p>
                                                                             </div>
 
                                                                             <div
@@ -743,9 +731,7 @@
                                                                                     id="pincodes"
                                                                                     autocomplete="off"
                                                                                     >
-                                                                                <div
-                                                                                    id="pinError"
-                                                                                    style="display: none; color: red;"></div>
+                                                                               <p id="error-pin"  style="display: none; color: red;"></p>
                                                                             </div>
 
                                                                             <div
@@ -1629,13 +1615,13 @@ function showEditAddressModal(
     console.log('fulssname',fullname);
     
   
-    const nameError = document.getElementById('fnameError');
-    const pinError = document.getElementById('pinError');
-    const phoneError = document.getElementById('mobiles');
-    const addEmailError = document.getElementById('addEmailError');
-    const houseError = document.getElementById('houseError');
-    const cityError = document.getElementById('cityError');
-    const stateError = document.getElementById('stateError');
+    const nameError = document.getElementById('error-name');
+    const pinError = document.getElementById('error-pin');
+    const phoneError = document.getElementById('error-mobile');
+    const addEmailError = document.getElementById('error-email');
+    const houseError = document.getElementById('error-housename');
+    const cityError = document.getElementById('error-city');
+    const stateError = document.getElementById('error-state');
     console.log('addreddddddsssssssss',fullname ,editAddressId,mobile,pin,email);
 
     // Regular expressions for validation

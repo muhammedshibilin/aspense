@@ -2,34 +2,41 @@ const Offer = require("../model/offerModel");
 const Product = require("../model/productModel");
 const Category = require("../model/categoryModel");
 
+
 const offerLoad = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = 6;
-    const skip = (page - 1) * limit;
-    const searchQuery = req.query.search;
-    let query={}
-
-    query.name = { $regex: searchQuery, $options: 'i' };
-
-    const totalProducts = await Product.countDocuments(query);
-    const totalPages = Math.ceil(totalProducts / limit);
-
-    const offerData = await Offer.find(query).skip(skip).limit(limit);
-    const productData = await Product.find({ is_block: 0 });
-    const categoryData = await Category.find({ is_block: 0 });
-    res.render("offer", {
-      offerData,
-      productData,
-      categoryData,
-      currentPage: page,
-      totalPages: totalPages,
-      searchQuery: searchQuery,
-    });
+    console.log('SEA',req.query.search);
+     const page = parseInt(req.query.page) || 1;
+     const limit = 6;
+     const skip = (page - 1) * limit;
+     // Ensure searchQuery is a string, default to an empty string if not provided
+     const searchQuery = req.query.search ? req.query.search : '';
+     let query = {};
+ 
+     // Check if searchQuery is not an empty string before using it in the query
+     if (searchQuery) {
+       query.name = { $regex: searchQuery, $options: 'i' };
+     }
+ 
+     const totalOffers = await Offer.countDocuments(query);
+     const totalPages = Math.ceil(totalOffers / limit);
+ 
+     const offerData = await Offer.find(query).skip(skip).limit(limit);
+     const productData = await Product.find({ is_block: 0 });
+     const categoryData = await Category.find({ is_block: 0 });
+     res.render("offer", {
+       offerData,
+       productData,
+       categoryData,
+       currentPage: page,
+       totalPages: totalPages,
+       searchQuery: searchQuery,
+     });
   } catch (e) {
-    console.log("while loading offer", e);
+     console.log("while loading offer", e);
   }
-};
+ };
+ 
 
 const addOffer = async (req, res) => {
   try {

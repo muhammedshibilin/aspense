@@ -147,18 +147,14 @@ const loadLogin = async (req, res) => {
 const verifyLogin = async (req, res) => {
     try {
         const { email, password } = req.body
-
         const userData = await User.findOne({ email: email })
 
-
-        const productData = await Product.find({ Is_block: 0 }).populate({
-            path: "category",
-            match: { is_block: 0 }
-        })
+        if(!userData){
+           return res.json({user:true})
+        }
 
         if (userData.is_block == 0) {
             const passwordMatch = await bcrypt.compare(password, userData.password)
-            const productData = await Product.find({})
 
             if (passwordMatch) {
                 console.log(passwordMatch, "1");

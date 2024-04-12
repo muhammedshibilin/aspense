@@ -214,11 +214,13 @@ const orderLoad = async (req, res) => {
     const orderData = await Order.findOne({ _id: orderId }).populate({
       path: 'products.productId',
       populate: {
-        path: 'category'
+        path: 'category',
+        select:'name'
       }
     });
+
     
-    console.log('jsfaf',orderData.products);
+    console.log('jsfaf',orderData.category);
 
     if (orderData) {
       const totalItems = orderData.products.reduce((total, product) => total + product.count, 0);
@@ -237,44 +239,61 @@ const orderLoad = async (req, res) => {
 
 const updateOrder = async (req, res) => {
   try {
-    const orderId = req.body.orderId;
-    const orderStatus = req.body.status;
-    console.log('bodyyyyyyy', req.body);
-
-    const orderData = await Order.findOne({ 'products._id': orderId });
-    console.log('orderData:', orderData);
-
-    const orderProductIndex = orderData.products.findIndex(
-      (product) => product._id.toString() === orderId
-    );
-    console.log('orderProductindex:', orderProductIndex);
-
-
-    const productCount = orderData.products[orderProductIndex].count;
-    orderData.products[orderProductIndex].status = orderStatus;
-    orderData.products[orderProductIndex].date = new Date();
-
-
-    if (orderStatus === 'accepted') {
-
-      const productId = orderData.products[orderProductIndex].productId;
-      const updated = await Product.updateOne(
-        { _id: productId },
-        { $inc: { quantity: productCount } }
-      );
-      console.log('quantityyy productttttttttt', updated);
-    }
-
-
-    const updated = await orderData.save();
-    console.log('saved newwwwwww', updated);
-
-    res.json({ success: true, orderData });
+     const orderId = req.body.orderId;
+     const orderStatus = req.body.status;
+     console.log('bodyyyyyyy', req.body);
+ 
+     const orderData = await Order.findOne({ 'products._id': orderId });
+     console.log('orderData:', orderData);
+ 
+     const orderProductIndex = orderData.products.findIndex(
+       (product) => product._id.toString() === orderId
+     );
+     console.log('orderProductindex:', orderProductIndex);
+ 
+     const productCount = orderData.products[orderProductIndex].count;
+     orderData.products[orderProductIndex].status = orderStatus;
+     orderData.products[orderProductIndex].date = new Date();
+     console.log('count', productCount);
+ 
+     // Check if the order status is 'accepted'
+     if (orderStatus === 'accepted') {
+       const productId = orderData.products[orderProductIndex].productId;
+       const productTotalPrice = orderData.products[orderProductIndex].totalPrice;
+       const newTotalAmount = orderData.totalAmount - productTotalPrice; // Ensure this calculation is correct
+       console.log('asdkkkkkkkkkkkkkkk', productTotalPrice, newTotalAmount);
+ 
+       // Increase the product quantity
+       const updatedProduct = await Product.updateOne(
+         { _id: productId },
+         { $inc: { quantity: productCount } }
+       );
+       console.log('quantityyy productttttttttt', updatedProduct);
+ 
+       // Update the order total amount
+       const updatedOrderTotal = await Order.findByIdAndUpdate(
+         orderId,
+         { $set: { totalAmount: newTotalAmount } },
+         { new: true },
+       );
+       console.log('updatedOrderTotal:', updatedOrderTotal);
+ 
+       // Ensure the updated order total is reflected in orderData
+       orderData.totalAmount = newTotalAmount;
+     }
+ 
+     const updated = await orderData.save();
+     console.log('saved newwwwwww', updated);
+ 
+     res.json({ success: true, orderData });
   } catch (error) {
-    console.log('Error while updating order:', error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+     console.log('Error while updating order:', error);
+     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
-};
+ };
+ 
+ 
+ 
 
 
 const returnOrder = async (req, res) => {
@@ -311,16 +330,16 @@ const returnOrder = async (req, res) => {
       },
     );
 
-    const updatedProduct = await Product.findByIdAndUpdate(
-      { _id: productId },
-      { $inc: { quantity: count } },
-    )
+    // const updatedProduct = await Product.findByIdAndUpdate(
+    //   { _id: productId },
+    //   { $inc: { quantity: count } },
+    // )
 
-    const updatedOrderTotal = await Order.findByIdAndUpdate(
-      orderId,
-      { $set: { totalAmount: newTotalAmount } },
-      { new: true },
-    );
+    // const updatedOrderTotal = await Order.findByIdAndUpdate(
+    //   orderId,
+    //   { $set: { totalAmount: newTotalAmount } },
+    //   { new: true },
+    // );
 
     res.json({ success: true })
   } catch (error) {

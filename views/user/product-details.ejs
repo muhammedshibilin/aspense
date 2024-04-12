@@ -42,7 +42,9 @@
                                                      id="zoomedImage<%= index + 1 %>"
                                                      src="/images/product/original/<%= image %>"
                                                      data-zoom-image="/images/product/original/<%= image %>"
-                                                     alt="<%= productData.name %>">
+                                                     alt="<%= productData.name %>"  
+                                                     style="height: 500px;"
+                                                     loading="lazy">
                                             </div>
                                         </div>
                                     <% }); %>
@@ -54,7 +56,7 @@
                                            role="tab"
                                            aria-controls="img<%= index + 1 %>"
                                            aria-selected="<%= index === 0 ? 'true' : 'false' %>">
-                                            <img src="/images/product/original/<%= image %>" alt="<%= productData.name %>" >
+                                            <img src="/images/product/original/<%= image %>" alt="<%= productData.name %>" style="width: 80px; height: 100px;" loading="lazy">
                                         </a>
                                     <% }); %>
                                 </div>
@@ -249,7 +251,7 @@
                                         href="/product-details?_id=<%= related._id %>">
                                         <img
                                             src="/images/product/original/<%= related.images[0]%>"
-                                            alt="<%= related.name %>">
+                                            alt="<%= related.name %>" loading="lazy">
                                     </a>
                                 </div>
                                 <div class="product-hover-action">
@@ -368,7 +370,7 @@
                             <div class="product-details-quantity">
                                 <div class="quantity-select">
                                     <div class="pro-quantity">
-                                        <div class="pro-qty"><input type="text"
+                                        <div class="pro-qty"><input type="number"
                                                 value="1"></div>
                                     </div>
                                 </div>
@@ -470,7 +472,13 @@ console.log('quantity from frontend',quantity,productId);
                        }).then(()=> {
                         window.location.href = '/login';
                     })
-                } else if (response.success) {
+                }else if(response.limit){
+                    Swal.fire({
+                        icon:"error",
+                        text:"you can add only 5 pieces at a time"
+                    })
+                } 
+                else if (response.success) {
                     if (response.newProduct) {
                        swal.fire({
                         icon:"success",

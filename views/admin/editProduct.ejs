@@ -307,28 +307,25 @@
 
                   <div class="row">
                     <% productData.images.forEach((image, index) => { %>
-                    <div class="col-lg-3 col-md-6">
-                      <div class="form-group">
-                        <label>Image upload <%= index + 1 %></label>
-                        <input type="file" id="imageFile<%= index + 1 %>"
-                          name="image<%= index + 1 %>" value="<%= image %>"
-                          class="file-upload-default">
-                        <!-- Image preview section -->
-                        <div class="preview-image"
-                          data-image-number="<%= index + 1 %>"
-                          style="width: 150px; height: 200px; background-color: #f0f0f0; border: 1px solid #ccc; background-size: cover; background-position: center; overflow: hidden;">
-                          <img src="/images/product/original/<%= image %>"
-                            style="width: 150px; height: 200px;">
-                        </div>
-                        <!-- Remove button -->
-                        <button class="btn btn-danger mt-2" type="button"
-                          data-image-number="<%= index + 1 %>"
-                          onclick="removeImage(event, '<%= productData._id %>', '<%= index + 1 %>')">Remove
-                          Image</button>
-                      </div>
-                    </div>
+                       <div class="col-lg-3 col-md-6">
+                         <div class="form-group">
+                           <label>Image upload <%= index + 1 %></label>
+                           <div class="preview-image"
+                                data-image-number="<%= index + 1 %>"
+                                style="width: 150px; height: 200px; background-color: #f0f0f0; border: 1px solid #ccc; background-size: cover; background-position: center; overflow: hidden;">
+                             <img src="/images/product/original/<%= image %>"
+                                  style="width: 150px; height: 200px;" loading="lazy">
+                           </div>
+                           <button class="btn btn-danger mt-2" type="button"
+                                   data-image-number="<%= index + 1 %>"
+                                   onclick="removeImage(event, '<%= productData._id %>',' <%= index + 1 %>')">Remove
+                             Image</button>
+                         </div>
+                       </div>
                     <% }) %>
-                  </div>
+                   </div>
+                   
+                   
                    
                   <div class="container">
                     <div class="row">
@@ -371,51 +368,55 @@
         <script>
 
 function removeImage(event, id, imageNumber) {
- console.log('ud', id, imageNumber);
- fetch('/admin/delete-image', {
+  console.log('ud', id, imageNumber);
+  fetch('/admin/delete-image', {
     method: "delete",
     headers: {
       'content-type': 'application/json'
     },
     body: JSON.stringify({ imageNumber: imageNumber, id: id })
- }).then((response) => response.json()).then(data => {
-    if (data.success) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Deleted...',
-        text: 'Image deleted'
-      }).then(()=> {
-        location.reload()
-      })
+  }).then((response) => response.json())
+    .then(data => {
+      if (data.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Deleted...',
+          text: 'Image deleted'
+        }).then(() => {
+          location.reload()
+          const parentDiv = document.querySelector(`.col-lg-3.col-md-6[data-image-number="${imageNumber}"]`);
+          console.log('oar', parentDiv);
+          if (parentDiv) {
+            parentDiv.remove();
 
-      // Select the parent div of the preview image and button
-      const parentDiv = document.querySelector(`.col-lg-3.col-md-6[data-image-number="${imageNumber}"]`);
-      if (parentDiv) {
-        // Remove the parent div
-        parentDiv.remove();
+            const remainingImages = document.querySelectorAll('.col-lg-3.col-md-6');
+            if (remainingImages.length > 0) {
+              remainingImages.forEach((div, index) => {
+                const newIndex = index + 1;
+                div.setAttribute('data-image-number', newIndex);
+
+                const button = div.querySelector('button');
+                if (button) {
+                  button.setAttribute('data-image-number', newIndex);
+                  button.setAttribute('onclick', `removeImage(event, '${id}', ${newIndex})`);
+                }
+              });
+            } else {
+              console.log('No remaining images.');
+              // Handle case when there are no remaining images
+            }
+          } else {
+            console.error('Parent div not found for image number:', imageNumber);
+          }
+        });
+      } else {
+        console.error('Image deletion failed:', data.error);
       }
-
-      // Adjust the layout of the remaining images
-      const remainingImages = document.querySelectorAll('.col-lg-3.col-md-6');
-      remainingImages.forEach((div, index) => {
-        // Update the data-image-number attribute to reflect the new index
-        div.setAttribute('data-image-number', index + 1);
-        // Update the label, input name, and onclick attribute of the button
-        const button = div.querySelector('button');
-        if (button) {
-          button.setAttribute('data-image-number', index + 1);
-          button.setAttribute('onclick', `removeImage(event, '${id}', ${index + 1})`);
-        }
-        // Update the data-image-number attribute of the preview image div
-        const previewImageDiv = div.querySelector('.preview-image');
-        if (previewImageDiv) {
-          previewImageDiv.setAttribute('data-image-number', index + 1);
-        }
-      });
-    }
- });
+    })
+    .catch(error => {
+      console.error('Error deleting image:', error);
+    });
 }
-
 
 
             document.addEventListener('DOMContentLoaded', function() {

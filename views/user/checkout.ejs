@@ -175,6 +175,8 @@
                                                 Street, Store Town,
                                                 Store State, Store Postcode,
                                                 Store Country.</p>
+                                                <!-- <input type="radio" name="paypal" id="paypal" value="paypal" >
+                                                <label for="payment_cash">paypal</label> -->
                                         </div>
                                         <div style="text-align: center;">
                                             <button type="submit"
@@ -641,15 +643,13 @@ console.log(formData,"haaiiiiiiii");
                            })               
                     }else if (response.codsuccess == true) {
                           swal.fire({
-                          title: "success",
                           icon: "success",
                           title:"order is success",
-                          button: false,
                           timer: 3000
-                           })
-                        setTimeout(() => {
+                           }).then(()=> {        
                             window.location.href = `/order-success`;
-                        },3000);
+
+                        })
                        
                     }
                 },

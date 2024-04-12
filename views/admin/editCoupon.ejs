@@ -179,140 +179,141 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <form >
-                                
+                                        <form>
                                             <div class="form-group my-3">
                                                 <label for="name">Coupon name</label>
-                                                <input type="text" class="form-control" id="name" name="couponName"
-                                                    placeholder="Type here">
-                                                <div id="nameError" class="text-danger  error-message"></div>
+                                                <input type="text" class="form-control" id="name" name="couponName" placeholder="Type here" value="<%= coupon.couponName %>">
+                                                <div id="nameError" class="text-danger error-message"></div>
+                                                <input type="hidden" id="couponId" value="<%=coupon._id %>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="code">Coupon code </label>
-                                                    <input class="form-control" id="code" name="couponCode" >
-                                                    <button type="button" id="generateButton" class="btn btn-warning my-3">Generate</button>
+                                                <label for="code">Coupon code</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="code" name="couponCode" value="<%= coupon.couponCode %>">
+                                                    <div class="input-group-append">
+                                                        <button type="button" id="generateButton" class="btn btn-warning">Generate</button>
+                                                    </div>
+                                                </div>
                                                 <div id="codeError" class="text-danger error-message"></div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group my-3">
                                                 <label for="discount">Discount Amount</label>
-                                                <input type="number" class="form-control" id="discount" name="discount"
-                                                    placeholder="Type here">
+                                                <input type="number" class="form-control" id="discount" name="discount" placeholder="Type here" value="<%= coupon.discountAmount %>">
                                                 <div id="discountError" class="text-danger error-message"></div>
                                             </div>
                                             <div class="form-group my-3">
-                                                <label for="expirydate">Expire Date</label>
-                                                <input type="date" class="form-control" id="expiredate" name="expiryDate" onclick="this.type='date'">
+                                                <label for="expiredate">Expire Date</label>
+                                                <input type="date" class="form-control" id="expiredate" name="expiryDate" onclick="this.type='date'" value="<%= coupon.expireDate.toISOString().substring(0, 10) %>">
                                                 <div id="expiredateError" class="text-danger error-message"></div>
                                             </div>
                                             <div class="form-group my-3">
                                                 <label for="criteriamount">Criteria Amount</label>
-                                                <input type="number" class="form-control" id="criteriAmount"
-                                                    name="criteriaAmount" placeholder="Type here">
+                                                <input type="number" class="form-control" id="criteriAmount" name="criteriaAmount" placeholder="Type here" value="<%= coupon.criteriaAmount %>">
                                                 <div id="criteriamountError" class="text-danger error-message"></div>
                                             </div>
                                             <div class="container d-flex justify-content-center mt-4">
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </div>
                                         </form>
-
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
                 <script
                 src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
                 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const generateButton = document.getElementById('generateButton');
- generateButton.addEventListener('click', function() {
-    console.log('etuuuuuuuuuuuuuuuuuuuuuu');
-    fetch('/admin/generate-coupon-code', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then(response => response.json())
-    .then(data => {
-      Swal.fire({
-        text: "code is generated",
-        icon: "success", 
-      });
-      const couponCode = data.couponCode;
-      document.getElementById('code').value = couponCode;
-    })
-    .catch((error) => {
-      console.error('Error:', error);
- 
-    });
- });
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const generateButton = document.getElementById('generateButton');
+                     generateButton.addEventListener('click', function() {
+                        console.log('etuuuuuuuuuuuuuuuuuuuuuu');
+                        fetch('/admin/generate-coupon-code', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                          Swal.fire({
+                            text: "code is generated",
+                            icon: "success", 
+                          });
+                          const couponCode = data.couponCode;
+                          document.getElementById('code').value = couponCode;
+                        })
+                        .catch((error) => {
+                          console.error('Error:', error);
+                     
+                        });
+                     });
+                    
+                    
+                    
+                     const form = document.querySelector('form');
+                     form.addEventListener('submit', function(event) {
+                        event.preventDefault(); 
+                    
+                        // Perform validation
+                        const name = document.getElementById('name').value;
+                        const code = document.getElementById('code').value;
+                        const discount = document.getElementById('discount').value;
+                        const expireDate = document.getElementById('expiredate').value;
+                        const criteriaAmount = document.getElementById('criteriAmount').value;
+                        const couponId = document.getElementById('couponId').value
+                    
+                    
+                        if (!name || !code || !discount || !expireDate || !criteriaAmount) {
+                          Swal.fire({
+                          icon:"error",
+                          text:"please fill all the fields"
+                          })
+                    
+                          return;
+                        }
+                    
+                     
+                        const data = {
+                          couponName: name,
+                          couponCode: code,
+                          discount: discount,
+                          expireDate: expireDate,
+                          criteriaAmount: criteriaAmount,
+                          couponId:couponId
+                        };
+                    
+                        fetch('/admin/edit-coupon', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify(data),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                          console.log('Success:', data);
+                    Swal.fire({
+                        icon:"success",
+                        text:"coupon edit successfull"
+                    }).then(()=>{
+                        window.location.href = "/admin/coupon"
+                    })
+                        })
+                        .catch((error) => {
+                          console.error('Error:', error);
+                    
+                        });
+                     });
+                    });
+                    </script>
+                    
 
-
-
- const form = document.querySelector('form');
- form.addEventListener('submit', function(event) {
-    event.preventDefault(); 
-
-    // Perform validation
-    const name = document.getElementById('name').value;
-    const code = document.getElementById('code').value;
-    const discount = document.getElementById('discount').value;
-    const expiryDate = document.getElementById('expiredate').value;
-    const criteriaAmount = document.getElementById('criteriAmount').value;
-
-
-    if (!name || !code || !discount || !expiryDate || !criteriaAmount) {
-      Swal.fire({
-      icon:"error",
-      text:"please fill all the fields"
-      })
-
-      return;
-    }
-
- 
-    const data = {
-      couponName: name,
-      couponCode: code,
-      discount: discount,
-      expiryDate: expiryDate,
-      criteriaAmount: criteriaAmount
-    };
-
-    fetch('/admin/add-coupon', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-Swal.fire({
-    icon:"success",
-    text:"coupon added successfully"
-}).then(()=>{
-    window.location.href = "/admin/coupon"
-})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-
-    });
- });
-});
-</script>
-
-
-            <script src="vendors/base/vendor.bundle.base.js"></script>
-            <script src="js/off-canvas.js"></script>
-            <script src="js/hoverable-collapse.js"></script>
-            <script src="js/template.js"></script>
-
-            <%- include('../layouts/admin/footer.ejs') %>
+                <script src="vendors/base/vendor.bundle.base.js"></script>
+                <script src="js/off-canvas.js"></script>
+                <script src="js/hoverable-collapse.js"></script>
+                <script src="js/template.js"></script>
+    
+                <%- include('../layouts/admin/footer.ejs') %>
