@@ -78,7 +78,7 @@ const placeOrder = async (req, res) => {
         name: productDetails ? productDetails.name : '',
       };
     });
-    console.log('halpppppppppppppppppp', productData);
+ 
 
     totalAmount += shippingAmount;
 
@@ -93,7 +93,7 @@ const placeOrder = async (req, res) => {
       shippingMethod: cartData.shippingMethod,
       shippingAmount: shippingAmount,
     });
-    console.log('dhfcksdfckjsdzjfcbsjkdfcbskjdfc', order);
+
 
     const orderData = await order.save();
     const orderId = orderData._id;
@@ -145,7 +145,7 @@ const cancelOrder = async (req, res) => {
     const orderedProduct = orderedData.products.find(product => {
       return product._id.toString() === productId;
     })
-    console.log('ordereeeeeeeeeedpreoduct', orderedProduct);
+ 
 
 
 
@@ -241,7 +241,7 @@ const updateOrder = async (req, res) => {
   try {
      const orderId = req.body.orderId;
      const orderStatus = req.body.status;
-     console.log('bodyyyyyyy', req.body);
+ 
  
      const orderData = await Order.findOne({ 'products._id': orderId });
      console.log('orderData:', orderData);
@@ -256,21 +256,21 @@ const updateOrder = async (req, res) => {
      orderData.products[orderProductIndex].date = new Date();
      console.log('count', productCount);
  
-     // Check if the order status is 'accepted'
+    
      if (orderStatus === 'accepted') {
        const productId = orderData.products[orderProductIndex].productId;
        const productTotalPrice = orderData.products[orderProductIndex].totalPrice;
        const newTotalAmount = orderData.totalAmount - productTotalPrice; // Ensure this calculation is correct
        console.log('asdkkkkkkkkkkkkkkk', productTotalPrice, newTotalAmount);
  
-       // Increase the product quantity
+  
        const updatedProduct = await Product.updateOne(
          { _id: productId },
          { $inc: { quantity: productCount } }
        );
        console.log('quantityyy productttttttttt', updatedProduct);
  
-       // Update the order total amount
+   
        const updatedOrderTotal = await Order.findByIdAndUpdate(
          orderId,
          { $set: { totalAmount: newTotalAmount } },
@@ -278,7 +278,6 @@ const updateOrder = async (req, res) => {
        );
        console.log('updatedOrderTotal:', updatedOrderTotal);
  
-       // Ensure the updated order total is reflected in orderData
        orderData.totalAmount = newTotalAmount;
      }
  
@@ -394,13 +393,13 @@ const generateInvoicePDF = async (req, res) => {
       });
 
       const columnWidths = [30, 150, 70, 70, 70, 70, 100];
-      let y = 200; // Adjusted to start below the header
+      let y = 200; 
 
       headers.forEach((header, columnIndex) => {
           document.fontSize(12).text(header, 50 + columnWidths.slice(0, columnIndex).reduce((acc, width) => acc + width, 0), y, { width: columnWidths[columnIndex], align: 'center' });
       });
 
-      // Draw horizontal lines between rows and vertical lines between columns
+     
       rows.forEach((row, rowIndex) => {
           y += 20;
           row.forEach((cell, columnIndex) => {
@@ -414,7 +413,7 @@ const generateInvoicePDF = async (req, res) => {
           document.moveTo(50, y).lineTo(550, y).stroke();
       });
 
-      // Write total amount
+    
       const totalAmountText = 'Total Amount: $' + orderDetails.totalAmount;
       document.fontSize(12).text(totalAmountText, 50, y + 20, { align: 'right' });
   }

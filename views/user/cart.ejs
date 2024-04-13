@@ -3,6 +3,7 @@
 <style>
     .cart-summary-table th,
     .cart-summary-table td {
+        width: auto;
         padding: 10px;
         border-top: 1px solid #ddd;
     }
@@ -27,6 +28,18 @@
     display: flex; 
     align-items: center; 
 }
+.cart-summary-wrap {
+    padding: 10px; /* Adjust as needed */
+}
+
+.cart-summary-button {
+    margin-left: 10px; /* Adjust as needed */
+}
+.cart-summary-wrap {
+    width: 300px; /* Adjust the width as needed */
+}
+
+
 
 
 .btn-decrement,
@@ -195,8 +208,8 @@ td.pro-price {
                         </div>
 
                         <!-- Cart Summary -->
-                        <div class="col-lg-6 col-12 mb--40 d-flex">
-                            <div class="cart-summary">
+                        <div class="col-lg-6 col-12 mb--40 d-flex " >
+                            <div class="cart-summary" style="margin-left: 250px;">
                                 <div class="cart-summary-wrap">
                                     <h4>Cart Summary</h4>
                                     <% if (cart && cart.products && cart.products.length > 0 && subTotal > 0) { %>
@@ -208,15 +221,17 @@ td.pro-price {
                                         <p>Shipping Cost <span>$0.00</span></p>
                                         <h2>Grand Total <span>$0.00</span></h2>  
                                     <% } %>
+
+                                    <div class="cart-summary-button" style="margin-top: 20px;">
+                                        <button class="checkout-btn " id="checkout" type="submit"><a href="/checkout"
+                                                >Checkout</a></button>
+                                        <!-- <button class="update-btn"
+                                            id="updateCartButton">Update
+                                            Cart</button> -->
+                                    </div>
                                 </div>
                                 
-                                <div class="cart-summary-button">
-                                    <button class="checkout-btn" id="checkout" type="submit"><a href="/checkout"
-                                            >Checkout</a></button>
-                                    <!-- <button class="update-btn"
-                                        id="updateCartButton">Update
-                                        Cart</button> -->
-                                </div>
+                              
                             </div>
                         </div>
                     </div>

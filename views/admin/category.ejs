@@ -204,15 +204,16 @@
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
-
+                        <form id="add-category">
                         <div class="modal-body">
-                          <form action="/admin/add-category" method="post">
+                         
                             <div class="form-group">
                               <label
                                 for="exampleFormControlInput1">Category</label>
                               <input name="category" type="text"
                                 class="form-control"
-                                id="exampleFormControlInput1">
+                                id="cat-name">
+                                <p id="add-name" style="display: none; color:red"></p>
 
                             </div>
 
@@ -222,7 +223,7 @@
                             <button type="button" class="btn btn-secondary"
                               data-dismiss="modal">Close</button>
                             <button type="submit"
-                              class="btn btn-primary">Add</button>
+                              class="btn btn-primary" id="add-cat-btn">Add</button>
                           </div>
                         </form>
                       </div>
@@ -314,10 +315,11 @@
             <div class="modal-body">
               <form>
                 <div class="form-group">
-                  <label for="cat-name">Category Name</label>
+                  <label for="category-name">Category Name</label>
                   <input name="categoryName" type="text" class="form-control"
-                    id="cat-name">
+                    id="edit-name">
                   <input type="hidden" id="category_id">
+                  <p id="name-e" style="display:none; color: red;"></p>
                 </div>
 
               </div>
@@ -383,29 +385,26 @@ function confirmAction(action, url) {
  
 
 function editCategory(name, id) {
-    console.log(name, id);
-    document.getElementById('cat-name').value = name;
+    console.log("dataaaaaaaaaaaaaaaaaaaaaaa",name, id);
+    document.getElementById('edit-name').value = name;
     document.getElementById('category_id').value = id;
     $('#exampleModal1').modal('show');
     
 }
 
 
-
+document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("edit-category-btn").addEventListener("click", async (e) => {
     e.preventDefault();
 
     const categoryId = document.getElementById('category_id').value
-    const categoryName = document.getElementById('cat-name').value;
-    console.log(categoryId,categoryName);
+    const categoryName = document.getElementById('edit-name').value;
+    const error = document.getElementById("name-e")
+    console.log("while submittttttttttttttt",categoryId,categoryName);
 
     if(categoryName.trim()==""){
-      swal.fire({
-        icon:"warning",
-        title:"catergory name",
-        text:"categoryname is required",
-        time:1500
-      })
+      error.style.display= "block"
+      error.textContent="name is required"
       return
     }
 
@@ -421,13 +420,19 @@ function editCategory(name, id) {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-
+         console.log('resssssssssssss',response);
         const data = await response.json();
+        console.log('dataaaaaa',data);
         if (data.success) {
-           
+           Swal.fire({
+            icon:"success",
+            text:"category name editted successfully"
+           }).then(()=>{     
             $('#exampleModal1').modal('hide');
             location.reload()
-        } else {
+          })
+
+        } else if(data.exist) {
           swal.fire({
         icon:"warning",
         title:"exist",
@@ -438,5 +443,47 @@ function editCategory(name, id) {
         console.error('There was a problem with the fetch operation:', error);
     }
 });
+
+})
+
+document.getElementById('add-cat-btn').addEventListener("click", async (e) => {
+ e.preventDefault();
+
+ const catname = document.getElementById("cat-name").value;
+ const error = document.getElementById('add-name')
+
+ if(catname.trim()==""){
+  error.style.display="block"
+  error.textContent='name is required'
+
+  return
+ }
+
+ $.ajax({
+    url: "/admin/add-category",
+    method: "post",
+    data: { name: catname },
+    success: (response) => {
+      if (response.success) {
+        Swal.fire({
+          icon: "success",
+          text: "Added successfully"
+        }).then(() => {
+          $('#exampleModal').modal('hide');
+          $('.modal-backdrop').remove();
+        });
+      } else if (response.exist) {
+        Swal.fire({
+          icon: "error",
+          text: "Name already exists!"
+        });
+      }
+    }
+ });
+});
+
+
+
+
     </script>
       <%- include('../layouts/admin/footer.ejs') %>

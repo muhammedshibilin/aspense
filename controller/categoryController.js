@@ -30,13 +30,14 @@ const loadCategory = async (req, res) => {
 
 const addCategory = async (req, res) => {
     try {
-        const name = req.body.category;
+        const name = req.body.name;
+        console.log(req.body);
 
         const existingCategories = await Category.find({ name: name });
         console.log(existingCategories);
 
         if (existingCategories.length > 0) {
-            res.redirect('/admin/category');
+            res.json({exist:true})
         } else {
             const category = new Category({
                 name: name,
@@ -45,7 +46,7 @@ const addCategory = async (req, res) => {
 
             const categoryData = await category.save();
 
-            res.redirect('/admin/category');
+            res.json({success:true})
         }
     } catch (err) {
         console.error('Error adding category:', err);
@@ -114,7 +115,7 @@ const editCategory = async (req, res) => {
             console.log('Requested Category ID:', categoryId);
 
           
-            if (existingCategory._id.toString() !== categoryId) {
+            if (existingCategory._id.toString()!== categoryId) {
                 console.log('Category name already exists');
                 return res.json({exist:true});
             }
