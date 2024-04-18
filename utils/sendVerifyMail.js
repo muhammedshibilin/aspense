@@ -22,7 +22,7 @@ const sendVerifyMail = async (name,email,otp) => {
             subject:"for otp verification",
             html:`<p>Hello ${name}
             
-            , This is your Mail veryfication message <br> This is your OTP :${otp}
+            , This is your Mail verification message <br> This is your OTP :${otp}
             
              Please Verify your mail.</p>,`,
     

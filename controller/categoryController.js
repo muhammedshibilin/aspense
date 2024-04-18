@@ -33,7 +33,7 @@ const addCategory = async (req, res) => {
         const name = req.body.name;
         console.log(req.body);
 
-        const existingCategories = await Category.find({ name: name });
+        const existingCategories = await Category.find({ name: { $regex: new RegExp('^' + name + '$', 'i') } });
         console.log(existingCategories);
 
         if (existingCategories.length > 0) {
@@ -65,7 +65,10 @@ const blockCategory = async (req, res) => {
         console.error(error.message);
         res.render("error");
     }
-};
+}
+
+
+
 const unblockCategory = async (req, res) => {
     try {
         const categoryId = req.query.id;
@@ -79,6 +82,10 @@ const unblockCategory = async (req, res) => {
         res.render("error");
     }
 };
+
+
+
+
 
 const categoryDelete = async (req, res) => {
     try {
@@ -101,6 +108,8 @@ const categoryDelete = async (req, res) => {
 };
 
 
+
+
 const editCategory = async (req, res) => {
     try {
         const categoryId = req.body.categoryId;
@@ -108,14 +117,14 @@ const editCategory = async (req, res) => {
         console.log('body',req.body);
 
       
-        const existingCategory = await Category.findOne({ name: name });
-        console.log('sd',existingCategory);
+        const existingCategories = await Category.find({ name: { $regex: new RegExp('^' + name + '$', 'i') } });
+        console.log('sd',existingCategories);
         if (existingCategory) {
             console.log('Existing Category ID:', existingCategory._id.toString());
             console.log('Requested Category ID:', categoryId);
 
           
-            if (existingCategory._id.toString()!== categoryId) {
+            if (existingCategories._id.toString()!== categoryId) {
                 console.log('Category name already exists');
                 return res.json({exist:true});
             }
@@ -131,6 +140,8 @@ const editCategory = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+
 
 module.exports = {
     loadCategory,

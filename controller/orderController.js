@@ -1,12 +1,22 @@
 const Order = require('../model/orderModel')
 const Cart = require('../model/cartModel')
-
+const Offer = require('../model/offerModel');
 const Product = require('../model/productModel')
 const crypto = require("crypto")
 const path = require('path')
 const easyInvoice = require("easyinvoice")
 const PDFDocument = require('pdfkit');
 const fs = require('fs')
+const paypal = require('paypal-rest-sdk')
+const env = require("dotenv").config()
+
+
+paypal.configure({
+  mode:process.env.PAYPAL_MODE,
+  client_id:process.env.PAYPAL_CLIENT_ID,
+  client_secret:process.env.PAYPAL_SECRET
+})
+
 
 
 const decreaseProductQuantity = async (products) => {
@@ -22,93 +32,212 @@ const decreaseProductQuantity = async (products) => {
 
 
 
-const placeOrder = async (req, res) => {
-  try {
-    const user_id = req.session.user_id;
-    console.log(user_id);
-
-    const cartData = await Cart.findOne({ user: user_id }).populate("products.productId");
-    if (!cartData) {
-      res.status(404).json({ error: "Cart data not found" });
-      return;
-    }
-
-
-    const paymentMethod = req.body.formData.payment;
-    const status = paymentMethod === 'COD' ? 'Placed' : 'Pending';
-    const address = req.body.formData.address;
-
-
-    const subtotalAmount = cartData.products.reduce(
-      (acc, val) => acc + (val.productId.price * val.count || 0),
-       0,
-     );
-    let totalAmount = subtotalAmount;
-   
-
-    let shippingAmount = totalAmount < 1500 ? 90 : 0
-
-
-
-    const uniqId = crypto
-      .randomBytes(4)
-      .toString('hex')
-      .toUpperCase()
-      .slice(0, 8)
-
-
-    const productIds = cartData.products.map(product => product.productId);
-    const products = await Product.find({ _id: { $in: productIds } });
-    const productData = cartData.products.map(cartProduct => {
-      const productDetails = products.find(p => p._id.toString() === cartProduct.productId._id.toString());
-      console.log('log',productDetails);
-
-    if (cartProduct.count > productDetails.quantity) {
-      return res.status(400).json({ quantity:true});
-  }
-      console.log('image', productDetails.images);
-      return {
-
-        productId: cartProduct.productId._id,
-        count: cartProduct.count,
-        productPrice: productDetails ? productDetails.price : 0,
-        image: productDetails.images ? productDetails.images : '',
-        totalPrice: productDetails.price*cartProduct.count,
-        status: status,
-        name: productDetails ? productDetails.name : '',
-      };
-    });
+async function calculateTotalAmountWithOffers(cartData) {
+  let totalAmount = 0;
+  let totalAmountBeforeDiscounts = 0;
+  let totalDiscount=0
  
-
-    totalAmount += shippingAmount;
-
-    const order = new Order({
-      user: user_id,
-      orderId: uniqId,
-      deliveryDetails: address,
-      products: productData,
-      date: new Date(),
-      totalAmount: totalAmount,
-      paymentMethod: paymentMethod,
-      shippingMethod: cartData.shippingMethod,
-      shippingAmount: shippingAmount,
-    });
-
-
-    const orderData = await order.save();
-    const orderId = orderData._id;
-    await decreaseProductQuantity(cartData.products);
-
-
-    if (orderData.paymentMethod === 'COD') {
-      await Cart.deleteOne({ user: user_id });
-      return res.json({ codsuccess: true, orderId });
-    }
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).render('500');
+  for (const item of cartData.products) {
+    if (!item.productId || !item.productId.price || !item.count) {
+      console.error("Missing product data for item:", item);
+    }else{
+      let itemPrice = item.productId.price * item.count;
+      totalAmountBeforeDiscounts += item.productId.price * item.count;
+      let applicableOffers = await Offer.find({
+        $or: [
+          { productId: item.productId._id },
+          { categoryId: item.productId.category }
+        ],
+        startDate: { $lte: new Date() },
+        endDate: { $gte: new Date() },
+        is_block: 0
+      });
+ 
+      let mostSignificantOffer = null;
+      const productOffer = applicableOffers.find(offer => offer.productId.some(id => id.equals(item.productId._id)));
+      const categoryOffer = applicableOffers.find(offer => offer.categoryId.some(id => id.equals(item.productId.category)));
+      if (productOffer && categoryOffer) {
+        mostSignificantOffer = productOffer.discountAmount > categoryOffer.discountAmount ? productOffer : categoryOffer;
+      } else if (productOffer) {
+        mostSignificantOffer = productOffer;
+      } else if (categoryOffer) {
+        mostSignificantOffer = categoryOffer;
+      }
+ 
+      if (mostSignificantOffer) {
+        if (itemPrice === 0) {
+          totalAmount += 0; 
+        } else {
+           discount = Math.floor(itemPrice * (mostSignificantOffer.discountAmount / 100));
+           itemPrice -= discount;
+           totalDiscount += discount;
+           console.log('type',typeof totalDiscount,totalDiscount);
+           console.log(`Product: ${item.productId.name}, Price: ${item.productId.price}, Count: ${item.count}, Discount: ${discount}`);
+        }        
+      }
+      totalAmount += itemPrice;
   }
-}
+} 
+
+
+console.log('Total Amount After Discount:', totalAmount);
+console.log('Total Amount Before Discount:', totalAmountBeforeDiscounts);
+console.log('total discout',totalDiscount);
+  return {totalAmount,totalAmountBeforeDiscounts,totalDiscount,discount}
+ }
+
+
+async function createOrder(user_id, cartData, totalAmount, paymentMethod, address) {
+
+  const uniqId = crypto.randomBytes(4).toString('hex').toUpperCase().slice(0, 8);
+  const orderProducts = cartData.products.map(product => ({
+     productId: product.productId._id,
+     name: product.productId.name,
+     count: product.count,
+     productPrice: product.productId.price,
+     image: product.productId.images[0],
+     totalPrice: (product.productId.price * product.count)-discount,
+     status: paymentMethod === 'COD' ? 'Placed' : 'Pending',
+  }));
+ 
+  const order = new Order({
+     user: user_id,
+     orderId: uniqId,
+     deliveryDetails: address,
+     products: orderProducts,
+     date: new Date(),
+     totalAmount: totalAmount,
+     paymentMethod: paymentMethod,
+     shippingMethod: cartData.shippingMethod,
+     shippingAmount: totalAmount < 1500 ? 90 : 0,
+  });
+ 
+  try {
+     const orderData = await order.save();
+     await Cart.deleteOne({ user: user_id });
+     await decreaseProductQuantity(cartData.products);
+     return orderData._id;
+  } catch (error) {
+     console.error('Error saving order:', error.message);
+     throw new Error('Failed to save order. Please try again later.');
+  }
+ }
+ async function handlePayPalPayment(create_payment_json) {
+  return new Promise((resolve, reject) => {
+     paypal.payment.create(create_payment_json, function (error, payment) {
+       if (error) {
+        if (error.response && error.response.name === 'VALIDATION_ERROR') {
+          reject(new Error('PayPal validation error. Please check your order details.'));
+        } else {
+          reject(error);
+        }
+       } else {
+         for (let i = 0; i < payment.links.length; i++) {
+           if (payment.links[i].rel === "approval_url") {
+             resolve(payment.links[i].href);
+           }
+         }
+       }
+     });
+  });
+ }
+ const placeOrder = async (req, res) => {
+  try {
+      const user_id = req.session.user_id;
+      const cartData = await Cart.findOne({ user: user_id }).populate("products.productId");
+      if (!cartData || !cartData.products || cartData.products.length === 0) {
+        res.status(404).json({ error: "Cart data not found" });
+        return;
+      }
+ 
+      const paymentMethod = req.body.formData.payment;
+      const address = req.body.formData.address;
+      let { totalAmount, totalAmountBeforeDiscounts,totalDiscount} = await calculateTotalAmountWithOffers(cartData);
+      console.log('placerorrderrrthe paisss',totalAmount,totalAmountBeforeDiscounts);
+ 
+      if (paymentMethod === "paypal") {
+           items = cartData.products.map(product => ({
+          "name": product.productId.name,
+          "sku": product.productId._id,
+          "price": product.productId.price.toFixed(2),
+          "currency": "USD",
+          "quantity": product.count
+        }));
+ 
+        
+        let shippingAmount = totalAmount < 1500 ? 90 : 0;
+        if (shippingAmount > 0) {
+          items.push({
+            "name": "Shipping Fee",
+            "sku": "SHIPPING",
+            "price": shippingAmount.toFixed(2),
+            "currency": "USD",
+            "quantity": 1
+          });
+
+          totalAmount+=shippingAmount
+
+        }
+
+       
+        if (totalAmount !== totalAmountBeforeDiscounts) {
+          items.push({
+            "name": "DISCOUNT",
+            "sku": "DISCOUNT", 
+            "price":-totalDiscount, 
+            "currency": "USD",
+            "quantity": 1
+          });
+         
+          
+        }
+        console.log('total',totalAmount,shippingAmount);
+
+ 
+        const create_payment_json = {
+          "intent": "sale",
+          "payer": {
+            "payment_method": "paypal"
+          },
+          "redirect_urls": {
+            "return_url": "http://localhost:7000/order-success",
+            "cancel_url": "http://localhost:7000/checkout"
+          },
+          "transactions": [{
+            "item_list": {
+              "items": items
+            },
+            "amount": {
+              "currency": "USD",
+              "total": totalAmount.toFixed(2)
+            },
+            "description": "Payment for order"
+          }]
+        };
+ 
+        const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod, address);
+       
+        const paypalUrl = await handlePayPalPayment(create_payment_json);
+        await Cart.deleteOne({ user: user_id });
+        res.json({ paypal: paypalUrl });
+        
+        
+      } else {
+        await calculateTotalAmountWithOffers(cartData);
+        const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod, address);
+        
+        if (paymentMethod === 'COD') {
+          await Cart.deleteOne({ user: user_id });
+          res.json({ codsuccess: true, orderId });
+        }
+      }
+  } catch (error) {
+      console.error(error);
+      res.status(500).render("500");
+  }
+ };
+ 
+ 
 
 
 

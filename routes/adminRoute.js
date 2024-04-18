@@ -109,7 +109,6 @@ admin_route.post('/edit-coupon',couponController.editCoupon)
 
 admin_route.get('*', (req, res) => {
   res.redirect('/admin')
-
 })
 
 

@@ -30,11 +30,7 @@
 
         <link rel="stylesheet" href="user/css/plugins/plugins.css">
 
-        <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from avobe) -->
-        <!--
-    <script src="user/js/vendor/vendor.min.js"></script>
-    <script src="user/js/plugins/plugins.min.js"></script>
-    -->
+
 
         <!-- Main Style CSS (Please use minify version for better website load performance) -->
         <link rel="stylesheet" href="user/css/style.css">
@@ -53,7 +49,6 @@
 
         <!-- for toaster -->
 
-        <!-- Include Toastr CSS -->
 
         <style>
     .breadcrumbs {
@@ -140,6 +135,24 @@
     transform: translateY(-5px) scale(1.05); /* Move 5px upward and slightly scale up on hover */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow on hover */
     color: #6bff9a; /* Change color on hover */
+}
+/* Define animation */
+@keyframes heartBeat {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Define color change */
+.red-heart {
+    color: red;
+    animation: heartBeat 0.5s ease-in-out;
 }
 
 
@@ -252,7 +265,15 @@
         }
 
 
-   
+        .wishlist-button {
+   color: transparent;
+}
+
+.wishlist-button.added-to-wishlist {
+    /* Color when the item is added to the wishlist */
+    color: red;
+}
+  
 
 
 
@@ -309,7 +330,7 @@
                                 <!-- Icon for the profile -->
                             </a>
                             <% } %>
-                            <a class="wishlist-trigger" href="#">
+                            <a class="wishlist-trigger" href="/wishlist">
                                 <i class="fa fa-heart"></i>
                                 <!-- Icon for the wishlist -->
                             </a>

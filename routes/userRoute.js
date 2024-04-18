@@ -4,9 +4,11 @@ const userController = require("../controller/userController");
 const cartController = require('../controller/cartController')
 const addressController = require('../controller/addressController')
 const orderController = require('../controller/orderController')
+const wishlistController = require('../controller/wishlistController')
 const asyncHandler = require('express-async-handler')
 const multer1 = require('multer');
 const upload = multer1();
+const axios = require('axios')
 
 const multer = require('../middleware/multer')
 const auth = require("../middleware/userAuth")
@@ -94,6 +96,35 @@ user_route.post('/add-address', upload.none(), addressController.addAddress);
 user_route.post('/delete-address',addressController.deleteAddress)
 user_route.post('/edit-address',addressController.editAddress)
 
+
+
+user_route.get('/get-address-details/:pincode', async (req, res) => {
+    const pincode = req.params.pincode;
+    console.log('pincode:', pincode); 
+    const apiKey = `17305b8b79f740a4adabb545b5801dd5`; 
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${pincode}&key=${apiKey}`;
+
+    try {
+        const response = await axios.get(url);
+        const results = response.data.results;
+        console.log('results:', results); 
+
+        if (results && results.length > 0) {
+            const addressDetails = results[0].components;
+            addressDetails.postoffice = results[0].formatted.split(',')[0];
+            res.json(addressDetails);
+        } else {
+            res.status(404).send('No results found for the given pincode.');
+        }
+    } catch (error) {
+        console.error('Error fetching address details:', error.message); 
+        res.status(500).send('Error fetching address details.');
+    }
+});
+
+module.exports = user_route;
+
+
 user_route.get('/logout', auth.isLogin, userController.logoutUser)
 
 
@@ -116,11 +147,15 @@ user_route.get('/invoice/success', asyncHandler(orderController.invoiceSuccess))
 
 
 user_route.get('/shop',userController.shopLoad)
-
 user_route.post('/sign-up', userController.insertUser)
-
 user_route.get('/login', auth.isLogout, userController.loadLogin);
 user_route.post('/login', userController.verifyLogin);
+
+
+
+user_route.get('/wishlist',wishlistController.WishlistLoad)
+user_route.post('/add-to-wishlist',wishlistController.addToWish)
+user_route.delete('/remove-from-wishlist',wishlistController.removeFromWish)
 
 
 module.exports = user_route;

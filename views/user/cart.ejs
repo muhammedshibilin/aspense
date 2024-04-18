@@ -471,12 +471,12 @@ td.pro-price {
                 if (response.stock) {
                     console.log(response.stock);
                     Swal.fire({
-                      
                         text: "Product is out of stock. Will update soon!",
                         icon: "warning",
-                    });
+                    }).then(() => { 
                     $(".btn-increment").prop("disabled", true);
                         location.reload();
+                    });
                 }else if(response.limit){
                     Swal.fire({
                         icon:"warning",

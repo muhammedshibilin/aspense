@@ -2,20 +2,26 @@ const mongoDb = require("./config/mongoAuth")
 const express = require('express');
 const path = require('path');
 const session = require('express-session')
-const noCache = require('nocache')
-const morgan = require('morgan')
+const nocache = require('nocache')
+const cors = require('cors');
+
 
 
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:7000'
+}));
+
 
 app.use(session({
     secret:"my-session-secret",
     resave:false,
     saveUninitialized:true
 }))
-app.use(noCache())
-// app.use(morgan('tiny'))
+app.use(nocache())
+
 
 
 
@@ -45,6 +51,7 @@ app.use(session({
     saveUninitialized: true,
     secret: 'SECRET'
   }));
+  
   
 
 app.listen(7000);

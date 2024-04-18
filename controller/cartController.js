@@ -2,6 +2,69 @@ const Cart = require("../model/cartModel");
 const Product = require("../model/productModel");
 const User = require("../model/userModel");
 const Address = require("../model/addressModel");
+const Offer = require('../model/offerModel')
+
+
+async function calculateTotalAmountWithOffers(cartData) {
+  let totalAmount = 0;
+  let totalAmountBeforeDiscounts = 0;
+  let totalDiscount=0
+  let discount=0
+  let productOfferAmount =0
+ 
+  for (const item of cartData.products) {
+    if (!item.productId || !item.productId.price || !item.count) {
+      console.error("Missing product data for item:", item);
+    }else{
+      let itemPrice = item.productId.price * item.count;
+      totalAmountBeforeDiscounts += item.productId.price * item.count;
+      let applicableOffers = await Offer.find({
+        $or: [
+          { productId: item.productId._id },
+          { categoryId: item.productId.category }
+        ],
+        startDate: { $lte: new Date() },
+        endDate: { $gte: new Date() },
+        is_block: 0
+      });
+ 
+      let mostSignificantOffer = null;
+      const productOffer = applicableOffers.find(offer => offer.productId.some(id => id.equals(item.productId._id)));
+      const categoryOffer = applicableOffers.find(offer => offer.categoryId.some(id => id.equals(item.productId.category)));
+      if (productOffer && categoryOffer) {
+        mostSignificantOffer = productOffer.discountAmount > categoryOffer.discountAmount ? productOffer : categoryOffer;
+      } else if (productOffer) {
+        mostSignificantOffer = productOffer;
+      } else if (categoryOffer) {
+        mostSignificantOffer = categoryOffer;
+      }
+ 
+      if (mostSignificantOffer) {
+        if (itemPrice === 0) {
+          totalAmount += 0; 
+        } else {
+           discount = Math.floor(itemPrice * (mostSignificantOffer.discountAmount / 100));
+           console.log('discscscscxcscscscs',discount);
+           itemPrice -= discount;
+           totalDiscount += discount;
+           console.log('type',typeof totalDiscount,totalDiscount);
+           console.log(`Product: ${item.productId.name}, Price: ${item.productId.price}, Count: ${item.count}, Discount: ${discount}`);
+        }        
+      }
+      totalAmount += itemPrice;
+      productOfferAmount = Math.floor(item.productId.price*(mostSignificantOffer.discountAmount/100))
+      console.log('ooofofofofofoof', productOfferAmount );
+  }
+} 
+
+
+console.log('Total Amount After Discount:', totalAmount);
+console.log('Total Amount Before Discount:', totalAmountBeforeDiscounts);
+console.log('total discout',totalDiscount);
+console.log('ooofofofofofoof', productOfferAmount );
+
+  return {totalAmount,totalAmountBeforeDiscounts,totalDiscount,discount,productOfferAmount}
+ }
 
 const addToCart = async (req, res) => {
   try {
@@ -74,7 +137,6 @@ const addToCart = async (req, res) => {
   }
 };
 
-
 const cartLoad = async (req, res) => {
   try {
      const user_id = req.session.user_id;
@@ -85,13 +147,13 @@ const cartLoad = async (req, res) => {
        is_block:0
      });
  
-     console.log('cartData', cartData);
-     console.log('as',cartData ? cartData.products.productId : 'No cart data found');
+    
  
      if (cartData && cartData.products && cartData.products.length > 0) {
+      const {discount} = await calculateTotalAmountWithOffers(cartData)
        let subTotal = 0;
        cartData.products.forEach(product => {     
-         product.totalPrice = product.productId.price * product.count;
+         product.totalPrice = (product.productId.price * product.count)-discount;
          subTotal += product.totalPrice;
          console.log('sfa',product.productId.images);
        });
@@ -116,9 +178,6 @@ const cartLoad = async (req, res) => {
      res.status(500).send("Error loading cart");
   }
 };
-
-
-  
 
 const removeCartItem = async (req, res) => {
   try {
@@ -150,7 +209,12 @@ const updateCart = async (req, res) => {
      const user_id = req.session.user_id;
      const increment = req.body.count;
  
-     const cartData = await Cart.findOne({ user: user_id });
+     const cartData = await Cart.findOne({ user: user_id }).populate({
+      path: 'products.productId',
+      model: 'Product',
+      is_block:0
+    });
+    
      const product = cartData.products.find(
        (obj) => obj.productId.toString() === product_id
      );
@@ -158,6 +222,15 @@ const updateCart = async (req, res) => {
      if (product && (product.count + increment > 5)) {
        return res.json({ limit: true });
      }
+     const { totalAmount, productOffertAmount } = await calculateTotalAmountWithOffers(cartData);
+     console.log('productofer',productOffertAmount,calculateTotalAmountWithOffers(cartData));
+
+     if (!totalAmount && !productOffertAmount) { // Handle empty response (likely due to all missing data)
+       console.error('Error calculating offer amounts: All cart items might have missing data');
+       return res.json({ error: 'Error calculating discounts' }); // Inform user of an error
+     }
+
+    
  
      if (
        product &&
@@ -168,15 +241,12 @@ const updateCart = async (req, res) => {
          { user: user_id, "products.productId": product_id },
          { $inc: { "products.$.count": increment } }
        );
-       console.log('update', update);
  
        const updatedCartData = await Cart.findOne({ user: user_id });
-       console.log('upcart', updatedCartData);
+       
  
        let updatedCount = product.count + increment;
-       let totalPrice = productData.price * updatedCount;
- 
-       console.log('cartData.products:', cartData.products);
+       let totalPrice = ((productData.price) * updatedCount);
  
        let newSubTotal = 0;
        for (const product of updatedCartData.products) {

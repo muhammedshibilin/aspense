@@ -123,6 +123,12 @@
                                 <button id="addAddressButton">Add
                                     Address</button>
                             </div>
+
+                            <input type="text" id="pincode" placeholder="Enter pincode">
+                            <input type="text" id="city" placeholder="City">
+                            <input type="text" id="state" placeholder="State">
+                            <input type="text" id="country" placeholder="Country">
+                            <input type="text" id="postoffice" placeholder="postoffice">
                             <% } %>
                         </div>
                     </div>
@@ -168,15 +174,15 @@
                                             <input type="radio" id="COD"
                                                 name="payment" value="COD"
                                                 checked>
-                                            <label for="payment_cash">Cash on
+                                            <label for="COD">Cash on
                                                 Delivery</label>
                                             <p data-method="cash">Please send a
                                                 Check to Store name with Store
                                                 Street, Store Town,
                                                 Store State, Store Postcode,
                                                 Store Country.</p>
-                                                <!-- <input type="radio" name="paypal" id="paypal" value="paypal" >
-                                                <label for="payment_cash">paypal</label> -->
+                                                <input type="radio" id="paypal" name="payment" value="paypal">
+                                                <label for="paypal">Paypal</label>
                                         </div>
                                         <div style="text-align: center;">
                                             <button type="submit"
@@ -599,67 +605,82 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script>
-     
-
-         $("#checkout-form").submit(function (e) {
+        $("#checkout-form").submit(function (e) {
             e.preventDefault();
             const selectedAddress = $("input[name='address']:checked").val();
             if (!selectedAddress) {
-   
-        swal.fire({
-            title: "Please add an address using the profile page",
-            icon: "info",
-            button: false,
-            timer: 3000
-        }).then(function() {
-            window.location.href = "/profile";
-        });
-    } else {
-
-            const address = selectedAddress ? JSON.parse(selectedAddress) : {};
-            const paymentMethod = $("input[name='payment']:checked").val();
-    
-console.log('address',address);
-
-            formData   = {
-                address: address,
-                payment: paymentMethod,
-            };
-console.log(formData,"haaiiiiiiii");
-            $.ajax({
-                url: "/place-order",
-                method: "POST",
-                contentType: 'application/json',
-                data: JSON.stringify({ formData }),
-                success: (response) => {
-                    console.log('rs',response);
-                    if(response.quantity){
-                        swal.fire({
-                          title: "info",
-                          icon: "warning",
-                          title:"product is out of stock,better luck next timecart",
-                          button: false,
-                          timer: 3000
-                           })               
-                    }else if (response.codsuccess == true) {
-                          swal.fire({
-                          icon: "success",
-                          title:"order is success",
-                          timer: 3000
-                           }).then(()=> {        
-                            window.location.href = `/order-success`;
-
-                        })
-                       
-                    }
-                },
-            });
-        }
-        });
-
-
-    
+                swal.fire({
+                    title: "Please add an address using the profile page",
+                    icon: "info",
+                    button: false,
+                    timer: 3000
+                }).then(function() {
+                    window.location.href = "/profile";
+                });
+            } else {
+                const address = selectedAddress ? JSON.parse(selectedAddress) : {};
+                const paymentMethod = $("input[name='payment']:checked").val();
         
-    </script>
+                formData = {
+                    address: address,
+                    payment: paymentMethod,
+                };
+        
+                $.ajax({
+                    url: "/place-order",
+                    method: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ formData }),
+                    success: (response) => {
+                        console.log('rssdgfsdfs',response);
+                        if(response.quantity){
+                            swal.fire({
+                              title: "info",
+                              icon: "warning",
+                              title:"product is out of stock,better luck next timecart",
+                              button: false,
+                              timer: 3000
+                            });               
+                        } else if (response.codsuccess == true) {
+                            swal.fire({
+                              icon: "success",
+                              title:"order is success",
+                              timer: 3000
+                            }).then(()=> {        
+                                window.location.href = `/order-success`;
+                            });
+                        } else if (response.paypal) {
+                    window.location.href = response.paypal;
+                }
+                    },
+                });
+            }
+        });
+        </script>
+        
+
+<script>
+    document.getElementById('pincode').addEventListener('change', async function() {
+    const pincode = this.value;
+    
+    try {
+        const response = await fetch(`/get-address-details/${pincode}`);
+        
+        if (response.ok) {
+            const addressDetails = await response.json();
+            console.log('aderesssDetails',addressDetails);
+            document.getElementById('city').value = addressDetails.city || '';
+            document.getElementById('state').value = addressDetails.state || '';
+            document.getElementById('country').value = addressDetails.country || '';
+            document.getElementById('postoffice').value = addressDetails.postoffice || '';
+        } else {
+            console.error('Error fetching address details:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
+});
+
+</script>
 
     <%- include("../layouts/user/footer.ejs") %>

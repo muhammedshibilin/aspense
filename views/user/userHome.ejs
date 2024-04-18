@@ -43,8 +43,7 @@
             </div>
         </div>
     </div>
-    <!-- End Single Slide -->
-    <!-- Start Single Slide -->
+
     <div
         class="slider-area ptb--150 bg_image bg_image--1 fullscreen d-flex align-items-center">
         <div class="container">
@@ -151,8 +150,9 @@
                                 <a
                                     href="/product-details?_id=<%= product._id %>">
                                     <img
-                                        src="/images/product/original/<%= product.images[index] %>"
-                                        alt="<%= product.name %>">
+                                        src="/images/product/original/<%= product.images[0] %>"
+                                        alt="<%= product.name %>"
+                                        loading="lazy">
                                 </a>
                             </div>
                             <div class="product-hover-action">
@@ -162,8 +162,10 @@
                                             class="fa fa-search"></i></a>
                                     <a onclick="toCart('<%= product._id %>')"><i
                                             class="fa fa-cart-plus"></i></a>
-                                    <a href="wishlist.html"><i
-                                            class="fa fa-heart-o"></i></a>
+                                            <a onclick="addToWishlist('<%= product._id %>')" id="wishlistLink" class="wishlist-button">
+                                                <i class="fa fa-heart-o" id="heartIcon"></i>
+                                            </a>
+                                            
                                     <a href="compare.html"><i
                                             class="fa fa-repeat"></i></a>
                                 </div>
@@ -283,9 +285,9 @@
                                                         <a
                                                             onclick="toCart('<%= product._id %>')"><i
                                                                 class="fa fa-cart-plus"></i></a>
-                                                        <a
-                                                            href="wishlist.html"><i
-                                                                class="fa fa-heart-o"></i></a>
+                                                                <a onclick="addToWishlist('<%= product._id %>')" href="/wishlist" id="wishlistLink">
+                                                                    <i class="fa fa-heart-o" id="heartIcon"></i>
+                                                                </a>
                                                         <a
                                                             href="compare.html"><i
                                                                 class="fa fa-repeat"></i></a>
@@ -336,9 +338,9 @@
                                                                 class="fa fa-search"></i></a>
                                                         <a href="cart.html"><i
                                                                 class="fa fa-cart-plus"></i></a>
-                                                        <a
-                                                            href="wishlist.html"><i
-                                                                class="fa fa-heart-o"></i></a>
+                                                                <a onclick="addToWishlist('<%= product._id %>')" href="/wishlist" id="wishlistLink">
+                                                                    <i class="fa fa-heart-o" id="heartIcon"></i>
+                                                                </a>
                                                         <a
                                                             href="compare.html"><i
                                                                 class="fa fa-repeat"></i></a>
@@ -709,16 +711,11 @@
 
 
     function toCart(productId) {
-    
- 
-    
             $.ajax({
-    
                 url: "/add-to-cart",
                 method: "post",
                 data: {
-                     productId,
-                  
+                     productId,   
                 },
                 success: (response) => {  
                     const Toast = Swal.mixin({
@@ -790,6 +787,56 @@
                 },
             });
         }
+
+     
+        function addToWishlist(product_id) {
+    console.log(product_id, '-------------');
+   
+
+    $.ajax({
+        method: "POST",
+        url: '/add-to-Wishlist',
+        data: JSON.stringify({ productId: product_id }),
+        contentType: 'application/json',
+        success: function (response) {
+            console.log(response);
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            if (response.added) {
+                Toast.fire({
+                    icon: 'success',
+                    title: response.message
+                });
+                // Add a class to change the button color
+                $('#wishlistLink').addClass('added-to-wishlist');
+            } else if (response.removed) {
+                Toast.fire({
+                    icon: 'success',
+                    title: response.message
+                });
+          
+                $('#wishlistLink').removeClass('added-to-wishlist');
+            } else {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Please log in to perform this action.',
+                    timer: 2000
+                });
+                setTimeout(function () {
+                    window.location.href = '/login';
+                }, 1000);
+            }
+        },
+        error: function (error) {
+            console.error(error.responseText);
+        }
+    });
+}
     
     
     

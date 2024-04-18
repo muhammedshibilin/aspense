@@ -201,7 +201,7 @@ samp {
 }
 
 pre {
-  background: #f5f5f5;
+  background: #ffffff;
   color: #666;
   font-family: monospace;
   font-size: 14px;
@@ -414,7 +414,7 @@ textarea {
 }
 
 table {
-  border-bottom: 1px solid #ededed;
+  border-bottom: 1px solid #ffffff;
   border-collapse: collapse;
   border-spacing: 0;
   font-size: 14px;
@@ -441,7 +441,7 @@ th {
 }
 
 td {
-  border-top: 1px solid #ededed;
+  border-top: 1px solid #ffffff;
   padding: 6px 10px 6px 0;
 }
 
@@ -450,7 +450,7 @@ del {
 }
 
 ins {
-  background: #fff9c0;
+  background: #ffffff;
   text-decoration: none;
 }
 
@@ -646,7 +646,7 @@ button,
 select,
 textarea {
   background: transparent;
-  border: 1px solid #d4d4d4;
+  border: 1px solid #ffffff;
   -webkit-transition: all 0.4s ease-out 0s;
   -o-transition: all 0.4s ease-out 0s;
   transition: all 0.4s ease-out 0s;

@@ -262,8 +262,16 @@ body {
     var resendButton = document.getElementById('resend');
     
     var timer = 60;
+    var startTime;
 
     function startTimer() {
+      if (localStorage.getItem('timerStartTime')) {
+        var elapsedTime = Date.now() - localStorage.getItem('timerStartTime');
+        timer = Math.max(60 - Math.floor(elapsedTime / 1000), 0);
+      } else {
+        localStorage.setItem('timerStartTime', Date.now());
+      }
+
       var interval = setInterval(function() {
         timer--;
         var minutes = Math.floor(timer / 60);
@@ -276,6 +284,7 @@ body {
           clearInterval(interval);
           timerElement.style.display = 'none';
           resendButton.style.display = 'inline-block';
+          localStorage.removeItem('timerStartTime');
         }
       }, 1000);
     }
@@ -304,7 +313,8 @@ body {
         } 
       })
     }
-  </script>
+</script>
+
 
   <script>
     document.getElementById("submit").addEventListener('click',function(e){
