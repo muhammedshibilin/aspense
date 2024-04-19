@@ -5,6 +5,7 @@ const cartController = require('../controller/cartController')
 const addressController = require('../controller/addressController')
 const orderController = require('../controller/orderController')
 const wishlistController = require('../controller/wishlistController')
+const couponController = require("../controller/couponController")
 const asyncHandler = require('express-async-handler')
 const multer1 = require('multer');
 const upload = multer1();
@@ -137,6 +138,8 @@ user_route.post('/add-to-cart',cartController.addToCart)
 user_route.post("/removeCartItem",auth.isLogin,cartController.removeCartItem)
 user_route.post("/update-cart",auth.isLogin,cartController.updateCart)
 user_route.get('/checkout',auth.isLogin,cartController.checkoutLoad)
+user_route.post("/coupon-amount",auth.isLogin,couponController.couponAmount)
+
 user_route.post("/place-order",auth.isLogin,orderController.placeOrder)
 user_route.get('/order-success',auth.isLogin,orderController.orderSuccess)
 user_route.get('/order-details',auth.isLogin,orderController.orderDetails)

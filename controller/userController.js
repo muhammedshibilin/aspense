@@ -25,17 +25,9 @@ const loadHome = async (req, res) => {
         })
 
         const categoryData = await Category.find({is_block:0})
-        console.log('sds',categoryData);
-       
-
-       
         if (!productData) {
-
             return res.render("userHome", { productData: [], user,cartData });
         }
-
-
-
         res.render("userHome", { productData, user,categoryData ,cartData})
     } catch (error) {
         console.log(error);

@@ -190,21 +190,7 @@ td.pro-price {
                                 </form>
                             </div>
                             <!-- Discount Coupon -->
-                            <div class="discount-coupon">
-                                <h4>Discount Coupon Code</h4>
-                                <form action="#">
-                                    <div class="row">
-                                        <div class="col-md-6 col-12 mb--25">
-                                            <input type="text"
-                                                placeholder="Coupon Code">
-                                        </div>
-                                        <div class="col-md-6 col-12 mb--25">
-                                            <input type="submit"
-                                                value="Apply Code">
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                           
                         </div>
 
                         <!-- Cart Summary -->
@@ -476,7 +462,7 @@ td.pro-price {
                     }).then(() => { 
                     $(".btn-increment").prop("disabled", true);
                         location.reload();
-                    });
+                        });
                 }else if(response.limit){
                     Swal.fire({
                         icon:"warning",
@@ -499,13 +485,11 @@ if (subtotalSpan) {
     subtotalSpan.textContent = "$" + response.newSubTotal.toFixed(2);
 }
 
-// Update the shipping charge
 var shippingChargeSpan = document.querySelector("#shippingCharge span");
 if (shippingChargeSpan) {
     shippingChargeSpan.textContent = "$" + response.newShippingCharge.toFixed(2);
 }
 
-// Update the grand total
 var grandTotalSpan = document.querySelector("#grandtotal span");
 if (grandTotalSpan) {
     grandTotalSpan.textContent = "$" + response.newGrandTotal.toFixed(2);

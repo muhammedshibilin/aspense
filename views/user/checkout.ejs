@@ -1,7 +1,99 @@
 <%- include("../layouts/user/header.ejs") %>
 <style>
- /* Styling for cart summary table */
-    /* Cart summary table styling */
+.coupon {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    max-width:auto;
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+}
+.selected {
+ background-color: rgb(128, 128, 206);
+ color: white; 
+}
+
+
+.coupon-logo {
+    max-width: 100px;
+    margin-bottom: 15px;
+}
+
+
+.coupon-amount {
+    font-size: 20px;
+    color: #f00; /* Red color for emphasis */
+}
+
+.scratch-card {
+    position: relative;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.scratch-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(27, 27, 27); /* Color of the scratch layer */
+}
+
+.coupon-code {
+    position: relative;
+    z-index: 1;
+}
+
+.hidden-code {
+    visibility: hidden;
+}
+
+.scratch-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.scratch-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('path/to/your/scratch-overlay-image.png');
+    background-size: cover;
+    pointer-events: none;
+}
+
+.hidden-code {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #000;
+}
+
+.scratch-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #ccc;
+}
+
+
     .cart-summary-table {
         width: 100%;
         border-collapse: collapse;
@@ -119,19 +211,117 @@
                             </div>
                             <% }) %>
                             <% } else { %>
-                            <div class="col-lg-12 mb-4">
-                                <button id="addAddressButton">Add
-                                    Address</button>
-                            </div>
+                    
 
-                            <input type="text" id="pincode" placeholder="Enter pincode">
-                            <input type="text" id="city" placeholder="City">
-                            <input type="text" id="state" placeholder="State">
-                            <input type="text" id="country" placeholder="Country">
-                            <input type="text" id="postoffice" placeholder="postoffice">
+                            <div class="col-lg-7 col-md-12 mb--20">
+                                
+         <form>
+                                    <div id="billing-form" class="mb--40">
+                                        <h4 class="checkout-title">Billing Address</h4>
+       
+         <div class="row">
+    
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <label>First Name*</label>
+                                                <input type="text" placeholder="First Name">
+                                            </div>
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <label>Email Address*</label>
+                                                <input type="email" placeholder="Email Address">
+                                            </div>
+    
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <label>Phone no*</label>
+                                                <input type="text" placeholder="Phone number">
+                                            </div>
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <label>Town/City*</label>
+                                                <input type="text" placeholder="Town/City">
+                                            </div>
+    
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <label>State*</label>
+                                                <input type="text" placeholder="State">
+                                            </div> 
+    
+         <div class="col-md-6 col-12 mb--20">
+                                                <label>pin Code*</label>
+                                                <input type="text" placeholder="Zip Code">
+                                            </div>
+         <div class="col-lg-12 col-md-12 col-12 mb--20">
+                                                <label>houseName</label>
+                                                <input type="text" placeholder="houseName">
+                                            </div>
+                                
+     </div>
+                                   </div> 
+                                </form>
+                               
+                            </div>
                             <% } %>
                         </div>
+
+                        <div class="discount-coupon">
+                            <h4>Discount Coupon Code</h4>
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-6 col-12 mb--25">
+                                        <input type="text" id="couponCodeInput" placeholder="Coupon Code" style="font-weight: bold; color: red;" disabled>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb--25">
+                                        <input type="button" value="check coupons" onclick="showDiscountModal()" style="color: white; background-color: black; width: auto;">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+                    <!-- Discount Coupon Modal -->
+<div class="modal fade" id="discountModal" tabindex="-1" aria-labelledby="discountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="discountModalLabel">Apply Discount Coupon</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <% if(couponData&&couponData.length>0) {%>  
+                <% couponData.forEach( (coupon,index) => { %>
+                <div class="col-lg-6 col-md-12 ">
+            <div class="coupon"  data-coupon-id="<%= coupon._id %>">
+                <img src="/user/images/logo.png" alt="Logo" class="coupon-logo">
+                <div class="coupon-content">
+                    <h4><strong>Exclusive Offer!</strong></h4>
+                    <p>coupon <name:span><%= coupon.couponName %></name:span></p>
+                    <input type="hidden" id="selectedCouponCode" value="<%= coupon.couponCode %>">
+                    <input type="hidden" id="selectedCouponId" value="<%= coupon._id %>">
+                    <h4>Get <span class="coupon-amount"><%= coupon.discountAmount %>%</span> Off</h4>
+                    <h5>criteria: <Amount:span style="font-weight: bold;"><%= coupon.criteriaAmount %></Amount:span></h5>
+                    <div class="scratch-card" style="overflow: hidden; width: auto;">
+                        <div class="scratch-overlay"></div>
+                        <p class="coupon-code"><strong class="hidden-code"><%= coupon.couponCode %></strong><span class="scratch-text" style="color: #ccc;">Scratch</span></p>
+                    </div>
+                    <p class="coupon-wishes">Happy Shopping!</p>
+                </div>
+            </div>
+        </div>
+     <% }) %>
+     <% }else { %>
+        <h4>your not eligible for coupons <br>
+            make break the criteria
+        </h4>
+     <% } %>
+        </div>
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" onclick="closeModal()">close</button>
+          <button type="button" class="btn btn-primary" onclick="applyCoupon()">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
                     <div class="col-lg-6">
                         <div class="mb--60">
                             <h4 class="checkout-title">Cart Total</h4>
@@ -153,15 +343,15 @@
                                             <% }); %>
                                             <tr>
                                                 <td>Sub Total</td>
-                                                <td>$<%= subTotal.toFixed(2) %></td> <!-- Format subTotal to two decimal places -->
+                                                <td id="subtotal">$<%= subTotal.toFixed(2) %></td>
                                             </tr>
                                             <tr>
                                                 <td>Shipping Fee</td>
-                                                <td>$<%= shippingAmount.toFixed(2) %></td> <!-- Format shippingAmount to two decimal places -->
+                                                <td>$<%= shippingAmount.toFixed(2) %></td> 
                                             </tr>
                                             <tr>
                                                 <td>Grand Total</td>
-                                                <td>$<%= total.toFixed(2) %></td> <!-- Format total to two decimal places -->
+                                                <td id="grandtotal">$<%= total.toFixed(2) %></td>
                                             </tr>
                                         </tbody>
                                         
@@ -171,22 +361,26 @@
                                             Method</h4>
                                         <div class="single-method">
                                             <!-- Payment method options go here -->
+                                            <div>
                                             <input type="radio" id="COD"
                                                 name="payment" value="COD"
                                                 checked>
-                                            <label for="COD">Cash on
+                                            <label for="COD" style="font-weight: bold;">Cash on
                                                 Delivery</label>
                                             <p data-method="cash">Please send a
                                                 Check to Store name with Store
                                                 Street, Store Town,
                                                 Store State, Store Postcode,
                                                 Store Country.</p>
+                                            </div>
+                                            <div>
                                                 <input type="radio" id="paypal" name="payment" value="paypal">
-                                                <label for="paypal">Paypal</label>
+                                                <label for="paypal" style="font-weight: bold;">Paypal</label>
+                                            </div>
                                         </div>
                                         <div style="text-align: center;">
                                             <button type="submit"
-                                                class="place-order-button">Place
+                                                class="place-order">Place
                                                 Order</button>
                                         </div>
                                     </div>
@@ -200,224 +394,8 @@
         </div>
     </form>
 
-    <!-- <div class="col-lg-7 col-md-12 mb--20">
-                            Billing Address -->
-    <!-- <form action="#" class="checkout-form">
-                                <div id="billing-form" class="mb--40">
-                                    <h4 class="checkout-title">Billing Address</h4> -->
-    <!-- Form fields for billing address -->
-    <!-- <div class="row">
-
-                                        <div class="col-md-6 col-12 mb--20">
-                                            <label>First Name*</label>
-                                            <input type="text" placeholder="First Name">
-                                        </div>
-
-                                        <div class="col-md-6 col-12 mb--20">
-                                            <label>Last Name*</label>
-                                            <input type="text" placeholder="Last Name">
-                                        </div>
-
-                                        <div class="col-md-6 col-12 mb--20">
-                                            <label>Email Address*</label>
-                                            <input type="email" placeholder="Email Address">
-                                        </div> -->
-    <!-- 
-                                        <div class="col-md-6 col-12 mb--20">
-                                            <label>Phone no*</label>
-                                            <input type="text" placeholder="Phone number">
-                                        </div>
-
-                                        <div class="col-12 mb--20">
-                                            <label>Company Name</label>
-                                            <input type="text" placeholder="Company Name">
-                                        </div>
-
-                                        <div class="col-12 mb--20">
-                                            <label>Address*</label>
-                                            <input type="text" placeholder="Address line 1">
-                                            <input type="text" placeholder="Address line 2">
-                                        </div> -->
-    <!-- 
-                                        <div class="col-md-6 col-12 mb--20">
-                                            <label>Country*</label>
-                                            <select class="nice-select">
-                                                <option>Bangladesh</option>
-                                                <option>China</option>
-                                                <option>country</option>
-                                                <option>India</option>
-                                                <option>Japan</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-6 col-12 mb--20">
-                                            <label>Town/City*</label>
-                                            <input type="text" placeholder="Town/City">
-                                        </div>
-
-                                        <div class="col-md-6 col-12 mb--20">
-                                            <label>State*</label>
-                                            <input type="text" placeholder="State">
-                                        </div> -->
-
-    <!-- <div class="col-md-6 col-12 mb--20">
-                                            <label>Zip Code*</label>
-                                            <input type="text" placeholder="Zip Code">
-                                        </div>
-                                  ... -->
-    <!-- </div>
-                               </div> 
-                            </form>
-                            <div class="mb--20">
-                                <div class="check-box">
-                                    <input type="checkbox" id="create_account">
-                                    <label for="create_account">Create an Account?</label>
-                                </div>
-                                <div class="check-box">
-                                    <input type="checkbox" id="shiping_address" data-shipping>
-                                    <label for="shiping_address">Ship to Different Address</label>
-                                </div>
-                            </div>
-                        </div> -->
-    <!-- </div> -->
-    <!-- <div id="shipping-form" class="mb--40">
-                    <h4 class="checkout-title">Shipping Address</h4>
-
-                    <div class="row">
-
-                        <div class="col-md-6 col-12 mb--20">
-                            <label>First Name*</label>
-                            <input type="text" placeholder="First Name">
-                        </div>
-
-                        <div class="col-md-6 col-12 mb--20">
-                            <label>Last Name*</label>
-                            <input type="text" placeholder="Last Name">
-                        </div>
-
-                      <div class="col-md-6 col-12 mb--20">
-                            <label>Email Address*</label> -->
-    <!-- <input type="email" placeholder="Email Address">
-                        </div>
-
-                        <div class="col-md-6 col-12 mb--20">
-                            <label>Phone no*</label>
-                            <input type="text" placeholder="Phone number">
-                        </div> -->
-
-    <!-- <div class="col-12 mb--20">
-                            <label>Company Name</label>
-                            <input type="text" placeholder="Company Name">
-                        </div>
-
-                        <div class="col-12 mb--20">
-                            <label>Address*</label>
-                            <input type="text" placeholder="Address line 1">
-                            <input type="text" placeholder="Address line 2">
-                        </div> -->
-
-    <!-- <div class="col-md-6 col-12 mb--20">
-                            <label>Country*</label>
-                            <select class="nice-select">
-                                <option>Bangladesh</option>
-                                <option>China</option>
-                                <option>country</option>
-                                <option>India</option>
-                                <option>Japan</option>
-                            </select>
-                        </div> -->
-    <!-- 
-                        <div class="col-md-6 col-12 mb--20">
-                            <label>Town/City*</label>
-                            <input type="text" placeholder="Town/City">
-                        </div>
-
-                        <div class="col-md-6 col-12 mb--20">
-                            <label>State*</label>
-                            <input type="text" placeholder="State">
-                        </div> -->
-
-    <!-- <div class="col-md-6 col-12 mb--20">
-                            <label>Zip Code*</label>
-                            <input type="text" placeholder="Zip Code">
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-                        
-                   
-                </div>
-            </div> -->
-
-    <!-- Payment Method -->
-    <!-- <div class="col-12 mb--60">
-
-                                            <h4 class="checkout-title">Payment Method</h4>
-
-                                            <div class="checkout-payment-method">
-
-                                                <div class="single-method">
-                                                    <input type="radio" id="payment_check" name="payment-method" value="check">
-                                                    <label for="payment_check">Check Payment</label>
-                                                    <p data-method="check">Please send a Check to Store name with Store
-                                                        Street, Store Town, Store State, Store Postcode, Store Country.
-                                                    </p>
-                                                </div> -->
-
-    <!-- <div class="single-method">
-                                                    <input type="radio" id="payment_bank" name="payment-method" value="bank">
-                                                    <label for="payment_bank">Direct Bank Transfer</label>
-                                                    <p data-method="bank">Please send a Check to Store name with Store
-                                                        Street, Store Town, Store State, Store Postcode, Store Country.
-                                                    </p>
-                                                </div>
-
-                                                <div class="single-method">
-                                                    <input type="radio" id="payment_cash" name="payment-method" value="cash">
-                                                    <label for="payment_cash">Cash on Delivery</label>
-                                                    <p data-method="cash">Please send a Check to Store name with Store
-                                                        Street, Store Town, Store State, Store Postcode, Store Country.
-                                                    </p>
-                                                </div> -->
-
-    <!-- <div class="single-method">
-                                                    <input type="radio" id="payment_paypal" name="payment-method" value="paypal">
-                                                    <label for="payment_paypal">Paypal</label>
-                                                    <p data-method="paypal">Please send a Check to Store name with Store
-                                                        Street, Store Town, Store State, Store Postcode, Store Country.
-                                                    </p>
-                                                </div>
-
-                                                <div class="single-method">
-                                                    <input type="radio" id="payment_payoneer" name="payment-method" value="payoneer">
-                                                    <label for="payment_payoneer">Payoneer</label>
-                                                    <p data-method="payoneer">Please send a Check to Store name with
-                                                        Store Street, Store Town, Store State, Store Postcode, Store
-                                                        Country.</p>
-                                                </div>
-
-                                                <div class="single-method">
-                                                    <input type="checkbox" id="accept_terms">
-                                                    <label for="accept_terms">I’ve read and accept the terms &
-                                                        conditions</label>
-                                                </div>
-
-                                            </div>
-
-                                            <button class="place-order">Place order</button>
-
-                                        </div>
-                                    </form>
-
-                                    </div>
-                    
-
-                  
-
+  
+     </div>               
     <!-- Quick View Modal -->
     <div class="quick-view-modal">
         <div class="quick-view-modal-inner">
@@ -605,6 +583,113 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script>
+
+function showDiscountModal() {
+    $('#discountModal').modal('show');
+  }
+  function closeModal() {
+    $('#discountModal').modal('hide');
+}
+
+document.querySelectorAll('.scratch-card').forEach(function(card) {
+    let scratchedPercentage = 0;
+    let isScratching = false;
+
+    card.addEventListener('mousedown', function(e) {
+        isScratching = true;
+    });
+
+    card.addEventListener('mouseup', function(e) {
+        isScratching = false;
+    });
+
+    card.addEventListener('mousemove', function(e) {
+        if (!isScratching) return;
+
+        const { left, top } = this.getBoundingClientRect();
+        const x = e.pageX - left;
+        const y = e.pageY - top;
+
+        if (x <= 0 || y <= 0 || x >= this.offsetWidth || y >= this.offsetHeight) return;
+
+        const newScratchedPercentage = (x * y) / (this.offsetWidth * this.offsetHeight);
+        scratchedPercentage = Math.max(scratchedPercentage, newScratchedPercentage);
+
+        if (scratchedPercentage > 0.4) {
+            this.querySelector('.scratch-overlay').style.display = 'none';
+            this.querySelector('.hidden-code').style.visibility = 'visible';
+            this.querySelector('.scratch-text').style.display = 'none';
+        }
+    });
+});
+
+$(document).ready(function() {
+ $('.coupon').click(function() {
+    $('.coupon').removeClass('selected');
+
+    $(this).addClass('selected');
+    const selectedCouponCode = $(this).find('.hidden-code').text();
+    $('#selectedCouponCode').val(selectedCouponCode);
+    const selectedCouponId = $(this).data('coupon-id');
+        $('#selectedCouponId').val(selectedCouponId);
+ });
+});
+
+
+function applyCoupon() {
+    const selectedCouponId = $('#selectedCouponId').val();
+    console.log('Selected Coupon ID:', selectedCouponId);
+    console.log('couponId', selectedCouponId);
+    $.ajax({
+        url: "/coupon-amount",
+        method: "POST",
+        data: { couponId:selectedCouponId }, 
+        success: (response) => {
+            console.log('response',response);
+            if (response.success) {
+                const selectedCouponCode = document.getElementById('selectedCouponCode').value;
+             document.getElementById('couponCodeInput').value = selectedCouponCode;
+
+               
+             const subtotalElement = document.getElementById('subtotal');
+        const grandtotalElement = document.getElementById('grandtotal');
+        console.log('subtotalElement', subtotalElement); 
+        console.log('grandtotalElement', grandtotalElement); 
+
+        if (subtotalElement && grandtotalElement) {
+            const couponOfferAmount = response.couponOfferAmount;
+            console.log('dataaa',subtotalElement,grandtotalElement,couponOfferAmount);
+            const newSubtotal = parseFloat(subtotalElement.textContent.replace('$', '')) - couponOfferAmount;
+            const newGrandTotal =parseFloat(grandtotalElement.textContent.replace('$','')) - couponOfferAmount
+
+            subtotalElement.textContent = `$${newSubtotal.toFixed(2)}`;
+            grandtotalElement.textContent = `$${newGrandTotal.toFixed(2)}`;
+        } else {
+            console.error('One or more elements not found: subtotal, grandtotal');
+        }
+            }
+        },
+        error: (error) => {
+            console.error("Error applying coupon:", error);
+        },
+        complete: () => {
+            $('#discountModal').modal('hide');
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+     document.getElementById('applyCouponButton').addEventListener('click', applyCoupon);
+});
+
+
+
+
+
+
+ 
+   
+
         $("#checkout-form").submit(function (e) {
             e.preventDefault();
             const selectedAddress = $("input[name='address']:checked").val();
@@ -659,28 +744,6 @@
         </script>
         
 
-<script>
-    document.getElementById('pincode').addEventListener('change', async function() {
-    const pincode = this.value;
-    
-    try {
-        const response = await fetch(`/get-address-details/${pincode}`);
-        
-        if (response.ok) {
-            const addressDetails = await response.json();
-            console.log('aderesssDetails',addressDetails);
-            document.getElementById('city').value = addressDetails.city || '';
-            document.getElementById('state').value = addressDetails.state || '';
-            document.getElementById('country').value = addressDetails.country || '';
-            document.getElementById('postoffice').value = addressDetails.postoffice || '';
-        } else {
-            console.error('Error fetching address details:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Fetch error:', error);
-    }
-});
 
-</script>
 
     <%- include("../layouts/user/footer.ejs") %>

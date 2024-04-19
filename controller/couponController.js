@@ -1,4 +1,6 @@
 const Coupon = require("../model/couponModel")
+const Cart = require("../model/cartModel")
+const Offer = require("../model/offerModel")
 
 
 
@@ -118,6 +120,97 @@ const editCoupon = async (req,res) =>{
     }
 }
 
+async function calculateTotalAmountWithOffers(cartData) {
+
+    const productOfferAmounts = [];
+   
+    for (const item of cartData.products) {
+       if (!item.productId || !item.productId.price || !item.count) {
+         console.error("Missing product data for item:", item);
+         continue; 
+       }
+   
+    
+   
+       let applicableOffers = await Offer.find({
+         $or: [
+           { productId: item.productId._id },
+           { categoryId: item.productId.category }
+         ],
+         startDate: { $lte: new Date() },
+         endDate: { $gte: new Date() },
+         is_block: 0
+       });
+   
+       let mostSignificantOffer = null;
+       const productOffer = applicableOffers.find(offer => offer.productId.some(id => id.equals(item.productId._id)));
+       const categoryOffer = applicableOffers.find(offer => offer.categoryId.some(id => id.equals(item.productId.category)));
+       if (productOffer && categoryOffer) {
+         mostSignificantOffer = productOffer.discountAmount > categoryOffer.discountAmount ? productOffer : categoryOffer;
+       } else if (productOffer) {
+         mostSignificantOffer = productOffer;
+       } else if (categoryOffer) {
+         mostSignificantOffer = categoryOffer;
+       }
+   
+       let discount = 0;
+       if (mostSignificantOffer) {
+         discount = Math.floor(item.productId.price * (mostSignificantOffer.discountAmount / 100));
+       }
+       const productOfferAmount = {
+         productId: item.productId._id, 
+         discount: discount,
+       };
+       productOfferAmounts.push(productOfferAmount);
+    }
+   
+    return {
+       productOfferAmounts
+    };
+   }
+
+   const couponAmount = async (req, res) => {
+    try {
+        console.log('boudy',req.body);
+        const user_id = req.session.user_id;
+        const cartData = await Cart.findOne({ user: user_id }).populate("products.productId");
+       
+
+        if (cartData) {
+            const couponData = await Coupon.findById({_id: req.body.couponId});
+            console.log('couponData',couponData);
+            const { productOfferAmounts } = await calculateTotalAmountWithOffers(cartData);
+            let subTotal = 0;
+            const eachTotal = cartData.products.map(val => {
+                if (val && val.productId && val.productId.price && val.count) {
+                    const offerAmount = productOfferAmounts.find(offer => offer.productId.toString() === val.productId._id.toString());
+                    let discount = offerAmount ? offerAmount.discount : 0;
+                    let totalPrice = val.productId.price - discount * val.count;
+                    subTotal += totalPrice;
+                    return totalPrice;
+                }
+                return 0;
+            });
+            let totalAmount = subTotal;
+            let shippingAmount = subTotal < 1500 ? 90 : 0;
+            if (shippingAmount > 0) {
+                totalAmount += shippingAmount;
+            }
+            console.log('total',totalAmount,eachTotal);
+            console.log('couponData.discoutAmount',couponData.discountAmount);
+            const couponOfferAmount = Math.floor(totalAmount * (couponData.discountAmount / 100));
+            console.log('amount',couponOfferAmount);
+            res.json({ success: true, couponOfferAmount });
+        } else {
+            res.json({ success: false, message: "No cart data found." });
+        }
+    } catch (error) {
+        console.log("error while calculating coupon amount", error);
+        res.status(500).json({ success: false, message: "Internal server error" });
+    }
+};
+
+
 
 module.exports = {
     couponLoad,
@@ -126,6 +219,7 @@ module.exports = {
     addCoupon,
     deleteCoupon,
     editCouponLoad,
-    editCoupon
+    editCoupon,
+    couponAmount
     
 }

@@ -106,7 +106,7 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
      deliveryDetails: address,
      products: orderProducts,
      date: new Date(),
-     totalAmount: totalAmount,
+     totalAmount: totalAmount ,
      paymentMethod: paymentMethod,
      shippingMethod: cartData.shippingMethod,
      shippingAmount: totalAmount < 1500 ? 90 : 0,
