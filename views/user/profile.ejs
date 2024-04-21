@@ -1132,18 +1132,68 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="panel panel-default">
+                                        <!-- <div class="panel panel-default">
                                             <div class="panel-heading">
                                                 <h5 class="panel-title">
                                                     <span>4</span>
                                                     <a
-                                                        href="wishlist.html">Modify
+                                                        href="#wallet">Modify
                                                         your
                                                         wish
                                                         list </a>
                                                 </h5>
                                             </div>
+                                        </div> -->
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h5 class="panel-title">
+                                                    <span>5</span>
+                                                    <!-- Make sure the data-toggle and href match the ID of the collapsible div -->
+                                                    <a data-toggle="collapse" data-parent="#faq" href="#wallet">wallet</a>
+                                                </h5>
+                                            </div>
+                                            <div id="wallet" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <div class="billing-information-wrapper">
+                                                        <div class="account-info-wrapper">
+                                                            <h4>your order details</h4>
+                                                        </div>
+                                                        <div class="entries-wrapper">
+                                                            <h1>Wallet History</h1>
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>si no</th>
+                                                                        <th>Date</th>
+                                                                        <th>Amount</th>
+                                                                        <th>Direction</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% if (walletData.walletHistory && walletData.walletHistory.length) { %>
+                                                                        <% walletData.walletHistory.forEach((entry, index) => { %>
+                                                                            <tr>
+                                                                                <td><%= index + 1 %></td> <!-- Index column -->
+                                                                                <td><%= entry.date instanceof Date ? entry.date.toDateString() : 'Not a Date' %></td>
+                                                                                <td>$<%= entry.amount.toFixed(2) %></td>
+                                                                                <td><%= entry.direction %></td>
+                                                                            </tr>
+                                                                        <% }); %>
+                                                                    <% } else { %>
+                                                                        <tr>
+                                                                            <td colspan="4">No wallet history available.</td>
+                                                                        </tr>
+                                                                    <% } %>
+                                                                </tbody>
+                                                                
+                                                                
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>

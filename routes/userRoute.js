@@ -139,6 +139,7 @@ user_route.post("/removeCartItem",auth.isLogin,cartController.removeCartItem)
 user_route.post("/update-cart",auth.isLogin,cartController.updateCart)
 user_route.get('/checkout',auth.isLogin,cartController.checkoutLoad)
 user_route.post("/coupon-amount",auth.isLogin,couponController.couponAmount)
+user_route.post("/remove-coupon",auth.isLogin,couponController.removeCoupon)
 
 user_route.post("/place-order",auth.isLogin,orderController.placeOrder)
 user_route.get('/order-success',auth.isLogin,orderController.orderSuccess)

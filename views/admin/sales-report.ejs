@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ASPENSE</title>
+    <!-- base:css -->
+    <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="vendors/feather/feather.css">
+    <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
+
+  </head>
+
+  <body>
+    <div class="container-scroller">
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div
+          class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+          <a class="navbar-brand brand-logo" href="index.html"><img
+              src="images/logo.png" alt="logo" style="height: 30px;" /></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img
+              src="images/logogo-removebg-preview.png" alt="logo" /></a>
+        </div>
+        <div
+          class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+          <button class="navbar-toggler navbar-toggler align-self-center"
+            type="button" data-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+          <ul class="navbar-nav mr-lg-2">
+            <li class="nav-item nav-search d-none d-lg-block">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="search">
+                    <i class="icon-search"></i>
+                  </span>
+                </div>
+               
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown d-lg-flex d-none">
+              <button type="button" class="btn btn-info font-weight-bold">+
+                Create New</button>
+            </li>
+
+            <li class="nav-item dropdown d-flex mr-4 ">
+              <a
+                class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
+                id="notificationDropdown" href="#" data-toggle="dropdown">
+                <i class="icon-cog"></i>
+              </a>
+              <div
+                class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                aria-labelledby="notificationDropdown">
+                <p
+                  class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
+                <a class="dropdown-item preview-item">
+                  <i class="icon-head"></i> Profile
+                </a>
+                <a class="dropdown-item preview-item">
+                  <i class="icon-inbox"></i> Logout
+                </a>
+              </div>
+            </li>
+            <li class="nav-item dropdown mr-4 d-lg-flex d-none">
+              <a
+                class="nav-link count-indicatord-flex align-item s-center justify-content-center"
+                href="#">
+                <i class="icon-grid"></i>
+              </a>
+            </li>
+          </ul>
+          <button
+            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+            type="button" data-toggle="offcanvas">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <div class="user-profile">
+            <div class="user-image">
+              <img src="images/faces/face28.png">
+            </div>
+            <div class="user-name">
+              shibili
+            </div>
+            <div class="user-designation">
+              manager
+            </div>
+          </div>
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/dashboard">
+                <i class="icon-box menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/customer">
+                <i class="icon-command menu-icon"></i>
+                <span class="menu-title">Customers</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/category">
+                <i class="icon-disc menu-icon"></i>
+                <span class="menu-title">Category</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/products">
+                <i class="icon-file menu-icon"></i>
+                <span class="menu-title">Products</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">
+                <i class="icon-pie-graph menu-icon"></i>
+                <span class="menu-title">Orders</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/offer">
+                <i class="icon-help menu-icon"></i>
+                <span class="menu-title">Offer</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/coupon">
+                <i class="icon-help menu-icon"></i>
+                <span class="menu-title">Coupons</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/icons/feather-icons.html">
+                <i class="icon-help menu-icon"></i>
+                <span class="menu-title">Banner</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Logout</span>
+                <!-- <i class="menu-arrow"></i> -->
+              </a>
+
+            </li>
+
+          </ul>
+        </nav>
+
+        <div class="main-panel">
+            <div class="content-wrapper">
+              <div class="col-lg-12">
+                <div class="card mt-5">
+                  <div class="card-body">
+                    <div class="page-header  ">
+                        <h3 class="page-title"> Aspense Sales Report </h3>
+                        <div class="d-flex mt-5 ml " >
+                        <div class="dropdown  m-3 ">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                id="dropdownMenuOutlineButton1" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false"> Filter </button>
+                            <div class="dropdown-menu m-5 " aria-labelledby="dropdownMenuOutlineButton1">
+                                <h6 class="dropdown-header">Report Sorting</h6>
+                                <a class="dropdown-item" href="/admin/sales-report?sort=<%= 1 %>">Daily</a>
+                                <a class="dropdown-item" href="/admin/sales-report?sort=<%= 7 %>">Weekly</a>
+                                <a class="dropdown-item" href="/admin/sales-report?sort=<%= 30 %>">Monthly</a>
+                                <a class="dropdown-item" href="/admin/sales-report?sort=<%= 365 %>">Yearly</a>
+                            </div>
+                        </div> 
+                        <div class="dropdown m-3 ">
+                            <button class="btn btn-outline-light  dropdown-toggle" type="button"
+                                id="dropdownMenuOutlineButton1" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false"> Report Download </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
+                                <a class="dropdown-item" id="excel-format" href="/admin/excel-download">Excel Format</a>
+                                <a class="dropdown-item" id="pdf-format" href="/admin/pdf-download">Pdf Format</a>
+                            </div>
+                        </div>
+                        <div id="calendarContainer" class="m-3 text-end">
+                          <form onsubmit="sendDateToBackend(event)" style="display: flex; gap: 10px; align-items: center;">
+                            <label for="calendarInput">Select Date:</label>
+                            <input type="date" id="calendarInput" class="form-control ">
+                            <button type="submit" class="btn btn-primary ">Get Report</button>
+                          </form>
+                        </div>
+                        </div>
+                      </div>
+                      
+                      
+                  <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Order Id</th>
+                            <th>Products - Qty</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if(orders.length > 0) { %>
+                            <% orders.forEach((order, index) => { %>
+                                <tr>
+                                    <td><%= index + 1 %>.</td>
+                                    <td><%= order.orderId %></td>
+                                    <td><%= order.products.name %> - <%= order.products.count %></td>
+                                    <td><%= order.date.toISOString().split('T')[0] %></td>
+                                    <td><%= order.deliveryDetails.fullName %></td>
+                                    <td>₹&nbsp;<%= order.products.totalPrice %></td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6">No orders found</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                   
+                </table>
+                <div class="mt-3 ">
+                <h5>total Amount:<totalAmount:span style="color: red;"><%=totalAmount %></totalAmount:span></h5>
+                <h5>total discount: <DiscountAmont:span style="color: red;"><%= overallDiscount %></DiscountAmont:span></h5>
+                </div>
+                </div>
+                <ul class="pagination_style d-flex justify-content-center">
+                  <% for (let i = 1; i <= totalPages; i++) { %>
+                    <li style="list-style: none; margin-right: 5px;">
+                      <button type="button" class="btn btn-primary <% if (i === page) { %>active<% } %>">
+                        <a href="<%= `?page=${i}&limit=${limit}${date ? `&date=${date}` : ''}${duration ? `&sort=${duration}` : ''}` %>" style="color: inherit; text-decoration: none;">
+                          <%= i %>
+                        </a>
+                      </button>
+                    </li>
+                  <% } %>
+                </ul>
+                
+            
+              </div>
+             
+            </div>
+          </div>
+
+          <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+          <script>
+        function sendDateToBackend(event) {
+  event.preventDefault();  // Prevent default form submission
+  console.log('Function called');
+  
+  var selectedDate = $('#calendarInput').val();
+  console.log('Selected Date:', selectedDate);
+
+  // Convert date to 'YYYY-MM-DD' format
+  var jsDate = new Date(selectedDate);
+  var formattedDate = jsDate.toISOString().split('T')[0];
+  console.log('Formatted Date:', formattedDate);
+  
+  // URL encode the formatted date
+  var encodedDate = encodeURIComponent(formattedDate);
+  
+  var url = '/admin/sales-report?sort=&date=' + encodedDate;
+  console.log('URL:', url);
+
+  window.location.href = url;
+}
+
+$(document).ready(function() {
+  $('form').on('submit', sendDateToBackend);
+});
+
+          </script>
+
+
+
+<script>
+  function buildPaginationURL(pageNumber) {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('page', pageNumber);
+    urlParams.set('limit', 8); 
+    return `/admin/sales-report?${urlParams.toString()}`;
+  }
+</script>
+          <%- include('../layouts/admin/footer.ejs') %>

@@ -96,13 +96,18 @@ admin_route.post('/delete-offer',auth.isLogin,offerController.deleteOffer)
 
 
 
-admin_route.get('/coupon',couponController.couponLoad)
-admin_route.get('/add-coupon',couponController.addCouponLoad)
-admin_route.post('/generate-coupon-code',couponController.codeGenerator)
-admin_route.post('/add-coupon',couponController.addCoupon)
-admin_route.delete('/delete-coupon',couponController.deleteCoupon)
-admin_route.get('/edit-coupon',couponController.editCouponLoad)
-admin_route.post('/edit-coupon',couponController.editCoupon)
+admin_route.get('/coupon',auth.isLogin,couponController.couponLoad)
+admin_route.get('/add-coupon',auth.isLogin,couponController.addCouponLoad)
+admin_route.post('/generate-coupon-code',auth.isLogin,couponController.codeGenerator)
+admin_route.post('/add-coupon',auth.isLogin,couponController.addCoupon)
+admin_route.delete('/delete-coupon',auth.isLogin,couponController.deleteCoupon)
+admin_route.get('/edit-coupon',auth.isLogin,couponController.editCouponLoad)
+admin_route.post('/edit-coupon',auth.isLogin,couponController.editCoupon)
+
+
+admin_route.get("/sales-report",auth.isLogin,adminController.salesReportLoad)
+admin_route.get("/excel-download",auth.isLogin,adminController.excelDownload)
+admin_route.get('/pdf-download',auth.isLogin,adminController.pdfDownload)
 
 
 

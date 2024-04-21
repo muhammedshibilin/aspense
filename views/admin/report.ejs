@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Invoice</title>
+    <style>
+
+        section.content-main {
+            margin: 20px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 9px;
+            width: 23%; /* Adjust the width based on your preference */
+            box-sizing: border-box;
+            height: 80px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        h2.content-title {
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .order-info-wrap {
+            margin-top: 20px;
+        }
+
+        article.icontext {
+            display: flex;
+            align-items: start;
+        }
+
+        article.icontext .icon {
+            margin-right: 15px;
+        }
+
+        table.table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table.table th, table.table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table.table th {
+            background-color: #f2f2f2;
+        }
+
+        footer.main-footer {
+            margin-top: 20px;
+            font-size: 12px;
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        footer.main-footer a {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <hr>
+    <!-- Assuming this is your 'reportPdf' view -->
+<section class="content-main">
+  <div class="content-header">
+      <h2 class="content-title">Order Detail</h2>
+  </div>
+
+  <div class="card-container">
+    <div class="card">
+        <article class="icontext">
+            <div class="text">
+                <p class="mb-1">
+                    <b>TOTAL REVENUE</b><br>
+                    <%=totalRevenue%>
+                </p>
+            </div>
+        </article>
+    </div>
+
+    <div class="card">
+        <article class="icontext">
+            <div class="text">
+                <p class="mb-1">
+                    <b>TOTAL PRODUCTS</b><br>
+                    <%=totalDeliveredProductsCount%>
+
+                </p>
+            </div>
+        </article>
+    </div>
+</div>
+
+
+  <p class="text-center">All orders</p>
+  <div class="table-responsive">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th width="5%">#</th>
+                  <th width="25%">Order Id</th>
+                  <th width="15%">Billing name</th>
+                  <th width="15%">Date</th>
+                  <th width="20%">Total</th>
+                  <th width="20%">Payment</th>
+              </tr>
+          </thead>
+          <tbody>
+              <% orders.forEach((order, index) => { %>
+                  <tr>
+                      <td><%= index + 1 %></td>
+                      <td><%= order._id %></td>
+                      <td><%= order.deliveryDetails.fullName %></td>
+                      <td><%= order.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                      <td>₹<%= order.totalAmount %></td>
+                      <td><%= order.paymentMethod %></td>
+                  </tr>
+              <% }); %>
+          </tbody>
+      </table>
+  </div>
+</section>
+
+
+    <footer class="main-footer">
+        <div class="row">
+            <script>
+                document.write(new Date().getFullYear());
+            </script>
+            &copy; Aspense.
+            <div class="col-sm-6 text-sm-end">
+                All rights reserved
+            </div>
+        </div>
+    </footer><br><br>
+    <hr>
+</body>
+</html>

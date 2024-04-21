@@ -2,12 +2,15 @@ const Order = require('../model/orderModel')
 const Cart = require('../model/cartModel')
 const Offer = require('../model/offerModel');
 const Product = require('../model/productModel')
+const User = require('../model/userModel')
+const Coupon = require('../model/couponModel')
 const crypto = require("crypto")
 const path = require('path')
 const easyInvoice = require("easyinvoice")
 const PDFDocument = require('pdfkit');
 const fs = require('fs')
-const paypal = require('paypal-rest-sdk')
+const paypal = require('paypal-rest-sdk');
+const { couponAmount } = require('./couponController');
 const env = require("dotenv").config()
 
 
@@ -16,8 +19,6 @@ paypal.configure({
   client_id:process.env.PAYPAL_CLIENT_ID,
   client_secret:process.env.PAYPAL_SECRET
 })
-
-
 
 const decreaseProductQuantity = async (products) => {
   for (let i = 0; i < products.length; i++) {
@@ -30,12 +31,12 @@ const decreaseProductQuantity = async (products) => {
   }
 };
 
-
-
 async function calculateTotalAmountWithOffers(cartData) {
   let totalAmount = 0;
   let totalAmountBeforeDiscounts = 0;
+  let productOfferAmounts = [];
   let totalDiscount=0
+  let discount=0
  
   for (const item of cartData.products) {
     if (!item.productId || !item.productId.price || !item.count) {
@@ -68,9 +69,14 @@ async function calculateTotalAmountWithOffers(cartData) {
         if (itemPrice === 0) {
           totalAmount += 0; 
         } else {
-           discount = Math.floor(itemPrice * (mostSignificantOffer.discountAmount / 100));
+           discount = Math.floor(itemPrice * (mostSignificantOffer.discountAmount / 100))?Math.floor(itemPrice * (mostSignificantOffer.discountAmount / 100)):0;
            itemPrice -= discount;
            totalDiscount += discount;
+           let productOfferAmount = {
+            productId: item.productId._id, 
+            discount: discount,
+          };
+          productOfferAmounts.push(productOfferAmount);
            console.log('type',typeof totalDiscount,totalDiscount);
            console.log(`Product: ${item.productId.name}, Price: ${item.productId.price}, Count: ${item.count}, Discount: ${discount}`);
         }        
@@ -83,22 +89,28 @@ async function calculateTotalAmountWithOffers(cartData) {
 console.log('Total Amount After Discount:', totalAmount);
 console.log('Total Amount Before Discount:', totalAmountBeforeDiscounts);
 console.log('total discout',totalDiscount);
-  return {totalAmount,totalAmountBeforeDiscounts,totalDiscount,discount}
+console.log('dis',discount);
+  return {totalAmount,totalAmountBeforeDiscounts,totalDiscount,productOfferAmounts}
  }
-
-
-async function createOrder(user_id, cartData, totalAmount, paymentMethod, address) {
+async function createOrder(user_id, cartData, totalAmount, paymentMethod, address,productOfferAmounts) {
 
   const uniqId = crypto.randomBytes(4).toString('hex').toUpperCase().slice(0, 8);
-  const orderProducts = cartData.products.map(product => ({
+ 
+  const orderProducts = cartData.products.map( product => {
+   const productDiscount = productOfferAmounts.find(offer => offer.productId === product.productId._id)?.discount || 0;
+   const discountedPrice = product.productId.price - (productDiscount/product.count);
+   console.log('discoun',discountedPrice,productDiscount);
+
+    return{
      productId: product.productId._id,
      name: product.productId.name,
      count: product.count,
      productPrice: product.productId.price,
      image: product.productId.images[0],
-     totalPrice: (product.productId.price * product.count)-discount,
-     status: paymentMethod === 'COD' ? 'Placed' : 'Pending',
-  }));
+     totalPrice:discountedPrice*product.count,
+     status:'Placed',
+    }
+  });
  
   const order = new Order({
      user: user_id,
@@ -106,7 +118,7 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
      deliveryDetails: address,
      products: orderProducts,
      date: new Date(),
-     totalAmount: totalAmount ,
+     totalAmount:totalAmount < 1500 ? totalAmount+90 : totalAmount ,
      paymentMethod: paymentMethod,
      shippingMethod: cartData.shippingMethod,
      shippingAmount: totalAmount < 1500 ? 90 : 0,
@@ -152,8 +164,15 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
  
       const paymentMethod = req.body.formData.payment;
       const address = req.body.formData.address;
-      let { totalAmount, totalAmountBeforeDiscounts,totalDiscount} = await calculateTotalAmountWithOffers(cartData);
-      console.log('placerorrderrrthe paisss',totalAmount,totalAmountBeforeDiscounts);
+      let { totalAmount, totalAmountBeforeDiscounts,totalDiscount,discount,productOfferAmounts} = await calculateTotalAmountWithOffers(cartData);
+      let couponAmount
+      console.log('evididddeee');
+      if (cartData.appliedCoupon) {
+        const appliedCouponData = await Coupon.findById(cartData.appliedCoupon);
+        couponAmount = Math.floor(totalAmount*(appliedCouponData.discountAmount/100))
+        totalAmount-=couponAmount
+        console.log('couponnnnnnnnnnnnns',couponAmount,totalAmount);
+      }
  
       if (paymentMethod === "paypal") {
            items = cartData.products.map(product => ({
@@ -181,6 +200,8 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
 
        
         if (totalAmount !== totalAmountBeforeDiscounts) {
+          totalDiscount = totalDiscount+couponAmount
+          console.log('totaldicscout',totalDiscount);
           items.push({
             "name": "DISCOUNT",
             "sku": "DISCOUNT", 
@@ -215,7 +236,7 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
           }]
         };
  
-        const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod, address);
+        const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod, address,productOfferAmounts);
        
         const paypalUrl = await handlePayPalPayment(create_payment_json);
         await Cart.deleteOne({ user: user_id });
@@ -224,7 +245,7 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
         
       } else {
         await calculateTotalAmountWithOffers(cartData);
-        const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod, address);
+        const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod, address,productOfferAmounts);
         
         if (paymentMethod === 'COD') {
           await Cart.deleteOne({ user: user_id });
@@ -237,10 +258,6 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
   }
  };
  
- 
-
-
-
 const orderSuccess = async (req, res) => {
   try {
     res.render('orderSuccess')
@@ -248,7 +265,6 @@ const orderSuccess = async (req, res) => {
     console.log(error);
   }
 }
-
 const orderDetails = async (req, res) => {
   try {
 
@@ -262,43 +278,53 @@ const orderDetails = async (req, res) => {
 
 const cancelOrder = async (req, res) => {
   try {
-    const userId = req.session.user_id
-    console.log(req.session.user_id)
-    const orderId = req.body.orderId
-    const productId = req.body.productId
-    console.log(req.body);
-
-    const orderedData = await Order.findOne({ _id: orderId })
-    console.log('ordeereddddddddd ssaaaaaaaaanam', orderedData);
-    console.log('ordereddddproductsdetails', orderedData.products);
-    const orderedProduct = orderedData.products.find(product => {
-      return product._id.toString() === productId;
-    })
+     const user_Id = req.session.user_id;
+     console.log('User ID:', user_Id);
  
-
-
-
-    const updateOrder = await Order.findOneAndUpdate(
-      { _id: orderId, 'products._id': productId },
-      { $set: { 'products.$.status': 'Cancelled' } },
-      { new: true }
-    );
-
-
-    console.log('statuss', updateOrder);
-
-    const updateProductQuantity = await Product.updateOne(
-      { _id: orderedProduct.productId },
-      { $inc: { quantity: orderedProduct.count } }
-    )
-
-    console.log('quantiryyyy', updateProductQuantity);
-    return res.json({ success: true })
-
+     const orderId = req.body.orderId;
+     const productId = req.body.productId;
+ 
+     const orderedData = await Order.findOne({ _id: orderId });
+     console.log('Ordered Data:', orderedData);
+ 
+     // Find the product to be cancelled
+     const orderedProduct = orderedData.products.find(product => {
+       return product._id.toString() === productId;
+     });
+     console.log('oredered producttt',orderedProduct.totalPrice);
+ 
+    
+ 
+    
+     const updateOrder = await Order.findOneAndUpdate(
+       { _id: orderId, 'products._id': productId },
+       { $set: { 'products.$.status': 'Cancelled' } },
+       { new: true }
+     );
+ 
+     const updateProductQuantity = await Product.updateOne(
+       { _id: orderedProduct.productId },
+       { $inc: { quantity: orderedProduct.count } }
+     );
+     if (orderedData.paymentMethod !== "COD") {
+       const date = new Date();
+       const UpdateWallet = await User.findOneAndUpdate(
+         { _id: user_Id },
+         { $inc: { wallet:orderedProduct.totalPrice }, $push: { walletHistory: { date: date, amount: orderedProduct.totalPrice, direction: "Credited" } } },
+         { new: true }
+       );
+       console.log('Updated Wallet:', UpdateWallet);
+     }
+ 
+     console.log('Product Quantity Update:', updateProductQuantity);
+     return res.json({ success: true });
+ 
   } catch (error) {
-    console.log(error, "while cancelling the order");
+     console.log('Error while cancelling the order:', error);
+     return res.status(500).json({ error: 'An error occurred while cancelling the order.' });
   }
-}
+ };
+ 
 // ------------------user load
 
 const orderLoad = async (req, res) => {
@@ -329,11 +355,6 @@ const orderLoad = async (req, res) => {
      res.status(500).render("500");
   }
  };
-
-
-
-
-
 
  const orderdetailsLoad = async (req, res) => {
   try {
@@ -371,7 +392,6 @@ const updateOrder = async (req, res) => {
      const orderId = req.body.orderId;
      const orderStatus = req.body.status;
  
- 
      const orderData = await Order.findOne({ 'products._id': orderId });
      console.log('orderData:', orderData);
  
@@ -391,7 +411,14 @@ const updateOrder = async (req, res) => {
        const productTotalPrice = orderData.products[orderProductIndex].totalPrice;
        const newTotalAmount = orderData.totalAmount - productTotalPrice; // Ensure this calculation is correct
        console.log('asdkkkkkkkkkkkkkkk', productTotalPrice, newTotalAmount);
- 
+      
+       const date = new Date();
+       const updateWallet = await User.findOneAndUpdate(
+         { _id:orderData.user},
+         { $inc: { wallet:productTotalPrice }, $push: { walletHistory: { date: date, amount:productTotalPrice, direction: "Credited" } } },
+         { new: true }
+       );
+       console.log('updateWallet',updateWallet);
   
        const updatedProduct = await Product.updateOne(
          { _id: productId },
@@ -408,6 +435,8 @@ const updateOrder = async (req, res) => {
        console.log('updatedOrderTotal:', updatedOrderTotal);
  
        orderData.totalAmount = newTotalAmount;
+
+
      }
  
      const updated = await orderData.save();

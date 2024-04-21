@@ -1,5 +1,16 @@
 <%- include("../layouts/user/header.ejs") %>
 <style>
+    .button-container input[type="button"] {
+    color: white;
+    background-color: black;
+    width: auto;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.button-container input[type="button"]:last-child {
+    margin-right: 0; /* Remove the margin from the last button */
+}
 .coupon {
     border: 2px dashed #ccc;
     padding: 20px;
@@ -214,65 +225,64 @@
                     
 
                             <div class="col-lg-7 col-md-12 mb--20">
-                                
-         <form>
                                     <div id="billing-form" class="mb--40">
                                         <h4 class="checkout-title">Billing Address</h4>
-       
-         <div class="row">
-    
+                                        <div class="row">
                                             <div class="col-md-6 col-12 mb--20">
                                                 <label>First Name*</label>
-                                                <input type="text" placeholder="First Name">
+                                                <input type="text" id="name" placeholder="First Name">
+                                                <div id="nameError" class="error-msg" ></div>
                                             </div>
                                             <div class="col-md-6 col-12 mb--20">
                                                 <label>Email Address*</label>
-                                                <input type="email" placeholder="Email Address">
+                                                <input type="email" id="email" placeholder="Email Address">
+                                                <div id="emailError" class="error-msg"></div>
                                             </div>
-    
                                             <div class="col-md-6 col-12 mb--20">
                                                 <label>Phone no*</label>
-                                                <input type="text" placeholder="Phone number">
+                                                <input type="text" id="mobile" placeholder="Phone number">
+                                                <div id="mobileError" class="error-msg"></div>
                                             </div>
                                             <div class="col-md-6 col-12 mb--20">
                                                 <label>Town/City*</label>
-                                                <input type="text" placeholder="Town/City">
+                                                <input type="text" id="city" placeholder="Town/City">
+                                                <div id="cityError" class="error-msg"></div>
                                             </div>
-    
                                             <div class="col-md-6 col-12 mb--20">
                                                 <label>State*</label>
-                                                <input type="text" placeholder="State">
-                                            </div> 
-    
-         <div class="col-md-6 col-12 mb--20">
-                                                <label>pin Code*</label>
-                                                <input type="text" placeholder="Zip Code">
+                                                <input type="text" id="state" placeholder="State">
                                             </div>
-         <div class="col-lg-12 col-md-12 col-12 mb--20">
-                                                <label>houseName</label>
-                                                <input type="text" placeholder="houseName">
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <label>Pin Code*</label>
+                                                <input type="text" id="pincode" placeholder="Zip Code">
+                                                <div id="pincodeError" class="error-msg"></div>
                                             </div>
-                                
-     </div>
-                                   </div> 
-                                </form>
-                               
+                                            <div class="col-lg-12 col-md-12 col-12 mb--20">
+                                                <label>House Name*</label>
+                                                <input type="text" id="houseName" placeholder="House Name">
+                                                <div id="houseError" class="error-msg"></div>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>   
                             </div>
                             <% } %>
                         </div>
 
                         <div class="discount-coupon">
                             <h4>Discount Coupon Code</h4>
-                            <form action="#">
                                 <div class="row">
                                     <div class="col-md-6 col-12 mb--25">
                                         <input type="text" id="couponCodeInput" placeholder="Coupon Code" style="font-weight: bold; color: red;" disabled>
                                     </div>
-                                    <div class="col-md-6 col-12 mb--25">
-                                        <input type="button" value="check coupons" onclick="showDiscountModal()" style="color: white; background-color: black; width: auto;">
+                                    <div class="col-md-6 col-12 mb--25 button-container">
+                                        <input type="button" value="check coupons" onclick="showDiscountModal()" style="color: white; background-color: black; width: auto; display: inline-block; margin-right: 10px;">
+                                        <input type="button" value="remove coupon" onclick="removeCoupon()" style="color: white; background-color: black; width: auto; display: inline-block;">
                                     </div>
+                                    
+                                 
+                               
                                 </div>
-                            </form>
                         </div>
                     </div>
                     <!-- Discount Coupon Modal -->
@@ -379,7 +389,7 @@
                                             </div>
                                         </div>
                                         <div style="text-align: center;">
-                                            <button type="submit"
+                                            <button type="button" id="place-order"
                                                 class="place-order">Place
                                                 Order</button>
                                         </div>
@@ -581,168 +591,224 @@
 
     <!--// Quick View Modal -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
 
-function showDiscountModal() {
-    $('#discountModal').modal('show');
-  }
-  function closeModal() {
-    $('#discountModal').modal('hide');
-}
-
-document.querySelectorAll('.scratch-card').forEach(function(card) {
-    let scratchedPercentage = 0;
-    let isScratching = false;
-
-    card.addEventListener('mousedown', function(e) {
-        isScratching = true;
-    });
-
-    card.addEventListener('mouseup', function(e) {
-        isScratching = false;
-    });
-
-    card.addEventListener('mousemove', function(e) {
-        if (!isScratching) return;
-
-        const { left, top } = this.getBoundingClientRect();
-        const x = e.pageX - left;
-        const y = e.pageY - top;
-
-        if (x <= 0 || y <= 0 || x >= this.offsetWidth || y >= this.offsetHeight) return;
-
-        const newScratchedPercentage = (x * y) / (this.offsetWidth * this.offsetHeight);
-        scratchedPercentage = Math.max(scratchedPercentage, newScratchedPercentage);
-
-        if (scratchedPercentage > 0.4) {
-            this.querySelector('.scratch-overlay').style.display = 'none';
-            this.querySelector('.hidden-code').style.visibility = 'visible';
-            this.querySelector('.scratch-text').style.display = 'none';
-        }
-    });
-});
-
-$(document).ready(function() {
- $('.coupon').click(function() {
-    $('.coupon').removeClass('selected');
-
-    $(this).addClass('selected');
-    const selectedCouponCode = $(this).find('.hidden-code').text();
-    $('#selectedCouponCode').val(selectedCouponCode);
-    const selectedCouponId = $(this).data('coupon-id');
-        $('#selectedCouponId').val(selectedCouponId);
- });
-});
 
 
-function applyCoupon() {
-    const selectedCouponId = $('#selectedCouponId').val();
-    console.log('Selected Coupon ID:', selectedCouponId);
-    console.log('couponId', selectedCouponId);
-    $.ajax({
-        url: "/coupon-amount",
-        method: "POST",
-        data: { couponId:selectedCouponId }, 
-        success: (response) => {
-            console.log('response',response);
-            if (response.success) {
-                const selectedCouponCode = document.getElementById('selectedCouponCode').value;
-             document.getElementById('couponCodeInput').value = selectedCouponCode;
-
-               
-             const subtotalElement = document.getElementById('subtotal');
-        const grandtotalElement = document.getElementById('grandtotal');
-        console.log('subtotalElement', subtotalElement); 
-        console.log('grandtotalElement', grandtotalElement); 
-
-        if (subtotalElement && grandtotalElement) {
-            const couponOfferAmount = response.couponOfferAmount;
-            console.log('dataaa',subtotalElement,grandtotalElement,couponOfferAmount);
-            const newSubtotal = parseFloat(subtotalElement.textContent.replace('$', '')) - couponOfferAmount;
-            const newGrandTotal =parseFloat(grandtotalElement.textContent.replace('$','')) - couponOfferAmount
-
-            subtotalElement.textContent = `$${newSubtotal.toFixed(2)}`;
-            grandtotalElement.textContent = `$${newGrandTotal.toFixed(2)}`;
-        } else {
-            console.error('One or more elements not found: subtotal, grandtotal');
-        }
-            }
-        },
-        error: (error) => {
-            console.error("Error applying coupon:", error);
-        },
-        complete: () => {
-            $('#discountModal').modal('hide');
-        }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-     document.getElementById('applyCouponButton').addEventListener('click', applyCoupon);
-});
+const isNotEmpty = (value) => value.trim() !== "";
+const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+const isValidPhone = (value) => /^\d{10}$/.test(value); 
+const isValidPincode = (value) => /^\d{6}$/.test(value);
 
 
-
-
-
-
- 
+function validateInput(inputId, errorId, validationFunction) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
    
 
-        $("#checkout-form").submit(function (e) {
-            e.preventDefault();
-            const selectedAddress = $("input[name='address']:checked").val();
-            if (!selectedAddress) {
-                swal.fire({
-                    title: "Please add an address using the profile page",
-                    icon: "info",
-                    button: false,
-                    timer: 3000
-                }).then(function() {
-                    window.location.href = "/profile";
-                });
-            } else {
-                const address = selectedAddress ? JSON.parse(selectedAddress) : {};
-                const paymentMethod = $("input[name='payment']:checked").val();
+    if (!validationFunction(input.value)) {
+        error.style.color = "red";
+        error.textContent = "This field is required."; 
+        return false;
+    }
+    return true;
+}
+
+document.getElementById("place-order").addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const selectedAddress = $("input[name='address']:checked").val();
+    let address = {};
+
+    
+    if (!selectedAddress) {
+        const nameValid = validateInput("name", "nameError", isNotEmpty);
+        const emailValid = validateInput("email", "emailError", isValidEmail);
+        const mobileValid = validateInput("mobile", "mobileError", isValidPhone);
+        const pincodeValid = validateInput("pincode", "pincodeError", isValidPincode);
+        const cityValid = validateInput("city", "cityError", isNotEmpty);
+        const stateValid = validateInput("state", "stateError", isNotEmpty);
+        const houseNameValid = validateInput("houseName", "houseError", isNotEmpty);
         
-                formData = {
-                    address: address,
-                    payment: paymentMethod,
-                };
-        
-                $.ajax({
-                    url: "/place-order",
-                    method: "POST",
-                    contentType: 'application/json',
-                    data: JSON.stringify({ formData }),
-                    success: (response) => {
-                        console.log('rssdgfsdfs',response);
-                        if(response.quantity){
-                            swal.fire({
-                              title: "info",
-                              icon: "warning",
-                              title:"product is out of stock,better luck next timecart",
-                              button: false,
-                              timer: 3000
-                            });               
-                        } else if (response.codsuccess == true) {
-                            swal.fire({
-                              icon: "success",
-                              title:"order is success",
-                              timer: 3000
-                            }).then(()=> {        
-                                window.location.href = `/order-success`;
-                            });
-                        } else if (response.paypal) {
-                    window.location.href = response.paypal;
+        if (!nameValid || !emailValid || !mobileValid || !pincodeValid || !cityValid || !stateValid || !houseNameValid) {
+            return; 
+        }
+
+        address = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            mobile: document.getElementById("mobile").value,
+            pincode: document.getElementById("pincode").value,
+            state: document.getElementById("state").value,
+            city: document.getElementById("city").value,
+            houseName: document.getElementById("houseName").value
+        };
+    } else {
+        address = JSON.parse(selectedAddress);
+    }
+
+    const paymentMethod = $("input[name='payment']:checked").val();
+    const formData = {
+        address: address,
+        payment: paymentMethod,
+    };
+
+                    $.ajax({
+                        url: "/place-order",
+                        method: "POST",
+                        contentType: 'application/json',
+                        data: JSON.stringify({ formData }),
+                        success: (response) => {
+                            console.log('rssdgfsdfs',response);
+                            if(response.quantity){
+                                swal.fire({
+                                title: "info",
+                                icon: "warning",
+                                title:"product is out of stock,better luck next timecart",
+                                button: false,
+                                timer: 3000
+                                });               
+                            } else if (response.codsuccess == true) {
+                                swal.fire({
+                                icon: "success",
+                                title:"order is success",
+                                timer: 3000
+                                }).then(()=> {        
+                                    window.location.href = `/order-success`;
+                                });
+                            } else if (response.paypal) {
+                        window.location.href = response.paypal;
+                    }
+                        },
+                    });
                 }
-                    },
-                });
+                
+            );
+
+
+    function showDiscountModal() {
+        $('#discountModal').modal('show');
+    }
+    function closeModal() {
+        $('#discountModal').modal('hide');
+    }
+
+    // document.querySelectorAll('.scratch-card').forEach(function(card) {
+    //     let scratchedPercentage = 0;
+    //     let isScratching = false;
+
+    //     card.addEventListener('mousedown', function(e) {
+    //         isScratching = true;
+    //     });
+
+    //     card.addEventListener('mouseup', function(e) {
+    //         isScratching = false;
+    //     });
+
+    //     card.addEventListener('mousemove', function(e) {
+    //         if (!isScratching) return;
+
+    //         const { left, top } = this.getBoundingClientRect();
+    //         const x = e.pageX - left;
+    //         const y = e.pageY - top;
+
+    //         if (x <= 0 || y <= 0 || x >= this.offsetWidth || y >= this.offsetHeight) return;
+
+    //         const newScratchedPercentage = (x * y) / (this.offsetWidth * this.offsetHeight);
+    //         scratchedPercentage = Math.max(scratchedPercentage, newScratchedPercentage);
+
+    //         if (scratchedPercentage > 0.4) {
+    //             this.querySelector('.scratch-overlay').style.display = 'none';
+    //             this.querySelector('.hidden-code').style.visibility = 'visible';
+    //             this.querySelector('.scratch-text').style.display = 'none';
+    //         }
+    //     });
+    // });
+
+
+
+
+    $(document).ready(function() {
+    $('.coupon').click(function() {
+        $('.coupon').removeClass('selected');
+
+        $(this).addClass('selected');
+        const selectedCouponCode = $(this).find('.hidden-code').text();
+        $('#selectedCouponCode').val(selectedCouponCode);
+        const selectedCouponId = $(this).data('coupon-id');
+            $('#selectedCouponId').val(selectedCouponId);
+    });
+    });
+
+
+    function removeCoupon(){
+        const selectedCouponId = $('#selectedCouponId').val();
+        $.ajax({
+            url:"/remove-coupon",
+            method:"post",
+            data:{couponId:selectedCouponId},
+            success:(response) => {
+                if(response.success){
+                    Swal.fire({
+                        icon:"success",
+                        text:"coupon removed"
+                    })
+                }
+            }
+        })
+    }
+
+
+
+    function applyCoupon() {
+        const selectedCouponId = $('#selectedCouponId').val();
+        console.log('Selected Coupon ID:', selectedCouponId);
+        console.log('couponId', selectedCouponId);
+        $.ajax({
+            url: "/coupon-amount",
+            method: "POST",
+            data: { couponId:selectedCouponId }, 
+            success: (response) => {
+                console.log('responseyyyyyyyy',response);
+                if(response.applied){
+                Swal.fire({
+                    icon:"error",
+                    text:"coupon you already applied"
+                })
+                }else if (response.success) {
+                    const selectedCouponCode = document.getElementById('selectedCouponCode').value;
+                document.getElementById('couponCodeInput').value = selectedCouponCode;
+                updateTotals(response.couponOfferAmount, response.grandTotal);
+            } else {
+                console.error('One or more elements not found: subtotal, grandtotal');
+            }   
+            },
+            error: (error) => {
+                console.error("Error applying coupon:", error);
+            },
+            complete: () => {
+                $('#discountModal').modal('hide');
             }
         });
-        </script>
-        
+    }
+
+    function updateTotals(couponOfferAmount, grandTotal) {
+    const grandtotalElement = document.getElementById('grandtotal');
+
+    if (grandtotalElement) {
+        grandtotalElement.textContent = `$${grandTotal.toFixed(2)}`;
+    } else {
+        console.error('One or more elements not found: subtotal, grandtotal');
+    }
+}
+
+document.getElementById('applyCouponButton').addEventListener('click', applyCoupon);
+
+    
+            </script>
+            
 
 
 

@@ -200,6 +200,7 @@ const profileLoad = async (req, res) => {
         const user = req.session.user_id
         const addressData = await Address.findOne({ user }).populate("address")
         const orderDetails = await Order.find({ user }).sort({ date: -1 })
+        const walletData = await User.findOne({ _id: user }).populate("walletHistory"); 
       
         if (addressData) {
             console.log(addressData);
@@ -210,10 +211,10 @@ const profileLoad = async (req, res) => {
         const userData = await User.findOne({ _id: user })
         console.log(userData.image)
         if (userData.is_admin == 0) {
-            res.render("profile", { userData, addressData, orderDetails, user })
+            res.render("profile", { userData, addressData, orderDetails, user,walletData })
         } else {
             req.session.admin_id = userData
-            res.redirect("/profile")
+            res.render("profile")
         }
     } catch (e) {
         console.log("error while loading profile", e);
