@@ -55,26 +55,56 @@ const failureLoad = async (req, res) => {
 
 let otp
 
+function generateReferralCode(length = 6) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters[randomIndex];
+    }
+    return result;
+}
+
 const insertUser = async (req, res) => {
     try {
-        const { name, email, mobile, password } = req.body
-        console.log(req.body);
-
-
+        const { name, email, mobile, password,referral} = req.body
         const emailCheck = await User.findOne({ email: req.body.email })
+        let reffered = false
         if (emailCheck) {
             return res.json({ emailExist: true })
         }
-
+        
+        if (referral) {
+          const ExistReferral = await User.findOne({ referral: referral});
+          reffered = true
+          if (ExistReferral) {
+            const data = {
+              amount: 101,
+              date: Date.now(),
+              direction: 'Credit',  
+            };
+            const existingreferral = await User.findOneAndUpdate({ referral: referral}, { $inc: { wallet: 101 }, $push: { walletHistory: data } });
+          } else {
+            return res.json({invalidLink:true});
+          }
+        }
+       
         const passwordHash = await bcrypt.hash(password, 10)
         const user = new User({
             name: name,
             email: email,
             mobile: mobile,
             password: passwordHash,
+            referral: generateReferralCode(), 
+            wallet:reffered==true? 51 : 0,
+            walletHistory: reffered==true ? [{
+                amount: 51,
+                date: new Date(),
+                direction: 'Credited'
+            }] : [],
             is_verified: 0,
             is_admin: 0
-        })
+        });
 
         const userData = await user.save()
 
@@ -122,8 +152,6 @@ const successLoad = async (req, res) => {
         console.log(error);
     }
 }
-
-
 
 const loadLogin = async (req, res) => {
     try {
@@ -201,15 +229,8 @@ const profileLoad = async (req, res) => {
         const addressData = await Address.findOne({ user }).populate("address")
         const orderDetails = await Order.find({ user }).sort({ date: -1 })
         const walletData = await User.findOne({ _id: user }).populate("walletHistory"); 
-      
-        if (addressData) {
-            console.log(addressData);
-            console.log(addressData.address.fullName)
-        }
-
-        console.log("session profile", req.session.user_id);
+    
         const userData = await User.findOne({ _id: user })
-        console.log(userData.image)
         if (userData.is_admin == 0) {
             res.render("profile", { userData, addressData, orderDetails, user,walletData })
         } else {
@@ -504,26 +525,25 @@ const verifyOtp = async (req, res) => {
                 req.session.otp = null;
                 req.session.otpTimestamp = null;
                 if (verified) {
-                    console.log('haaaaaaaaayyyyyyyyyyy');
                     if (req.session.user_id) {
                         return res.json({ profile: true })
                     } else {
                         const userData = await User.findOne({ email: req.session.user_check })
                         if (userData) {
-                            res.json({ login: true })
+                           return res.json({ login: true })
                         } else {
-                            res.json({ signup: true })
+                            return res.json({ signup: true })
                         }
                     }
                 }
-                res.json({valid:true})
+                return res.json({valid:true})
             }else{
                 res.json({valid:false})
             }
         }
      catch (e) {
         console.log(e, "error in verify otp")
-        res.status('500').render("500")
+        res.render("500")
     }
 }
 

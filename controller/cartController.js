@@ -4,15 +4,18 @@ const User = require("../model/userModel");
 const Address = require("../model/addressModel");
 const Offer = require("../model/offerModel");
 const Coupon = require("../model/couponModel");
-const { couponAmount } = require("./couponController");
+
 
 async function calculateTotalAmountWithOffers(cartData) {
   let productOfferAmounts = [];
+  let totalAmount = 0;
+  let discount = 0;
+  let subtotal = 0; 
 
   for (const item of cartData.products) {
     if (!item.productId || !item.productId.price || !item.count) {
       console.error("Missing product data for item:", item);
-      continue; // Skip to the next item
+      continue; 
     }
 
     let applicableOffers = await Offer.find({
@@ -43,18 +46,24 @@ async function calculateTotalAmountWithOffers(cartData) {
       mostSignificantOffer = categoryOffer;
     }
 
-    let discount = 0;
     if (mostSignificantOffer) {
       discount = Math.floor(
         item.productId.price * (mostSignificantOffer.discountAmount / 100)
       );
+      subtotal = (item.productId.price-discount)*item.count; 
     }
+    totalAmount += subtotal; 
     let productOfferAmount = {
       productId: item.productId._id,
       discount: discount,
+      subtotal: subtotal, 
+      totalAmount: totalAmount
     };
     productOfferAmounts.push(productOfferAmount);
+    console.log('subeyyyy',subtotal);
   }
+  console.log('productdaaaaaaaaaaaaaaaaa',productOfferAmounts);
+  
 
   return {
     productOfferAmounts,
@@ -360,10 +369,11 @@ const checkoutLoad = async (req, res) => {
 
         return isActive && isNotExpired && isCriteriaMet;
       });
+      let discount =0
 
       if (cartData.appliedCoupon) {
         const appliedCouponData = await Coupon.findById(cartData.appliedCoupon);
-        let discount = Math.floor(totalAmount*(appliedCouponData.discountAmount/100))
+         discount = Math.floor(totalAmount*(appliedCouponData.discountAmount/100))
         totalAmount-=discount
       }
 

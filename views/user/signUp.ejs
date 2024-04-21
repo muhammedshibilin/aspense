@@ -368,6 +368,10 @@
 
     document.getElementById('signup-btn').addEventListener('click', async (e) => {
         e.preventDefault();
+        
+const url = new URL(window.location.href); 
+const referralCode = url.searchParams.get('referral');
+console.log('refferalCode',referralCode);
 
         if (validateForm()) {
             const response = await fetch('/sign-up', {
@@ -380,7 +384,8 @@
                     email: emailInput.value,
                     mobile: mobileInput.value,
                     password: passwordInput.value,
-                    confirmPassword: confirmPasswordInput.value
+                    confirmPassword: confirmPasswordInput.value,
+                    referral:referralCode
                 })
             });
 
@@ -389,6 +394,11 @@
             if (responseData.emailExist) {
                 emailMessage.style.display= 'block'
                 emailMessage.textContent = 'Email already exists';
+            } else if(responseData.invalidLink){
+                Swal.fire({
+                    icon:"error",
+                    text:"your refferal link is not valid,please check this"
+                })    
             } else if (responseData.success) {
                 window.location.href = '/otp';
             }

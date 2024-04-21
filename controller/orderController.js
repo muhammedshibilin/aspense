@@ -164,8 +164,8 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
  
       const paymentMethod = req.body.formData.payment;
       const address = req.body.formData.address;
-      let { totalAmount, totalAmountBeforeDiscounts,totalDiscount,discount,productOfferAmounts} = await calculateTotalAmountWithOffers(cartData);
-      let couponAmount
+      let { totalAmount, totalAmountBeforeDiscounts,totalDiscount,productOfferAmounts} = await calculateTotalAmountWithOffers(cartData);
+      let couponAmount=0
       console.log('evididddeee');
       if (cartData.appliedCoupon) {
         const appliedCouponData = await Coupon.findById(cartData.appliedCoupon);
@@ -237,9 +237,7 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
         };
  
         const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod, address,productOfferAmounts);
-       
         const paypalUrl = await handlePayPalPayment(create_payment_json);
-        await Cart.deleteOne({ user: user_id });
         res.json({ paypal: paypalUrl });
         
         
@@ -409,7 +407,7 @@ const updateOrder = async (req, res) => {
      if (orderStatus === 'accepted') {
        const productId = orderData.products[orderProductIndex].productId;
        const productTotalPrice = orderData.products[orderProductIndex].totalPrice;
-       const newTotalAmount = orderData.totalAmount - productTotalPrice; // Ensure this calculation is correct
+       const newTotalAmount = orderData.totalAmount - productTotalPrice;
        console.log('asdkkkkkkkkkkkkkkk', productTotalPrice, newTotalAmount);
       
        const date = new Date();
@@ -594,12 +592,6 @@ const generateInvoicePDF = async (req, res) => {
       console.log('PDF generation completed');
   });
 }
-
-
-
- 
-
-
 
 const invoiceSuccess = async (req, res) => {
   res.json({invoice: true});
