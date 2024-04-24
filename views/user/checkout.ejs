@@ -30,19 +30,15 @@
     max-width: 100px;
     margin-bottom: 15px;
 }
-
-
 .coupon-amount {
     font-size: 20px;
     color: #f00; /* Red color for emphasis */
 }
-
 .scratch-card {
     position: relative;
     margin-top: 20px;
     cursor: pointer;
 }
-
 .scratch-overlay {
     position: absolute;
     top: 0;
@@ -51,21 +47,17 @@
     height: 100%;
     background: rgb(27, 27, 27); /* Color of the scratch layer */
 }
-
 .coupon-code {
     position: relative;
     z-index: 1;
 }
-
 .hidden-code {
     visibility: hidden;
 }
-
 .scratch-card {
     position: relative;
     overflow: hidden;
 }
-
 .scratch-overlay {
     position: absolute;
     top: 0;
@@ -76,7 +68,6 @@
     background-size: cover;
     pointer-events: none;
 }
-
 .hidden-code {
     visibility: hidden;
     position: absolute;
@@ -90,7 +81,6 @@
     font-size: 24px;
     color: #000;
 }
-
 .scratch-text {
     position: absolute;
     top: 0;
@@ -143,7 +133,7 @@
 
     /* Styling for radio input */
     .address-item input[type="radio"] {
-        margin-right: 10px;
+        margin-right: 100px;
     }
 
     /* Styling for card title */
@@ -222,8 +212,6 @@
                             </div>
                             <% }) %>
                             <% } else { %>
-                    
-
                             <div class="col-lg-7 col-md-12 mb--20">
                                     <div id="billing-form" class="mb--40">
                                         <h4 class="checkout-title">Billing Address</h4>
@@ -334,14 +322,16 @@
   
                     <div class="col-lg-6">
                         <div class="mb--60">
-                            <h4 class="checkout-title">Cart Total</h4>
+                          
                             <div class="checkout-cart-total">
+                                <h4 class="checkout-title" style="text-decoration: none;">CART TOTAL</h4>
                                 <div class="card">
                                     <table class="cart-summary-table">
+                                       
                                         <thead>
                                             <tr>
-                                                <th scope="col">Product</th>
-                                                <th scope="col">Total</th>
+                                                <th scope="col">PRODUCT</th>
+                                                <th scope="col">TOTAL</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -352,23 +342,23 @@
                                                 </tr>
                                             <% }); %>
                                             <tr>
-                                                <td>Sub Total</td>
+                                                <td>SUB TOTAL</td>
                                                 <td id="subtotal">$<%= subTotal.toFixed(2) %></td>
                                             </tr>
                                             <tr>
-                                                <td>Shipping Fee</td>
+                                                <td>SHIPPING CHARGE</td>
                                                 <td>$<%= shippingAmount.toFixed(2) %></td> 
                                             </tr>
                                             <tr>
-                                                <td>Grand Total</td>
+                                                <td>GRAND TOTAL</td>
                                                 <td id="grandtotal">$<%= total.toFixed(2) %></td>
                                             </tr>
                                         </tbody>
                                         
                                     </table>
                                     <div style="padding: 15px;">
-                                        <h4 class="checkout-title ">Payment
-                                            Method</h4>
+                                        <h4 class="checkout-title ">PAYMENT
+                                            METHOD</h4>
                                         <div class="single-method">
                                             <!-- Payment method options go here -->
                                             <div>
@@ -782,7 +772,10 @@ document.getElementById("place-order").addEventListener("click", (e) => {
                 document.getElementById('couponCodeInput').value = selectedCouponCode;
                 updateTotals(response.couponOfferAmount, response.grandTotal);
             } else {
-                console.error('One or more elements not found: subtotal, grandtotal');
+                Swal.fire({
+                    icon:"error",
+                    text:"already you applied coupon"
+                })
             }   
             },
             error: (error) => {

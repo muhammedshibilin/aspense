@@ -4,6 +4,7 @@ const Cart = require('../model/cartModel')
 const Category = require('../model/categoryModel')
 const Address = require('../model/addressModel')
 const Review = require('../model/reviewModel')
+const Offer = require("../model/offerModel")
 const Order = require('../model/orderModel')
 const bcrypt = require("bcryptjs")
 const speakeasy = require('speakeasy');
@@ -162,8 +163,6 @@ const loadLogin = async (req, res) => {
     }
 }
 
-
-
 const verifyLogin = async (req, res) => {
     try {
         const { email, password } = req.body
@@ -196,6 +195,38 @@ const verifyLogin = async (req, res) => {
     }
 }
 
+async function findBiggestOfferAmount(productId) {
+    try {
+        const product = await Product.findById(productId);
+        if (!product) {
+            console.error("Product not found:", productId);
+            return 0;
+        }
+        const applicableOffers = await Offer.find({
+            $or: [
+                { productId: productId },
+                { categoryId: { $in: [product.category] } },
+            ],
+            startDate: { $lte: new Date() },
+            endDate: { $gte: new Date() },
+            is_block: 0,
+        });
+        console.log('amio',applicableOffers);
+
+      
+        let biggestOfferAmount = 0;
+        if (applicableOffers.length > 0) {
+            biggestOfferAmount = Math.max(...applicableOffers.map(offer => offer.discountAmount));
+        }
+        return biggestOfferAmount;
+    } catch (error) {
+        console.error("Error finding the biggest offer amount:", error);
+        return 0; 
+    }
+}
+
+
+
 const loadProductDetails = async (req, res) => {
     try {
         const productId = req.query._id
@@ -203,9 +234,15 @@ const loadProductDetails = async (req, res) => {
 
         const user_id = req.session.user_id
         const productData = await Product.findOne({ _id: productId }).populate("category")
-        
-      
+        const biggestOfferAmount = await findBiggestOfferAmount(productData._id);
+        console.log('offerma',biggestOfferAmount);
 
+        const productPrice = productData.price
+        console.log('paid',productPrice);
+        const offerApplied = Math.floor(productData.price*(biggestOfferAmount/100))
+        const offerAppliedPrice = productData.price-offerApplied
+
+        
         const categoryData = await Category.find()
         const relatedImg = await Product.find({ category: productData.category._id, _id: { $ne: productData._id } }).limit(8)
 
@@ -216,7 +253,9 @@ const loadProductDetails = async (req, res) => {
             categoryData,
             relatedImg,
             reviews,
-            user: user_id
+            user: user_id,
+            offerAppliedPrice,
+            biggestOfferAmount
         })
     } catch (error) {
         console.log(error);

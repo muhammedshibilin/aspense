@@ -100,6 +100,10 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
    const productDiscount = productOfferAmounts.find(offer => offer.productId === product.productId._id)?.discount || 0;
    const discountedPrice = product.productId.price - (productDiscount/product.count);
    console.log('discoun',discountedPrice,productDiscount);
+   let status
+   if(paymentMethod=="COD"&&paymentMethod=="wallet"){
+      status = 'placed'
+   }
 
     return{
      productId: product.productId._id,
@@ -108,7 +112,7 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
      productPrice: product.productId.price,
      image: product.productId.images[0],
      totalPrice:discountedPrice*product.count,
-     status:'Placed',
+     status:status
     }
   });
  
@@ -153,6 +157,8 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
      });
   });
  }
+ let address
+
  const placeOrder = async (req, res) => {
   try {
       const user_id = req.session.user_id;
@@ -163,7 +169,7 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
       }
  
       const paymentMethod = req.body.formData.payment;
-      const address = req.body.formData.address;
+      address = req.body.formData.address;
       let { totalAmount, totalAmountBeforeDiscounts,totalDiscount,productOfferAmounts} = await calculateTotalAmountWithOffers(cartData);
       let couponAmount=0
       console.log('evididddeee');
@@ -172,6 +178,8 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
         couponAmount = Math.floor(totalAmount*(appliedCouponData.discountAmount/100))
         totalAmount-=couponAmount
         console.log('couponnnnnnnnnnnnns',couponAmount,totalAmount);
+        appliedCouponData.usedUser.push(user_id);
+        await appliedCouponData.save();
       }
  
       if (paymentMethod === "paypal") {
@@ -221,8 +229,8 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
             "payment_method": "paypal"
           },
           "redirect_urls": {
-            "return_url": "http://localhost:7000/order-success",
-            "cancel_url": "http://localhost:7000/checkout"
+            "return_url": "https://2c14-103-170-228-58.ngrok-free.app/order-success",
+            "cancel_url": "https://2c14-103-170-228-58.ngrok-free.app/checkout"
           },
           "transactions": [{
             "item_list": {
@@ -236,11 +244,9 @@ async function createOrder(user_id, cartData, totalAmount, paymentMethod, addres
           }]
         };
  
-        const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod, address,productOfferAmounts);
+       
         const paypalUrl = await handlePayPalPayment(create_payment_json);
-        res.json({ paypal: paypalUrl });
-        
-        
+        res.json({ paypal: paypalUrl });  
       } else {
         await calculateTotalAmountWithOffers(cartData);
         const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod, address,productOfferAmounts);
@@ -263,6 +269,36 @@ const orderSuccess = async (req, res) => {
     console.log(error);
   }
 }
+
+const paypalOrderCreating = async (req,res)=> {
+  try {
+    const user_id = req.session.user_id
+    const cartData = await Cart.findOne({ user: user_id }).populate("products.productId");
+    if (!cartData || !cartData.products || cartData.products.length === 0) {
+      res.status(404).json({ error: "Cart data not found" });
+      return;
+    }
+
+    let { totalAmount, totalAmountBeforeDiscounts,totalDiscount,productOfferAmounts} = await calculateTotalAmountWithOffers(cartData);
+    if (cartData.appliedCoupon) {
+      const appliedCouponData = await Coupon.findById(cartData.appliedCoupon);
+      couponAmount = Math.floor(totalAmount*(appliedCouponData.discountAmount/100))
+      totalAmount-=couponAmount
+    }
+    if (webhookEvent.event_type === 'PAYMENTS.PAYMENT.FAILED') {
+      const paymentId = webhookEvent.resource.id;
+      console.log(`Payment ${paymentId} failed.`);
+      const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod = "paypal", address,productOfferAmounts);
+     
+   }else{
+    const orderId = await createOrder(user_id, cartData, totalAmount, paymentMethod = "paypal", address,productOfferAmounts);
+   }
+  } catch (error) {
+    console.log('while saving order of paypal',error);
+  }
+}
+
+
 const orderDetails = async (req, res) => {
   try {
 
@@ -611,6 +647,7 @@ const invoiceSuccess = async (req, res) => {
 module.exports = {
   placeOrder,
   orderSuccess,
+  paypalOrderCreating,
   cancelOrder,
   returnOrder,
   orderDetails,

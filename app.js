@@ -11,7 +11,7 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:7000'
+  origin: 'https://d235-103-170-228-58.ngrok-free.app'
 }));
 
 

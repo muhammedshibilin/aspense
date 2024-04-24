@@ -182,8 +182,11 @@
                               <th>
                                 <strong>Sl No</strong>
                               </th>
-                              <th>
+                              <!-- <th>
                                 <strong>offer name</strong>
+                              </th> -->
+                              <th>
+                                <strong>offertype</strong>
                               </th>
                               <th>
                                 <strong>amount</strong>
@@ -202,7 +205,8 @@
                             <% offerData.forEach((offer, index) => { %>
                             <tr>
                               <td><%= index+1 %></td>
-                              <td><%= offer.name %></td>
+                              <td><%= offer.name %></td> 
+                             
                               <td><%= offer.discountAmount %></td>
                               <td><%= new
                                 Date(offer.startDate).toLocaleDateString()

@@ -27,6 +27,7 @@
                                             <th class="pro-thumbnail">Image</th>
                                             <th class="pro-title">Product</th>
                                             <th class="pro-price">Price</th>
+                                            <th>to cart</th>
                                             <th class="pro-remove">Remove</th>
                                         </tr>
                                     </thead>
@@ -43,6 +44,7 @@
                                                     <td class="pro-price">
                                                         <span>$<%= product.product.price %></span>
                                                     </td>
+                                                    <td><button  onclick="toCart('<%= product.product._id %>')">add to cart</button></td>
                                                     <td class="pro-remove">
                                                         <a onclick="removeProduct('<%= product.product._id %>')"><i class="fa fa-trash-o"></i></a>
                                                     </td>
@@ -194,6 +196,86 @@
 
 
     <script>
+        function toCart(productId) {
+            $.ajax({
+                url: "/add-to-cart",
+                method: "post",
+                data: {
+                     productId,   
+                },
+                success: (response) => {  
+                    const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 2000,
+    })
+    
+                    if (response.login) {    
+                        Toast.fire({
+                            icon: "error",
+                            title: response.message
+                        });
+                        setTimeout(function () {
+                            window.location.href = '/login';
+                        }, 2000);
+    
+                    } else if (response.success) {
+                        if (response.newProduct) {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+    
+                            Toast.fire({
+                                icon: "success",
+                                title: "Product added to cart"
+                            });
+                            $('#reloadArea').load('/shop #reloadArea');
+    
+                        }
+                    } else if (response.exist) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+    
+                        Toast.fire({
+                            icon: "error", 
+                            title: "exist!",
+                            text:"product is already exist"
+                        });
+                        setTimeout(function () {
+                            window.location.href = '/cart';
+                        }, 2000);
+                    } else if (response.stock) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+    
+                        Toast.fire({
+                            icon: "error", 
+                            title: "out of stock!",
+                            text:"the product is available soon"
+                        });
+                        return
+                    }
+                },
+                error: (error) => {
+                    console.error("Error adding to cart:", error);
+                },
+            });
+        }
+
+     
+
 function removeProduct(productId) {
     $.ajax({
         method: 'DELETE',

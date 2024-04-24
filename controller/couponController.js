@@ -193,14 +193,7 @@ const couponAmount = async (req, res) => {
         message: "you applied a coupon you can add after removing the added one",
       });
     }
-    const existingUser = await  couponData.usedUser.includes(user_id)
-    if (existingUser) {
-      return res.json({
-        success: false,
-        message:
-          "A coupon is already applied. Please remove it before applying a new one.",
-      });
-    }
+
 
  
 
@@ -230,8 +223,6 @@ const couponAmount = async (req, res) => {
         { $set: { appliedCoupon: couponId } },
       )
     
-      couponData.usedUser.push(user_id);
-      await couponData.save();
       res.json({
         success: true,
         couponOfferAmount,

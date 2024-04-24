@@ -145,13 +145,7 @@ user_route.post("/coupon-amount",auth.isLogin,couponController.couponAmount)
 user_route.post("/remove-coupon",auth.isLogin,couponController.removeCoupon)
 
 user_route.post("/place-order",auth.isLogin,orderController.placeOrder)
-user_route.post('/paypal-ipn', async (req, res) => {
-console.log('paypal messaee',req.body);
-  const user_id = req.session.user_id;
-  const deleted = await Cart.deleteOne({ user: user_id });
-  console.log('dekee',deleted);
-  res.sendStatus(200);
- });
+user_route.post('/paypal-ipn',auth.isLogin,orderController.paypalOrderCreating)
  
 user_route.get('/order-success',auth.isLogin,orderController.orderSuccess)
 user_route.get('/order-details',auth.isLogin,orderController.orderDetails)

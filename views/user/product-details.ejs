@@ -76,12 +76,18 @@
                                             class="heading heading-h4 text-black "><%=
                                             productData.name %> </h4>
                                     </div>
-                                    <div class="price">
-                                     
-                                        <p class="theme-color text-black"
-                                            style=" color: #999; font-size: 12px;">$<%=
-                                            productData.price %></p>
-                                    </div>
+                                    <% if(biggestOfferAmount && biggestOfferAmount!=="undefined") { %>  
+                                        <h3 style="color: red;"><%= biggestOfferAmount %>%</h3>
+                                        <div class="price">
+                                            <p class="theme-color text-black" style="color: #999; font-size: 15px; text-decoration:line-through;">$<%= productData.price %></p>
+                                            <p class="theme-color text-black" style="color:black; font-size: 20px;">$<%= offerAppliedPrice %></p>
+                                        </div>
+                                    <% } else { %>
+                                        <div class="price">
+                                            <p class="theme-color text-black" style="color: #000000; font-size: 20px;">$<%= productData.price %></p>
+                                        </div>
+                                    <% } %>
+                                    
                                     <% if(productData.quantity <= 4){ %>
                                     <p
                                         style="color: black; font-size: 20px; font-weight: bold;">

@@ -381,7 +381,7 @@ const excelDownload = async (req, res) => {
       },
       {
         $match: {
-          "products.status": "Delivered",
+          "status": "Delivered",
           date: { $gte: startDate, $lte: currentDate },
         },
       },

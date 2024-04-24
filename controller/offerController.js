@@ -3,40 +3,39 @@ const Product = require("../model/productModel");
 const Category = require("../model/categoryModel");
 
 
-const offerLoad = async (req, res) => {
-  try {
-    console.log('SEA',req.query.search);
-     const page = parseInt(req.query.page) || 1;
-     const limit = 6;
-     const skip = (page - 1) * limit;
-     // Ensure searchQuery is a string, default to an empty string if not provided
-     const searchQuery = req.query.search ? req.query.search : '';
-     let query = {};
- 
-     // Check if searchQuery is not an empty string before using it in the query
-     if (searchQuery) {
-       query.name = { $regex: searchQuery, $options: 'i' };
-     }
- 
-     const totalOffers = await Offer.countDocuments(query);
-     const totalPages = Math.ceil(totalOffers / limit);
- 
-     const offerData = await Offer.find(query).skip(skip).limit(limit);
-     const productData = await Product.find({ is_block: 0 });
-     const categoryData = await Category.find({ is_block: 0 });
-     res.render("offer", {
-       offerData,
-       productData,
-       categoryData,
-       currentPage: page,
-       totalPages: totalPages,
-       searchQuery: searchQuery,
-     });
-  } catch (e) {
-     console.log("while loading offer", e);
-  }
- };
- 
+  const offerLoad = async (req, res) => {
+    try {
+      console.log('SEA',req.query.search);
+      const page = parseInt(req.query.page) || 1;
+      const limit = 6;
+      const skip = (page - 1) * limit;
+      const searchQuery = req.query.search ? req.query.search : '';
+      let query = {};
+  
+      
+      if (searchQuery) {
+        query.name = { $regex: searchQuery, $options: 'i' };
+      }
+  
+      const totalOffers = await Offer.countDocuments(query);
+      const totalPages = Math.ceil(totalOffers / limit);
+  
+      const offerData = await Offer.find(query).populate({ path: 'productId', strictPopulate: false }).populate({ path: 'categoryId', strictPopulate: false }).skip(skip).limit(limit);
+      const productData = await Product.find({ is_block: 0 });
+      const categoryData = await Category.find({ is_block: 0 });
+      res.render("offer", {
+        offerData,
+        productData,
+        categoryData,
+        currentPage: page,
+        totalPages: totalPages,
+        searchQuery: searchQuery,
+      });
+    } catch (e) {
+      console.log("while loading offer", e);
+    }
+  };
+  
 
 const addOffer = async (req, res) => {
   try {
@@ -123,17 +122,13 @@ const editOfferLoad = async (req, res) => {
   try {
     const offerId = req.query._id;
     console.log("id", offerId);
-    // Populate both categoryId and productId fields
     const offerData = await Offer.findById(offerId)
       .populate("categoryId")
       .populate("productId");
     console.log("saf", offerData);
-
-    // Always fetch the full list of categories and products
     const categoryData = await Category.find({});
     const productData = await Product.find({});
 
-    // Determine if the offer is for a category or a product
     let selectedCategoryId =
       offerData.categoryId && offerData.categoryId.length > 0
         ? offerData.categoryId[0]._id
