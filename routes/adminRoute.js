@@ -110,7 +110,7 @@ admin_route.get("/excel-download",auth.isLogin,adminController.excelDownload)
 admin_route.get('/pdf-download',auth.isLogin,adminController.pdfDownload)
 
 
-
+admin_route.post('/graph',adminController.graphData)
 
 admin_route.get('*', (req, res) => {
   res.redirect('/admin')

@@ -9,9 +9,7 @@ module.exports = {
     mongoose
       .connect(process.env.mongo, {})
       .then(() => {
-        console.log(
-          "Server is running on https://2c14-103-170-228-58.ngrok-free.app" + emoji.get("rocket")
-        );
+        console.log(`Server is running on http://localhost:7000 `+ emoji.get("rocket"))
       })
       .catch((e) => {
         console.log("server having some trouble....!" + emoji.get("sad"));

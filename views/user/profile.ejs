@@ -1062,6 +1062,9 @@
                                                                                         style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Payment
                                                                                         Method</th>
                                                                                     <th
+                                                                                        style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">order
+                                                                                         status</th>
+                                                                                    <th
                                                                                         style="padding: 10px; background-color: #f2f2f2; border-bottom: 1px solid #ddd; width: auto;">Details</th>
                                                                                 </tr>
                                                                             </thead>
@@ -1106,11 +1109,18 @@
                                                                                         order.paymentMethod
                                                                                         %></td>
                                                                                     <td
+                                                                                        style="padding: 10px; border-bottom: 1px solid #ddd;"><%=
+                                                                                        order.orderStatus
+                                                                                        %></td>
+                                                                                    <td
                                                                                         style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">
-                                                                                        <a
-                                                                                            href="/order-details?_id=<%=order._id %>"
-                                                                                            style="display: inline-block; padding: 8px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">View
-                                                                                            Details</a>
+                                                                                        <% if (order.orderStatus === 'Pending') { %>
+                                                                                            <a onclick="payNow('<%=order._id %>')"
+                                                                                                style="display: inline-block; padding: 8px 16px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 4px;">Pay Now</a>
+                                                                                        <% } else { %>
+                                                                                            <a href="/order-details?_id=<%=order._id %>"
+                                                                                                style="display: inline-block; padding: 8px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">View Details</a>
+                                                                                        <% } %>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <%
@@ -1157,11 +1167,19 @@
                                                 <div class="panel-body">
                                                     <div class="billing-information-wrapper">
                                                         <div class="account-info-wrapper">
-                                                            <h4>your order details</h4>
+                                                            <h4>your wallet details</h4>
                                                         </div>
                                                         <div class="entries-wrapper">
                                                             <h1>Wallet History</h1>
+                                                           
                                                             <table class="table">
+                                                                <div style="display: inline-block; vertical-align: middle;">
+                                                                    <video src="/user/videos/wallet.webm" loop autoplay muted style="width: 50px; height: 50px;"></video>
+                                                                </div>
+                                                                <div style="display: inline-block; vertical-align: middle;">
+                                                                    <p style="font-weight: bold; display: inline;">$<%=userData.wallet %>.00</p>
+                                                                </div>
+                                                                
                                                                 <thead>
                                                                     <tr>
                                                                         <th>si no</th>
@@ -1174,7 +1192,7 @@
                                                                     <% if (walletData.walletHistory && walletData.walletHistory.length) { %>
                                                                         <% walletData.walletHistory.forEach((entry, index) => { %>
                                                                             <tr>
-                                                                                <td><%= index + 1 %></td> <!-- Index column -->
+                                                                                <td><%= index + 1 %></td> 
                                                                                 <td><%= entry.date instanceof Date ? entry.date.toDateString() : 'Not a Date' %></td>
                                                                                 <td>$<%= entry.amount.toFixed(2) %></td>
                                                                                 <td><%= entry.direction %></td>
@@ -1360,6 +1378,24 @@
     </div>
 
     <script>
+
+function payNow(orderId) {
+    fetch('/pay-now', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderId: orderId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        window.location.href = data.paypal;
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
 document.getElementById('edit-btn').addEventListener('click', async (e) => {
     e.preventDefault();
     const name = document.getElementById('edit-name').value;

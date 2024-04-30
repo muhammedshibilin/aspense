@@ -103,7 +103,6 @@
 
     .cart-summary-table th,
     .cart-summary-table td {
-        border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
     }
@@ -112,45 +111,57 @@
         background-color: #f2f2f2;
     }
 
-    .cart-summary-table tbody tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
+  
 
-    .address-item {
-        background-color: #f8f9fa;
-        border: 1px solid #dee2e6;
-        border-radius: 5px;
-        margin-bottom: 15px;
-        padding: 15px;
-        transition: all 0.3s ease;
-    }
+    .card-title {
+    font-size: 18px;
+    margin-bottom: 0;
+}
 
-    .address-item:hover {
-        background-color: #e9ecef;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transform: translateY(-3px);
-    }
+.card-text {
+    margin-bottom: 5px;
+}
 
-    /* Styling for radio input */
-    .address-item input[type="radio"] {
-        margin-right: 100px;
-    }
+.address-item {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
+
+.address-item .card-body {
+    padding: 0;
+}
+
+.address-details {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.address-details span {
+    margin-right: 10px;
+}
+
+.card-title span {
+    font-size: 1rem;
+    margin-left: 10px;
+}
+ 
+
+
 
     /* Styling for card title */
-    .card-title {
-        font-size: 18px;
-        margin-bottom: 10px;
-    }
-
-    /* Styling for card text */
-    .card-text {
-        margin-bottom: 5px;
-    }
+   
 </style>
 
 <!-- Start Breadumb Area -->
 <div
-    class="breadcumb-area ptb--100 ptb_md--100 ptb_sm--100  bg_image bg_image--3">
+    class="breadcumb-area ptb--100 ptb_md--100 ptb_sm--100  bg_image bg_image--3" style="margin-top: 7rem;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -166,7 +177,7 @@
     <div class="main-wrapper">
         <div class="checkout_area pt--120 pt_md--80 pt_sm--80 pb--60 bg-color"
             data-bg-color="#ffffff">
-            <div class="container">
+            <div class="container ">
                 <div class="row">
                     <div class="col-lg-6">
                         <h3>your Address</h3>
@@ -176,43 +187,193 @@
                             addressData.address.length > 0) { %>
                             <% addressData.address.forEach((address, index) => {
                             %>
-                            <div class="col-lg-6 ">
-                                <div class="card address-item">
-                                    <input type="radio" class="pl-4 ml-3 mr-1"
-                                        name="address"
-                                        value='<%= JSON.stringify(address) %>'
-                                        <%=index === 0 ? 'checked' : '' %> />
+                            <div class="col-lg-12">
+                                <div class="address-item card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Address <%=
-                                            index+1 %></h5>
-                                        <p
-                                            class="card-text"><strong>Name:</strong>
-                                            <%= address.fullName %></p>
-                                        <p
-                                            class="card-text"><strong>Email:</strong>
-                                            <%= address.email %></p>
-                                        <p
-                                            class="card-text"><strong>Mobile:</strong>
-                                            <%= address.mobile %></p>
-                                        <p
-                                            class="card-text"><strong>State:</strong>
-                                            <%= address.state %></p>
-                                        <p
-                                            class="card-text"><strong>City:</strong>
-                                            <%= address.city %></p>
-                                        <p
-                                            class="card-text"><strong>Pincode:</strong>
-                                            <%= address.pin %></p>
-                                        <p class="card-text"><strong>House
-                                                Name:</strong> <%=
-                                            address.houseName %></p>
+                                        <div class="row">
+                                            <div class="col-lg-9">
+                                        <h3 class="card-title">Address <%= index + 1 %>: <span><%= address.fullName %></span></h3>
+                                        <p class="card-text address-details">
+                                            <span><%= address.mobile %>,</span>
+                                            <span><%= address.state %>,</span>
+                                            <span><%= address.city %>,</span>
+                                            <span><%= address.pin %>,</span>
+                                            <span><%= address.houseName %></span>
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-3">
+
+                                        <div style="display:flex; flex-direction: column; justify-content: center; align-items: center; gap: 1rem;">
+                                            <input type="radio" name="address" value='<%= JSON.stringify(address) %>' <%= index === 0 ? 'checked' : '' %> />
+                                            <a href="#" onclick="showEditAddressModal('<%= address.fullName %>','<%= address.mobile %>', '<%= address.email %>', '<%= address.houseName %>', '<%= address.city %>', '<%= address.state %>',  '<%= address.pin %>','<%= address._id %>')" class="edit-link" data-toggle="modal" data-target="#editAddressModal">Edit <i class="fa-sharp fa-solid fa-pen" style="color: #cc9966;"></i></a>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
-
+                                </div>
                             </div>
+
+                            <div class="modal fade"
+                            id="editAddressModal"
+                            tabindex="-1"
+                            role="dialog"
+                            aria-labelledby="exampleModalLabel"
+                            aria-hidden="true"
+                            style="padding-top: 80px;">
+                            <div
+                                class="modal-dialog"
+                                role="document">
+                                <div
+                                    class="modal-content">
+                                    <div
+                                        class="modal-header">
+                                        <h5
+                                            class="modal-title"
+                                            id="exampleModalLabel">edit
+                                            Address</h5>
+                                        <button
+                                            type="button"
+                                            class="close"
+                                            data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span
+                                                aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div
+                                        class="modal-body">
+                                        <form
+                                            id="editAddressform"
+                                            class="row gx-2">
+                                            <div
+                                                class="form-group col-md-6">
+                                                <label
+                                                    for="fullname">Full
+                                                    Name
+                                                    *</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="fullname"
+                                                    id="fullnames"
+                                                    required>
+                                               <p id="error-name"  style="display: none; color: red;"></p>
+                                            </div>
+
+                                            <div
+                                                class="form-group col-md-6">
+                                                <label
+                                                    for="mobile">Mobile
+                                                    *</label>
+                                                <input
+                                                    type="tel"
+                                                    class="form-control"
+                                                    name="mobile"
+                                                    id="mobiles"
+                                                    required>
+                                                <p id="error-mobile"  style="display: none; color: red;"></p>
+                                            </div>
+
+                                            <div
+                                                class="form-group col-md-12">
+                                                <label
+                                                    for="email">Email
+                                                    *</label>
+                                                <input
+                                                    type="email"
+                                                    class="form-control"
+                                                    name="email"
+                                                    id="emails"
+                                                    >
+                                               <p id="error-email"  style="display: none; color: red;"></p>
+                                            </div>
+
+                                            <div
+                                                class="form-group col-md-12">
+                                                <label
+                                                    for="house">House
+                                                    Name
+                                                    *</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="houseName"
+                                                    id="houseNames"
+                                                    >
+                                               <p id="error-housename"  style="display: none; color: red;"></p>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    style="display: none;"
+                                                    id="addressId"
+                                                    name="addressId">
+                                            </div>
+
+                                            <div
+                                                class="form-group col-md-4">
+                                                <label
+                                                    for="state">State
+                                                    *</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="state"
+                                                    id="states"
+                                                    >
+                                               <p id="error-state"  style="display: none; color: red;"></p>
+                                            </div>
+
+                                            <div
+                                                class="form-group col-md-4">
+                                                <label
+                                                    for="city">City
+                                                    *</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="city"
+                                                    id="citys"
+                                                    >
+                                                <p id="error-city"  style="display: none; color: red;"></p>
+                                            </div>
+
+                                            <div
+                                                class="form-group col-md-4">
+                                                <label
+                                                    for="pincode">Pincode
+                                                    *</label>
+                                                <input
+                                                    type="tel"
+                                                    class="form-control"
+                                                    name="pincode"
+                                                    id="pincodes"
+                                                    autocomplete="off"
+                                                    >
+                                               <p id="error-pin"  style="display: none; color: red;"></p>
+                                            </div>
+
+                                            <div
+                                                class="form-group col-md-12">
+                                                <button
+                                                    id="editAddress"
+                                                    type="submit"
+                                                    class="btn btn-outline-primary">
+                                                    <span>Add
+                                                        Address</span>
+                                                    <i
+                                                        class="icon-long-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            
+                            
                             <% }) %>
                             <% } else { %>
-                            <div class="col-lg-7 col-md-12 mb--20">
+                            <div class="col-lg-8 col-md-12 mb--20">
                                     <div id="billing-form" class="mb--40">
                                         <h4 class="checkout-title">Billing Address</h4>
                                         <div class="row">
@@ -367,15 +528,14 @@
                                                 checked>
                                             <label for="COD" style="font-weight: bold;">Cash on
                                                 Delivery</label>
-                                            <p data-method="cash">Please send a
-                                                Check to Store name with Store
-                                                Street, Store Town,
-                                                Store State, Store Postcode,
-                                                Store Country.</p>
                                             </div>
                                             <div>
                                                 <input type="radio" id="paypal" name="payment" value="paypal">
                                                 <label for="paypal" style="font-weight: bold;">Paypal</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" id="wallet" name="payment" value="wallet">
+                                                <label for="wallet" style="font-weight: bold;">wallet</label>
                                             </div>
                                         </div>
                                         <div style="text-align: center;">
@@ -638,12 +798,14 @@ document.getElementById("place-order").addEventListener("click", (e) => {
     } else {
         address = JSON.parse(selectedAddress);
     }
+ 
 
     const paymentMethod = $("input[name='payment']:checked").val();
     const formData = {
         address: address,
         payment: paymentMethod,
     };
+    
 
                     $.ajax({
                         url: "/place-order",
@@ -663,12 +825,27 @@ document.getElementById("place-order").addEventListener("click", (e) => {
                             } else if (response.codsuccess == true) {
                                 swal.fire({
                                 icon: "success",
-                                title:"order is success",
+                                title:"cash on delivery",
+                                text:"order success",
                                 timer: 3000
                                 }).then(()=> {        
                                     window.location.href = `/order-success`;
                                 });
-                            } else if (response.paypal) {
+                            }else if(response.wallet){
+                                swal.fire({
+                                icon: "success",
+                                title:"wallet",
+                                text:"order success",
+                                timer: 3000
+                                }).then(()=> {        
+                                    window.location.href = `/order-success`;
+                                });   
+                            }else if(response.walletAmount){
+                                swal.fire({
+                                icon: "error",
+                                text:"wallet amount not enough",
+                                })  
+                        }else if (response.paypal) {
                         window.location.href = response.paypal;
                     }
                         },
@@ -684,6 +861,156 @@ document.getElementById("place-order").addEventListener("click", (e) => {
     function closeModal() {
         $('#discountModal').modal('hide');
     }
+  
+
+    function showEditAddressModal(
+  fullname,
+  mobile,
+  email,
+  houseName,
+  city,
+  state,
+  pincode,
+  addressId,
+) {
+  document.getElementById('fullnames').value = fullname
+  document.getElementById('emails').value = email
+  document.getElementById('mobiles').value = mobile
+  document.getElementById('states').value = state
+  document.getElementById('citys').value = city
+  document.getElementById('pincodes').value = pincode
+  document.getElementById('houseNames').value = houseName
+  document.getElementById('addressId').value = addressId
+
+
+  $('#editAddressModal').modal('show')
+}
+
+document.getElementById('editAddress').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    
+    const editAddressId = document.getElementById('addressId').value;
+    const fullname = document.getElementById('fullnames').value;
+    const pin = document.getElementById('pincodes').value;
+    const mobile = document.getElementById('mobiles').value;
+    const email = document.getElementById('emails').value;
+    const houseName = document.getElementById('houseNames').value;
+    const city = document.getElementById('citys').value;
+    const state = document.getElementById('states').value;
+
+    console.log('full',fullname,pin,mobile,email,houseName,city,state);
+    console.log('fulssname',fullname);
+    
+  
+    const nameError = document.getElementById('error-name');
+    const pinError = document.getElementById('error-pin');
+    const phoneError = document.getElementById('error-mobile');
+    const addEmailError = document.getElementById('error-email');
+    const houseError = document.getElementById('error-housename');
+    const cityError = document.getElementById('error-city');
+    const stateError = document.getElementById('error-state');
+    console.log('addreddddddsssssssss',fullname ,editAddressId,mobile,pin,email);
+
+    // Regular expressions for validation
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const mobilePattern = /^\d{10}$/;
+    const namePattern = /^[a-zA-Z\s]+$/;
+    const pincodePattern = /^\d{6}$/;
+
+    if (fullname.trim() === '') {
+      nameError.style.display = 'block';
+      nameError.textContent = 'Name is required.';
+    } else if (!namePattern.test(fullname)) {
+      nameError.style.display = 'block';
+      nameError.textContent = 'Full name should contain only alphabets.';
+    } else if (fullname.length < 3) {
+      nameError.style.display = 'block';
+      nameError.textContent = 'Full name should be at least 3 characters long.';
+    } else if (pin.trim() === '') {
+      pinError.style.display = 'block';
+      pinError.textContent = 'Pincode is required.';
+    } else if (!pincodePattern.test(pin)) {
+      pinError.style.display = 'block';
+      pinError.textContent = 'Enter a valid pincode.';
+    } else if (mobile.trim() === '') {
+      phoneError.style.display = 'block';
+      phoneError.textContent = 'Phone number is required.';
+    } else if (!mobilePattern.test(mobile)) {
+      phoneError.style.display = 'block';
+      phoneError.textContent = 'Enter a valid phone number (10 digits).';
+    } else if (email.trim() === '') {
+      addEmailError.style.display = 'block';
+      addEmailError.textContent = 'Email is required.';
+    } else if (!emailPattern.test(email)) {
+      addEmailError.style.display = 'block';
+      addEmailError.textContent = 'Enter a valid email address.';
+    } else if (houseName.trim() === '') {
+      houseError.style.display = 'block';
+      houseError.textContent = 'House name is required.';
+    } else if (city.trim() === '') {
+      cityError.style.display = 'block';
+      cityError.textContent = 'City name is required.';
+    } else if (state.trim() === '') {
+      stateError.style.display = 'block';
+      stateError.textContent = 'State name is required.';
+    } else {
+     
+      $.ajax({
+        url: '/edit-address',
+        data: {
+          fullname: fullname,
+          editAddressId: editAddressId,
+          email: email,
+          mobile: mobile,
+          houseName: houseName,
+          city: city,
+          state: state,
+          pincode: pin
+        },
+        method: 'POST',
+        success: (response) => {
+          console.log(response, 'check the response');
+          if (response.success) {
+            $('#editAddressModal').modal('hide');
+      
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000
+            });
+
+            Toast.fire({
+              icon: 'success',
+              title: 'Billing address updated successfully.'
+            });
+
+            setTimeout(() => {
+              window.location.reload('/profile');
+            }, 2000);
+          } else {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000
+            });
+
+            Toast.fire({
+              icon: 'error',
+              title: 'Oops! Try again.'
+            });
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
+    }
+  });
+
 
     // document.querySelectorAll('.scratch-card').forEach(function(card) {
     //     let scratchedPercentage = 0;

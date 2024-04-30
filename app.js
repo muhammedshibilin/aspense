@@ -4,6 +4,7 @@ const path = require('path');
 const session = require('express-session')
 const nocache = require('nocache')
 const cors = require('cors');
+const PORT = 7000;
 
 
 
@@ -11,8 +12,9 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors({
-  origin: 'https://d235-103-170-228-58.ngrok-free.app'
+  origin: 'http://localhost:7000'
 }));
+
 
 
 app.use(session({
@@ -27,6 +29,7 @@ app.use(nocache())
 
 const user_route = require('./routes/userRoute');
 const admin_route = require('./routes/adminRoute');
+
 
 mongoDb.connectDB()
 
@@ -54,6 +57,6 @@ app.use(session({
   
   
 
-app.listen(7000);
+app.listen(PORT);
 
 module.exports = app;

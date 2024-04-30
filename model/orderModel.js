@@ -39,7 +39,7 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
-      status: {
+      productStatus: {
         type: String,
       },
     },
@@ -51,6 +51,7 @@ const orderSchema = new mongoose.Schema({
   date: {
     type: Date,
   },
+  orderStatus: { type: String },
   returnReason: {
     type: String,
   },

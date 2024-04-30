@@ -1,5 +1,6 @@
 const User = require("../model/userModel");
 const Order = require("../model/orderModel");
+const Product = require('../model/productModel')
 const bcrypt = require("bcryptjs");
 const puppeteer = require("puppeteer");
 const path = require("path");
@@ -477,6 +478,174 @@ const excelDownload = async (req, res) => {
   }
 };
 
+const graphData = async (req, res) => {
+  try {
+
+      let salesData =
+      {
+          'labels': [],
+          'salesData': [],
+          'revenueData': [],
+          'productsData': []
+      }
+
+      const { filter, time } = req.body
+
+      if (filter === 'monthly') {
+          salesData.labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+          const contraints = {
+              $gte: new Date(`${time}-01-01T00:00:00.000Z`),
+              $lte: new Date(`${time}-12-31T00:00:00.000Z`)
+          }
+          const sales = await Order.aggregate([
+              {
+                  $match: {
+                      createdAt: contraints
+                  }
+              },
+              {
+                  $group: {
+                      _id: {
+                          $month: '$createdAt'
+                      },
+                      revenueData: {
+                          $sum: "$totalAmount"
+                      },
+                      salesData: {
+                          $sum: 1
+                      }
+                  }
+              },
+              {
+                  $sort: {
+                      '_id': 1
+                  }
+              }
+          ])
+        
+          const products = await Product.aggregate([
+              {
+                  $match: {
+                      createdAt: contraints
+                  }
+              },
+              {
+                  $group: {
+                      _id: {
+                          $month: "$createdAt"
+                      },
+                      productsData: {
+                          $sum: 1
+                      }
+                  }
+              },
+              {
+                  $sort: {
+                      "_id": 1 
+                  }
+              }
+          ])
+    
+          salesData.salesData = sales.map((item) => item.salesData)
+          salesData.revenueData = sales.map((item) => item.revenueData / 1000);
+          salesData.productsData = products.map((item) => item.productsData);
+      } else {
+        
+          salesData.labels = [`${time - 10}`, `${time - 9}`, `${time - 8}`, `${time - 7}`, `${time - 6}`, `${time - 5}`, `${time - 4}`, `${time - 3}`, `${time - 2}`, `${time - 1}`, `${time}`];
+          const contraints = {
+              $gte: new Date(`${time - 10}-01-01T00:00:00.000Z`),
+              $lte: new Date(`${time}-12-31T00:00:00.000Z`)
+          }
+
+          const sales = await Order.aggregate([
+              {
+                  $match: {
+                      createdAt: contraints
+                  }
+              },
+              {
+                  $group: {
+                      _id: {
+                          $year: "$createdAt"
+                      },
+                      revenueData: {
+                          $sum: "$orderAmount"
+                      },
+                      salesData: {
+                          $sum: 1
+                      }
+                  }
+              },
+              {
+                  $sort: {
+                      "_id": 1
+                  }
+              }
+          ])
+      
+          const products = await Product.aggregate([
+              {
+                  $match: {
+                      createdAt: contraints
+                  }
+              },
+              {
+                  $group: {
+                      _id: {
+                          $year: "$createdAt"
+                      },
+                      productsData: {
+                          $sum: 1
+                      }
+                  }
+              },
+              {
+                  $sort: {
+                      "_id": 1
+                  }
+              }
+          ])
+
+        
+          for (let key of sales) {
+              
+              for (let data of salesData.labels) {
+                  
+                  if (key._id == data) {
+                      salesData.salesData.push(key.salesData)
+                      salesData.revenueData.push(key.revenueData / 1000)
+                  } else {
+                      salesData.salesData.push(0)
+                      salesData.revenueData.push(0)
+                  }
+              }
+          }
+
+          for (let key of products) {
+            
+              for(let data of  salesData.labels){
+                
+
+                  if(key._id==data){
+                      salesData.productsData.push(key.productsData) 
+                  }else{
+                      salesData.productsData.push(0)
+                  }
+              }
+
+          }
+
+      }
+      res
+      .status(200)
+      .json(salesData)
+
+
+  } catch (error) {
+      console.log('error', error)
+  }
+}
+
 module.exports = {
   loginLoad,
   adminLogin,
@@ -488,4 +657,5 @@ module.exports = {
   salesReportLoad,
   pdfDownload,
   excelDownload,
+  graphData
 };

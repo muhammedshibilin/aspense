@@ -101,7 +101,6 @@ user_route.post('/delete-address',addressController.deleteAddress)
 user_route.post('/edit-address',addressController.editAddress)
 
 
-
 user_route.get('/get-address-details/:pincode', async (req, res) => {
     const pincode = req.params.pincode;
     console.log('pincode:', pincode); 
@@ -145,8 +144,9 @@ user_route.post("/coupon-amount",auth.isLogin,couponController.couponAmount)
 user_route.post("/remove-coupon",auth.isLogin,couponController.removeCoupon)
 
 user_route.post("/place-order",auth.isLogin,orderController.placeOrder)
-user_route.post('/paypal-ipn',auth.isLogin,orderController.paypalOrderCreating)
- 
+user_route.post('/pay-now',auth.isLogin,orderController.payNow)
+user_route.get("/paypal-success",auth.isLogin,orderController.paypalSuccess)
+user_route.get("/paypal-cancel",auth.isLogin,orderController.paypalCancel)
 user_route.get('/order-success',auth.isLogin,orderController.orderSuccess)
 user_route.get('/order-details',auth.isLogin,orderController.orderDetails)
 user_route.post('/cancel-order',auth.isLogin,orderController.cancelOrder)
@@ -166,5 +166,12 @@ user_route.get('/wishlist',wishlistController.WishlistLoad)
 user_route.post('/add-to-wishlist',wishlistController.addToWish)
 user_route.delete('/remove-from-wishlist',wishlistController.removeFromWish)
 
+user_route.get("*", (req, res, next) => {
+  if(req.url.match('/admin')) {
+    next()
+  } else {
+    res.status(404).render('404');
+  }
+})
 
 module.exports = user_route;

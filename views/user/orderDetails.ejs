@@ -43,7 +43,7 @@
                                             <tr>
 
                                                 <td><%= product.productId.name %></td>
-                                                <td><img
+                                                <td><a href="/product-details?_id=<%= product.productId._id %>"></a><img
                                                         src="/images/product/original/<%= product.productId.images[0] %>"
                                                         alt="Product Image"
                                                         width="50"
@@ -54,61 +54,61 @@
                                                     %>.00</td>
                                                 <td>$<%= product.totalPrice
                                                     %>.00</td>
-                                                <td><%= product.status %></td>
+                                                <td><%= product.productStatus %></td>
                                                 <td>
 
-                                                    <% if (product.status !==
+                                                    <% if (product.productStatus!==
                                                     "Cancelled" &&
-                                                    product.status !==
+                                                    product.productStatus!==
                                                     "Delivered"
-                                                    && product.status !==
-                                                    "requested" && product.status
+                                                    && product.productStatus!==
+                                                    "requested" && product.productStatus
                                                     !== "accepted" &&
-                                                    product.status !=="Pending" &&product.status !=="Out for Delivery" &&  product.status !=="Shipped" && product.status!=='rejected' )
+                                                    product.productStatus!=="Pending" &&product.productStatus!=="Out for Delivery" &&  product.productStatus!=="Shipped" && product.productStatus!=='rejected' )
                                                     { %>
                                                     <button type="button"
                                                         onclick="cancelProduct('<%= product._id %>', '<%= orderItem._id %>')"
                                                         class="btn"
                                                         style="color: rgb(249, 249, 249); background-color:  #ce3f3f;">Cancel</button>
-                                                    <% } else if (product.status
+                                                    <% } else if (product.productStatus
                                                     == "Delivered") { %>
                                                     <button type="button"
                                                         class="btn "
                                                         id="requestStatus"
                                                         onclick="returnRequest('<%= product._id %>','<%= orderItem._id %>')"
                                                         style="background-color: #e66a35; color: rgb(239, 190, 167)">Return</button>
-                                                    <% } else if (product.status
+                                                    <% } else if (product.
+                                                    productStatus
                                                     == "accepted") { %>
                                                     <label
                                                         style="color: red;">OrderReturned</label>
-                                                    <% } else if (product.status
+                                                    <% } else if (product.productStatus
                                                     == "rejected") { %>
                                                     <label
                                                         style="color: blue;">rejected</label>
                         
-                                                    <% } else if (product.status
+                                                    <% } else if (product.productStatus
                                                     == "Shipped") { %>
                                                     <label
                                                         style="color: blue;">shipped</label>
                         
-                                                    <% } else if (product.status
+                                                    <% } else if (product.productStatus
                                                     
                                                     == "Out for Delivery") { %>
                                                     <label
                                                         style="color: blue;">out of delivery</label>
-                                                    <% } else if (product.status
+                                                    <% } else if (product.productStatus
                                                     == "requested") { %>
                                                     <label
                                                         style="color: rgb(221, 221, 27);">Requested</label>
-                                                    <% } else if (product.status
+                                                    <% } else if (product.productStatus
                                                     == "Cancelled") { %>
                                                     <label
                                                         style="color: rgb(221, 27, 27);">Cancelled</label>
-                                                    <% } else if (product.status
+                                                    <% } else if (product.productStatus
                                                     == "Pending") { %>
-                                                    <label
-                                                        style="color: red;">Failed</label>
-
+                                                        <label
+                                                        style="color: rgb(221, 27, 27);">Failed</label>
                                                     <% } else { %>
                                                     <label
                                                         style="color: red;">Requested</label>

@@ -225,8 +225,6 @@ async function findBiggestOfferAmount(productId) {
     }
 }
 
-
-
 const loadProductDetails = async (req, res) => {
     try {
         const productId = req.query._id
@@ -235,7 +233,7 @@ const loadProductDetails = async (req, res) => {
         const user_id = req.session.user_id
         const productData = await Product.findOne({ _id: productId }).populate("category")
         const biggestOfferAmount = await findBiggestOfferAmount(productData._id);
-        console.log('offerma',biggestOfferAmount);
+        console.log('offerma',biggestOfferAmount)
 
         const productPrice = productData.price
         console.log('paid',productPrice);
@@ -258,7 +256,8 @@ const loadProductDetails = async (req, res) => {
             biggestOfferAmount
         })
     } catch (error) {
-        console.log(error);
+        console.log("while loading the product details",error);
+        res.status('500').render("500")
     }
 }
 
@@ -268,6 +267,7 @@ const profileLoad = async (req, res) => {
         const addressData = await Address.findOne({ user }).populate("address")
         const orderDetails = await Order.find({ user }).sort({ date: -1 })
         const walletData = await User.findOne({ _id: user }).populate("walletHistory"); 
+      
     
         const userData = await User.findOne({ _id: user })
         if (userData.is_admin == 0) {
