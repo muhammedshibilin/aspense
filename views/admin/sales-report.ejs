@@ -207,6 +207,19 @@
                             <button type="submit" class="btn btn-primary ">Get Report</button>
                           </form>
                         </div>
+                        <div class="container">
+                          <form id="dateRangeForm">
+                              <div class="form-group">
+                                  <label for="startDate">Start Date:</label>
+                                  <input type="date" class="form-control" id="startDate" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="endDate">End Date:</label>
+                                  <input type="date" class="form-control" id="endDate" required>
+                              </div>
+                              <button type="submit" class="btn btn-primary">Generate Report</button>
+                          </form>
+                      </div>
                         </div>
                       </div>
                       
@@ -242,10 +255,7 @@
                     </tbody>
                    
                 </table>
-                <div class="mt-3 ">
-                <h5>total Amount:<totalAmount:span style="color: red;"><%=totalAmount %></totalAmount:span></h5>
-                <h5>total discount: <DiscountAmont:span style="color: red;"><%= overallDiscount %></DiscountAmont:span></h5>
-                </div>
+            
                 </div>
                 <ul class="pagination_style d-flex justify-content-center">
                   <% for (let i = 1; i <= totalPages; i++) { %>
@@ -258,30 +268,33 @@
                     </li>
                   <% } %>
                 </ul>
-                
-            
+                     
               </div>
-             
+                    
             </div>
           </div>
 
           <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
           <script>
+$(document).ready(function() {
+    $('#dateRangeForm').on('submit', function(event) {
+        event.preventDefault();
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+        const url = `/admin/sales-report?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+        window.location.href = url;
+    });
+});
+
+
         function sendDateToBackend(event) {
-  event.preventDefault();  // Prevent default form submission
+  event.preventDefault();  
   console.log('Function called');
-  
   var selectedDate = $('#calendarInput').val();
   console.log('Selected Date:', selectedDate);
-
-  // Convert date to 'YYYY-MM-DD' format
   var jsDate = new Date(selectedDate);
   var formattedDate = jsDate.toISOString().split('T')[0];
-  console.log('Formatted Date:', formattedDate);
-  
-  // URL encode the formatted date
   var encodedDate = encodeURIComponent(formattedDate);
-  
   var url = '/admin/sales-report?sort=&date=' + encodedDate;
   console.log('URL:', url);
 
@@ -296,12 +309,4 @@ $(document).ready(function() {
 
 
 
-<script>
-  function buildPaginationURL(pageNumber) {
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('page', pageNumber);
-    urlParams.set('limit', 8); 
-    return `/admin/sales-report?${urlParams.toString()}`;
-  }
-</script>
           <%- include('../layouts/admin/footer.ejs') %>

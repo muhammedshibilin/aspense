@@ -172,7 +172,7 @@
                   </div>
             </div>
           </div> -->
-          <!-- <div class="row">
+           <!-- <div class="row">
               <div class="col-xl-4 grid-margin stretch-card">
                   <div class="card">
                     <div class="card-body">
@@ -260,8 +260,8 @@
                     </div>  
                   </div>
                 </div>
-              </div>
-              <div class="col-xl-4 grid-margin stretch-card">
+              </div> -->
+              <!-- <div class="col-xl-4 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title mb-3">Recent Activity</h4>
@@ -307,7 +307,7 @@
                 </div>
               </div>
           </div> -->
-          <!-- <div class="row">
+           <!-- <div class="row">
             <div class="col-xl-9 grid-margin-lg-0 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -634,9 +634,9 @@
                                         <input type="text" value="2024" placeholder="2024" class="form-control mx-1 "
                                             id="time" />
                                         <p id="catAlert" class="text-danger"></p>
-                                        <a href="#" id="yearlyBtn" data-id="yearly"
+                                        <a  id="yearlyBtn" data-id="yearly"
                                             class="btn btn-primary btn-sm rounded mx-1 ">Yearly</a>
-                                        <a href="#" id="monthlyBtn" data-id="monthly"
+                                        <a  id="monthlyBtn" data-id="monthly"
                                             class="btn btn-primary btn-sm rounded mx-1 ">Monthly</a>
                                     </div>
                                 </div>
@@ -647,6 +647,49 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+          <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title mb-3">Top Selling Products</h4>
+                <div class="row">
+                  <% topSellingProducts.forEach(product => { %>
+                  <div class="col-sm-12">
+                    <div class="d-flex pb-3 border-bottom justify-content-between">
+                      <div class="mr-3"><img src="/images/product/original/<%= product.image %>" alt="<%= product.image %>" style="width: 40px; height: 40px;">   </div>
+                   
+                      <div class="font-weight-bold mr-sm-4">
+                        <div><%= product.name %></div>
+                      </div>
+                      <div><h6 class="font-weight-bold text-info ml-sm-2"><%= product.count %></h6></div>
+                    </div>
+                  </div>
+                  <% }) %>
+                </div>  
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title mb-3">Top Selling Categories</h4>
+                <div class="row">
+                  <% topSellingCategories.forEach(category => { %>
+                  <div class="col-sm-12">
+                    <div class="d-flex pb-3 border-bottom justify-content-between">
+                      <div class="font-weight-bold mr-sm-4">
+                        <div><%= category._id %></div>
+                      </div>
+                      <div><h6 class="font-weight-bold text-info ml-sm-2"><%= category.categoryName %></h6></div>
+                    </div>
+                  </div>
+                  <% }) %>
+                </div>  
+              </div>
+            </div>
+          </div>
+        </div>
+        
         
         
     
@@ -670,8 +713,7 @@
 <script>
 (function ($) {
     "use strict";
-
-    let chart; // Define chart variable outside of any block
+  let chart
 
     function fetchDataAndUpdateChart(filter, time) {
         console.log('entering fetchDataAndUpdateChart');

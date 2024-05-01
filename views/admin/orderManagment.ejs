@@ -402,11 +402,11 @@
                         product.productPrice %>.00</td>
                       <td style="border: 1px solid #dddddd; padding: 8px;">$<%=
                         product.totalPrice %>.00</td>
-                      <% if (product.status == "pending") { %>
+                      <% if (product.productStatus == "pending") { %>
                       <td style="color: yellow;">Pending</td>
-                      <% } else if (product.status == 'Delivered') { %>
+                      <% } else if (product.productStatus == 'Delivered') { %>
                       <td style="color: limegreen;">Delivered</td>
-                      <% } else if (product.status == "requested") { %>
+                      <% } else if (product.productStatus == "requested") { %>
                       <td>
                          <!-- return reason modal -->
                     <div class="modal fade" id="returnReasonModal" tabindex="-1"
@@ -440,10 +440,10 @@
                   class="badge badge-warning">Return Request</button>
                  
                       </td>
-                      <% } else if (product.status == "accepted") { %>
+                      <% } else if (product.productStatus == "accepted") { %>
                       <td style="color: rgb(9, 16, 219);"
                         >Returned</td>
-                      <% } else if (product.status == 'Cancelled') { %>
+                      <% } else if (product.productStatus == 'Cancelled') { %>
                       <td style="color: red;">Cancelled</td>
                       <% } else { %>
                       <td>
@@ -451,7 +451,7 @@
                           <button class="btn btn-primary dropdown-toggle"
                             type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false"><%= product.status %></button>
+                            aria-expanded="false"><%= product.productStatus %></button>
                           <div class="dropdown-menu"
                             aria-labelledby="dropdownMenuButton">
                             <button class="dropdown-item" type="button"

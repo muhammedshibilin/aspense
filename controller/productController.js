@@ -82,7 +82,8 @@ const addProduct = async (req, res) => {
     }
 
     const images = req.files.map(file => file.filename);
-
+  console.log('files',req.files
+);
   
     await Promise.all(req.files.map(async file => {
       const oldPath = file.path;

@@ -440,6 +440,9 @@ const orderSuccess = async (req, res) => {
       console.log('caaaaaaaaaaaaa',cartData);
       if (orderData) {
         orderData.orderStatus = "Placed";
+        orderData.products.forEach((product) => {
+          product.productStatus = "Placed"; 
+        });
         await orderData.save();
         req.session.orderId = null;
         await Cart.deleteOne({ user: req.session.user_id });
@@ -483,7 +486,7 @@ const cancelOrder = async (req, res) => {
 
     const updateOrder = await Order.findOneAndUpdate(
       { _id: orderId, "products._id": productId },
-      { $set: { "products.$.status": "Cancelled" } },
+      { $set: { "products.$.productStatus": "Cancelled" } },
       { new: true }
     );
 
@@ -492,7 +495,7 @@ const cancelOrder = async (req, res) => {
       { $inc: { quantity: orderedProduct.count } }
     );
     if (
-      orderedData.paymentMethod !== "paypal" ||
+      orderedData.paymentMethod == "paypal" ||
       orderedData.paymentMethod == "wallet"
     ) {
       const date = new Date();
@@ -568,7 +571,7 @@ const orderdetailsLoad = async (req, res) => {
       },
     });
 
-    console.log("jsfaf", orderData.category);
+    
 
     if (orderData) {
       const totalItems = orderData.products.reduce(
@@ -605,7 +608,7 @@ const updateOrder = async (req, res) => {
     console.log("orderProductindex:", orderProductIndex);
 
     const productCount = orderData.products[orderProductIndex].count;
-    orderData.products[orderProductIndex].status = orderStatus;
+    orderData.products[orderProductIndex].productStatus = orderStatus;
     orderData.products[orderProductIndex].date = new Date();
     console.log("count", productCount);
 

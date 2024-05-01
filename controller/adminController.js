@@ -72,8 +72,56 @@ const adminLogin = async (req, res) => {
 
 const adminHome = async (req, res) => {
   try {
-    console.log("haloooo");
-    res.render("admin-home");
+    const topSellingCategories = await Product.aggregate([
+      {
+        $group: {
+          _id: "$category",
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { count: -1 } },
+      { $limit: 5 },
+      {
+        $lookup: {
+          from: "categories", 
+          localField: "_id",
+          foreignField: "_id",
+          as: "categoryInfo",
+        },
+      },
+      {
+        $addFields: {
+          categoryName: { $arrayElemAt: ["$categoryInfo.name", 0] },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          count: 1,
+          categoryName: 1,
+        },
+      },
+    ]);
+    
+    console.log('ca',topSellingCategories);
+
+    const topSellingProducts = await Order.aggregate([
+      { $unwind: "$products" },
+      {
+        $group: {
+          _id: "$products.productId",
+          count: { $sum: "$products.count" },
+          name: { $first: "$products.name" },
+          image: { $first: { $arrayElemAt: ["$products.image", 0] } }, 
+        },
+      },
+      { $sort: { count: -1 } },
+      { $limit: 5 },
+    ]);
+    
+    console.log('asfa',topSellingProducts);
+    
+    res.render("admin-home",{topSellingCategories,topSellingProducts});
   } catch (error) {
     console.log(error);
   }
@@ -156,22 +204,73 @@ const salesReportLoad = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 8;
 
-    console.log("date", date);
-    console.log("duration", duration);
-    console.log("req.query", req.query);
-
     const currentDate = new Date();
     const startDate = new Date(
       currentDate - (duration ? duration * 24 * 60 * 60 * 1000 : 0)
     );
-    console.log("startDate", startDate);
+  
 
     let orders;
     let totalOrders;
-
-    if (date && date !== "undefined") {
-      const targetDate = new Date(date);
-      console.log("targetdate", targetDate);
+    if(req.query.startDate&&req.query.endDate){
+      console.log('heyyyyyy');
+      const startDate = new Date(req.query.startDate);
+      const endDate = new Date(req.query.endDate);
+      totalOrders = await Order.countDocuments({
+        "products.productStatus": "Delivered",
+        date: {
+          $gte:startDate,
+          $lte:endDate,
+        },
+      });
+      const totalPages = Math.ceil(totalOrders / limit);
+      console.log('tot',totalPages,req.query.startDate,req.query.endDate);
+      try{
+      orders = await Order.aggregate([
+        {
+          $unwind: "$products",
+        },
+        {
+          $match: {
+            "products.productStatus": "Delivered",
+            date: {
+              $gte:startDate,
+              $lte:endDate,
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "products.productId",
+            foreignField: "_id",
+            as: "products.productDetails",
+          },
+        },
+        {
+          $addFields: {
+            "products.productDetails": {
+              $arrayElemAt: ["$products.productDetails", 0],
+            },
+          },
+        },
+        {
+          $sort: { date: -1 },
+        },
+        {
+          $skip: (page - 1) * limit,
+        },
+        {
+          $limit: limit
+        },
+      ])
+    } catch (error) {
+      console.error('Aggregation error:', error);
+     }
+      console.log('ordeee',orders);
+      res.render("sales-report", {orders,date,duration,totalPages,page,limit});
+  }else if(date && date !== "undefined") {
+      const targetDate = new Date(date)
 
       const startOfDay = new Date(targetDate);
       startOfDay.setHours(0, 0, 0, 0);
@@ -179,7 +278,7 @@ const salesReportLoad = async (req, res) => {
       endOfDay.setHours(23, 59, 59, 999);
 
       totalOrders = await Order.countDocuments({
-        "products.status": "Delivered",
+        "products.productStatus": "Delivered",
         date: {
           $gte: startOfDay,
           $lte: endOfDay,
@@ -187,15 +286,13 @@ const salesReportLoad = async (req, res) => {
       });
       
       const totalPages = Math.ceil(totalOrders / limit);
-
-      console.log('totalOrders',totalOrders);
       orders = await Order.aggregate([
         {
           $unwind: "$products",
         },
         {
           $match: {
-            "products.status": "Delivered",
+            "products.productStatus": "Delivered",
             date: {
               $gte: startOfDay,
               $lte: endOfDay,
@@ -224,17 +321,16 @@ const salesReportLoad = async (req, res) => {
           $skip: (page - 1) * limit,
         },
         {
-          $limit: limit,
+          $limit: limit
         },
-      ]);
-      const overallDiscount = await Order.aggregate([{$unwind: "$products"},{$match: {"products.status": "Delivered",},},{$group: {_id: null, totalOrderAmount: {$sum: "$totalAmount"}, totalProductTotalPrice: {$sum: "$products.totalPrice"}}}, {$project: {_id: 0, totalOrderAmount: 1, totalProductTotalPrice: 1, totalPriceDifference: {$subtract: ["$totalOrderAmount", "$totalProductTotalPrice"]}}}]);
-      console.log('overaal',overallDiscount);
-      res.render("sales-report", {orders,date,duration,totalPages,page,limit,overallDiscount:overallDiscount[0].totalPriceDifference,totalAmount:overallDiscount[0].totalOrderAmount});
+      ])
+
+      res.render("sales-report", {orders,date,duration,totalPages,page,limit});
     } else {
-      console.log("herere");
+   
 
       totalOrders = await Order.countDocuments({
-        "products.status": "Delivered",
+        "products.productStatus": "Delivered",
         date: { $gte: startDate, $lte: currentDate },
       });
       const totalPages = Math.ceil(totalOrders / limit);
@@ -246,7 +342,7 @@ const salesReportLoad = async (req, res) => {
         },
         {
           $match: {
-            "products.status": "Delivered",
+            "products.productStatus": "Delivered",
             date: { $gte: startDate, $lte: currentDate },
           },
         },
@@ -276,8 +372,8 @@ const salesReportLoad = async (req, res) => {
         },
       ]);
   
-      const overallDiscount = await Order.aggregate([{$unwind: "$products"},{$match: {"products.status": "Delivered",},},{$group: {_id: null, totalOrderAmount: {$sum: "$totalAmount"}, totalProductTotalPrice: {$sum: "$products.totalPrice"}}}, {$project: {_id: 0, totalOrderAmount: 1, totalProductTotalPrice: 1, totalPriceDifference: {$subtract: ["$totalOrderAmount", "$totalProductTotalPrice"]}}}]);
-      res.render("sales-report", {orders,totalPages,date,duration,page,limit,overallDiscount:overallDiscount[0].totalPriceDifference,totalAmount:overallDiscount[0].totalOrderAmount});
+    
+      res.render("sales-report", {orders,totalPages,date,duration,page,limit});
     }
   } catch (error) {
     console.log("while loading sales report", error);
@@ -480,7 +576,7 @@ const excelDownload = async (req, res) => {
 
 const graphData = async (req, res) => {
   try {
-
+ console.log('heeeeiiiiiii',req.body);
       let salesData =
       {
           'labels': [],
@@ -546,9 +642,18 @@ const graphData = async (req, res) => {
               }
           ])
     
-          salesData.salesData = sales.map((item) => item.salesData)
-          salesData.revenueData = sales.map((item) => item.revenueData / 1000);
-          salesData.productsData = products.map((item) => item.productsData);
+          sales.forEach(item => {
+            const monthIndex = item._id - 1; 
+            salesData.salesData[monthIndex] = item.salesData;
+            salesData.revenueData[monthIndex] = item.revenueData / 1000;
+        });
+    
+        products.forEach(item => {
+            const monthIndex = item._id - 1;
+            salesData.productsData[monthIndex] = item.productsData;
+        });
+    
+        console.log('Monthly Data:', salesData);
       } else {
         
           salesData.labels = [`${time - 10}`, `${time - 9}`, `${time - 8}`, `${time - 7}`, `${time - 6}`, `${time - 5}`, `${time - 4}`, `${time - 3}`, `${time - 2}`, `${time - 1}`, `${time}`];
@@ -569,7 +674,7 @@ const graphData = async (req, res) => {
                           $year: "$createdAt"
                       },
                       revenueData: {
-                          $sum: "$orderAmount"
+                          $sum: "$totalAmount"
                       },
                       salesData: {
                           $sum: 1
@@ -605,6 +710,8 @@ const graphData = async (req, res) => {
                   }
               }
           ])
+
+          console.log('slsjlsljl',products,"proddd",sales);
 
         
           for (let key of sales) {
@@ -646,6 +753,9 @@ const graphData = async (req, res) => {
   }
 }
 
+
+
+
 module.exports = {
   loginLoad,
   adminLogin,
@@ -657,5 +767,5 @@ module.exports = {
   salesReportLoad,
   pdfDownload,
   excelDownload,
-  graphData
+  graphData,
 };

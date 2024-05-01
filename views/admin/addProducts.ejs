@@ -295,7 +295,7 @@
               let croppers = [];
               let imageNumber = 0;
               let croppedFiles = []; 
-              let originalFileName// Array to store cropped File objects
+              let originalFileName
           
               document.getElementById('imageFiles').addEventListener('change', function (event) {
                   const files = event.target.files;
@@ -329,9 +329,10 @@
                       removeButton.addEventListener('click', function () {
                           previewContainer.removeChild(previewImage);
                           croppers.splice(imageNumber - 1, 1);
+                          croppedFiles.splice(imageNumber-1,1)
+                       
                       });
                       previewImage.appendChild(removeButton);
-          
                       previewContainer.appendChild(previewImage);
           
                       const cropperImage = document.createElement('img');
@@ -411,7 +412,7 @@
     if (event.target.matches('.applyCropBtn')) {
         const imageNumber = parseInt(event.target.dataset.imageNumber);
         const croppedCanvas = croppers[imageNumber - 1].getCroppedCanvas();
-        const previewImage = document.getElementById(`cropperImage${imageNumber}`); // Select specific preview image
+        const previewImage = document.getElementById(`cropperImage${imageNumber}`); 
         previewImage.style.backgroundImage = 'url(' + croppedCanvas.toDataURL('image/jpeg') + ')';
         $('#cropModal' + imageNumber).modal('hide');
         count++
@@ -431,9 +432,10 @@ if (file) {
             croppedFiles.push(file);
         });
     }
+   
 });
 
-                
+
 
     
        
