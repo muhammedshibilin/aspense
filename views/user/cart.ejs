@@ -97,7 +97,7 @@ td.pro-price {
                                         <th class="pro-thumbnail">Image</th>
                                         <th class="pro-title">Product</th>
                                         <th class="pro-price">Price</th>
-                                        <th class="pro-quantity">Quantity</th>
+                                        <th class="pro-quantity">count</th>
                                         <th class="pro-subtotal">Total</th>
                                         <th class="pro-remove">Remove</th>
                                     </tr>
@@ -119,6 +119,9 @@ td.pro-price {
                                                     <a href="/product-details?_id=<%= product.productId._id %>">
                                                         <%= product.productId.name %>
                                                     </a>
+                                                    <% if (product.productId.quantity === 0) { %>
+                                                        <div style="color: red; font-weight: bold;"> out of stock</div>
+                                                    <% } %>
                                                 </td>
                                                 <td class="pro-price"><span><%= product.productId.price %></span></td>
                                                 <td class="pro-quantity">

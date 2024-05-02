@@ -152,6 +152,24 @@
     margin-left: 10px;
 }
  
+.suggestions {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    margin-top: 5px;
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+.suggestion {
+    cursor: pointer;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.suggestion:last-child {
+    border-bottom: none;
+}
 
 
 
@@ -403,13 +421,13 @@
                                             </div>
                                             <div class="col-md-6 col-12 mb--20">
                                                 <label>Pin Code*</label>
-                                                <input type="text" id="pincode" placeholder="Zip Code">
+                                                <input type="text" id="pincode" placeholder="pin Code">
                                                 <div id="pincodeError" class="error-msg"></div>
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-12 mb--20">
                                                 <label>House Name*</label>
-                                                <input type="text" id="houseName" placeholder="House Name">
-                                                <div id="houseError" class="error-msg"></div>
+                                                <input type="text" id="houseName" placeholder="House Name" oninput="fetchSuggestions(this.value)" autocomplete="off">
+                                                <div id="suggestions" class="suggestions"></div>
                                             </div>
                                            
                                         </div>
@@ -523,11 +541,19 @@
                                         <div class="single-method">
                                             <!-- Payment method options go here -->
                                             <div>
+                                                <% if( subTotal > 1500){ %>  
                                             <input type="radio" id="COD"
                                                 name="payment" value="COD"
-                                                checked>
-                                            <label for="COD" style="font-weight: bold;">Cash on
+                                             disabled>
+                                            <label for="COD" style="font-weight: bold; text-decoration:line-through;">Cash on
                                                 Delivery</label>
+                                                <% } else { %>  
+                                                    <input type="radio" id="COD"
+                                                name="payment" value="COD"
+                                                checked>
+                                                <label for="COD" style="font-weight: bold;">Cash on
+                                                    Delivery</label>
+                                                    <% } %>
                                             </div>
                                             <div>
                                                 <input type="radio" id="paypal" name="payment" value="paypal">
@@ -537,6 +563,7 @@
                                                 <input type="radio" id="wallet" name="payment" value="wallet">
                                                 <label for="wallet" style="font-weight: bold;">wallet</label>
                                             </div>
+                                            <button id="rzp-button1">Pay with Razorpay</button>
                                         </div>
                                         <div style="text-align: center;">
                                             <button type="button" id="place-order"
@@ -787,10 +814,10 @@ document.getElementById("place-order").addEventListener("click", (e) => {
         }
 
         address = {
-            name: document.getElementById("name").value,
+            fullName: document.getElementById("name").value,
             email: document.getElementById("email").value,
             mobile: document.getElementById("mobile").value,
-            pincode: document.getElementById("pincode").value,
+            pin: document.getElementById("pincode").value,
             state: document.getElementById("state").value,
             city: document.getElementById("city").value,
             houseName: document.getElementById("houseName").value
@@ -814,13 +841,11 @@ document.getElementById("place-order").addEventListener("click", (e) => {
                         data: JSON.stringify({ formData }),
                         success: (response) => {
                             console.log('rssdgfsdfs',response);
-                            if(response.quantity){
+                            if(response.stock){
                                 swal.fire({
-                                title: "info",
-                                icon: "warning",
-                                title:"product is out of stock,better luck next timecart",
-                                button: false,
-                                timer: 3000
+                                title: "bad request!",
+                                text:"product is out of stock ,plese remove out of stock product for your place holder",
+                                icon: "warning"
                                 });               
                             } else if (response.codsuccess == true) {
                                 swal.fire({
@@ -853,6 +878,61 @@ document.getElementById("place-order").addEventListener("click", (e) => {
                 }
                 
             );
+
+//             function fetchSuggestions(query) {
+//     if (query.length < 3) {
+//         $('#suggestions').empty();
+//         return;
+//     }
+
+//     const apiKey = `17305b8b79f740a4adabb545b5801dd5`; 
+//     const url = `https://api.opencagedata.com/geocode/v1/json?q=${query}&key=${apiKey}&limit=5`;
+
+//     $.ajax({
+//         url: url,
+//         type: 'GET',
+//         dataType: 'json',
+//         success: function(data) {
+//             const suggestions = data.results.map(result => `<div class="suggestion" data-location="${result.formatted}">${result.formatted}</div>`).join('');
+//             $('#suggestions').html(suggestions);
+//         },
+//         error: function(error) {
+//             console.error('Error fetching suggestions:', error);
+//             $('#suggestions').html('No suggestions found.');
+//         }
+//     });
+// }
+
+// $(document).on('click', '.suggestion', function() {
+//     const selectedLocation = $(this).data('location');
+//     $('#houseName').val(selectedLocation);
+//     $('#suggestions').empty();
+// });
+
+//             $(document).ready(function() {
+//             $('#houseName').on('input', function() {
+//         const houseName = $(this).val();
+//         if (houseName.length >= 3) {
+//             $.ajax({
+//                 url: '/get-address-details/' + houseName,
+//                 type: 'GET',
+//                 dataType: 'json',
+//                 success: function(data) {
+//                     console.log('data',data.country,data.city);
+//                     $('#city').val(data.components.city);
+//                     $('#state').val(data.components.state);
+//                 },
+//                 error: function(error) {
+//                     console.error('Error fetching address details:', error);
+//                     $('#pincodeError').text('Error fetching address details.');
+//                 }
+//             });
+//         } else {
+//             $('#city').val('');
+//             $('#state').val('');
+//         }
+//     });
+// });
 
 
     function showDiscountModal() {
@@ -1012,38 +1092,8 @@ document.getElementById('editAddress').addEventListener('click', function (e) {
   });
 
 
-    // document.querySelectorAll('.scratch-card').forEach(function(card) {
-    //     let scratchedPercentage = 0;
-    //     let isScratching = false;
 
-    //     card.addEventListener('mousedown', function(e) {
-    //         isScratching = true;
-    //     });
-
-    //     card.addEventListener('mouseup', function(e) {
-    //         isScratching = false;
-    //     });
-
-    //     card.addEventListener('mousemove', function(e) {
-    //         if (!isScratching) return;
-
-    //         const { left, top } = this.getBoundingClientRect();
-    //         const x = e.pageX - left;
-    //         const y = e.pageY - top;
-
-    //         if (x <= 0 || y <= 0 || x >= this.offsetWidth || y >= this.offsetHeight) return;
-
-    //         const newScratchedPercentage = (x * y) / (this.offsetWidth * this.offsetHeight);
-    //         scratchedPercentage = Math.max(scratchedPercentage, newScratchedPercentage);
-
-    //         if (scratchedPercentage > 0.4) {
-    //             this.querySelector('.scratch-overlay').style.display = 'none';
-    //             this.querySelector('.hidden-code').style.visibility = 'visible';
-    //             this.querySelector('.scratch-text').style.display = 'none';
-    //         }
-    //     });
-    // });
-
+  
 
 
 
@@ -1129,7 +1179,9 @@ document.getElementById('applyCouponButton').addEventListener('click', applyCoup
     
             </script>
             
-
+            
+           
+           
 
 
     <%- include("../layouts/user/footer.ejs") %>

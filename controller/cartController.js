@@ -370,9 +370,9 @@ const checkoutLoad = async (req, res) => {
         return isActive && isNotExpired && isCriteriaMet;
       });
       let discount =0
-
+      let appliedCouponData
       if (cartData.appliedCoupon) {
-        const appliedCouponData = await Coupon.findById(cartData.appliedCoupon);
+         appliedCouponData = await Coupon.findById(cartData.appliedCoupon);
          discount = Math.floor(totalAmount*(appliedCouponData.discountAmount/100))
         totalAmount-=discount
       }
@@ -391,6 +391,7 @@ const checkoutLoad = async (req, res) => {
         shippingAmount,
         eachTotal,
         couponData: eligibleCoupons,
+        appliedCouponData
       });
     } else {
       res.redirect("/cart");

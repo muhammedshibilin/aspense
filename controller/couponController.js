@@ -49,12 +49,14 @@ const codeGenerator = async (req, res) => {
 
 const addCoupon = async (req, res) => {
   try {
-    console.log("!!!!!!!!! reached save coupons !!!!!!!!!!!!");
+
 
     const { couponName, couponCode, discount, expiryDate, criteriaAmount } =
       req.body;
-    console.log("expiryDate:", expiryDate);
-
+      const existingCoupon = await Coupon.findOne({ couponName: { $regex: new RegExp(couponName, 'i') } });
+      if (existingCoupon) {
+        return res.json({exist:true});
+      }
     const newCoupon = new Coupon({
       couponName: couponName,
       couponCode: couponCode,
@@ -96,20 +98,32 @@ const editCouponLoad = async (req, res) => {
 
 const editCoupon = async (req, res) => {
   try {
+    console.log('khfkshdfjhahdfjh');
     const { couponName, couponCode, discount, expireDate, criteriaAmount } =
       req.body;
-    const updatedCoupon = await Coupon.findByIdAndUpdate(
-      req.body.couponId,
-      {
-        couponName: couponName,
-        couponCode: couponCode,
-        discountAmount: discount,
-        expireDate: expireDate,
-        criteriaAmount: criteriaAmount,
-      },
-      { new: true }
-    );
-    res.json({ success: true });
+      const existingCoupon = await Coupon.findOne({ couponName: { $regex: new RegExp(couponName, 'i') } });
+
+      if (existingCoupon) {
+        if (existingCoupon._id.equals(req.body.couponId)) {
+          const updatedCoupon = await Coupon.findByIdAndUpdate(
+            req.body.couponId,
+            {
+              couponName: couponName,
+              couponCode: couponCode,
+              discountAmount: discount,
+              expireDate: expireDate,
+              criteriaAmount: criteriaAmount,
+            },
+            { new: true }
+          );
+          return res.json({ success: true });
+        } else {
+          return res.json({exist: true });
+        }
+      }
+      
+
+   
   } catch (error) {
     console.log("while editing the coupon", error);
   }
@@ -170,9 +184,6 @@ async function calculateTotalAmountWithOffers(cartData) {
   }
 
   totalAmountAfter += totalAmount
-  console.log('totalamountaftereeeeeeeeee',totalAmountAfter);
-
-
 
   return {
     productOfferAmounts,totalAmount

@@ -10,6 +10,7 @@ const asyncHandler = require('express-async-handler')
 const multer1 = require('multer');
 const upload = multer1();
 const axios = require('axios')
+const geolib = require('geolib');
 
 
 user_route.use(express.urlencoded({ extended: false }));
@@ -100,12 +101,28 @@ user_route.post('/add-address', upload.none(), addressController.addAddress);
 user_route.post('/delete-address',addressController.deleteAddress)
 user_route.post('/edit-address',addressController.editAddress)
 
+// function degreesToRadians(degrees) {
+//   return degrees * (Math.PI / 180);
+// }
 
-user_route.get('/get-address-details/:pincode', async (req, res) => {
-    const pincode = req.params.pincode;
-    console.log('pincode:', pincode); 
+// function calculateDistance(userLat, userLng, companyLat, companyLng) {
+//   const earthRadius = 6371; 
+//   const dLat = degreesToRadians(companyLat - userLat);
+//   const dLng = degreesToRadians(companyLng - userLng);
+//   const a =
+//       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+//       Math.cos(degreesToRadians(userLat)) * Math.cos(degreesToRadians(companyLat)) *
+//       Math.sin(dLng / 2) * Math.sin(dLng / 2);
+//   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//   const distance = earthRadius * c; 
+//   return distance;
+// }
+
+user_route.get('/get-address-details/:houseName', async (req, res) => {
+  const houseName = req.params.houseName;
+  console.log('houseName:', houseName); 
     const apiKey = `17305b8b79f740a4adabb545b5801dd5`; 
-    const url = `https://api.opencagedata.com/geocode/v1/json?q=${pincode}&key=${apiKey}`;
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${houseName}&key=${apiKey}`;
 
     try {
         const response = await axios.get(url);
@@ -115,7 +132,24 @@ user_route.get('/get-address-details/:pincode', async (req, res) => {
         if (results && results.length > 0) {
             const addressDetails = results[0].components;
             addressDetails.postoffice = results[0].formatted.split(',')[0];
-            res.json(addressDetails);
+            console.log('de',addressDetails);
+
+            const userLocation = {
+              latitude: results[0].geometry.lat,
+              longitude: results[0].geometry.lng
+            };
+            
+          
+          const companyLocation = {
+              latitude: 11.1523, 
+              longitude: 75.8921 
+          };
+
+        
+          const distanceInMeters = geolib.getDistance(userLocation, companyLocation);
+          const distanceInKilometers = distanceInMeters / 1000;
+          console.log("Distance between user and company:", distanceInKilometers.toFixed(2), "km");
+          res.json(addressDetails);
         } else {
             res.status(404).send('No results found for the given pincode.');
         }
@@ -153,6 +187,8 @@ user_route.post('/cancel-order',auth.isLogin,orderController.cancelOrder)
 user_route.post('/return-request',auth.isLogin,orderController.returnOrder)
 user_route.get('/invoice/pdf', asyncHandler(orderController.generateInvoicePDF));
 user_route.get('/invoice/success', asyncHandler(orderController.invoiceSuccess));
+
+
 
 
 user_route.get('/shop',userController.shopLoad)

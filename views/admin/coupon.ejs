@@ -231,10 +231,7 @@
                                                             coupon.criteriaAmount
                                                             %></td>
                                                         <td>
-                                                            <% if
-                                                            (coupon.expireDate >
-                                                            coupon.createdAt) {
-                                                            %>
+                                                           
                                                             <button
                                                                 id="deleteCoupon"
                                                                 class="btn btn-outline-danger"
@@ -242,10 +239,7 @@
                                                             <a
                                                                 href="/admin/edit-coupon?id=<%=coupon._id%>"
                                                                 class="btn btn-outline-secondary">edit</a>
-                                                            <% } else { %>
-                                                            <p>action not
-                                                                available</p>
-                                                            <% } %>
+                                                          
                                                         </td>
 
                                                     </tr>
@@ -336,11 +330,8 @@
 }
 
 
-                        function changePage(pageNumber) {
-                            
-                            const newUrl = `${window.location.origin}${window.location.pathname}?page=${pageNumber}`;
-                      
-                          
+                        function changePage(pageNumber) {                        
+                            const newUrl = `${window.location.origin}${window.location.pathname}?page=${pageNumber}`                    
                             window.location.href = newUrl;
                         }
                       

@@ -1,234 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>ASPENSE</title>
-  <!-- base:css -->
-  <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="css/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
- 
-</head>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ASPENSE</title>
+    <!-- base:css -->
+    <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="vendors/feather/feather.css">
+    <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="images/logogo-removebg-preview.png" />
 
-<body>
-  <div class="container-scroller">
-    <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo" style="height: 30px;"  /></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logogo-removebg-preview.png" alt="logo"/></a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="search">
-                  <i class="icon-search"></i>
-                </span>
-              </div>
-              <input type="text" class="form-control" placeholder="Search Projects.." aria-label="search" aria-describedby="search">
-            </div>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">    
-          <li class="nav-item dropdown d-flex mr-4 ">
-            <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-cog"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
-              <a class="dropdown-item preview-item">               
-                  <i class="icon-head"></i> Profile
-              </a>
-              <a class="dropdown-item preview-item">
-                  <i class="icon-inbox"></i> Logout
-              </a>
-            </div>
-          </li>
-          <li class="nav-item dropdown mr-4 d-lg-flex d-none">
-            <a class="nav-link count-indicatord-flex align-item s-center justify-content-center" href="#">
-              <i class="icon-grid"></i>
-            </a>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
-      </div>
-    </nav>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      
-      <!-- partial:partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <div class="user-profile">
-          <div class="user-image">
-            <img src="images/faces/face28.png">
-          </div>
-          <div class="user-name">
-              shibili
-          </div>
-          <div class="user-designation">
-              manager
-          </div>
+  </head>
+
+  <body>
+    <div class="container-scroller">
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div
+          class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+          <a class="navbar-brand brand-logo" href="index.html"><img
+              src="images/logo.png" alt="logo" style="height: 30px;" /></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img
+              src="images/logogo-removebg-preview.png" alt="logo" /></a>
         </div>
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/dashboard">
-              <i class="icon-box menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/customer">
-              <i class="icon-command menu-icon"></i>
-              <span class="menu-title">Customers</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"  href="/admin/category">
-              <i class="icon-disc menu-icon"></i>
-              <span class="menu-title">Category</span>  
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/products">
-              <i class="icon-file menu-icon"></i>
-              <span class="menu-title">Products</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/orders">
-              <i class="icon-pie-graph menu-icon"></i>
-              <span class="menu-title">Orders</span>
-            </a>
-          </li>
-          
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/offer">
-              <i class="icon-help menu-icon"></i>
-              <span class="menu-title">Offer</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/coupon">
-              <i class="icon-help menu-icon"></i>
-              <span class="menu-title">Coupons</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="pages/icons/feather-icons.html">
-              <i class="icon-help menu-icon"></i>
-              <span class="menu-title">Banner</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"  href="/admin" >
-              <i class="icon-head menu-icon"></i>
-              <span class="menu-title">Logout</span>
-              <!-- <i class="menu-arrow"></i> -->
-            </a>
-           
-          </li>
-         
-        </ul>
+        <div
+          class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+          <button class="navbar-toggler navbar-toggler align-self-center"
+            type="button" data-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+          <ul class="navbar-nav mr-lg-2">
+            <li class="nav-item nav-search d-none d-lg-block">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="search">
+                    <i class="icon-search"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control"
+                  placeholder="Search Projects.." aria-label="search"
+                  aria-describedby="search">
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown d-flex mr-4 ">
+              <a
+                class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
+                id="notificationDropdown" href="#" data-toggle="dropdown">
+                <i class="icon-cog"></i>
+              </a>
+              <div
+                class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                aria-labelledby="notificationDropdown">
+                <p
+                  class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
+                <a class="dropdown-item preview-item">
+                  <i class="icon-head"></i> Profile
+                </a>
+                <a class="dropdown-item preview-item">
+                  <i class="icon-inbox"></i> Logout
+                </a>
+              </div>
+            </li>
+            <li class="nav-item dropdown mr-4 d-lg-flex d-none">
+              <a
+                class="nav-link count-indicatord-flex align-item s-center justify-content-center"
+                href="#">
+                <i class="icon-grid"></i>
+              </a>
+            </li>
+          </ul>
+          <button
+            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+            type="button" data-toggle="offcanvas">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
       </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
 
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <div class="user-profile">
+            <div class="user-image">
+              <img src="images/faces/face28.png">
+            </div>
+            <div class="user-name">
+              shibili
+            </div>
+            <div class="user-designation">
+              manager
+            </div>
+          </div>
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/dashboard">
+                <i class="icon-box menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/customer">
+                <i class="icon-command menu-icon"></i>
+                <span class="menu-title">Customers</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/category">
+                <i class="icon-disc menu-icon"></i>
+                <span class="menu-title">Category</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/products">
+                <i class="icon-file menu-icon"></i>
+                <span class="menu-title">Products</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">
+                <i class="icon-pie-graph menu-icon"></i>
+                <span class="menu-title">Orders</span>
+              </a>
+            </li>
 
-    <!-- partial -->
-    <div class="main-panel">
-      <div class="content-wrapper">
-      
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/offer">
+                <i class="icon-help menu-icon"></i>
+                <span class="menu-title">Offer</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/coupon">
+                <i class="icon-help menu-icon"></i>
+                <span class="menu-title">Coupons</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/icons/feather-icons.html">
+                <i class="icon-help menu-icon"></i>
+                <span class="menu-title">Banner</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">
+                <i class="icon-head menu-icon"></i>
+                <span class="menu-title">Logout</span>
+                <!-- <i class="menu-arrow"></i> -->
+              </a>
 
-        <div class="col-12 grid-margin">
-          <div class="card">
-              <div class="card-body">
+            </li>
+
+          </ul>
+        </nav>
+
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
                   <h3 style="color: black;">Edit Offer</h3>
                   <form>
-                      <div class="row">
-                          <div class="col-md-12">
-                              <div class="form-group">
-                                  <label for="exampleInputName1">Offer Name</label>
-                                  <input type="text" class="form-control" id="edit-offer-name" name="name" value="<%= offer.name %>" placeholder="Offer name">
-                                  <input type="hidden" id="edit-offer-id" value="<%= offer._id %>" name="offer-id">
-                              </div>
-                          </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="exampleInputName1">Offer Name</label>
+                          <input type="text" class="form-control"
+                            id="edit-offer-name" name="name"
+                            value="<%= offer.name %>" placeholder="Offer name">
+                          <input type="hidden" id="edit-offer-id"
+                            value="<%= offer._id %>" name="offer-id">
+                        </div>
                       </div>
-      
-                      <div class="row">
-                          <div class="col-md-4">
-                              <div class="form-group row">
-                                  <label class="col-sm-3 col-form-label">Amount</label>
-                                  <div class="col-sm-4 col-lg-4">
-                                      <input type="number" name="offer-amount" class="form-control" value="<%= offer.discountAmount %>" id="edit-offer-amount"/>
-                                  </div>
-                              </div>
-                          </div>
-      
-                          <div class="col-md-4">
-                              <div class="form-group row">
-                                  <label class="col-sm-3 col-form-label">Expire Date</label>
-                                  <div class="col-sm-4 col-lg-4">
-                                      <input type="date" name="expire-date" class="form-control" value="<%= new Date(offer.endDate).toISOString().split('T')[0] %>" id="edit-expire-date" />
-                                  </div>
-                              </div>
-                          </div>
-      
-                          <% if (offer.categoryId && offer.categoryId.length > 0) { %>
-                              <!-- Category Selection -->
-                              <div class="col-md-4">
-                                  <div class="form-group row">
-                                    <label for="category">category offer</label>
-                                    <select name="category" style="width:190px; height: 30px;" id>
-                                      <% categoryData.forEach(data => { %>
-                                          <option value="<%=data._id%>" <%= data._id === selectedCategoryId ? 'selected' : '' %>><%=data.name%></option>
-                                      <% }) %>
-                                  </select>
-                                  </div>
-                              </div>
-                          <% } else if (offer.productId && offer.productId.length > 0) { %>
-                              <!-- Product Selection -->
-                              <div class="col-md-4">
-                                  <div class="form-group row">
-                                    <label for="product">product offer</label>
-                                    <select name="product" style="width:190px; height: 30px;" id>
-                                      <% productData.forEach(data => { %>
-                                          <option value="<%=data._id%>" <%= data._id === selectedProductId ? 'selected' : '' %>><%=data.name%></option>
-                                      <% }) %>
-                                  </select>
-                                  </div>
-                              </div>
-                          <% } %>
-                      </div>
-      
-                      <div class="row col-12">
-                          <button type="submit" class="btn btn-primary mr-2" id="edit-offer-btn">Save</button>
-                          <a href="/admin/offer" class="btn btn-primary">Back</a>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-      
-      </div>
-    </div>
+                    </div>
 
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    
-    <script>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Amount</label>
+                          <div class="col-sm-4 col-lg-4">
+                            <input type="number" name="offer-amount"
+                              class="form-control"
+                              value="<%= offer.discountAmount %>"
+                              id="edit-offer-amount" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Expire
+                            Date</label>
+                          <div class="col-sm-4 col-lg-4">
+                            <input type="date" name="expire-date"
+                              class="form-control"
+                              value="<%= new Date(offer.endDate).toISOString().split('T')[0] %>"
+                              id="edit-expire-date" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <% if (offer.categoryId && offer.categoryId.length > 0) {
+                      %>
+                      <!-- Category Selection -->
+                      <div class="col-md-4">
+                        <div class="form-group row">
+                          <label for="category">category offer</label>
+                          <select name="category"
+                            style="width:190px; height: 30px;" id>
+                            <% categoryData.forEach(data => { %>
+                            <option value="<%=data._id%>" <%=data._id ===
+                              selectedCategoryId ? 'selected' : ''
+                              %>><%=data.name%></option>
+                            <% }) %>
+                          </select>
+                        </div>
+                      </div>
+                      <% } else if (offer.productId && offer.productId.length >
+                      0) { %>
+                      <!-- Product Selection -->
+                      <div class="col-md-4">
+                        <div class="form-group row">
+                          <label for="product">product offer</label>
+                          <select name="product"
+                            style="width:190px; height: 30px;" id>
+                            <% productData.forEach(data => { %>
+                            <option value="<%=data._id%>" <%=data._id ===
+                              selectedProductId ? 'selected' : ''
+                              %>><%=data.name%></option>
+                            <% }) %>
+                          </select>
+                        </div>
+                      </div>
+                      <% } %>
+                    </div>
+
+                    <div class="row col-12">
+                      <button type="submit" class="btn btn-primary mr-2"
+                        id="edit-offer-btn">Save</button>
+                      <a href="/admin/offer" class="btn btn-primary">Back</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+        <script>
       document.getElementById("edit-offer-btn").addEventListener('click', async (e) => {
           e.preventDefault();
           const offerName = document.getElementById("edit-offer-name").value;
@@ -252,13 +285,19 @@
               });
               return;
           }
-      
+          if (!(/^\d{2}$/.test(offerAmount))) {
+            Swal.fire({
+              icon:"error",
+              text:"please enter two digit or positive amount"
+            })
+            return;
+        }
           
           if(offerExpireDate < Date.now()){
+            console.log('heeyeyyy');
               Swal.fire({
                   icon: "warning",
                   title: "Invalid Date",
-                  text: "The start date must be before the expire date.",
                   timer: 2000
               });
               return;
@@ -290,7 +329,7 @@
                   console.log('formdata', Array.from(formData.entries()));
       
                   try {
-                      // Send the data as FormData
+                     
                       const response = await fetch('/admin/edit-offer', {
                           method: 'POST',
                           body: formData
@@ -303,20 +342,26 @@
                       const data = await response.json(); 
       
                       if (data.success) {
-                          Swal.fire(
-                              'Success!',
-                              'Offer edited successfully.',
-                              'success'
-                          ).then(() => {
-                              window.location.href = "/admin/offer";
-                          });
-                      } else {
-                          Swal.fire(
-                              'Error!',
-                              'Failed to edit offer.',
-                              'error'
-                          );
-                      }
+  Swal.fire(
+    'Success!',
+    'Offer edited successfully.',
+    'success'
+  ).then(() => {
+    window.location.href = "/admin/offer";
+  });
+} else if (data.nameExist) {
+  Swal.fire({
+    icon: "error",
+    text: "Name already exists"
+  });
+} else {
+  Swal.fire(
+    'Error!',
+    'Failed to edit offer.',
+    'error'
+  );
+}
+
                   } catch (error) {
                       console.error('Fetch Error:', error);
                       Swal.fire(
@@ -329,60 +374,14 @@
           });
       });
       </script>
-      
-      
-    
-    
-    
-    
 
+        <script src="vendors/base/vendor.bundle.base.js"></script>
+        <!-- endinject -->
+        <!-- Plugin js for this page-->
+        <!-- End plugin js for this page-->
+        <!-- inject:js -->
+        <script src="js/off-canvas.js"></script>
+        <script src="js/hoverable-collapse.js"></script>
+        <script src="js/template.js"></script>
 
-
-
-<script src="vendors/base/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page-->
-  <!-- End plugin js for this page-->
-  <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-
-<%- include('../layouts/admin/footer.ejs') %>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <%- include('../layouts/admin/footer.ejs') %>

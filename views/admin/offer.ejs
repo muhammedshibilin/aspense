@@ -418,7 +418,7 @@
 
           <script>
 
- //--------------------- add offer
+ //--------------------- add category offer
 
                         document.getElementById('category-offer').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -485,8 +485,12 @@
             $('.modal-backdrop').remove(); 
             location.reload() 
           })
-        }
-        else {
+        }else if(responseData.nameExist){
+          Swal.fire({
+                icon: "error",
+                text: "name already exist"
+            });
+        }else {
             Swal.fire({
                 icon: "error",
                 text: "An error occurred. Please try again later."
@@ -566,6 +570,11 @@ document.getElementById('product-offer').addEventListener('submit', async (e) =>
               $('.modal-backdrop').remove();  
               location.reload()
             })  
+        }else if(responseData.nameExist){
+          Swal.fire({
+                icon: "error",
+                text: "name already exist"
+            });
         }else {
             Swal.fire({
                 icon: "error",

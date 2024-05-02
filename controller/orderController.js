@@ -2,6 +2,7 @@ const Order = require("../model/orderModel");
 const Cart = require("../model/cartModel");
 const Offer = require("../model/offerModel");
 const Product = require("../model/productModel");
+const Address = require("../model/addressModel")
 const User = require("../model/userModel");
 const Coupon = require("../model/couponModel");
 const crypto = require("crypto");
@@ -12,12 +13,26 @@ const fs = require("fs");
 const paypal = require("paypal-rest-sdk");
 const { couponAmount } = require("./couponController");
 const env = require("dotenv").config();
+const Razorpay = require('razorpay');
 
 paypal.configure({
   mode: process.env.PAYPAL_MODE,
   client_id: process.env.PAYPAL_CLIENT_ID,
   client_secret: process.env.PAYPAL_SECRET,
 });
+
+const instance = new Razorpay({
+  key_id: 'YOUR_KEY_ID',
+  key_secret: 'YOUR_KEY_SECRET',
+});
+
+
+
+
+
+
+
+
 
 const decreaseProductQuantity = async (products) => {
   for (let i = 0; i < products.length; i++) {
@@ -206,9 +221,54 @@ const placeOrder = async (req, res) => {
       return;
     }
 
+
+    const isValidOrder = cartData.products.every(product => {
+      const productInCart = product.productId;
+      return productInCart.quantity >= product.count;
+    });
+
+    if (!isValidOrder) {
+      console.log('iffff');
+      return res.json({stock:true});
+    }
+
+
     const paymentMethod = req.body.formData.payment;
+    const existingAddress = await Address.findOne({ user: user_id });
     let address = req.body.formData.address;
+    console.log('sdfdf',address,existingAddress);
     req.session.address = address;
+    if (existingAddress.address.length==0) {
+      existingAddress.address.push({
+        fullName: address.fullName,
+        mobile: address.mobile,
+        email: address.email,
+        houseName: address.houseName,
+        city: address.city,
+        state: address.state,
+        pin: address.pin
+      });
+      await existingAddress.save();
+      console.log('Address added to existing collection');
+    } else {
+      const newAddress = new Address({
+        user: user_id,
+        address: [
+          {
+            fullName: address.fullName,
+            mobile: address.mobile,
+            email: address.email,
+            houseName: address.houseName,
+            city: address.city,
+            state: address.state,
+            pin: address.pin
+          }
+        ]
+      });
+      console.log('New address collection created');
+      await newAddress.save();
+    }
+    
     let {
       totalAmount,
       totalAmountBeforeDiscounts,
@@ -227,7 +287,7 @@ const placeOrder = async (req, res) => {
       await appliedCouponData.save();
     }
 
-    if (paymentMethod === "paypal") {
+    if(paymentMethod === "paypal") {
       items = cartData.products.map((product) => ({
         name: product.productId.name,
         sku: product.productId._id,
@@ -286,7 +346,7 @@ const placeOrder = async (req, res) => {
       };
 
       const paypalUrl = await handlePayPalPayment(create_payment_json);
-      res.json({ paypal: paypalUrl });
+       res.json({ paypal: paypalUrl });
     } else if (paymentMethod == "COD") {
       const orderId = await createOrder(
         user_id,
@@ -691,7 +751,7 @@ const returnOrder = async (req, res) => {
       { _id: orderId, "products._id": productId },
       {
         $set: {
-          "products.$.status": "requested",
+          "products.$.productStatus": "requested",
           returnReason: returnReason,
         },
       }
@@ -716,152 +776,113 @@ const returnOrder = async (req, res) => {
 };
 
 const generateInvoicePDF = async (req, res) => {
-  const orderId = req.query.id;
-  const orderDetails = await Order.findById(orderId);
+  try {
+    const orderId = req.query.id;
+    const orderDetails = await Order.findById(orderId);
 
-  if (!orderDetails) {
-    return res.status(404).json({ error: "Order not found" });
-  }
+    if (!orderDetails) {
+      return res.status(404).json({ error: "Order not found" });
+    }
 
-  let document = new PDFDocument({ margin: 50 });
+    let document = new PDFDocument({ margin: 50 });
+    let y = 220; 
+    
+    function generateHeader(document) {
+        document.image("./public/user/images/logo.png", 50, 40, { width: 100 });
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString();
+        const formattedTime = currentDate.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+        document.fontSize(12).text("Date: " + formattedDate, 50, 100, { align: "right" });
+        document.fontSize(12).text("Time: " + formattedTime, 50, 120, { align: "right" });
+        document.fontSize(18).text("Order Details", 50, 120, { align: "left" });
+        document.moveTo(50, y + 20).lineTo(550, y + 20).stroke(); 
+    }
 
-  function generateHeader(document) {
-    document.image("./public/user/images/logo.png", 50, 40, { width: 100 });
-    document
-      .fontSize(16)
-      .text("Your Company Name", 180, 50, { align: "center" });
-    document.fontSize(10).text("You can feel comfort", { align: "center" });
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString();
-    const formattedTime = currentDate.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
+   
+
+    function generateOrderDetails(document, orderDetails) {
+        const headers = [
+            "No",
+            "Product",
+            "Quantity",
+            "Price",
+            "Total",
+            "Status",
+            "Payment Method",
+        ];
+        const rows = orderDetails.products.map((product, index) => {
+            const productName = product.name ? product.name.toString() : "N/A";
+            const productCount = product.count ? product.count.toString() : "0";
+            const productPrice = product.productPrice ? "$" + product.productPrice.toString() : "$0";
+            const totalPrice = product.totalPrice ? "$" + product.totalPrice.toString() : "$0";
+            const productStatus = product.productStatus ? product.productStatus.toString() : "N/A";
+            const paymentMethod = orderDetails.paymentMethod ? orderDetails.paymentMethod.toString() : "N/A";
+    
+            return [
+                (index + 1).toString(),
+                productName,
+                productCount,
+                productPrice,
+                totalPrice,
+                productStatus,
+                paymentMethod,
+            ];
+        });
+    
+        const columnWidths = [20, 130, 50, 60, 60, 60, 100];
+    
+        headers.forEach((header, columnIndex) => {
+            document.fontSize(12).text(header, 50 + columnWidths.slice(0, columnIndex).reduce((acc, width) => acc + width, 0), y, { width: columnWidths[columnIndex], align: "center" });
+        });
+    
+        document.moveTo(50, y + 20).lineTo(550, y + 20).stroke(); 
+    
+        rows.forEach((row, rowIndex) => {
+            y += 30;
+            row.forEach((cell, columnIndex) => {
+                document.fontSize(12).text(cell, 50 + columnWidths.slice(0, columnIndex).reduce((acc, width) => acc + width, 0), y, { width: columnWidths[columnIndex], align: "center" });
+            });
+            document.moveTo(50, y + 20).lineTo(550, y + 20).stroke();
+        });
+    
+        const totalAmountText = "Total Amount: $" + orderDetails.totalAmount;
+        document.fontSize(15).text(totalAmountText, 50, y + 40, { align: "right" });
+
+    
+       
+    }
+    
+  
+ 
+  
+  
+  
+  
+  
+
+    generateHeader(document);
+    generateOrderDetails(document, orderDetails);
+
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
+
+    document.pipe(res);
+    document.end();
+
+    document.on("end", () => {
+      console.log("PDF generation completed");
     });
-    document
-      .fontSize(12)
-      .text("Date: " + formattedDate, 400, 70, { width: 150, align: "right" });
-    document
-      .fontSize(12)
-      .text("Time: " + formattedTime, 400, 90, { width: 150, align: "right" });
-    document.moveTo(50, 120).lineTo(550, 120).stroke();
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+    return res.status(500).render("500")
   }
-
-  function generateOrderDetails(document, orderDetails) {
-    document.fontSize(18).text("Order Details", 50, 160);
-
-    const headers = [
-      "No.",
-      "Product",
-      "Quantity",
-      "Price",
-      "Total",
-      "Status",
-      "Payment Method",
-    ];
-    const rows = orderDetails.products.map((product, index) => {
-      const productName = product.name ? product.name.toString() : "N/A";
-      const productCount = product.count ? product.count.toString() : "0";
-      const productPrice = product.productPrice
-        ? "$" + product.productPrice.toString()
-        : "$0";
-      const totalPrice = product.totalPrice
-        ? "$" + product.totalPrice.toString()
-        : "$0";
-      const productStatus = product.status ? product.status.toString() : "N/A";
-      const paymentMethod = product.paymentMethod
-        ? product.paymentMethod.toString()
-        : "N/A";
-
-      return [
-        (index + 1).toString(),
-        productName,
-        productCount,
-        productPrice,
-        totalPrice,
-        productStatus,
-        paymentMethod,
-      ];
-    });
-
-    const columnWidths = [30, 150, 70, 70, 70, 70, 100];
-    let y = 200;
-
-    headers.forEach((header, columnIndex) => {
-      document
-        .fontSize(12)
-        .text(
-          header,
-          50 +
-            columnWidths
-              .slice(0, columnIndex)
-              .reduce((acc, width) => acc + width, 0),
-          y,
-          { width: columnWidths[columnIndex], align: "center" }
-        );
-    });
-
-    rows.forEach((row, rowIndex) => {
-      y += 20;
-      row.forEach((cell, columnIndex) => {
-        document
-          .fontSize(12)
-          .text(
-            cell,
-            50 +
-              columnWidths
-                .slice(0, columnIndex)
-                .reduce((acc, width) => acc + width, 0),
-            y,
-            { width: columnWidths[columnIndex], align: "center" }
-          );
-        if (rowIndex === 0) {
-          document
-            .moveTo(
-              50 +
-                columnWidths
-                  .slice(0, columnIndex)
-                  .reduce((acc, width) => acc + width, 0),
-              160
-            )
-            .lineTo(
-              50 +
-                columnWidths
-                  .slice(0, columnIndex)
-                  .reduce((acc, width) => acc + width, 0),
-              y + 20
-            )
-            .stroke();
-        }
-      });
-      document.moveTo(50, y).lineTo(550, y).stroke();
-    });
-
-    const totalAmountText = "Total Amount: $" + orderDetails.totalAmount;
-    document.fontSize(12).text(totalAmountText, 50, y + 20, { align: "right" });
-  }
-
-  function generateFooter(document) {
-    document
-      .fontSize(15)
-      .text("Thanks for your presence. Please keep purchasing", {
-        align: "center",
-      });
-  }
-
-  generateHeader(document);
-  generateOrderDetails(document, orderDetails);
-  generateFooter(document);
-
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
-
-  document.pipe(res);
-  document.end();
-
-  document.on("end", () => {
-    console.log("PDF generation completed");
-  });
 };
+
+
 
 const invoiceSuccess = async (req, res) => {
   res.json({ invoice: true });
@@ -881,4 +902,5 @@ module.exports = {
   updateOrder,
   generateInvoicePDF,
   invoiceSuccess,
+
 };

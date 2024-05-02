@@ -258,7 +258,6 @@ document.addEventListener('DOMContentLoaded', function() {
  form.addEventListener('submit', function(event) {
     event.preventDefault(); 
 
-    // Perform validation
     const name = document.getElementById('name').value;
     const code = document.getElementById('code').value;
     const discount = document.getElementById('discount').value;
@@ -271,9 +270,25 @@ document.addEventListener('DOMContentLoaded', function() {
       icon:"error",
       text:"please fill all the fields"
       })
-
       return;
     }
+    if(discount<=0&&criteriaAmount<=0){
+        Swal.fire({
+      icon:"error",
+      text:"please amount must be positive"
+      })
+      return;  
+    }
+    const expiryDateObj = new Date(expiryDate);
+const currentDate = new Date();
+
+if (expiryDateObj <= currentDate) {
+  Swal.fire({
+    icon: "error",
+    text: "Expiry date must be in the future."
+  });
+  return;
+}
 
  
     const data = {
@@ -300,6 +315,12 @@ Swal.fire({
 }).then(()=>{
     window.location.href = "/admin/coupon"
 })
+if(data.exist){
+    Swal.fire({
+        icon:"error",
+        text:"name already exist"
+    })
+}
     })
     .catch((error) => {
       console.error('Error:', error);

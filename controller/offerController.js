@@ -79,6 +79,11 @@ const addOffer = async (req, res) => {
         existingCategoryOffer: existingCategoryOffer,
       });
     }
+    const existingoffer = await Offer.findOne({ name: { $regex: new RegExp(req.body.name, 'i') } });
+    if (existingoffer) {
+      return res.json({nameExist:true});
+    }
+
 
     if (product) {
       const data = new Offer({
@@ -153,39 +158,43 @@ const editOfferLoad = async (req, res) => {
 
 const editOffer = async (req, res) => {
   try {
-    console.log("boduyyyyyyy", req.body);
     const offerId = req.body.offerId;
-    console.log("start");
-    console.log("id", offerId);
     const category = req.body.categoryId;
     const product = req.body.productId;
-
-    if (product) {
-      await Offer.findOneAndUpdate(
-        { _id: offerId },
-        {
-          name: req.body.name,
-          productId: product,
-          discountAmount: req.body.offerAmount,
-          startDate: req.body.activeDate,
-          endDate: req.body.expireDate,
+    const existingOffer = await Offer.findOne({ name: { $regex: new RegExp(req.body.name, 'i') } });
+    if (existingOffer) {
+      if (existingOffer._id.equals(req.body.offerId)) {
+        if (product) {
+          await Offer.findOneAndUpdate(
+            { _id: offerId },
+            {
+              name: req.body.name,
+              productId: product,
+              discountAmount: req.body.offerAmount,
+              startDate: req.body.activeDate,
+              endDate: req.body.expireDate,
+            }
+          );
+    
+          res.json({ success: true });
+        } else {
+          await Offer.findOneAndUpdate(
+            { _id: offerId },
+            {
+              name: req.body.name,
+              categoryId: category,
+              discountAmount: req.body.offerAmount,
+              startDate: req.body.activeDate,
+              endDate: req.body.expireDate,
+            }
+          );
+          res.json({ success: true });
         }
-      );
-
-      res.json({ success: true });
-    } else {
-      await Offer.findOneAndUpdate(
-        { _id: offerId },
-        {
-          name: req.body.name,
-          categoryId: category,
-          discountAmount: req.body.offerAmount,
-          startDate: req.body.activeDate,
-          endDate: req.body.expireDate,
-        }
-      );
-      res.json({ success: true });
+      } else {
+        return res.json({nameExist: true });
+      }
     }
+    
   } catch (error) {
     console.log(error, "while editing offer");
     res.render("500");

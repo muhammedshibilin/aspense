@@ -228,94 +228,97 @@ body {
       <div class="title">OTP</div>
       <div class="title">Verification Code</div>
       <p class="message">We have sent a verification code to your mobile number</p>
-      <div class="inputs"> <input id="input1" type="text" maxlength="1"> <input id="input2" type="text" maxlength="1">
-        <input id="input3" type="text" maxlength="1"> <input id="input4" type="text" maxlength="1"> </div> 
-        <div id="error" style="display: none; color: red; margin-top:20px "></div>
-     
-
-         <div id="timer"  style="color: white; margin-top: 20px; font-weight:bold ;">Time remaining: 1:00</div>
-<button id="resend" style="display: none; color: white; background-color: transparent; border: 1px solid white; padding: 5px 10px; cursor: pointer; margin-top: 20px;" onclick="resendOTP()" onmousedown="this.style.backgroundColor='white'" onmouseup="this.style.backgroundColor='blue'" >Resend</button>
-
-        <a>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <button id="submit" type="submit" style="border: none; background-color: black; color: white; font-size: 20px;" onmouseover="this.style.backgroundColor='transparent'" >Submit</button>
-        </a>
-       
-
+      <div class="inputs">
+        <input id="input1" type="text" maxlength="1">
+        <input id="input2" type="text" maxlength="1">
+        <input id="input3" type="text" maxlength="1">
+        <input id="input4" type="text" maxlength="1">
+      </div>
+      <div id="error" style="display: none; color: red; margin-top:20px "></div>
+  
+      <div id="timer" style="color: white; margin-top: 20px; font-weight:bold ;">Time remaining: 1:00</div>
+      <button id="resend" style="display: none; color: white; background-color: transparent; border: 1px solid white; padding: 5px 10px; cursor: pointer; margin-top: 20px;" onclick="resendOTP()" onmousedown="this.style.backgroundColor='white'" onmouseup="this.style.backgroundColor='blue'">Resend</button>
+  
+      <a>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <button id="submit" type="submit" style="border: none; background-color: black; color: white; font-size: 20px;" onmouseover="this.style.backgroundColor='transparent'">Submit</button>
+      </a>
     </form>
   </div>
-
+  
   <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!-- Include SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
   
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    var timerElement = document.getElementById('timer');
-    var resendButton = document.getElementById('resend');
-    
-    var timer = 60;
-    var startTime;
-
-    function startTimer() {
-      if (localStorage.getItem('timerStartTime')) {
-        var elapsedTime = Date.now() - localStorage.getItem('timerStartTime');
-        timer = Math.max(60 - Math.floor(elapsedTime / 1000), 0);
-      } else {
-        localStorage.setItem('timerStartTime', Date.now());
-      }
-
-      var interval = setInterval(function() {
-        timer--;
-        var minutes = Math.floor(timer / 60);
-        var seconds = timer % 60;
-        if (seconds < 10) {
-          seconds = '0' + seconds;
+    $(document).ready(function() {
+      var timerElement = $('#timer');
+      var resendButton = $('#resend');
+  
+      var timer = 60;
+      var startTime = localStorage.getItem('timerStartTime');
+  
+      function startTimer() {
+        if (startTime) {
+          var elapsedTime = Date.now() - startTime;
+          timer = Math.max(60 - Math.floor(elapsedTime / 1000), 0);
+        } else {
+          startTime = Date.now();
+          localStorage.setItem('timerStartTime', startTime);
         }
-        timerElement.textContent = 'Time remaining: ' + minutes + ':' + seconds;
-        if (timer <= 0) {
-          clearInterval(interval);
-          timerElement.style.display = 'none';
-          resendButton.style.display = 'inline-block';
-          localStorage.removeItem('timerStartTime');
-        }
-      }, 1000);
-    }
-
-    startTimer();
-
-    function resendOTP() {
-      timer = 60;
-      timerElement.style.display = 'block';
-      resendButton.style.display = 'none';
-      startTimer();
-
-      $.ajax({
-        url:"/resend-otp",
-        method:"get",
-        success:(response) =>{
-          console.log('ere',response);
-          if(response.resend){
-            Swal.fire({
-              icon:'success',
-              title:'send ',
-              text:"resend otp to your email",
-              timer:3000
-            })
+  
+        var interval = setInterval(function() {
+          timer--;
+          var minutes = Math.floor(timer / 60);
+          var seconds = timer % 60;
+          if (seconds < 10) {
+            seconds = '0' + seconds;
           }
-        } 
-      })
-    }
-  })
-</script>
+          timerElement.text('Time remaining: ' + minutes + ':' + seconds);
+          if (timer <= 0) {
+            clearInterval(interval);
+            timerElement.hide();
+            resendButton.show();
+            localStorage.removeItem('timerStartTime');
+          }
+        }, 1000);
+      }
+  
+      startTimer();
+  
+      function resendOTP() {
+        timer = 60;
+        timerElement.show();
+        resendButton.hide();
+        startTime = Date.now();
+        localStorage.setItem('timerStartTime', startTime);
+        startTimer();
+  
+        $.ajax({
+          url: "/resend-otp",
+          method: "get",
+          success: function(response) {
+            console.log('ere', response);
+            if (response.resend) {
+              Swal.fire({
+                icon: 'success',
+                title: 'send ',
+                text: "resend otp to your email",
+                timer: 3000
+              })
+            }
+          }
+        });
+      }
+    });
+  </script>
+  
 
 
   <script>
