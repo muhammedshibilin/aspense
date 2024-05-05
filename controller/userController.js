@@ -134,7 +134,7 @@ const insertUser = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status('500').json({ error: "Internal server error" });
+        res.status('500').render("500");
     }
 }
 
@@ -278,6 +278,7 @@ const profileLoad = async (req, res) => {
         }
     } catch (e) {
         console.log("error while loading profile", e);
+        res.status(500).render("500")
     }
 }
 
@@ -334,7 +335,7 @@ const editProfile = async (req, res) => {
 
     } catch (e) {
         console.log('error while editing profile:', e);
-        res.status(500).render(500)
+        res.status(500).render("500")
     }
 }
 
@@ -518,7 +519,7 @@ const otpLoad = async (req, res) => {
         res.render("otp")
     } catch (error) {
         console.log(error);
-        res.status("500").render('500')
+        res.status(500).render('500')
       
     }
 }

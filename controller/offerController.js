@@ -194,6 +194,32 @@ const editOffer = async (req, res) => {
         return res.json({nameExist: true });
       }
     }
+
+    if (product) {
+      await Offer.findOneAndUpdate(
+        { _id: offerId },
+        {
+          name: req.body.name,
+          productId: product,
+          discountAmount: req.body.offerAmount,
+          startDate: req.body.activeDate,
+          endDate: req.body.expireDate,
+        }
+      );
+
+      res.json({ success: true });
+    } else {
+      await Offer.findOneAndUpdate(
+        { _id: offerId },
+        {
+          name: req.body.name,
+          categoryId: category,
+          discountAmount: req.body.offerAmount,
+          startDate: req.body.activeDate,
+          endDate: req.body.expireDate,
+        }
+      )
+    }
     
   } catch (error) {
     console.log(error, "while editing offer");

@@ -238,7 +238,7 @@ const placeOrder = async (req, res) => {
     let address = req.body.formData.address;
     console.log('sdfdf',address,existingAddress);
     req.session.address = address;
-    if (existingAddress.address.length==0) {
+    if (existingAddress&&existingAddress.address.length==0) {
       existingAddress.address.push({
         fullName: address.fullName,
         mobile: address.mobile,
@@ -394,7 +394,7 @@ const placeOrder = async (req, res) => {
     console.error("while order placing", error);
     res.status(500).render("500");
   }
-};
+}
 
 const paypalSuccess = async (req, res) => {
   try {
@@ -483,7 +483,7 @@ const paypalCancel = async (req, res) => {
       productOfferAmounts,
       status
     );
-    res.status(200).redirect('/checkout');
+    res.status(200).redirect('/home');
   } catch (error) {
     console.log("while cancelling the paypal oreder", error);
     res.status(500).render("500");
@@ -582,7 +582,7 @@ const cancelOrder = async (req, res) => {
     console.log("Error while cancelling the order:", error);
     return res
       .status(500)
-      .json({ error: "An error occurred while cancelling the order." });
+      .render("500")
   }
 };
 
@@ -630,9 +630,6 @@ const orderdetailsLoad = async (req, res) => {
         select: "name",
       },
     });
-
-    
-
     if (orderData) {
       const totalItems = orderData.products.reduce(
         (total, product) => total + product.count,
@@ -650,7 +647,7 @@ const orderdetailsLoad = async (req, res) => {
     }
   } catch (error) {
     console.log("Error while loading orderManagement:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).render("500");
   }
 };
 
@@ -718,7 +715,7 @@ const updateOrder = async (req, res) => {
     res.json({ success: true, orderData });
   } catch (error) {
     console.log("Error while updating order:", error);
-    res.status(500).json({ success: false, error: "Internal Server Error" });
+    res.status(500).render("500")
   }
 };
 
@@ -756,18 +753,6 @@ const returnOrder = async (req, res) => {
         },
       }
     );
-
-    // const updatedProduct = await Product.findByIdAndUpdate(
-    //   { _id: productId },
-    //   { $inc: { quantity: count } },
-    // )
-
-    // const updatedOrderTotal = await Order.findByIdAndUpdate(
-    //   orderId,
-    //   { $set: { totalAmount: newTotalAmount } },
-    //   { new: true },
-    // );
-
     res.json({ success: true });
   } catch (error) {
     console.log(error.message);

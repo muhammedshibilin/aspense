@@ -10,6 +10,7 @@ exports.WishlistLoad = async (req, res) => {
     res.render("wishlist", { user: user, wishlistData: wishlistData });
   } catch (e) {
     console.log("error while loading the wishlist", e);
+    res.status(500).render("500")
   }
 };
 

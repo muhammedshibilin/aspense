@@ -66,7 +66,7 @@ async function calculateTotalAmountWithOffers(cartData) {
   
 
   return {
-    productOfferAmounts,
+    productOfferAmounts
   };
 }
 
