@@ -10,7 +10,7 @@ exec(command, (error, stdout, stderr) => {
         return;
     }
 
-    // Log the stdout and stderr
+   
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
 });
