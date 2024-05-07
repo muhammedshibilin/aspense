@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const dotenv = require("dotenv").config();
+const dotenv = require("dotenv");
 const emoji = require("node-emoji");
 
 module.exports = {
