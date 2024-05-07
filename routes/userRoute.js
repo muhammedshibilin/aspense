@@ -19,10 +19,10 @@ const multer = require('../middleware/multer')
 const auth = require("../middleware/userAuth")
 const passport = require('passport')
 
-const config = require('../config/config')
+// const config = require('../config/config')
 const path = require('path')
 require('../utils/gpassport')
-  / require('../utils/fpassport')
+ 
 
 const session = require('express-session');
 
