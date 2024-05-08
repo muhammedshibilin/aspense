@@ -346,7 +346,7 @@ const placeOrder = async (req, res) => {
       };
 
       const paypalUrl = await handlePayPalPayment(create_payment_json);
-      let status = "pending"
+      let status = "Pending"
       const orderId = await createOrder(
         user_id,
         cartData,
