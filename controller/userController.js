@@ -277,14 +277,15 @@ const profileLoad = async (req, res) => {
         const addressData = await Address.findOne({ user }).populate("address")
         const orderDetails = await Order.find({ user }).sort({ date: -1 })
         const walletData = await User.findOne({ _id: user }).populate("walletHistory"); 
-      
-    
         const userData = await User.findOne({ _id: user })
+
+        console.log('user',userData);
+
         if (userData.is_admin == 0) {
             res.render("profile", { userData, addressData, orderDetails, user,walletData })
         } else {
             req.session.admin_id = userData
-            res.render("profile")
+            res.render("profile",{ userData, addressData, orderDetails, user,walletData })
         }
     } catch (e) {
         console.log("error while loading profile", e);

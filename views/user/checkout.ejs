@@ -450,6 +450,10 @@
                                  
                                
                                 </div>
+                                <div>
+                                    <p>coupon name: <span id="coupon-name">__</span></p>
+                                    <p>amount: <span id="coupon-amount">__</span></p>
+                                </div>
                         </div>
                     </div>
                     <!-- Discount Coupon Modal -->
@@ -1127,10 +1131,13 @@ document.getElementById('editAddress').addEventListener('click', function (e) {
         })
     }
 
+    
 
 
     function applyCoupon() {
         const selectedCouponId = $('#selectedCouponId').val();
+        const couponNameElement = document.querySelector('#coupon-name');
+        const couponAmountElement = document.querySelector("#coupon-amount");
         console.log('Selected Coupon ID:', selectedCouponId);
         console.log('couponId', selectedCouponId);
         $.ajax({
@@ -1144,10 +1151,12 @@ document.getElementById('editAddress').addEventListener('click', function (e) {
                     icon:"error",
                     text:"coupon you already applied"
                 })
-                }else if (response.success) {
+                }else if (response.success && response.couponData) {
                     const selectedCouponCode = document.getElementById('selectedCouponCode').value;
                 document.getElementById('couponCodeInput').value = selectedCouponCode;
                 updateTotals(response.couponOfferAmount, response.grandTotal);
+                couponNameElement.textContent = response.couponData.couponName;
+               couponAmountElement.textContent = response.couponData.discountAmount;
             } else {
                 Swal.fire({
                     icon:"error",

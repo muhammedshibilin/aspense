@@ -174,19 +174,14 @@ async function calculateTotalAmountWithOffers(cartData) {
         item.productId.price * (mostSignificantOffer.discountAmount / 100)
       );
     }
-    const productOfferAmount = {
-      productId: item.productId._id,
-      discount: discount,
-    };
-    productOfferAmounts.push(productOfferAmount);
-    totalAmount += item.productId.price*item.count;
+    totalAmount +=(item.productId.price-discount)*item.count;
     console.log('totalllllllllllllllllamotun offerr calluvlllllllll',totalAmount);
   }
 
   totalAmountAfter += totalAmount
 
   return {
-    productOfferAmounts,totalAmount
+    totalAmountAfter
   };
 }
 
@@ -205,28 +200,23 @@ const couponAmount = async (req, res) => {
       });
     }
 
-
- 
-
     if (cartData) {
       const couponData = await Coupon.findById({ _id: req.body.couponId });
       console.log("couponData", couponData);
-      let {totalAmount} = await calculateTotalAmountWithOffers(
-        cartData
-      );
-      console.log("couponData.discoutAmount", couponData.discountAmount);
+      let {totalAmountAfter} = await calculateTotalAmountWithOffers(cartData);
+      console.log("couponData.discoutAmount", couponData.discountAmount,totalAmountAfter);
       const couponOfferAmount = Math.floor(
-        totalAmount * (couponData.discountAmount / 100)
+        totalAmountAfter * (couponData.discountAmount / 100)
       );
       console.log("amount", couponOfferAmount);
 
-      totalAmount -= couponOfferAmount
+      totalAmountAfter -= couponOfferAmount
 
-      console.log("amountaftercoupon", totalAmount);
+      console.log("amountaftercoupon", totalAmountAfter);
 
-      let shippingAmount = totalAmount < 1500 ? 90 : 0;
+      let shippingAmount = totalAmountAfter < 1500 ? 90 : 0;
       if (shippingAmount > 0) {
-        totalAmount += shippingAmount;
+        totalAmountAfter += shippingAmount;
       }
 
       await Cart.findOneAndUpdate(
@@ -237,13 +227,14 @@ const couponAmount = async (req, res) => {
       res.json({
         success: true,
         couponOfferAmount,
-        grandTotal: totalAmount,
-        shippingAmount
+        grandTotal: totalAmountAfter,
+        shippingAmount,
+        couponData
       });
     }
   } catch (error) {
     console.log("error while calculating coupon amount", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).render("500");
   }
 };
 

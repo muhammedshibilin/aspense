@@ -163,7 +163,7 @@ async function createOrder(
   const order = new Order({
     user: user_id,
     orderId: uniqId,
-    deliveryDetails: address ? address : req.session.address,
+    deliveryDetails: address,
     products: orderProducts,
     date: new Date(),
     orderStatus:status,
