@@ -282,10 +282,10 @@ const profileLoad = async (req, res) => {
         console.log('user',userData);
 
         if (userData.is_admin == 0) {
-            res.render("profile", { userData, addressData, orderDetails, user,walletData })
+            res.render("profile", {user:userData, addressData, orderDetails,walletData })
         } else {
             req.session.admin_id = userData
-            res.render("profile",{ userData, addressData, orderDetails, user,walletData })
+            res.render("profile",{user:userData, addressData, orderDetails,walletData })
         }
     } catch (e) {
         console.log("error while loading profile", e);
