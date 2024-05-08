@@ -328,8 +328,8 @@ const placeOrder = async (req, res) => {
           payment_method: "paypal",
         },
         redirect_urls: {
-          return_url: "https://aspense.online/paypal-success",
-          cancel_url: "https://aspense.online/paypal-cancel",
+          return_url: "https://aspense.online/order-success",
+          cancel_url: "https://aspense.online/checkout",
         },
         transactions: [
           {
@@ -346,6 +346,16 @@ const placeOrder = async (req, res) => {
       };
 
       const paypalUrl = await handlePayPalPayment(create_payment_json);
+      let status = "pending"
+      const orderId = await createOrder(
+        user_id,
+        cartData,
+        totalAmount,
+        paymentMethod,
+        address,
+        productOfferAmounts,
+        status
+      );
        res.json({ paypal: paypalUrl });
     } else if (paymentMethod == "COD") {
       const orderId = await createOrder(
@@ -396,37 +406,18 @@ const placeOrder = async (req, res) => {
   }
 }
 
-const paypalSuccess = async (req, res) => {
+
+const paypalIpn = async (req,res) =>{
   try {
-    const user_id = req.session.user_id;
-    const cartData = await Cart.findOne({ user: user_id }).populate(
-      "products.productId"
-    );
-    if (!cartData || !cartData.products || cartData.products.length === 0) {
-      res.status(404).json({ error: "Cart data not found" });
-      return;
-    }
-    let { totalAmount, productOfferAmounts } =
-      await calculateTotalAmountWithOffers(cartData);
-      let paymentMethod='paypal'
-      let status = "placed"
-      let address=req.session.address
-    const orderId = await createOrder(
-      user_id,
-      cartData,
-      totalAmount,
-      paymentMethod,
-      address,
-      productOfferAmounts,
-      status
-    );
-    await Cart.deleteOne({ user: user_id });
-    res.status(200).redirect("/order-success");
+    const ipnMessage = req.body;
+    console.log('body',ipnMessage);
+    
   } catch (error) {
-    console.log("while loading paypal success", error);
-    res.status(500).render("500");
+    console.log("while ipn message getting",error);
+    res.status(500).render("500")
   }
-};
+}
+
 
 const payNow = async (req,res) => {
   try {
@@ -459,36 +450,7 @@ const payNow = async (req,res) => {
   }
 }
 
-const paypalCancel = async (req, res) => {
-  try {
-    const user_id = req.session.user_id;
-    const cartData = await Cart.findOne({ user: user_id }).populate(
-      "products.productId"
-    );
-    if (!cartData || !cartData.products || cartData.products.length === 0) {
-      res.status(404).json({ error: "Cart data not found" });
-      return;
-    }
-    let { totalAmount, productOfferAmounts } =
-      await calculateTotalAmountWithOffers(cartData);
-      let paymentMethod='paypal'
-      let status = "Pending"
-      let address=req.session.address
-    const orderId = await createOrder(
-      user_id,
-      cartData,
-      totalAmount,
-      paymentMethod,
-      address,
-      productOfferAmounts,
-      status
-    );
-    res.status(200).redirect('/home');
-  } catch (error) {
-    console.log("while cancelling the paypal oreder", error);
-    res.status(500).render("500");
-  }
-};
+
 
 const orderSuccess = async (req, res) => {
   try {
@@ -876,8 +838,7 @@ const invoiceSuccess = async (req, res) => {
 module.exports = {
   placeOrder,
   payNow,
-  paypalSuccess,
-  paypalCancel,
+  paypalIpn,
   orderSuccess,
   cancelOrder,
   returnOrder,
