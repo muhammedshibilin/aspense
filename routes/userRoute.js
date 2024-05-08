@@ -19,7 +19,7 @@ const multer = require('../middleware/multer')
 const auth = require("../middleware/userAuth")
 const passport = require('passport')
 
-// const config = require('../config/config')
+
 const path = require('path')
 require('../utils/gpassport')
  
@@ -48,6 +48,7 @@ user_route.set('views', './views/user');
 
 user_route.get("/", userController.loadHome)
 user_route.get("/home", userController.loadHome)
+user_route.get('/about',userController.aboutLoad)
 
 user_route.get("/product-details", userController.loadProductDetails)
 
@@ -67,15 +68,6 @@ user_route.get('/auth/google/callback',
   user_route.get('/failure', userController.failureLoad)
 
 
-
-// user_route.get('/auth/facebook', passport.authenticate('facebook', {
-//   scope: ['public_profile', 'email']
-// }))
-// user_route.get('/auth/facebook/callback', passport.authenticate('facebook', {
-//   successRedirect: "/success",
-//   failureRedirect: '/failure'
-
-// }))
 
 
 user_route.get('/otp', userController.otpLoad);

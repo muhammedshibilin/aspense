@@ -271,8 +271,8 @@
                                                     <a
                                                         href="/product-details?_id=<%= product._id %>">
                                                         <img
-                                                            src="/images/product/sized/<%= product.images.image1 %>"
-                                                            alt="Product Images">
+                                                            src="/images/product/original/<%= product.images[0] %>"
+                                                            alt="<%= product.name %>">
                                                     </a>
                                                 </div>
                                                 <div
@@ -296,8 +296,8 @@
                                             </div>
                                             <div class="content">
                                                 <h2><a
-                                                        href="/product-details?_id=<%= product._id %>">Open
-                                                        Front Cardigan</a></h2>
+                                                        href="/product-details?_id=<%= product._id %>"><%= product.name %>
+                                                        </a></h2>
                                                 <span class="prize">$<%=
                                                     product.price %>.00</span>
                                             </div>
@@ -371,7 +371,7 @@
 
         <!-- End Product Feature Tab -->
 
-        <!-- Start Recent Selling Area -->
+     
         <div class="recentselling-area pt--100 bg-color" data-bg-color="#fff">
             <div class="container">
                 <div class="row">
@@ -514,7 +514,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Recent Selling Area -->
+      
 
         <!-- Start Brand Area -->
         <div class="brand-area ptb--90">

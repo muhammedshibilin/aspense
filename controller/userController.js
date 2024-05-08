@@ -35,6 +35,16 @@ const loadHome = async (req, res) => {
     }
 }
 
+const aboutLoad = async(req,res) => {
+    try {
+        const user = await User.findOne({_id:req.session.user_id})
+        res.render("about",{user:user})
+    } catch (error) {
+      console.log('while loading the about',error);
+      res.status(200).render("500")  
+    }
+}
+
 const loadSignup = async (req, res) => {
     try {
         const user = req.session.user_id
@@ -667,6 +677,7 @@ const logoutUser = async (req, res) => {
 
 module.exports = {
     loadHome,
+    aboutLoad,
     loadProductDetails,
     profileLoad,
     editProfile,

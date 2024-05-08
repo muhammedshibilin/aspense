@@ -328,8 +328,8 @@ const placeOrder = async (req, res) => {
           payment_method: "paypal",
         },
         redirect_urls: {
-          return_url: "http://localhost:7000/paypal-success",
-          cancel_url: "http://localhost:7000/paypal-cancel",
+          return_url: "https://aspense.online/paypal-success",
+          cancel_url: "https://aspense.online/paypal-cancel",
         },
         transactions: [
           {
