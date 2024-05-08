@@ -451,9 +451,15 @@
                                
                                 </div>
                                 <div>
-                                    <p>coupon name: <span id="coupon-name"><%=appliedCouponData.couponName %></span></p>
-                                    <p>amount: <span id="coupon-amount"><%= appliedCouponData.discountAmount %></span></p>
+                                    <% if (appliedCouponData) { %>
+                                        <p>coupon name: <span id="coupon-name"><%= appliedCouponData.couponName %></span></p>
+                                        <p>amount: <span id="coupon-amount"><%= appliedCouponData.discountAmount %></span></p>
+                                    <% } else { %>
+                                        <p>coupon name: <span id="coupon-name">_</span></p>
+                                        <p>amount: <span id="coupon-amount">_</span></p>
+                                    <% } %>
                                 </div>
+                                
                         </div>
                     </div>
                     <!-- Discount Coupon Modal -->
