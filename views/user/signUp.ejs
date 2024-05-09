@@ -376,7 +376,8 @@ console.log('refferalCode',referralCode);
         if (validateForm()) {
             const response = await fetch('/sign-up', {
                 method: 'post',
-                headers: {
+                header
+                : {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({

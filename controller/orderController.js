@@ -411,6 +411,8 @@ const paypalIpn = async (req,res) =>{
   try {
     const ipnMessage = req.body;
     console.log('body',ipnMessage);
+    const payment_state = ipn_message["resource"]["state"]
+    console.log('status',payment_state);
     
   } catch (error) {
     console.log("while ipn message getting",error);
