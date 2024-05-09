@@ -14,7 +14,7 @@ const paypal = require("paypal-rest-sdk");
 const { couponAmount } = require("./couponController");
 const env = require("dotenv").config();
 const Razorpay = require('razorpay');
-const axios = require('axios')
+
 
 paypal.configure({
   mode: "sandbox",
@@ -407,24 +407,30 @@ const placeOrder = async (req, res) => {
   }
 }
 
-async function checkPaymentStatus(paymentId) {
-  const apiEndpoint = `https://api.sandbox.paypal.com/v1/payments/payment/${paymentId}`;
+const axios = require('axios');
 
-  const headers = {
-      "Authorization": "Bearer YOUR_ACCESS_TOKEN",
-      "Content-Type": "application/json"
-  };
-  
-  try {
-      const response = await axios.get(apiEndpoint, { headers });
-      const paymentInfo = response.data;
-      const paymentState = paymentInfo.state;
-      return paymentState;
-  } catch (error) {
-      console.error("Failed to retrieve payment status:", error);
-      return null;
-  }
+async function checkPaymentStatus(paymentId) {
+    try {
+        // Assuming you have a function to get a new access token
+        const accessToken = await getNewAccessToken();
+        const response = await axios.get(`https://api.sandbox.paypal.com/v1/payments/payment/${paymentId}`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+        return response.data.state;
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            console.error('Token expired or invalid. Attempting to refresh token...');
+            // Attempt to refresh the token or handle the error appropriately
+            // This might involve calling a function to refresh the token and retrying the request
+        } else {
+            // Handle other errors
+            console.error('Error checking payment status:', error);
+        }
+    }
 }
+
 
 
 
