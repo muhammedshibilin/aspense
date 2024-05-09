@@ -14,6 +14,7 @@ const paypal = require("paypal-rest-sdk");
 const { couponAmount } = require("./couponController");
 const env = require("dotenv").config();
 const Razorpay = require('razorpay');
+const axios = require('axios')
 
 paypal.configure({
   mode: "sandbox",
@@ -406,6 +407,26 @@ const placeOrder = async (req, res) => {
   }
 }
 
+async function checkPaymentStatus(paymentId) {
+  const apiEndpoint = `https://api.sandbox.paypal.com/v1/payments/payment/${paymentId}`;
+
+  const headers = {
+      "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+      "Content-Type": "application/json"
+  };
+  
+  try {
+      const response = await axios.get(apiEndpoint, { headers });
+      const paymentInfo = response.data;
+      const paymentState = paymentInfo.state;
+      return paymentState;
+  } catch (error) {
+      console.error("Failed to retrieve payment status:", error);
+      return null;
+  }
+}
+
+
 
 const paypalIpn = async (req,res) =>{
   try {
@@ -413,6 +434,23 @@ const paypalIpn = async (req,res) =>{
     console.log('body',ipnMessage);
     const payment_state = ipnMessage["resource"]["state"]
     console.log('status',payment_state);
+    if (payment_state === "created") {
+      console.log("Payment is in 'created' state. Checking status...");
+   
+      setTimeout(async () => {
+          const paymentId = ipnMessage["resource"]["id"];
+          const updatedPaymentState = await checkPaymentStatus(paymentId);
+          console.log("Updated Payment State:", updatedPaymentState);
+        
+          if (updatedPaymentState === "approved") {
+              console.log("Payment is successful.");
+          } else if (updatedPaymentState === "failed") {
+              console.log("Payment is failed.");
+          }
+      }, 5000);
+  } else {
+      console.log("Payment state is not 'created'.");
+  }
     
   } catch (error) {
     console.log("while ipn message getting",error);
