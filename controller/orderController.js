@@ -409,6 +409,31 @@ const placeOrder = async (req, res) => {
 
 const axios = require('axios');
 
+async function getNewAccessToken() {
+    const clientId = 'YOUR_CLIENT_ID';
+    const clientSecret = 'YOUR_CLIENT_SECRET';
+    const redirectUri = 'YOUR_REDIRECT_URI';
+
+    try {
+        const response = await axios.post('https://api.sandbox.paypal.com/v1/oauth2/token', null, {
+            headers: {
+                'Accept': 'application/json',
+                'Accept-Language': 'en_US',
+            },
+            params: {
+                grant_type: 'client_credentials',
+            },
+        });
+
+        const accessToken = response.data.access_token;
+        return accessToken;
+    } catch (error) {
+        console.error('Error getting new access token:', error);
+        throw error;
+    }
+}
+
+
 async function checkPaymentStatus(paymentId) {
     try {
         // Assuming you have a function to get a new access token
@@ -422,17 +447,13 @@ async function checkPaymentStatus(paymentId) {
     } catch (error) {
         if (error.response && error.response.status === 401) {
             console.error('Token expired or invalid. Attempting to refresh token...');
-            // Attempt to refresh the token or handle the error appropriately
-            // This might involve calling a function to refresh the token and retrying the request
+          
         } else {
-            // Handle other errors
+        
             console.error('Error checking payment status:', error);
         }
     }
 }
-
-
-
 
 const paypalIpn = async (req,res) =>{
   try {

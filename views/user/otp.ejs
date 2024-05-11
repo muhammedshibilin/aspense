@@ -369,6 +369,62 @@ $.ajax({
 })
 </script>
 
+
+<script>
+  var inputFields = document.querySelectorAll('.inputs input');
+  var currentIndex = 0;
+
+  function moveFocus(direction) {
+      // Remove focus from current input
+      inputFields[currentIndex].blur();
+      // Calculate the new index based on the direction
+      let newIndex = currentIndex;
+      if (direction === 'next') {
+          newIndex = (currentIndex + 1) % inputFields.length;
+      } else if (direction === 'prev') {
+          newIndex = (currentIndex - 1 + inputFields.length) % inputFields.length;
+      }
+      // Set focus to the new input
+      inputFields[newIndex].focus();
+      currentIndex = newIndex; // Update currentIndex
+  }
+
+  inputFields.forEach((input, index) => {
+      input.addEventListener('keydown', function(e) {
+          // Check if the key pressed is a number or backspace
+          if ((e.key >= '0' && e.key <= '9') || e.key === 'Backspace') {
+              // Insert the pressed number into the current input field
+              if (e.key >= '0' && e.key <= '9') {
+                  e.preventDefault(); // Prevent the default behavior
+                  input.value = e.key; // Set the value of the input field to the pressed number
+                  // Move focus to the next input field if it's not the last input field
+                  if (index < inputFields.length - 1) {
+                      moveFocus('next');
+                  }
+              }
+              // Move focus to the previous input if backspace is pressed and it's not the first input field
+              else if (e.key === 'Backspace' && index > 0 && input.value === '') {
+                  e.preventDefault(); // Prevent the default behavior
+                  moveFocus('prev');
+              }
+          }
+      });
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>

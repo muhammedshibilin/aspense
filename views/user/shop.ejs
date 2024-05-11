@@ -44,15 +44,18 @@
                                             <option value="new_arrival" <% if (!currentSort) { %>selected<% } %>>New arrivals</option>
                                             <option value="low_to_high" <% if (currentSort === 'low_to_high') { %>selected<% } %>>Price: low to high</option>
                                             <option value="high_to_low" <% if (currentSort === 'high_to_low') { %>selected<% } %>>Price: high to low</option>
+                                            <option value="Aa-Zz" <% if (currentSort === 'Aa-Zz') { %>selected<% } %>>Aa-Zz</option>
+                                            <option value="Zz-Aa" <% if (currentSort === 'Zz-Aa') { %>selected<% } %>>Zz-Aa</option>
+
+                                        </select>
+                                        <select onchange="handleChange(this)" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; height: 38px; margin-left: 3;">
                                             <% if (categoryData.length > 0) { %>
                                                 <% categoryData.forEach(category => { %>
                                                     <option value="<%= category._id %>" <% if (currentSort === category._id.toString()) { %>selected<% } %>><%= category.name %></option>
                                                 <% }) %>
                                             <% } %>
                                         </select>
-                                    
-                                    </div>
-                                    
+                                    </div>   
                                 </div>
                             </div>
                         </div>
@@ -252,15 +255,12 @@
 
 
 <script>
-
 function handleSearch(searchTerm, selectedValue) {
     const currentUrl = window.location.href;
     const baseUrl = currentUrl.split('?')[0]; 
 
-  
     const newUrl = `${baseUrl}?sort=${selectedValue}&search=${encodeURIComponent(searchTerm)}`;
 
-   
     window.location.href = newUrl;
 }
 
@@ -271,7 +271,6 @@ function handleChange(selectElement) {
     handleSearch(searchTerm, selectedValue);
 }
 
-
 document.getElementById('searchInput').addEventListener('keyup', function(event) {
     if (event.key === 'Enter') {
         const selectedValue = document.querySelector('select').value;
@@ -279,6 +278,7 @@ document.getElementById('searchInput').addEventListener('keyup', function(event)
         handleSearch(searchTerm, selectedValue);
     }
 });
+
 
     function toCart(productId) {
     

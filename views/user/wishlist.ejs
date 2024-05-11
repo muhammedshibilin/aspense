@@ -44,7 +44,7 @@
                                                     <td class="pro-price">
                                                         <span>$<%= product.product.price %></span>
                                                     </td>
-                                                    <td><button  onclick="toCart('<%= product.product._id %>')">add to cart</button></td>
+                                                    <td><button id="add-to-cart" onclick="toCart('<%= product.product._id %>')">add to cart</button></td>
                                                     <td class="pro-remove">
                                                         <a onclick="removeProduct('<%= product.product._id %>')"><i class="fa fa-trash-o"></i></a>
                                                     </td>

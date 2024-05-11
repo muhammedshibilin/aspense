@@ -633,6 +633,12 @@ const shopLoad = async (req, res) => {
                 case 'new_arrival':
                     sortOption = { date: -1 };
                     break;
+                case 'Aa-Zz':
+                    sortOption = { name: -1 };
+                    break;
+                case 'Zz-Aa':
+                    sortOption = { name: 1 };
+                    break;
                 default:
                     sortOption = {};
             }
@@ -665,6 +671,31 @@ const productData = await Product.find({...filter})
     }
 };
 
+
+const leftShopLoad = async (req, res) => {
+    try {
+        let productData = [];
+        console.log('req.',req.query);
+        if (req.query.minPrice && req.query.maxPrice) {
+            productData = await Product.find({
+                is_block: 0,
+                price: { $gte: req.query.minPrice, $lte: req.query.maxPrice }
+            });
+        } else {
+            productData = await Product.find({ is_block: 0 });
+        }
+        console.log('prod',productData);
+        const categoryData = await Category.find({ is_block: 0 });
+        const user = req.session.user_id;
+        res.render("shop-left-sidebar", { user, categoryData, products: productData });
+    } catch (error) {
+        res.status(500).render('500');
+    }
+};
+
+
+
+
 const logoutUser = async (req, res) => {
     try {
         req.session.destroy()
@@ -696,6 +727,7 @@ module.exports = {
     insertUser,
     otpLoad,
     shopLoad,
+    leftShopLoad,
     loadLogin,
     verifyLogin,
     logoutUser,

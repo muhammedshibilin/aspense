@@ -171,8 +171,7 @@ user_route.post("/remove-coupon",auth.isLogin,couponController.removeCoupon)
 
 user_route.post("/place-order",auth.isLogin,orderController.placeOrder)
 user_route.post('/pay-now',auth.isLogin,orderController.payNow)
-// user_route.get("/paypal-success",auth.isLogin,orderController.paypalSuccess)
-// user_route.get("/paypal-cancel",auth.isLogin,orderController.paypalCancel)
+
 user_route.post("/paypal-ipn",orderController.paypalIpn)
 user_route.get('/order-success',auth.isLogin,orderController.orderSuccess)
 user_route.get('/order-details',auth.isLogin,orderController.orderDetails)
@@ -185,6 +184,7 @@ user_route.get('/invoice/success', asyncHandler(orderController.invoiceSuccess))
 
 
 user_route.get('/shop',userController.shopLoad)
+user_route.get('/left-shop',userController.leftShopLoad)
 user_route.post('/sign-up', userController.insertUser)
 user_route.get('/login', auth.isLogout, userController.loadLogin);
 user_route.post('/login', userController.verifyLogin);

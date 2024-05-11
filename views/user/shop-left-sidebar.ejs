@@ -1,4 +1,4 @@
-<!doctype html>
+
 <%- include('../layouts/user/header.ejs') %>
 
 
@@ -35,8 +35,46 @@
                                         </div>
                                     </form>
                                 </div>
-                                <!-- End Single Widget -->
 
+                                <div class="category-filter mt-5 ">
+                                    <h5 class="widget-title">Filter by Category</h5>
+                                    <% categoryData.forEach(category => { %>
+                                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                                            <input type="radio" id="<%= category._id %>" name="category" value="<%= category._id %>" style="width: 20px; height: 20px; border: 2px solid #000; border-radius: 3px; margin-right: 5px;">
+                                            <label for="<%= category._id %>" style="font-weight: bold; display: inline-block; vertical-align: middle;"><%= category.name %></label>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                                
+                                
+                                
+                                
+                                
+
+                                
+
+                                
+                                <div class="shop-sidebar related-product-inner mt--50">
+                                    <h5 class="widget-title">Filter by price</h5>
+
+                                    <div class="content-shopby">
+                                        <div class="price_filter s-filter clear">
+                                            <form >
+                                                <div id="slider-range"></div>
+                                                <div class="slider__range--output">
+                                                    <div class="price__output--wrap">
+                                                        <div class="price--output">
+                                                            <span>Price :</span><input type="text" id="amount" readonly>
+                                                        </div>
+                                                        <div class="price--filter">
+                                                            <a href="">Filter</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 <!-- Start Single Widget -->
                                 <div class="shop-sidebar related-product-inner mt--50">
                                     <h5 class="widget-title">Top rated products</h5>
@@ -66,153 +104,9 @@
                                     </ul>
                                 </div>
                                 <!-- End Single Widget -->
+                   
 
-                                
-                                <div class="shop-sidebar related-product-inner mt--50">
-                                    <h5 class="widget-title">Filter by price</h5>
-
-                                    <div class="content-shopby">
-                                        <div class="price_filter s-filter clear">
-                                            <form action="#" method="GET">
-                                                <div id="slider-range"></div>
-                                                <div class="slider__range--output">
-                                                    <div class="price__output--wrap">
-                                                        <div class="price--output">
-                                                            <span>Price :</span><input type="text" id="amount" readonly>
-                                                        </div>
-                                                        <div class="price--filter">
-                                                            <a href="#">Filter</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single Widget -->
-
-
-                                <!-- Start Single Widget -->
-                                <div class="shop-sidebar tag mt--50">
-                                    <h5 class="widget-title">Tags</h5>
-                                    <div class="inner">
-                                        <ul class="tagcloud">
-                                            <li><a href="#">architecture</a></li>
-                                            <li><a href="#">business</a></li>
-                                            <li><a href="#">format</a></li>
-                                            <li><a href="#">corporate</a></li>
-                                            <li><a href="#">themplate</a></li>
-                                            <li><a href="#">Html5</a></li>
-                                            <li><a href="#">Bootstrap4</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- End Single Widget -->
-
-                                <!-- End Single Widget -->
-                                <!-- Start Single Widget -->
-                                <div class="shop-sidebar nwinstagram mt--50">
-                                    <h5 class="widget-title">Instagram</h5>
-
-                                    <div class="instagram-grid-wrap instagram-grid-5 inner">
-                                        <!-- Start Single Instagram -->
-                                        <div class="item-grid grid-style--1">
-                                            <div class="thumb">
-                                                <a href="#">
-                                                    <img src="assets/images/product/sm-product-01.jpg" alt="instagram images">
-                                                </a>
-                                                <div class="item-info">
-                                                    <div class="inner">
-                                                        <a href="#"><i class="fa fa-heart-o"></i>1k</a>
-                                                        <a href="#"><i class="fa fa-comments"></i>9</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Start Single Instagram -->
-
-                                        <!-- Start Single Instagram -->
-                                        <div class="item-grid grid-style--1">
-                                            <div class="thumb">
-                                                <a href="#">
-                                                    <img src="assets/images/product/sm-product-02.jpg" alt="instagram images">
-                                                </a>
-                                                <div class="item-info">
-                                                    <div class="inner">
-                                                        <a href="#"><i class="fa fa-heart-o"></i>4k</a>
-                                                        <a href="#"><i class="fa fa-comments"></i>9</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Start Single Instagram -->
-
-                                        <!-- Start Single Instagram -->
-                                        <div class="item-grid grid-style--1">
-                                            <div class="thumb">
-                                                <a href="#">
-                                                    <img src="assets/images/product/sm-product-03.jpg" alt="instagram images">
-                                                </a>
-                                                <div class="item-info">
-                                                    <div class="inner">
-                                                        <a href="#"><i class="fa fa-heart-o"></i>1k</a>
-                                                        <a href="#"><i class="fa fa-comments"></i>9</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Start Single Instagram -->
-
-                                        <!-- Start Single Instagram -->
-                                        <div class="item-grid grid-style--1">
-                                            <div class="thumb">
-                                                <a href="#">
-                                                    <img src="assets/images/product/sm-product-04.jpg" alt="instagram images">
-                                                </a>
-                                                <div class="item-info">
-                                                    <div class="inner">
-                                                        <a href="#"><i class="fa fa-heart-o"></i>1k</a>
-                                                        <a href="#"><i class="fa fa-comments"></i>9</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Start Single Instagram -->
-
-                                        <!-- Start Single Instagram -->
-                                        <div class="item-grid grid-style--1">
-                                            <div class="thumb">
-                                                <a href="#">
-                                                    <img src="assets/images/product/sm-product-05.jpg" alt="instagram images">
-                                                </a>
-                                                <div class="item-info">
-                                                    <div class="inner">
-                                                        <a href="#"><i class="fa fa-heart-o"></i>1k</a>
-                                                        <a href="#"><i class="fa fa-comments"></i>9</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Start Single Instagram -->
-
-                                        <!-- Start Single Instagram -->
-                                        <div class="item-grid grid-style--1">
-                                            <div class="thumb">
-                                                <a href="#">
-                                                    <img src="assets/images/product/sm-product-01.jpg" alt="instagram images">
-                                                </a>
-                                                <div class="item-info">
-                                                    <div class="inner">
-                                                        <a href="#"><i class="fa fa-heart-o"></i>1k</a>
-                                                        <a href="#"><i class="fa fa-comments"></i>9</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Start Single Instagram -->
-                                    </div>
-                                </div>
-                                <!-- End Single Widget -->
+                               
 
                             </div>
                         </div>
@@ -223,17 +117,7 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="archive-shop-inner text-center text-sm-left">
-                                        <p class="bk_pra">Showing 1–8 of 10 results</p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="archive-shop-inner text-center text-sm-right mt_mobile--20">
-                                        <select>
-                                            <option>Sort by popularity</option>
-                                            <option>Sort by average rating</option>
-                                            <option>Sort by price: low to high</option>
-                                            <option>Sort by price: high to low</option>
-                                        </select>
+                                        <a href="/shop"><video src="user\videos\menu.webm" loop autoplay muted  style="width: 40px;height: 40px;"></video></a>
                                     </div>
                                 </div>
                             </div>
@@ -242,31 +126,34 @@
                         <div class="shop-minimal-product">
                             <div class="row row--25">
 
-                                <!-- Start Single Product -->
-                                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mt--60">
-                                    <div class="product">
-                                        <div class="inner">
-                                            <div class="thumbnail">
-                                                <a href="product-details.html">
-                                                    <img src="assets/images/product/product-01.jpg" alt="Product Images">
-                                                </a>
-                                            </div>
-                                            <div class="product-hover-action">
-                                                <div class="hover-inner">
-                                                    <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
-                                                    <a href="cart.html"><i class="fa fa-cart-plus"></i></a>
-                                                    <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
-                                                    <a href="compare.html"><i class="fa fa-repeat"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content">
-                                            <h2><a href="product-details.html">Fit Wool Suit</a></h2>
-                                            <span class="prize">$200.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single Product -->
+                             <!-- Start Single Product -->
+<% products.forEach(function(product) { %>
+    <div class="col-lg-4 col-md-6 col-sm-6 col-12 mt--60">
+        <div class="product">
+            <div class="inner">
+                <div class="thumbnail">
+                    <a href="product-details.html">
+                        <img src="/images/product/original/<%= product.images[0] %>" alt="Product Images">
+                    </a>
+                </div>
+                <div class="product-hover-action">
+                    <div class="hover-inner">
+                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
+                        <a href="/cart"><i class="fa fa-cart-plus"></i></a>
+                        <a href="/wishlist"><i class="fa fa-heart-o"></i></a>
+                        <a href="/compare"><i class="fa fa-repeat"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <h2><a href="/product-details?<%=product._id %>"><%= product.name %></a></h2>
+                <span class="prize">$<%= product.price %></span>
+            </div>
+        </div>
+    </div>
+<% }); %>
+<!-- End Single Product -->
+
 
 
                                 <!-- Start Pagenation Area -->
@@ -292,293 +179,43 @@
     </div>
 
     <!-- Quick View Modal -->
-    <div class="quick-view-modal">
-        <div class="quick-view-modal-inner">
-            <div class="container">
-                <div class="product-details">
-                    <!-- Product Details Left -->
-                    <div class="product-details-left">
-                        <div class="product-details-images slider-navigation-2">
-                            <a href="#">
-                                <img class="w-100" src="assets/images/product/product-01.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="assets/images/product/product-02.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="assets/images/product/product-03.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="assets/images/product/product-04.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="assets/images/product/product-05.jpg" alt="product image">
-                            </a>
-                        </div>
-                        <div class="product-details-thumbs slider-navigation-2">
-                            <img src="assets/images/product/product-01.jpg" alt="product image thumb">
-                            <img src="assets/images/product/product-02.jpg" alt="product image thumb">
-                            <img src="assets/images/product/product-03.jpg" alt="product image thumb">
-                            <img src="assets/images/product/product-04.jpg" alt="product image thumb">
-                            <img src="assets/images/product/product-05.jpg" alt="product image thumb">
-                        </div>
-                    </div>
-                    <!--// Product Details Left -->
-
-                    <!-- Product Details Right -->
-                    <div class="product-details-right">
-                        <h5 class="product-title">Demo Product Name</h5>
-
-                        <div class="ratting-stock-availbility">
-                            <div class="ratting-box">
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                            </div>
-                            <span class="stock-available">In stock</span>
-                        </div>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est
-                            tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis
-                            justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id
-                            nulla. adipiscing cursus eu, suscipit id nulla.</p>
-
-                        <div class="price-box">
-                            <span class="pricebox-price">£80.00</span>
-                        </div>
-
-                        <div class="product-details-quantity">
-                            <div class="quantity-select">
-                                <div class="pro-quantity">
-                                    <div class="pro-qty"><input type="text" value="1"></div>
-                                </div>
-                            </div>
-                            <a href="#" class="add-to-cart-button">
-                                <span>ADD TO CART</span>
-                            </a>
-                        </div>
-
-                        <div class="product-details-color">
-                            <span>Color :</span>
-                            <ul>
-                                <li class="red"><span></span></li>
-                                <li class="green checked"><span></span></li>
-                                <li class="blue"><span></span></li>
-                                <li class="black"><span></span></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-size">
-                            <span>Size :</span>
-                            <ul>
-                                <li class="checked"><span>S</span></li>
-                                <li><span>M</span></li>
-                                <li><span>L</span></li>
-                                <li><span>XL</span></li>
-                                <li><span>XXL</span></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-categories">
-                            <span>Categories :</span>
-                            <ul>
-                                <li><a href="shop.html">Accessories</a></li>
-                                <li><a href="shop.html">Kids</a></li>
-                                <li><a href="shop.html">Women</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-tags">
-                            <span>Tags :</span>
-                            <ul>
-                                <li><a href="shop.html">Electronic</a></li>
-                                <li><a href="shop.html">Television</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-socialshare">
-                            <span>Share :</span>
-                            <ul>
-                                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--// Product Details Right -->
-
-                </div>
-            </div>
-        </div>
-        <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
-    </div>
+   
     <!--// Quick View Modal -->
-    <!-- Start Footer Area -->
-    <footer class="footer-area bg-color plr--100 plr_lg--40 plr_md--30 plr_sm--30 clearfix" data-bg-color="#f4f8fa">
-        <!-- Start Footer Top -->
-        <div class="footer-top ptb--80">
-            <div class="row">
-                <div class="col-custom--5">
-                    <div class="footer-widget">
-                        <div class="logo">
-                            <a href="index.html">
-                                <img src="assets/images/logo/logo-black.png" alt="Logo">
-                            </a>
-                        </div>
-                        <div class="inner">
-                            <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms. </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_mobile--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Company</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">About US</a></li>
-                                <li><a href="#">Blogs</a></li>
-                                <li><a href="#">Careers</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_md--40 mt_sm--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Product</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Features</a></li>
-                                <li><a href="#">Customers</a></li>
-                                <li><a href="#">Demos</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_md--40 mt_sm--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Helps</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">Introduction</a></li>
-                                <li><a href="#">Feedback</a></li>
-                                <li><a href="#">Referrals</a></li>
-                                <li><a href="#">Network Status</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-custom--5 mt_md--40 mt_sm--40">
-                    <div class="footer-widget">
-                        <h5 class="title">Social Netowrk</h5>
-                        <div class="inner">
-                            <ul class="ft-link">
-                                <li><a href="#">Facebook</a></li>
-                                <li><a href="#">Twitter</a></li>
-                                <li><a href="#">Linkedin</a></li>
-                                <li><a href="#">Google +</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Footer Top -->
-        <!-- Start Footer Middle -->
-        <div class="footer-middle">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer-middle-inner ptb--45 text-center">
-                            <div class="tags-list">
-                                <span>Tags :</span>
-                                <div class="tags">
-                                    <a href="#">Minimal eCommerce</a>
-                                    <a href="#">Marketing</a>
-                                    <a href="#">User Exprience</a>
-                                    <a href="#">Ali Express</a>
-                                    <a href="#">Web</a>
-                                    <a href="#">Digital Expo</a>
-                                    <a href="#">Web Search</a>
-                                    <a href="#">Affiliate</a>
-                                    <a href="#">UCWeb</a>
-                                    <a href="#">Support</a>
-                                    <a href="#">Theme</a>
-                                    <a href="#">Best Queality</a>
-                                    <a href="#">Mobile</a>
-                                    <a href="#">24 Support</a>
-                                    <a href="#">Ali Express</a>
-                                    <a href="#">Web</a>
-                                    <a href="#">Laptop</a>
-                                    <a href="#">Web Search</a>
-                                    <a href="#">Affiliate</a>
-                                    <a href="#">Photoshop</a>
-                                    <a href="#">Support</a>
-                                    <a href="#">Theme</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Footer Middle -->
-        <!-- Start Copyright -->
-        <div class="copyright-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="copyright-inner ptb--25 text-center">
-                            <p class="mb--0">Copyright © All Right Resurved</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Copyright -->
-    </footer>
-    <!-- End Footer Area -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- JS
-============================================ -->
-
-    <!-- Modernizer JS -->
-    <script src="assets/js/vendor/modernizr.min.js"></script>
-    <!-- jQuery JS -->
-    <script src="assets/js/vendor/jquery.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
-    <script src="assets/js/plugins/plugins.js"></script>
-    <!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
-    <!--
-<script src="assets/js/vendor/vendor.min.js"></script>
-<script src="assets/js/plugins/plugins.min.js"></script>
--->
-
-    <!-- Main JS -->
-    <script src="assets/js/main.js"></script>
-
-</body>
-
-
-<!-- Mirrored from demo.hasthemes.com/lanes-preview-v2/lanes/shop-left-sidebar.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 03:54:31 GMT -->
-</html>
+    <script>
+ 
+    $(function() {
+        $('#slider-range').slider({
+            range: true,
+            min: 700,
+            max: 2000,
+            values: [110, 400],
+            slide: function (event, ui) {
+                $('#amount').val('$' + ui.values[0] + ' - $' + ui.values[1]);
+            }
+        });
+    
+        $('.price--filter a').on('click', function(event) {
+            event.preventDefault(); 
+    
+            
+            var minPrice = $('#slider-range').slider('values', 0);
+            var maxPrice = $('#slider-range').slider('values', 1);
+            console.log('asdjfa',minPrice,maxPrice);
+          
+            $.ajax({
+                url: '/left-shop', 
+                method: 'GET', 
+                data: { minPrice: minPrice, maxPrice: maxPrice },
+                success: function(response) {
+                   location.reload()
+                    console.log('Data sent successfully:', response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>    
+    <%- include('../layouts/user/footer.ejs') %>
