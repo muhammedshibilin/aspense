@@ -407,53 +407,11 @@ const placeOrder = async (req, res) => {
   }
 }
 
-const axios = require('axios');
-
-async function getNewAccessToken() {
-    const clientId = 'YOUR_CLIENT_ID';
-    const clientSecret = 'YOUR_CLIENT_SECRET';
-    const redirectUri = 'YOUR_REDIRECT_URI';
-
-    try {
-        const response = await axios.post('https://api.sandbox.paypal.com/v1/oauth2/token', null, {
-            headers: {
-                'Accept': 'application/json',
-                'Accept-Language': 'en_US',
-            },
-            params: {
-                grant_type: 'client_credentials',
-            },
-        });
-
-        const accessToken = response.data.access_token;
-        return accessToken;
-    } catch (error) {
-        console.error('Error getting new access token:', error);
-        throw error;
-    }
-}
 
 
-async function checkPaymentStatus(paymentId) {
-    try {
-        // Assuming you have a function to get a new access token
-        const accessToken = await getNewAccessToken();
-        const response = await axios.get(`https://api.sandbox.paypal.com/v1/payments/payment/${paymentId}`, {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        });
-        return response.data.state;
-    } catch (error) {
-        if (error.response && error.response.status === 401) {
-            console.error('Token expired or invalid. Attempting to refresh token...');
-          
-        } else {
-        
-            console.error('Error checking payment status:', error);
-        }
-    }
-}
+
+
+
 
 const paypalIpn = async (req,res) =>{
   try {
@@ -462,21 +420,7 @@ const paypalIpn = async (req,res) =>{
     const payment_state = ipnMessage["resource"]["state"]
     console.log('status',payment_state);
     if (payment_state === "created") {
-      console.log("Payment is in 'created' state. Checking status...");
-   
-      setTimeout(async () => {
-          const paymentId = ipnMessage["resource"]["id"];
-          const updatedPaymentState = await checkPaymentStatus(paymentId);
-          console.log("Updated Payment State:", updatedPaymentState);
-        
-          if (updatedPaymentState === "approved") {
-              console.log("Payment is successful.");
-          } else if (updatedPaymentState === "failed") {
-              console.log("Payment is failed.");
-          }
-      }, 5000);
-  } else {
-      console.log("Payment state is not 'created'.");
+      
   }
     
   } catch (error) {
