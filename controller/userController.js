@@ -24,10 +24,10 @@ const loadHome = async (req, res) => {
             path: "category",
             match: { is_block: 0 }
         })
-
+    
         const categoryData = await Category.find({is_block:0})
         if (!productData) {
-            return res.render("userHome", { productData: [], user,cartData });
+            return res.render("userHome", { productData: [], user,cartData});
         }
         res.render("userHome", { productData, user,categoryData ,cartData})
     } catch (error) {
@@ -39,6 +39,15 @@ const aboutLoad = async(req,res) => {
     try {
         const user = await User.findOne({_id:req.session.user_id})
         res.render("about",{user:user})
+    } catch (error) {
+      console.log('while loading the about',error);
+      res.status(200).render("500")  
+    }
+}
+const contactLoad = async(req,res) => {
+    try {
+        const user = await User.findOne({_id:req.session.user_id})
+        res.render("contact",{user:user})
     } catch (error) {
       console.log('while loading the about',error);
       res.status(200).render("500")  
@@ -80,6 +89,7 @@ const insertUser = async (req, res) => {
     try {
         const { name, email, mobile, password,referral} = req.body
         const emailCheck = await User.findOne({ email: req.body.email })
+        console.log('bod',req.body);
         let reffered = false
         if (emailCheck) {
             return res.json({ emailExist: true })
@@ -99,7 +109,7 @@ const insertUser = async (req, res) => {
             return res.json({invalidLink:true});
           }
         }
-       
+       console.log('os',changePassword);
         const passwordHash = await bcrypt.hash(password, 10)
         const user = new User({
             name: name,
@@ -611,18 +621,11 @@ const shopLoad = async (req, res) => {
         const sort = req.query.sort;
         const searchTerm = req.query.search;
 
-      
         if (searchTerm) {
-           
-            filter = { name: { $regex: searchTerm, $options: 'i' } };
+            filter.name = { $regex: searchTerm, $options: 'i' };
         }
 
-      
-        if (categoryData.some(category => category._id.toString() === sort)) {
-           
-            filter.category = sort;
-        } else {
-          
+        if (sort && sort !== 'new_arrival') {
             switch (sort) {
                 case 'low_to_high':
                     sortOption = { price: 1 };
@@ -630,29 +633,33 @@ const shopLoad = async (req, res) => {
                 case 'high_to_low':
                     sortOption = { price: -1 };
                     break;
-                case 'new_arrival':
-                    sortOption = { date: -1 };
-                    break;
                 case 'Aa-Zz':
-                    sortOption = { name: -1 };
-                    break;
-                case 'Zz-Aa':
                     sortOption = { name: 1 };
                     break;
+                case 'Zz-Aa':
+                    sortOption = { name: -1 };
+                    break;
                 default:
-                    sortOption = {};
+                    break;
             }
+        } else {
+            sortOption = { date: -1 };
         }
 
-const productData = await Product.find({...filter})
-    .populate({
-        path: 'category', 
-        match: { is_block: 0 } 
-    })
-    .sort(sortOption)
-    .skip(skip)
-    .limit(limit)
-    .exec();
+        if (req.query.category && categoryData.some(category => category._id.toString() === req.query.category)) {
+            filter.category = req.query.category;
+        }
+
+        const productData = await Product.find(filter)
+            .populate({
+                path: 'category',
+                match: { is_block: 0 }
+            })
+            .sort(sortOption)
+            .skip(skip)
+            .limit(limit)
+            .exec();
+
         const totalCount = await Product.countDocuments(filter);
         const totalPages = Math.ceil(totalCount / limit);
 
@@ -662,14 +669,16 @@ const productData = await Product.find({...filter})
             totalPages,
             user,
             categoryData,
-            currentSort: req.query.sort,
-            searchTerm: req.query.search
+            currentSort: sort,
+            searchTerm,
+            req
         });
     } catch (error) {
         console.log('Error while loading the shop:', error);
         res.render('error');
     }
 };
+
 
 
 const leftShopLoad = async (req, res) => {
@@ -710,6 +719,7 @@ const logoutUser = async (req, res) => {
 module.exports = {
     loadHome,
     aboutLoad,
+    contactLoad,
     loadProductDetails,
     profileLoad,
     editProfile,

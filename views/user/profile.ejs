@@ -1115,8 +1115,13 @@
                                                                                     <td
                                                                                         style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">
                                                                                         <% if (order.orderStatus === 'Pending') { %>
-                                                                                            <a onclick="payNow('<%=order._id %>')"
-                                                                                                style="display: inline-block; padding: 8px 16px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 4px;">Pay Now</a>
+                                                                                            <% if (order.paymentMethod === 'paypal') { %>
+                                                                                                <a onclick="payNow('<%=order._id %>')"
+                                                                                                    style="display: inline-block; padding: 8px 16px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 4px;">Pay Now</a>
+                                                                                            <% } else if (order.paymentMethod === 'razorpay') { %>
+                                                                                                <a onclick="rayNow('<%=order._id %>')"
+                                                                                                    style="display: inline-block; padding: 8px 16px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 4px;">Pay Now</a>
+                                                                                            <% } %>
                                                                                         <% } else { %>
                                                                                             <a href="/order-details?_id=<%=order._id %>"
                                                                                                 style="display: inline-block; padding: 8px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">View Details</a>
@@ -1377,9 +1382,12 @@
                 class="fa fa-close"></i></button>
     </div>
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
     <script>
 
 function payNow(orderId) {
+    console.log('d',orderId);
     fetch('/pay-now', {
         method: 'POST',
         headers: {
@@ -1395,6 +1403,85 @@ function payNow(orderId) {
         console.error('Error:', error);
     });
 }
+function rayNow(orderId) {
+    fetch('/ray-now', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderId: orderId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.razorpay){
+            console.log('data.order:',data.order);
+                            razorpayPayment(data.order);
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+function razorpayPayment(order){
+
+var options = {
+    "key": "rzp_test_deu2ORuCjDgPNd", 
+    "amount":order.amount, 
+    "currency": "INR",
+    "name": "aspense", 
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, 
+    // "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+    "handler": function (response){                           
+        console.log('response:',response);
+        verifyPayment(response,order);
+    },
+    "prefill": { 
+        "name": "muhammad shibili n", 
+        "email": "nkshibili17@gmail.com", 
+        "contact": "9000090000" 
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {  
+        "color": "#f2a100"
+    }
+};
+console.log('hereeeeeeeeeeeeee');
+var rzp1 = new Razorpay(options);
+console.log('rzp1:',rzp1);
+rzp1.on('payment.failed', function (response){
+    window.location.href=`/order-failure`
+
+});
+
+rzp1.open();
+}
+
+function verifyPayment(response,order){
+        fetch('/verify-payment',{
+            method:"POST",
+            headers:{
+                "content-type": "application/json;charset=utf-8"
+            },
+            body:JSON.stringify({
+                response,
+                order
+            })
+        })
+        .then((res)=>res.json())
+        .then((data)=>{
+            console.log('data',data);
+            if(data.statusChanged){
+                console.log('iffididd');
+                window.location.href=`/order-success`
+            }
+        })   
+    }
+
 
 document.getElementById('edit-btn').addEventListener('click', async (e) => {
     e.preventDefault();

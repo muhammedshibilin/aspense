@@ -571,7 +571,7 @@
                                             </div>
                                             <div>
                                                 <input type="radio" id="razorpay" name="payment" value="razorpay">
-                                                <label for="razorpay" style="font-weight: bold;">wallet</label>
+                                                <label for="razorpay" style="font-weight: bold;">razorpay</label>
                                             </div>
                                             <div>
                                                 <input type="radio" id="wallet" name="payment" value="wallet">
@@ -784,6 +784,9 @@
     <!--// Quick View Modal -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <script>
 
@@ -887,12 +890,73 @@ document.getElementById("place-order").addEventListener("click", (e) => {
                                 })  
                         }else if (response.paypal) {
                         window.location.href = response.paypal;
-                    }
+                        }else if(response.razorpay){
+                            console.log('data.order:',response.order);
+                            razorpayPayment(response.order);
+                        }
                         },
                     });
                 }
                 
             );
+
+
+            function razorpayPayment(order){
+
+var options = {
+    "key": "rzp_test_deu2ORuCjDgPNd", 
+    "amount":order.amount, 
+    "currency": "INR",
+    "name": "aspense", 
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, 
+    // "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+    "handler": function (response){                              //handler after payment success
+        console.log('response:',response);
+        verifyPayment(response,order);
+    },
+    "prefill": { 
+        "name": "muhammad shibili n", 
+        "email": "nkshibili17@gmail.com", 
+        "contact": "9000090000" 
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {  
+        "color": "#f2a100"
+    }
+};
+console.log('hereeeeeeeeeeeeee');
+var rzp1 = new Razorpay(options);
+console.log('rzp1:',rzp1);
+rzp1.on('payment.failed', function (response){
+    window.location.href=`/order-failure?id=${order.receipt}`
+});
+
+rzp1.open();
+}
+
+function verifyPayment(response,order){
+        fetch('/verify-payment',{
+            method:"POST",
+            headers:{
+                "content-type": "application/json;charset=utf-8"
+            },
+            body:JSON.stringify({
+                response,
+                order
+            })
+        })
+        .then((res)=>res.json())
+        .then((data)=>{
+            if(data.statusChanged){
+                console.log('iffididd');
+                window.location.href=`/order-success`
+            }
+        })   
+    }
 
 //             function fetchSuggestions(query) {
 //     if (query.length < 3) {

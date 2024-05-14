@@ -222,299 +222,69 @@
         <!-- End Countdown Area -->
 
         <!-- Start Product Feature Tab -->
-        <div class="product-sale-area pt--100 pt_md--80 pt_sm--80 bg-color"
-            data-bg-color="#ffffff">
+        <div class="product-sale-area pt--100 pt_md--80 pt_sm--80 bg-color" data-bg-color="#ffffff">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <!-- Start Product Tab -->
-                        <ul class="nav nav-tabs onsale-tab" id="myTab"
-                            role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="home-tab"
-                                    data-toggle="tab" href="#home" role="tab"
-                                    aria-controls="home"
-                                    aria-selected="true">Featured</a>
-                            </li>
+                        <ul class="nav nav-tabs onsale-tab" id="myTab" role="tablist">
                             <% if(categoryData) { %>
                             <% categoryData.forEach( category => { %>
                             <li class="nav-item">
-                                <a class="nav-link" id="<%= category.name %>"
-                                    data-toggle="tab" href="#profile" role="tab"
-                                    aria-controls="profile"
-                                    aria-selected="false"><%= category.name
-                                    %></a>
+                                <a class="nav-link" id="<%= category.name %>-tab" data-toggle="tab" href="#<%= category.name %>" role="tab" aria-controls="<%= category.name %>" aria-selected="false"><%= category.name %></a>
                             </li>
                             <% }) %>
                             <% } %>
-
                         </ul>
                         <!-- End Product Tab -->
                     </div>
                 </div>
                 <div class="row mt--30">
-
                     <div class="col-lg-12">
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home"
-                                role="tabpanel" aria-labelledby="home-tab">
+                            <% categoryData.forEach(category => { %>
+                            <div class="tab-pane fade" id="<%= category.name %>" role="tabpanel" aria-labelledby="<%= category.name %>-tab">
                                 <div class="row">
-
                                     <!-- Start Single Product -->
-                                    <% productData.forEach( product => { %>
-                                    <div
-                                        class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-
+                                    <% productData.forEach(product => { %>
+                                        <% if (product.category.name === category.name) { %>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
                                         <div class="product">
                                             <div class="inner">
                                                 <div class="thumbnail">
-                                                    <a
-                                                        href="/product-details?_id=<%= product._id %>">
-                                                        <img
-                                                            src="/images/product/original/<%= product.images[0] %>"
-                                                            alt="Product Images">
+                                                    <a href="/product-details?_id=<%= product._id %>">
+                                                        <img src="/images/product/original/<%= product.images[0]%>" alt="Product Images">
                                                     </a>
                                                 </div>
-                                                <div
-                                                    class="product-hover-action">
+                                                <div class="product-hover-action">
                                                     <div class="hover-inner">
-                                                        <a title="Quick View"
-                                                            class="quickview"
-                                                            href="#"><i
-                                                                class="fa fa-search"></i></a>
-                                                        <a
-                                                            onclick="toCart('<%= product._id %>')"><i
-                                                                class="fa fa-cart-plus"></i></a>
-                                                                <a onclick="addToWishlist('<%= product._id %>')" href="/wishlist" id="wishlistLink">
-                                                                    <i class="fa fa-heart-o" id="heartIcon"></i>
-                                                                </a>
-                                                        <a
-                                                            href="compare.html"><i
-                                                                class="fa fa-repeat"></i></a>
+                                                        <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
+                                                        <a href="/cart"><i class="fa fa-cart-plus"></i></a>
+                                                        <a onclick="addToWishlist('<%= product._id %>')" href="/wishlist" id="wishlistLink">
+                                                            <i class="fa fa-heart-o" id="heartIcon"></i>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="content">
-                                                <h2><a
-                                                        href="/product-details?_id=<%= product._id %>"><%= product.name %>
-                                                      </a></h2>
-                                                <span class="prize">$<%=
-                                                    product.price %>.00</span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <% }); %>
-                                </div>
-                            </div>
-
-                            <% categoryData.forEach( category => { %>
-                            <div class="tab-pane fade" id="<%= category.name %>"
-                                role="tabpanel"
-                                aria-labelledby="<%= category.name %>">
-                                <div class="row">
-                                    <!-- Start Single Product -->
-                                    <% productData.forEach( product => { %>
-
-                                    <div
-                                        class="col-lg-3 col-md-6 col-sm-6 col-12 mt--30">
-                                        <div class="product">
-                                            <div class="inner">
-                                                <div class="thumbnail">
-                                                    <a
-                                                        href="/product-details?_id=<%= product._id %>">
-                                                        <img
-                                                            src="/images/product/sized/<%= product.images.image1 %>"
-                                                            alt="Product Images">
-                                                    </a>
-                                                </div>
-                                                <div
-                                                    class="product-hover-action">
-                                                    <div class="hover-inner">
-                                                        <a title="Quick View"
-                                                            class="quickview"
-                                                            href="#"><i
-                                                                class="fa fa-search"></i></a>
-                                                        <a href="cart.html"><i
-                                                                class="fa fa-cart-plus"></i></a>
-                                                                <a onclick="addToWishlist('<%= product._id %>')" href="/wishlist" id="wishlistLink">
-                                                                    <i class="fa fa-heart-o" id="heartIcon"></i>
-                                                                </a>
-                                                        <a
-                                                            href="compare.html"><i
-                                                                class="fa fa-repeat"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h2><a
-                                                        href="/product-details?_id=<%= product._id %>">Three-Piece
-                                                        Check</a></h2>
-                                                <span class="prize">$<%=
-                                                    product.price %>.00</span>
+                                                <h2><a href="/product-details?_id=<%= product._id %>"><%= product.name %></a></h2>
+                                                <span class="prize">$<%= product.price %>.00</span>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <% }); %>
-
+                                    <% } %>
+                                    <% }) %>
                                 </div>
                             </div>
                             <% }) %>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
 
-        <!-- End Product Feature Tab -->
-
-        <!-- Start Recent Selling Area -->
-        <div class="recentselling-area pt--100 bg-color" data-bg-color="#fff">
-            <div class="container">
-                <div class="row">
-                    <!-- Start Single Banner -->
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                        <div class="banner">
-                            <div class="thumbnail">
-                                <img class="w-100"
-                                    src="user/images/banner/banner-04.jpg"
-                                    alt="Banner Images">
-                            </div>
-                            <div class="content text-left">
-                                <h3>Best Product for Man</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Banner -->
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-12 mt_sm--40">
-                        <!-- Start Best Rating Product -->
-                        <div class="best-rating-product">
-                            <div class="thumb">
-                                <a href="product-details.html">
-                                    <img
-                                        src="user/images/product/sm-product-01.jpg"
-                                        alt="Product">
-                                </a>
-                            </div>
-                            <div class="content">
-                                <h6><a href="product-details.html">Variable
-                                        product</a></h6>
-                                <div class="price">
-                                    <span class="theme-color">$25.22</span>
-                                    <span class="old-price">$30.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Best Rating Product -->
-
-                        <!-- Start Best Rating Product -->
-                        <div class="best-rating-product mt--30">
-                            <div class="thumb">
-                                <a href="product-details.html">
-                                    <img
-                                        src="user/images/product/sm-product-02.jpg"
-                                        alt="Product">
-                                </a>
-                            </div>
-                            <div class="content">
-                                <h6><a href="product-details.html">Variable
-                                        product</a></h6>
-                                <div class="price">
-                                    <span class="theme-color">$25.22</span>
-                                    <span class="old-price">$30.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Best Rating Product -->
-
-                        <!-- Start Best Rating Product -->
-                        <div class="best-rating-product mt--30">
-                            <div class="thumb">
-                                <a href="product-details.html">
-                                    <img
-                                        src="user/images/product/sm-product-03.jpg"
-                                        alt="Product">
-                                </a>
-                            </div>
-                            <div class="content">
-                                <h6><a href="product-details.html">Demo Product
-                                        Name</a></h6>
-                                <div class="price">
-                                    <span class="theme-color">$25.22</span>
-                                    <span class="old-price">$30.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Best Rating Product -->
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-12 mt_md--40">
-                        <!-- Start Best Rating Product -->
-                        <div class="best-rating-product">
-                            <div class="thumb">
-                                <a href="product-details.html">
-                                    <img
-                                        src="user/images/product/sm-product-04.jpg"
-                                        alt="Product">
-                                </a>
-                            </div>
-                            <div class="content">
-                                <h6><a href="product-details.html">Fit Wool
-                                        Suit</a></h6>
-                                <div class="price">
-                                    <span class="theme-color">$25.22</span>
-                                    <span class="old-price">$30.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Best Rating Product -->
-
-                        <!-- Start Best Rating Product -->
-                        <div class="best-rating-product mt--30">
-                            <div class="thumb">
-                                <a href="product-details.html">
-                                    <img
-                                        src="user/images/product/sm-product-05.jpg"
-                                        alt="Product">
-                                </a>
-                            </div>
-                            <div class="content">
-                                <h6><a href="product-details.html">Fit Wool
-                                        Suit</a></h6>
-                                <div class="price">
-                                    <span class="theme-color">$25.22</span>
-                                    <span class="old-price">$30.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Best Rating Product -->
-
-                        <!-- Start Best Rating Product -->
-                        <div class="best-rating-product mt--30">
-                            <div class="thumb">
-                                <a href="product-details.html">
-                                    <img
-                                        src="user/images/product/sm-product-03.jpg"
-                                        alt="Product">
-                                </a>
-                            </div>
-                            <div class="content">
-                                <h6><a href="product-details.html">Matchbox’ Fit
-                                        Jeans</a></h6>
-                                <div class="price">
-                                    <span class="theme-color">$25.22</span>
-                                    <span class="old-price">$30.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Best Rating Product -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Recent Selling Area -->
+      
 
         <!-- Start Brand Area -->
         <div class="brand-area ptb--90">
@@ -555,157 +325,7 @@
 
     </div>
 
-    <!-- Quick View Modal -->
-    <div class="quick-view-modal">
-        <div class="quick-view-modal-inner">
-            <div class="container">
-                <div class="product-details">
-                    <!-- Product Details Left -->
-                    <div class="product-details-left">
-                        <div class="product-details-images slider-navigation-2">
-                            <a href="#">
-                                <img class="w-100"
-                                    src="user/images/product/product-01.jpg"
-                                    alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100"
-                                    src="user/images/product/product-02.jpg"
-                                    alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100"
-                                    src="user/images/product/product-03.jpg"
-                                    alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100"
-                                    src="user/images/product/product-04.jpg"
-                                    alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100"
-                                    src="user/images/product/product-05.jpg"
-                                    alt="product image">
-                            </a>
-                        </div>
-                        <div class="product-details-thumbs slider-navigation-2">
-                            <img src="user/images/product/product-01.jpg"
-                                alt="product image thumb">
-                            <img src="user/images/product/product-02.jpg"
-                                alt="product image thumb">
-                            <img src="user/images/product/product-03.jpg"
-                                alt="product image thumb">
-                            <img src="user/images/product/product-04.jpg"
-                                alt="product image thumb">
-                            <img src="user/images/product/product-05.jpg"
-                                alt="product image thumb">
-                        </div>
-                    </div>
-                    <!--// Product Details Left -->
 
-                    <!-- Product Details Right -->
-                    <div class="product-details-right">
-                        <h5 class="product-title">Demo Product Name</h5>
-
-                        <div class="ratting-stock-availbility">
-                            <div class="ratting-box">
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                            </div>
-                            <span class="stock-available">In stock</span>
-                        </div>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Nam fringilla augue nec est
-                            tristique auctor. Donec non est at libero vulputate
-                            rutrum. Morbi ornare lectus quis
-                            justo gravida semper. Nulla tellus mi, vulputate
-                            adipiscing cursus eu, suscipit id
-                            nulla. adipiscing cursus eu, suscipit id nulla.</p>
-
-                        <div class="price-box">
-                            <span class="pricebox-price">£80.00</span>
-                        </div>
-
-                        <div class="product-details-quantity">
-                            <div class="quantity-select">
-                                <div class="pro-quantity">
-                                    <div class="pro-qty"><input type="text"
-                                            value="1"></div>
-                                </div>
-                            </div>
-                            <a href="#" class="add-to-cart-button">
-                                <span>ADD TO CART</span>
-                            </a>
-                        </div>
-
-                        <div class="product-details-color">
-                            <span>Color :</span>
-                            <ul>
-                                <li class="red"><span></span></li>
-                                <li class="green checked"><span></span></li>
-                                <li class="blue"><span></span></li>
-                                <li class="black"><span></span></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-size">
-                            <span>Size :</span>
-                            <ul>
-                                <li class="checked"><span>S</span></li>
-                                <li><span>M</span></li>
-                                <li><span>L</span></li>
-                                <li><span>XL</span></li>
-                                <li><span>XXL</span></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-categories">
-                            <span>Categories :</span>
-                            <ul>
-                                <li><a href="shop.html">Accessories</a></li>
-                                <li><a href="shop.html">Kids</a></li>
-                                <li><a href="shop.html">Women</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-tags">
-                            <span>Tags :</span>
-                            <ul>
-                                <li><a href="shop.html">Electronic</a></li>
-                                <li><a href="shop.html">Television</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-socialshare">
-                            <span>Share :</span>
-                            <ul>
-                                <li><a class="facebook" href="#"><i
-                                            class="fa fa-facebook"></i></a></li>
-                                <li><a class="twitter" href="#"><i
-                                            class="fa fa-twitter"></i></a></li>
-                                <li><a class="google-plus" href="#"><i
-                                            class="fa fa-google-plus"></i></a></li>
-                                <li><a class="linkedin" href="#"><i
-                                            class="fa fa-linkedin"></i></a></li>
-                                <li><a class="instagram" href="#"><i
-                                            class="fa fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--// Product Details Right -->
-
-                </div>
-            </div>
-        </div>
-        <button class="close-quickview-modal"><i
-                class="fa fa-close"></i></button>
-    </div>
-    <!--// Quick View Modal -->
 
     <script>
 

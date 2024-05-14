@@ -372,20 +372,22 @@
 const url = new URL(window.location.href); 
 const referralCode = url.searchParams.get('referral');
 console.log('refferalCode',referralCode);
+console.log('fpaasss',passwordInput.value);
+console.log('sf',nameInput.value, emailInput.value,mobileInput.value,passwordInput.value);
 
         if (validateForm()) {
+            console.log('ivideee');
             const response = await fetch('/sign-up', {
                 method: 'post',
-                header
+                headers
                 : {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    name: nameInput.value,
-                    email: emailInput.value,
-                    mobile: mobileInput.value,
-                    password: passwordInput.value,
-                    confirmPassword: confirmPasswordInput.value,
+                    name:nameInput.value,
+                    email:emailInput.value,
+                    mobile:mobileInput.value,
+                    password:passwordInput.value,
                     referral:referralCode
                 })
             });

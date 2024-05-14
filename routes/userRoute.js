@@ -49,11 +49,9 @@ user_route.set('views', './views/user');
 user_route.get("/", userController.loadHome)
 user_route.get("/home", userController.loadHome)
 user_route.get('/about',userController.aboutLoad)
+user_route.get('/contact',userController.contactLoad)
 
 user_route.get("/product-details", userController.loadProductDetails)
-
-
-user_route.get('/sign-up', auth.isLogout, userController.loadSignup);
 
 user_route.get('/auth/google', passport.authenticate('google', {
   scope: ['email', 'profile']
@@ -170,7 +168,10 @@ user_route.post("/coupon-amount",auth.isLogin,couponController.couponAmount)
 user_route.post("/remove-coupon",auth.isLogin,couponController.removeCoupon)
 
 user_route.post("/place-order",auth.isLogin,orderController.placeOrder)
+user_route.post("/verify-payment",auth.isLogin,orderController.verifyPayment)
+user_route.get("/order-failure",auth.isLogin,orderController.orderFailure)
 user_route.post('/pay-now',auth.isLogin,orderController.payNow)
+user_route.post('/ray-now',auth.isLogin,orderController.rayNow)
 
 user_route.post("/paypal-ipn",orderController.paypalIpn)
 user_route.get('/order-success',auth.isLogin,orderController.orderSuccess)
@@ -185,6 +186,7 @@ user_route.get('/invoice/success', asyncHandler(orderController.invoiceSuccess))
 
 user_route.get('/shop',userController.shopLoad)
 user_route.get('/left-shop',userController.leftShopLoad)
+user_route.get('/sign-up', auth.isLogout, userController.loadSignup);
 user_route.post('/sign-up', userController.insertUser)
 user_route.get('/login', auth.isLogout, userController.loadLogin);
 user_route.post('/login', userController.verifyLogin);

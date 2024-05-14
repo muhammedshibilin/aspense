@@ -23,8 +23,8 @@ paypal.configure({
 });
 
 const instance = new Razorpay({
-  key_id: 'YOUR_KEY_ID',
-  key_secret: 'YOUR_KEY_SECRET',
+  key_id:process.env.RAZORPAY_KEY,
+  key_secret:process.env.RAZORPAY_SECRET
 });
 
 
@@ -45,17 +45,14 @@ const decreaseProductQuantity = async (products) => {
 
 async function calculateTotalAmountWithOffers(cartData) {
   let totalAmount = 0;
-  let totalAmountBeforeDiscounts = 0;
   let productOfferAmounts = [];
-  let totalDiscount = 0;
   let discount = 0;
 
   for (const item of cartData.products) {
     if (!item.productId || !item.productId.price || !item.count) {
       console.error("Missing product data for item:", item);
     } else {
-      let itemPrice = item.productId.price * item.count;
-      totalAmountBeforeDiscounts += item.productId.price * item.count;
+      let itemPrice = item.productId.price*item.count
       let applicableOffers = await Offer.find({
         $or: [
           { productId: item.productId._id },
@@ -88,6 +85,7 @@ async function calculateTotalAmountWithOffers(cartData) {
         if (itemPrice === 0) {
           totalAmount += 0;
         } else {
+          console.log('paoss',mostSignificantOffer.discountAmount);
           discount = Math.floor(
             itemPrice * (mostSignificantOffer.discountAmount / 100)
           )
@@ -96,13 +94,11 @@ async function calculateTotalAmountWithOffers(cartData) {
               )
             : 0;
           itemPrice -= discount;
-          totalDiscount += discount;
           let productOfferAmount = {
             productId: item.productId._id,
             discount: discount,
           };
           productOfferAmounts.push(productOfferAmount);
-          console.log("type", typeof totalDiscount, totalDiscount);
           console.log(
             `Product: ${item.productId.name}, Price: ${item.productId.price}, Count: ${item.count}, Discount: ${discount}`
           );
@@ -113,13 +109,9 @@ async function calculateTotalAmountWithOffers(cartData) {
   }
 
   console.log("Total Amount After Discount:", totalAmount);
-  console.log("Total Amount Before Discount:", totalAmountBeforeDiscounts);
-  console.log("total discout", totalDiscount);
-  console.log("dis", discount);
+
   return {
     totalAmount,
-    totalAmountBeforeDiscounts,
-    totalDiscount,
     productOfferAmounts,
   };
 }
@@ -132,50 +124,13 @@ async function createOrder(
   productOfferAmounts,
   status
 ) {
-  const uniqId = crypto
-    .randomBytes(4)
-    .toString("hex")
-    .toUpperCase()
-    .slice(0, 8);
+  const uniqId = crypto.randomBytes(4).toString("hex").toUpperCase().slice(0, 8);
 
-  const orderProducts = cartData.products.map((product) => {
-    const productDiscount =
-      productOfferAmounts.find(
-        (offer) => offer.productId === product.productId._id
-      )?.discount || 0;
-    const discountedPrice =
-      product.productId.price - productDiscount / product.count;
-    console.log("discoun", discountedPrice, productDiscount);
-    if (paymentMethod == "COD" || paymentMethod == "wallet") {
-      status = "placed";
-    }
 
-    return {
-      productId: product.productId._id,
-      name: product.productId.name,
-      count: product.count,
-      productPrice: product.productId.price,
-      image: product.productId.images[0],
-      totalPrice: discountedPrice * product.count,
-      productStatus: status,
-    };
-  });
 
-  const order = new Order({
-    user: user_id,
-    orderId: uniqId,
-    deliveryDetails: address,
-    products: orderProducts,
-    date: new Date(),
-    orderStatus:status,
-    totalAmount: totalAmount < 1500 ? totalAmount + 90 : totalAmount,
-    paymentMethod: paymentMethod,
-    shippingMethod: cartData.shippingMethod,
-    shippingAmount: totalAmount < 1500 ? 90 : 0,
-  });
 
   try {
-    const orderData = await order.save();
+  
     await decreaseProductQuantity(cartData.products);
     return orderData._id;
   } catch (error) {
@@ -235,10 +190,10 @@ const placeOrder = async (req, res) => {
 
 
     const paymentMethod = req.body.formData.payment;
+    const status = paymentMethod=="COD"||paymentMethod=="wallet"?"placed":"Pending";
     const existingAddress = await Address.findOne({ user: user_id });
     let address = req.body.formData.address;
     console.log('sdfdf',address,existingAddress);
-    req.session.address = address;
     if (existingAddress&&existingAddress.address.length==0) {
       existingAddress.address.push({
         fullName: address.fullName,
@@ -270,12 +225,7 @@ const placeOrder = async (req, res) => {
       await newAddress.save();
     }
     
-    let {
-      totalAmount,
-      totalAmountBeforeDiscounts,
-      totalDiscount,
-      productOfferAmounts,
-    } = await calculateTotalAmountWithOffers(cartData);
+    let {productOfferAmounts,totalAmount} = await calculateTotalAmountWithOffers(cartData);
     let couponAmount = 0;
     if (cartData.appliedCoupon) {
       const appliedCouponData = await Coupon.findById(cartData.appliedCoupon);
@@ -288,55 +238,55 @@ const placeOrder = async (req, res) => {
       await appliedCouponData.save();
     }
 
-    if(paymentMethod === "paypal") {
-      items = cartData.products.map((product) => ({
+    const uniqId = crypto.randomBytes(4).toString("hex").toUpperCase().slice(0, 8);
+    const orderProducts = cartData.products.map((product) => {
+      const productDiscount =
+        productOfferAmounts.find(
+          (offer) => offer.productId === product.productId._id
+        )?.discount || 0;
+      const discountedPrice =
+        product.productId.price - productDiscount / product.count;
+      console.log("discoun", discountedPrice, productDiscount)
+      return {
+        productId: product.productId._id,
         name: product.productId.name,
-        sku: product.productId._id,
-        price: product.productId.price.toFixed(2),
-        currency: "USD",
-        quantity: product.count,
-      }));
+        count: product.count,
+        productPrice: product.productId.price-productDiscount,
+        image: product.productId.images[0],
+        totalPrice: discountedPrice * product.count,
+        productStatus: status,
+      };
+    });
 
-      let shippingAmount = totalAmount < 1500 ? 90 : 0;
-      if (shippingAmount > 0) {
-        items.push({
-          name: "Shipping Fee",
-          sku: "SHIPPING",
-          price: shippingAmount.toFixed(2),
-          currency: "USD",
-          quantity: 1,
-        });
+    let shippingAmount = totalAmount<1500?90:0;
+    totalAmount += shippingAmount
 
-        totalAmount += shippingAmount;
-      }
+    const order = new Order({
+      user: user_id,
+      orderId: uniqId,
+      deliveryDetails: address,
+      products: orderProducts,
+      date: new Date(),
+      orderStatus:status,
+      totalAmount: totalAmount,
+      paymentMethod: paymentMethod,
+      shippingAmount:shippingAmount,
+    });
+    const orderData = await order.save();
+    const orderId = orderData._id
 
-      if (totalAmount !== totalAmountBeforeDiscounts) {
-        totalDiscount = totalDiscount + couponAmount;
-        console.log("totaldicscout", totalDiscount);
-        items.push({
-          name: "DISCOUNT",
-          sku: "DISCOUNT",
-          price: -totalDiscount,
-          currency: "USD",
-          quantity: 1,
-        });
-      }
-      console.log("total", totalAmount, shippingAmount);
-
+    if(paymentMethod === "paypal") {
       const create_payment_json = {
         intent: "sale",
         payer: {
           payment_method: "paypal",
         },
         redirect_urls: {
-          return_url: "https://aspense.online/order-success",
+          return_url: `https://aspense.online/order-success?id=${orderId}`,
           cancel_url: "https://aspense.online/checkout",
         },
         transactions: [
           {
-            item_list: {
-              items: items,
-            },
             amount: {
               currency: "USD",
               total: totalAmount.toFixed(2),
@@ -347,28 +297,25 @@ const placeOrder = async (req, res) => {
       };
 
       const paypalUrl = await handlePayPalPayment(create_payment_json);
-      let status = "Pending"
-      const orderId = await createOrder(
-        user_id,
-        cartData,
-        totalAmount,
-        paymentMethod,
-        address,
-        productOfferAmounts,
-        status
-      );
        res.json({ paypal: paypalUrl });
-    } else if (paymentMethod == "COD") {
-      const orderId = await createOrder(
-        user_id,
-        cartData,
-        totalAmount,
-        paymentMethod,
-        address,
-        productOfferAmounts
-      );
+    }else if(paymentMethod=="razorpay"){
+      var options = {
+        amount:totalAmount * 100,
+        currency: 'INR',
+        receipt: '' + orderId,
+      }
+   console.log('X',options);
+      instance.orders.create(options, async function (err, order) {
+        if(err){
+          console.log("error:",err);
+      }
+      console.log("new Order:",order);
+      res.json({razorpay:true,order})
+      })
+
+    }else if (paymentMethod == "COD") {
       await Cart.deleteOne({ user: user_id });
-      res.json({ codsuccess: true, orderId });
+      res.json({ codsuccess: true});
     } else {
       console.log('totaal',totalAmount);
       if (userData.wallet >= totalAmount) {
@@ -407,9 +354,72 @@ const placeOrder = async (req, res) => {
   }
 }
 
+const verifyPayment=async (req,res)=>{
+  try {
+      console.log('verify payment route reacheddd!!'); 
+      const {response,order}=req.body;
+      console.log('rbody',req.body);
+      const user_id = req.session.user_id;
+     const cartData = await Cart.findOne({ user: user_id }).populate(
+      "products.productId"
+    );
 
+      let hmac=crypto.createHmac('sha256',process.env.RAZORPAY_SECRET);
+      hmac.update(response.razorpay_order_id + '|' + response.razorpay_payment_id);
+      hmac=hmac.digest('hex'); 
 
+      if(hmac == response.razorpay_signature){
+          
+          const orderData=await Order.findOne({_id:order.receipt},{products:1});
+          console.log('pppp',orderData);
+          
+          // decreasing ordered products quantiy & change product status
+          for(const item of orderData.products){
+            await Order.findOneAndUpdate(
+              { _id: order.receipt, 'products.productId': item.productId },
+              {
+                  $set: {
+                      'products.$.productStatus': 'placed',
+                      orderStatus: 'placed'
+                  }
+              }
+          );
+             
+          }
+          if(cartData){
+          await decreaseProductQuantity(cartData.products);
+          await Cart.deleteOne({ user: user_id });
+          }
+          console.log('haiii');
+          res.json({statusChanged:true});
+      
+      }
 
+  } catch (error) {
+      console.log(error.message);
+      res.status(500).render('500');
+  }
+}
+
+const orderFailure = async (req,res) => {
+  try {
+    const query = req.query.id
+    if(query){
+    const user_id = req.session.user_id
+    const cartData = await Cart.findOne({ user: user_id }).populate(
+      "products.productId"
+    );
+    await decreaseProductQuantity(cartData.products);
+    await Cart.deleteOne({ user: user_id });
+    res.render("orderFailed")
+  }else{
+    res.render("orderFailed")
+  }
+
+  } catch (error) {
+    res.status(500).render("500")
+  }
+}
 
 
 
@@ -419,8 +429,10 @@ const paypalIpn = async (req,res) =>{
     console.log('body',ipnMessage);
     const payment_state = ipnMessage["resource"]["state"]
     console.log('status',payment_state);
-    if (payment_state === "created") {
+    if (payment_state === "VERIFIED") {
       
+  }else if(payment_state==="INVALID"){
+
   }
     
   } catch (error) {
@@ -429,10 +441,33 @@ const paypalIpn = async (req,res) =>{
   }
 }
 
+const rayNow = async (req,res) => {
+  try {
+    const orderData = await Order.findById({_id:req.body.orderId})
+    var options = {
+      amount:orderData.totalAmount * 100,
+      currency: 'INR',
+      receipt: '' + orderData._id,
+    }
+ console.log('X',options);
+    instance.orders.create(options, async function (err, order) {
+      if(err){
+        console.log("error:",err);
+    }
+    console.log("new Order:",order);
+    res.json({razorpay:true,order})
+    })
+  } catch (error) {
+    console.log('error');
+    res.status(500).render("500")
+  }
+}
+
 
 const payNow = async (req,res) => {
   try {
     const orderData = await Order.findById({_id:req.body.orderId})
+    console.log('data',orderData);
     req.session.orderId = req.body.orderId
     const create_payment_json = {
       intent: "sale",
@@ -447,8 +482,8 @@ const payNow = async (req,res) => {
          description: "Payment for order"
       }],
       redirect_urls: {
-         return_url: "http://localhost:7000/order-success",
-         cancel_url: "http://localhost:7000/paypal-cancel"
+        return_url: `https://aspense.online/order-success?id=${encodeURIComponent(orderData._id)}`,
+         cancel_url: "https://aspense.online/order-failure"
       }
      };
      const paypalUrl = await handlePayPalPayment(create_payment_json);
@@ -465,24 +500,19 @@ const payNow = async (req,res) => {
 
 const orderSuccess = async (req, res) => {
   try {
-    console.log('idddd',req.session.orderId);
-    if(req.session.orderId){
-      const orderData = await Order.findById({_id:req.session.orderId})
-      console.log('odddddddddddd',orderData);
-      const cartData = await Cart.findOne({user:req.session.user_id})
-      console.log('caaaaaaaaaaaaa',cartData);
-      if (orderData) {
-        orderData.orderStatus = "Placed";
-        orderData.products.forEach((product) => {
-          product.productStatus = "Placed"; 
-        });
-        await orderData.save();
-        req.session.orderId = null;
-        await Cart.deleteOne({ user: req.session.user_id });
+   if(req.query){
+    const user_id = req.session.user_id
+    const cartData = await Cart.findOne({ user: user_id }).populate(
+      "products.productId"
+    );
+    if(cartData){
+    await decreaseProductQuantity(cartData.products);
+    await Cart.deleteOne({ user: user_id });
+    }
       } else {
         console.log("Order not found");
       }
-    }
+    
     res.render("orderSuccess");
   } catch (error) {
     console.log(error);
@@ -848,6 +878,9 @@ const invoiceSuccess = async (req, res) => {
 
 module.exports = {
   placeOrder,
+  verifyPayment,
+  orderFailure,
+  rayNow,
   payNow,
   paypalIpn,
   orderSuccess,

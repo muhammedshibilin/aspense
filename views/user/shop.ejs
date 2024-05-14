@@ -40,22 +40,23 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">      
                                     <div class="archive-shop-inner text-center text-sm-right mt_mobile--20" style="display: flex; align-items: center;">
                                         <input type="search" id="searchInput" placeholder="Search products..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px; height: 38px;">
-                                        <select onchange="handleChange(this)" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; height: 38px;">
+                                        <select id="sortSelect" onchange="handleChange(this)" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; height: 38px;">
                                             <option value="new_arrival" <% if (!currentSort) { %>selected<% } %>>New arrivals</option>
                                             <option value="low_to_high" <% if (currentSort === 'low_to_high') { %>selected<% } %>>Price: low to high</option>
                                             <option value="high_to_low" <% if (currentSort === 'high_to_low') { %>selected<% } %>>Price: high to low</option>
                                             <option value="Aa-Zz" <% if (currentSort === 'Aa-Zz') { %>selected<% } %>>Aa-Zz</option>
                                             <option value="Zz-Aa" <% if (currentSort === 'Zz-Aa') { %>selected<% } %>>Zz-Aa</option>
-
                                         </select>
-                                        <select onchange="handleChange(this)" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; height: 38px; margin-left: 3;">
+                                        <select id="categorySelect" onchange="handleChange(this)" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; height: 38px; margin-left:10px;">
                                             <% if (categoryData.length > 0) { %>
                                                 <% categoryData.forEach(category => { %>
-                                                    <option value="<%= category._id %>" <% if (currentSort === category._id.toString()) { %>selected<% } %>><%= category.name %></option>
+                                                    <option value="<%= category._id %>" <% if (req.query.category === category._id.toString()) { %>selected<% } %>><%= category.name %></option>
                                                 <% }) %>
                                             <% } %>
                                         </select>
-                                    </div>   
+                                        
+                                    </div>
+                                       
                                 </div>
                             </div>
                         </div>
@@ -79,7 +80,9 @@
                                                 <div class="hover-inner">
                                                     <a title="Quick View" class="quickview" href="#"><i class="fa fa-search"></i></a>
                                                     <a  onclick="toCart('<%= product._id %>')"><i class="fa fa-cart-plus"></i></a>
-                                                    <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
+                                                    <a onclick="addToWishlist('<%= product._id %>')" id="wishlistLink" class="wishlist-button">
+                                                        <i class="fa fa-heart-o" id="heartIcon"></i>
+                                                    </a>
                                                     <a href="compare.html"><i class="fa fa-repeat"></i></a>
                                                 </div>
                                             </div>
@@ -102,10 +105,9 @@
                            
                                 <!-- End Single Product -->
 
-
                                 <ul class="pagination_style">
                                     <% for (let i = 1; i <= totalPages; i++) { %>
-                                        <li <% if (i === currentPage) { %>class="active"<% } %>><a href="?page=<%= i %>"><%= i %></a></li>
+                                        <li <% if (i === currentPage) { %>class="active"<% } %>><a href="?page=<%= i %><% if (currentSort) { %>&sort=<%= currentSort %><% } %><% if (searchTerm) { %>&search=<%= searchTerm %><% } %>"><%= i %></a></li>
                                     <% } %>
                                 </ul>
                                 
@@ -255,29 +257,27 @@
 
 
 <script>
-function handleSearch(searchTerm, selectedValue) {
-    const currentUrl = window.location.href;
-    const baseUrl = currentUrl.split('?')[0]; 
+const handleChange = () => {
+    const searchInputValue = document.getElementById('searchInput').value;
+    const sortSelectValue = document.getElementById('sortSelect').value;
+    const categorySelectValue = document.getElementById('categorySelect').value;
 
-    const newUrl = `${baseUrl}?sort=${selectedValue}&search=${encodeURIComponent(searchTerm)}`;
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    params.set('search', searchInputValue);
+    params.set('sort', sortSelectValue);
+    params.set('category', categorySelectValue);
+    params.delete('page');
+    window.location.href = `${url.origin}${url.pathname}?${params.toString()}`;
+};
 
-    window.location.href = newUrl;
-}
-
-function handleChange(selectElement) {
-    const selectedValue = selectElement.value;
-    const searchTerm = document.getElementById('searchInput').value;
-    console.log('Search Term:', searchTerm);
-    handleSearch(searchTerm, selectedValue);
-}
-
-document.getElementById('searchInput').addEventListener('keyup', function(event) {
+document.getElementById('searchInput').addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
-        const selectedValue = document.querySelector('select').value;
-        const searchTerm = this.value;
-        handleSearch(searchTerm, selectedValue);
+        handleChange();
     }
 });
+
+
 
 
     function toCart(productId) {
@@ -362,7 +362,58 @@ document.getElementById('searchInput').addEventListener('keyup', function(event)
                 },
             });
         }
-    
+ 
+        
+
+        function addToWishlist(product_id) {
+    console.log(product_id, '-------------');
+   
+
+    $.ajax({
+        method: "POST",
+        url: '/add-to-Wishlist',
+        data: JSON.stringify({ productId: product_id }),
+        contentType: 'application/json',
+        success: function (response) {
+            console.log(response);
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            if (response.added) {
+                Toast.fire({
+                    icon: 'success',
+                    title: response.message
+                });
+                // Add a class to change the button color
+                $('#wishlistLink').addClass('added-to-wishlist');
+            } else if (response.removed) {
+                Toast.fire({
+                    icon: 'success',
+                    title: response.message
+                });
+          
+                $('#wishlistLink').removeClass('added-to-wishlist');
+            } else {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Please log in to perform this action.',
+                    timer: 2000
+                });
+                setTimeout(function () {
+                    window.location.href = '/login';
+                }, 1000);
+            }
+        },
+        error: function (error) {
+            console.error(error.responseText);
+        }
+    });
+}
+            
     
     
     

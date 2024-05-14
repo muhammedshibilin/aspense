@@ -191,7 +191,11 @@ const couponAmount = async (req, res) => {
     const couponId = req.body.couponId;
     console.log('vidtttttyyy',req.body);
     const cartData = await Cart.findOne({ user: user_id }).populate("products.productId");
-    const couponData = await Coupon.findById({ _id: couponId });
+    const couponData = await Coupon.findById(couponId).populate('usedUser');
+    const isUserUsed = couponData.usedUser.some(user => user._id.equals(user_id));
+    if(isUserUsed){
+      return res.json({applied:true})
+    }
     console.log("coupon and cart Dataaaas", couponData, cartData);
     if (cartData.appliedCoupon) {
       return res.json({

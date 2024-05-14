@@ -26,47 +26,48 @@
 
     <div class="main-wrapper">
         <!-- Start Single Product -->
-        <div
-            class="brook-single-product plr--160 plr_lg--100 plr_md--50 plr_sm--50">
+       
+        <div class="brook-single-product plr--160 plr_lg--100 plr_md--50 plr_sm--50">
             <div class="single-product-wrapper ptb--120">
                 <div class="row">
-
+        
                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="single-product-left-side">
                             <div class="product__details__container">
                                 <div class="tab_container big_img_container">
                                     <% productData.images.forEach((image, index) => { %>
-                                        <div class="big_img tab-pane fade <%= index === 0 ? 'show active' : '' %>" id="img<%= index + 1 %>" role="tabpanel">
-                                            <div class="zoom-container">
-                                                <img class="w-100 zoomio"
-                                                     id="zoomedImage<%= index + 1 %>"
-                                                     src="/images/product/original/<%= image %>"
-                                                     data-zoom-image="/images/product/original/<%= image %>"
-                                                     alt="<%= productData.name %>"  
-                                                     style="height:500px !important; width:300px;"
-                                                     loading="lazy">
-                                            </div>
+                                    <div class="big_img tab-pane fade <%= index === 0 ? 'show active' : '' %>" id="img<%= index + 1 %>" role="tabpanel">
+                                        <div class="zoom-container">
+                                            <img class="w-100 zoomio"
+                                                 id="zoomedImage<%= index + 1 %>"
+                                                 src="/images/product/original/<%= image %>"
+                                                 data-zoom-image="/images/product/original/<%= image %>"
+                                                 alt="<%= productData.name %>"
+                                                 style="height:500px !important; width:300px;"
+                                                 loading="lazy">
                                         </div>
+                                    </div>
                                     <% }); %>
                                 </div>
                                 <div class="sm_roduct_nav nav nav-tabs" role="tablist">
                                     <% productData.images.forEach((image, index) => { %>
-                                        <a class="<%= index === 0 ? 'active' : '' %>" id="nav-img-tab<%= index + 1 %>"
-                                           data-toggle="tab" href="#img<%= index + 1 %>"
-                                           role="tab"
-                                           aria-controls="img<%= index + 1 %>"
-                                           aria-selected="<%= index === 0 ? 'true' : 'false' %>">
-                                            <img src="/images/product/original/<%= image %>" alt="<%= productData.name %>" style="width: 80px; height: 100px;" loading="lazy">
-                                        </a>
+                                    <a class="<%= index === 0 ? 'active' : '' %>" id="nav-img-tab<%= index + 1 %>"
+                                       data-toggle="tab" href="#img<%= index + 1 %>"
+                                       role="tab"
+                                       aria-controls="img<%= index + 1 %>"
+                                       aria-selected="<%= index === 0 ? 'true' : 'false' %>">
+                                        <img src="/images/product/original/<%= image %>" alt="<%= productData.name %>" style="width: 80px; height: 100px;" loading="lazy">
+                                    </a>
                                     <% }); %>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+        
                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt_sm--40">
                         <div class="single-product-details-side">
                             <div class="product-details">
+                                <!-- Product details content -->
                                 <div class="inner">
                                     <div class="header">
                                         <div class="product-badges">
@@ -159,6 +160,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- End Single Product -->
 
         <!-- Start Product Review -->
@@ -231,8 +233,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Product Review -->
-        <!-- Start Product Area -->
+      
         <div class="feature-product-area bg-color pb--120 pb_md--80 pb_sm--80"
             data-bg-color="#fff">
             <div class="container">
@@ -267,10 +268,9 @@
                                                 class="fa fa-search"></i></a>
                                         <a href><i
                                                 class="fa fa-cart-plus"></i></a>
-                                        <a href="wishlist.html"><i
+                                        <a href="/wishlist"><i
                                                 class="fa fa-heart-o"></i></a>
-                                        <a href="compare.html"><i
-                                                class="fa fa-repeat"></i></a>
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -283,170 +283,12 @@
                         </div>
 
                     </div>
-                    <!-- End Single Product -->
-
-                    <!-- Start Single Product -->
                     <% }) %>
                 </div>
             </div>
         </div>
-        <!-- End Product Area -->
 
-        <!-- Quick View Modal -->
-        <div class="quick-view-modal">
-            <div class="quick-view-modal-inner">
-                <div class="container">
-                    <div class="product-details">
-                        <!-- Product Details Left -->
-                        <div class="product-details-left">
-                            <div
-                                class="product-details-images slider-navigation-2">
-                                <a href="#">
-                                    <img class="w-100"
-                                        src="user/images/product/product-01.jpg"
-                                        alt="product image">
-                                </a>
-                                <a href="#">
-                                    <img class="w-100"
-                                        src="user/images/product/product-02.jpg"
-                                        alt="product image">
-                                </a>
-                                <a href="#">
-                                    <img class="w-100"
-                                        src="user/images/product/product-03.jpg"
-                                        alt="product image">
-                                </a>
-                                <a href="#">
-                                    <img class="w-100"
-                                        src="user/images/product/product-04.jpg"
-                                        alt="product image">
-                                </a>
-                                <a href="#">
-                                    <img class="w-100"
-                                        src="user/images/product/product-05.jpg"
-                                        alt="product image">
-                                </a>
-                            </div>
-                            <div
-                                class="product-details-thumbs slider-navigation-2">
-                                <img src="user/images/product/product-01.jpg"
-                                    alt="product image thumb">
-                                <img src="user/images/product/product-02.jpg"
-                                    alt="product image thumb">
-                                <img src="user/images/product/product-03.jpg"
-                                    alt="product image thumb">
-                                <img src="user/images/product/product-04.jpg"
-                                    alt="product image thumb">
-                                <img src="user/images/product/product-05.jpg"
-                                    alt="product image thumb">
-                            </div>
-                        </div>
-                        <!--// Product Details Left -->
-
-                        <!-- Product Details Right -->
-                        <div class="product-details-right">
-                            <h5 class="product-title">Demo Product Name</h5>
-
-                            <div class="ratting-stock-availbility">
-                                <div class="ratting-box">
-                                    <span><i class="fa fa-star"></i></span>
-                                    <span><i class="fa fa-star"></i></span>
-                                    <span><i class="fa fa-star"></i></span>
-                                    <span><i class="fa fa-star"></i></span>
-                                    <span><i class="fa fa-star"></i></span>
-                                </div>
-                                <span class="stock-available">In stock</span>
-                            </div>
-
-                            <p>Lorem ipsum dolor sit amet, consectetur
-                                adipiscing
-                                elit. Nam fringilla augue nec est
-                                tristique auctor. Donec non est at libero
-                                vulputate
-                                rutrum. Morbi ornare lectus quis
-                                justo gravida semper. Nulla tellus mi, vulputate
-                                adipiscing cursus eu, suscipit id
-                                nulla. adipiscing cursus eu, suscipit id
-                                nulla.</p>
-
-                            <div class="price-box">
-                                <span class="pricebox-price">£80.00</span>
-                            </div>
-
-                            <div class="product-details-quantity">
-                                <div class="quantity-select">
-                                    <div class="pro-quantity">
-                                        <div class="pro-qty"><input type="number"
-                                                value="1"></div>
-                                    </div>
-                                </div>
-                                <a href="#" class="add-to-cart-button">
-                                    <span>ADD TO CART</span>
-                                </a>
-                            </div>
-
-                            <div class="product-details-color">
-                                <span>Color :</span>
-                                <ul>
-                                    <li class="red"><span></span></li>
-                                    <li class="green checked"><span></span></li>
-                                    <li class="blue"><span></span></li>
-                                    <li class="black"><span></span></li>
-                                </ul>
-                            </div>
-
-                            <div class="product-details-size">
-                                <span>Size :</span>
-                                <ul>
-                                    <li class="checked"><span>S</span></li>
-                                    <li><span>M</span></li>
-                                    <li><span>L</span></li>
-                                    <li><span>XL</span></li>
-                                    <li><span>XXL</span></li>
-                                </ul>
-                            </div>
-
-                            <div class="product-details-categories">
-                                <span>Categories :</span>
-                                <ul>
-                                    <li><a href="shop.html">Accessories</a></li>
-                                    <li><a href="shop.html">Kids</a></li>
-                                    <li><a href="shop.html">Women</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="product-details-tags">
-                                <span>Tags :</span>
-                                <ul>
-                                    <li><a href="shop.html">Electronic</a></li>
-                                    <li><a href="shop.html">Television</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="product-details-socialshare">
-                                <span>Share :</span>
-                                <ul>
-                                    <li><a class="facebook" href="#"><i
-                                                class="fa fa-facebook"></i></a></li>
-                                    <li><a class="twitter" href="#"><i
-                                                class="fa fa-twitter"></i></a></li>
-                                    <li><a class="google-plus" href="#"><i
-                                                class="fa fa-google-plus"></i></a></li>
-                                    <li><a class="linkedin" href="#"><i
-                                                class="fa fa-linkedin"></i></a></li>
-                                    <li><a class="instagram" href="#"><i
-                                                class="fa fa-instagram"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!--// Product Details Right -->
-
-                    </div>
-                </div>
-            </div>
-            <button class="close-quickview-modal"><i
-                    class="fa fa-close"></i></button>
-        </div>
+      
         <script src="https://code.jquery.com/jquery-3.6.3.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous"></script>
@@ -519,75 +361,40 @@ console.log('quantity from frontend',quantity,productId);
 
 
             </script>
+<script>
 
-        <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            $('#zoomedImage1').elevateZoom({
-                zoomType: "lens",
-                cursor: "crosshair", 
-                lensShape: "square", 
-                lensSize: 400 ,
-        
-                
-            });
-            $('#zoomedImage2').elevateZoom({
-                zoomType: "lens",
-                cursor: "crosshair", 
-                lensShape: "square", 
-                lensSize: 400 ,
-               
-            });
-            $('#zoomedImage3').elevateZoom({
-                zoomType: "lens",
-                cursor: "crosshair", 
-                lensShape: "square", 
-                lensSize: 400 ,
-               
-            });
-            $('#zoomedImage4').elevateZoom({
-                zoomType: "lens",
-                cursor: "crosshair", 
-                lensShape: "square",
-                lensSize: 400 ,
-            
-            });
-            var lastScrollTop = 0; 
-        $(window).scroll(function() {
-           
-            if ($(this).scrollTop() < lastScrollTop) {
-                $('.zoomContainer').remove();
-               
-                $('#zoomedImage1').elevateZoom({
-                    zoomType: "lens",
-                    cursor: "crosshair"
-                });
-                $('#zoomedImage2').elevateZoom({
-                zoomType: "lens",
-                cursor: "crosshair",
-               
-            });
-            $('#zoomedImage3').elevateZoom({
-                zoomType: "lens",
-                cursor: "crosshair", 
-                lensShape: "square", 
-                lensSize: 400 ,
-              
-            });
-            $('#zoomedImage4').elevateZoom({
-                zoomType: "lens",
-                cursor: "crosshair", 
-                lensShape: "square",
-                lensSize: 400 ,
-               
-            })
-        }
-            lastScrollTop = $(this).scrollTop();
-            var scrollTopValue = $(this).scrollTop(); 
-            console.log("Scroll Top Value:", scrollTopValue);
-
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize elevateZoom on each.zoomio element
+    $('.zoomio').each(function(index) {
+        $(this).elevateZoom({
+            zoomType: "inner", 
+            cursor: "crosshair",
+            gallery: 'gallery',
+            galleryActiveClass: 'active',
+            loadingIcon: 'https://www.elevateweb.co.uk/spinner.gif'
         });
     });
-      
-        </script>
+
+    // Modify the click event handler to re-initialize elevateZoom
+    $('.sm_roduct_nav a').on('click', function(e) {
+        e.preventDefault(); 
+        var $this = $(this);
+        var targetImageId = $this.attr('href'); 
+        $('.big_img_container.big_img').removeClass('show active');
+        $(targetImageId).addClass('show active'); 
+        $this.closest('.sm_roduct_nav').find('.active').removeClass('active'); 
+        $this.addClass('active'); 
+
+        // Re-initialize elevateZoom with the correct zoomType
+        $(targetImageId).find('.zoomio').elevateZoom({
+            zoomType: "inner"
+        });
+    });
+});
+
+</script>
+
+
+
 
         <%- include("../layouts/user/footer.ejs") %>
