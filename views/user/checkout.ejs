@@ -865,7 +865,13 @@ document.getElementById("place-order").addEventListener("click", (e) => {
                                 text:"product is out of stock ,plese remove out of stock product for your place holder",
                                 icon: "warning"
                                 });               
-                            } else if (response.codsuccess == true) {
+                            }else if(respone.appliedCouponError){
+                                swal.fire({
+                                    icon:"error",
+                                    text:"you have error with applied coupon,please check the coupon criteria!"
+                                })
+                            }
+                             else if (response.codsuccess == true) {
                                 swal.fire({
                                 icon: "success",
                                 title:"cash on delivery",
@@ -912,7 +918,7 @@ var options = {
     "image": "https://example.com/your_logo",
     "order_id": order.id, 
     // "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
-    "handler": function (response){                              //handler after payment success
+    "handler": function (response){                              
         console.log('response:',response);
         verifyPayment(response,order);
     },

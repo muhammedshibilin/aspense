@@ -174,7 +174,7 @@ const cartLoad = async (req, res) => {
       const grandTotal = subTotal + shippingCharge;
       console.log(
         "dataaaaaaaas",
-        cartData,
+        cartDtata,
         subTotal,
         grandTotal,
         shippingCharge
@@ -331,7 +331,7 @@ const checkoutLoad = async (req, res) => {
     const cartData = await Cart.findOne({ user: user_id }).populate(
       "products.productId"
     );
-
+    let subTotal
     const allCoupons = await Coupon.find();
 
     if (cartData) {
@@ -339,9 +339,7 @@ const checkoutLoad = async (req, res) => {
       const { productOfferAmounts } = await calculateTotalAmountWithOffers(
         cartData
       );
-      console.log("productofferAmounts", productOfferAmounts);
-
-      let subTotal = 0;
+      subTotal = 0;
       const eachTotal = cartData.products.map((val) => {
         if (val && val.productId && val.productId.price && val.count) {
           const offerAmount = productOfferAmounts.find(
@@ -349,12 +347,8 @@ const checkoutLoad = async (req, res) => {
               offer.productId.toString() === val.productId._id.toString()
           );
           let discount = offerAmount ? offerAmount.discount : 0;
-          console.log("discoutn,", discount);
-          console.log("count", val.count);
           let totalPrice = (val.productId.price - discount) * val.count;
-          console.log("totaaaaaaaaaaaaaaaal", totalPrice);
           subTotal += totalPrice;
-
           return totalPrice;
         }
         return 0;

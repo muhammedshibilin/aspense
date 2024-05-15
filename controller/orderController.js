@@ -229,6 +229,9 @@ const placeOrder = async (req, res) => {
     let couponAmount = 0;
     if (cartData.appliedCoupon) {
       const appliedCouponData = await Coupon.findById(cartData.appliedCoupon);
+      if (appliedCouponData.criteriaAmount>totalAmount) {
+        return res.status(400).json({appliedCouponError:true})
+      }
       couponAmount = Math.floor(
         totalAmount * (appliedCouponData.discountAmount / 100)
       );
