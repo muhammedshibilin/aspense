@@ -26,8 +26,6 @@ passport.use(new googleStrategy({
             });
 
             await newUser.save()
-
-
             return done(null, profile)
         } catch (e) {
             console.log(e,"error occured while saving to database");

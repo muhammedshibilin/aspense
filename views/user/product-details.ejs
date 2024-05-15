@@ -123,7 +123,7 @@
                                                     class="fa fa-cart-arrow-down"></i><span>Add
                                                     to cart</span></a>
                                             <a class="wislist"
-                                                href="/wishlist"></a>
+                                            onclick="addToWishlist('<%= productData._id %>')"></a>
                                         </div>
                                     </div>
 
@@ -357,6 +357,54 @@ console.log('quantity from frontend',quantity,productId);
         });
     }
 
+    function addToWishlist(product_id) {
+    console.log(product_id, '-------------');
+   
+
+    $.ajax({
+        method: "POST",
+        url: '/add-to-Wishlist',
+        data: JSON.stringify({ productId: product_id }),
+        contentType: 'application/json',
+        success: function (response) {
+            console.log(response);
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            if (response.added) {
+                Toast.fire({
+                    icon: 'success',
+                    title: response.message
+                });
+                // Add a class to change the button color
+                $('#wishlistLink').addClass('added-to-wishlist');
+            } else if (response.removed) {
+                Toast.fire({
+                    icon: 'success',
+                    title: response.message
+                });
+          
+                $('#wishlistLink').removeClass('added-to-wishlist');
+            } else {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Please log in to perform this action.',
+                    timer: 2000
+                });
+                setTimeout(function () {
+                    window.location.href = '/login';
+                }, 1000);
+            }
+        },
+        error: function (error) {
+            console.error(error.responseText);
+        }
+    });
+}
 
 
 

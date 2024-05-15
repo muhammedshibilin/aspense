@@ -15,7 +15,7 @@
         id="responsive-manu">
         <li><a href="/">Home</a> </li>
         <li><a href="/shop">shop</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="/about">About</a></li>
         <li><a href="/contact">Contact</a></li>
     </ul>
     <!-- End Main Menu -->
@@ -35,7 +35,7 @@
                         <p>Lorem Ipsum is simply dummy text of the printing and
                             typesetting industry.</p>
                         <div class="shop-now-btn">
-                            <button type="button">Shop Now <i
+                            <button type="button"><a href="/shop">Shop Now </a><i
                                     class="fa fa-arrow-right"></i></button>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                         <p>Lorem Ipsum is simply dummy text of the printing and
                             typesetting industry.</p>
                         <div class="shop-now-btn">
-                            <button type="button">Shop Now <i
+                            <button type="button"><a href="/shop">Shop Now </a><i
                                     class="fa fa-arrow-right"></i></button>
                         </div>
                     </div>
@@ -157,17 +157,13 @@
                             </div>
                             <div class="product-hover-action">
                                 <div class="hover-inner">
-                                    <a title="Quick View" class="quickview"
-                                        href="#"><i
-                                            class="fa fa-search"></i></a>
+
                                     <a onclick="toCart('<%= product._id %>')"><i
                                             class="fa fa-cart-plus"></i></a>
                                             <a onclick="addToWishlist('<%= product._id %>')" id="wishlistLink" class="wishlist-button">
                                                 <i class="fa fa-heart-o" id="heartIcon"></i>
                                             </a>
-                                            
-                                    <a href="compare.html"><i
-                                            class="fa fa-repeat"></i></a>
+                                     
                                 </div>
                             </div>
                         </div>
