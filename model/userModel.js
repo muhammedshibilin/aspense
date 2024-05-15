@@ -9,12 +9,10 @@ const userSchema = new mongoose.Schema({
   },
   mobile: {
     type: String,
-    required: true,
     minlength: 10,
   },
   password: {
     type: String,
-    required: true,
     minlength: 6,
   },
   image: {
