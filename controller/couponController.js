@@ -247,6 +247,9 @@ const removeCoupon = async (req, res) => {
     const user_id = req.session.user_id;
     const couponId = req.body.couponId
     const cartData = await Cart.findOne({ user: user_id });
+    if(!cartData.appliedCoupon){
+      return res.json({noCoupon:true})
+    }
 
     if (!cartData) {
       return res.json({ success: false, message: "No cart data found." });
@@ -257,7 +260,7 @@ const removeCoupon = async (req, res) => {
         { new: true } 
       );
       console.log('updated result',updateResult);
-    res.json({ success: true, message: "Coupon removed successfully." });
+    res.json({ success: true, message: "Coupon removed successfully."});
     }
   } catch (error) {
     console.error("Error removing coupon:", error);

@@ -1,6 +1,6 @@
 const passport = require('passport')
 const googleStrategy = require("passport-google-oauth2").Strategy
-const googleUser = require('../model/googleModel')
+const User = require('../model/userModel')
 const env = require('dotenv')
 
 
@@ -19,19 +19,18 @@ passport.use(new googleStrategy({
 },
     async (request, accessToken, refreshToken, profile, done) => {
         try {
-            const newGoogleUser = new googleUser({
+            const newUser = new User({
                 googleId: profile.id,
                 name: profile.displayName,
                 email: profile.email
-
             });
 
-            await newGoogleUser.save()
+            await newUser.save()
 
 
             return done(null, profile)
         } catch (e) {
-            console.log(e, "error occured while saving to database");
+            console.log(e,"error occured while saving to database");
         }
     }
 ))

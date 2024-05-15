@@ -274,6 +274,7 @@ const placeOrder = async (req, res) => {
     });
     const orderData = await order.save();
     const orderId = orderData._id
+    req.session.order_id = orderData._id
 
     if(paymentMethod === "paypal") {
       const create_payment_json = {
@@ -373,7 +374,6 @@ const verifyPayment=async (req,res)=>{
           const orderData=await Order.findOne({_id:order.receipt},{products:1});
           console.log('pppp',orderData);
           
-          // decreasing ordered products quantiy & change product status
           for(const item of orderData.products){
             await Order.findOneAndUpdate(
               { _id: order.receipt, 'products.productId': item.productId },
@@ -430,11 +430,20 @@ const paypalIpn = async (req,res) =>{
     const payment_state = ipnMessage["resource"]["state"]
     console.log('status',payment_state);
     if (payment_state === "VERIFIED") {
-      
-  }else if(payment_state==="INVALID"){
-
+      const orderId = req.session.order_id
+      const orderData = await Order.findById({_id:orderId})
+      for(const item of orderData.products){
+        await Order.findOneAndUpdate(
+          { _id: orderId, 'products.productId': item.productId },
+          {
+              $set: {
+                  'products.$.productStatus': 'placed',
+                  orderStatus: 'placed'
+              }
+          }
+      );
+    } 
   }
-    
   } catch (error) {
     console.log("while ipn message getting",error);
     res.status(500).render("500")
@@ -462,7 +471,6 @@ const rayNow = async (req,res) => {
     res.status(500).render("500")
   }
 }
-
 
 const payNow = async (req,res) => {
   try {
@@ -495,8 +503,6 @@ const payNow = async (req,res) => {
     res.status(500).render('500')
   }
 }
-
-
 
 const orderSuccess = async (req, res) => {
   try {

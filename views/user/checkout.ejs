@@ -456,7 +456,7 @@
                                         <p>amount: <span id="coupon-amount"><%= appliedCouponData.discountAmount %></span></p>
                                     <% } else { %>
                                         <p>coupon name: <span id="coupon-name">_</span></p>
-                                        <p>amount: <span id="coupon-amount">_</span></p>
+                                        <p>amount: <span id="coupon-amount"></span></p>
                                     <% } %>
                                 </div>
                                 
@@ -1201,6 +1201,12 @@ document.getElementById('editAddress').addEventListener('click', function (e) {
                         icon:"success",
                         text:"coupon removed"
                     })
+                    location.reload()
+                }else if(response.noCoupon){
+                    Swal.fire({
+                        icon:"error",
+                        text:"no coupon available"
+                    })
                 }
             }
         })
@@ -1231,7 +1237,7 @@ document.getElementById('editAddress').addEventListener('click', function (e) {
                 document.getElementById('couponCodeInput').value = selectedCouponCode;
                 updateTotals(response.couponOfferAmount, response.grandTotal);
                 couponNameElement.textContent = response.couponData.couponName;
-               couponAmountElement.textContent = response.couponData.discountAmount;
+               couponAmountElement.textContent = response.couponData.discountAmount+"%";
             } else {
                 Swal.fire({
                     icon:"error",
