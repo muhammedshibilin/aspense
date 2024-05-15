@@ -158,21 +158,17 @@ const insertUser = async (req, res) => {
     }
 }
 
-const successLoad = async (req, res) => {
-    try {
-
-
-
-
-        const productData = await Product.find({ Is_blocked: true }).populate({
-            path: "category",
-            match: { is_block: true }
-        })
-        res.render('userHome', { productData })
-    } catch (error) {
-        console.log(error);
-    }
-}
+// const successLoad = async (req, res) => {
+//     try {
+//         const productData = await Product.find({ Is_blocked: true }).populate({
+//             path: "category",
+//             match: { is_block: true }
+//         })
+//         res.render('userHome', { productData })
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 const loadLogin = async (req, res) => {
     try {

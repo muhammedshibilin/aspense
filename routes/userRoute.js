@@ -59,10 +59,10 @@ user_route.get('/auth/google', passport.authenticate('google', {
 
 user_route.get('/auth/google/callback',
   passport.authenticate('google', {
-    successRedirect: '/success',
+    successRedirect: '/',
     failureRedirect: '/failure'
   }))
-  user_route.get("/success", userController.successLoad)
+  // user_route.get("/success", userController.successLoad)
   user_route.get('/failure', userController.failureLoad)
 
 
