@@ -726,7 +726,6 @@ module.exports = {
     changePassword,
     passwordChange,
     failureLoad,
-    successLoad,
     loadSignup,
     resendOtp,
     verifyOtp,
