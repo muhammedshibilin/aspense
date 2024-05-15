@@ -172,13 +172,6 @@ const cartLoad = async (req, res) => {
       });
       const shippingCharge = subTotal > 1500 ? 0 : 90;
       const grandTotal = subTotal + shippingCharge;
-      console.log(
-        "dataaaaaaaas",
-        cartDtata,
-        subTotal,
-        grandTotal,
-        shippingCharge
-      );
       res.render("cart", {
         cart: cartData,
         subTotal,
