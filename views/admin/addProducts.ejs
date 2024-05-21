@@ -301,9 +301,10 @@
                   const files = event.target.files;
                   if (files && files.length > 0) {
                       for (let i = 0; i < files.length; i++) {
-                        const fileType = files.type;
-                if (fileType === 'image/jpeg' || fileType === 'image/png') {
-                    handleImageCrop(file);
+                        const fileType = files[i].type;
+            console.log('file', fileType);
+            if (fileType === 'image/jpeg' || fileType === 'image/png') {
+                    handleImageCrop(files[i]);
                 } else {
                     Swal.fire({
                       icon:"error",
