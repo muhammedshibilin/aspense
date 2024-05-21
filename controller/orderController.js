@@ -229,6 +229,10 @@ const placeOrder = async (req, res) => {
     let couponAmount = 0;
     if (cartData.appliedCoupon) {
       const appliedCouponData = await Coupon.findById(cartData.appliedCoupon);
+      if(totalAmount<appliedCouponData.discountAmount){
+        console.log('haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        return res.json({appliedCouponError:true})
+      }
       couponAmount = Math.floor(
         totalAmount * (appliedCouponData.discountAmount / 100)
       );
@@ -310,10 +314,8 @@ const placeOrder = async (req, res) => {
         if(err){
           console.log("error:",err);
       }
-      console.log("new Order:",order);
       res.json({razorpay:true,order})
       })
-
     }else if (paymentMethod == "COD") {
       await Cart.deleteOne({ user: user_id });
       res.json({ codsuccess: true});

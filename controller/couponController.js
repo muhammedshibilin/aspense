@@ -57,6 +57,10 @@ const addCoupon = async (req, res) => {
       if (existingCoupon) {
         return res.json({exist:true});
       }
+      const existingCouponCode = await Coupon.findOne({couponCode:{$regex: new RegExp(couponCode, 'i') }})
+      if(existingCouponCode){
+        return res.json({existCode:true})
+      }
     const newCoupon = new Coupon({
       couponName: couponName,
       couponCode: couponCode,
@@ -130,7 +134,6 @@ const editCoupon = async (req, res) => {
 };
 
 async function calculateTotalAmountWithOffers(cartData) {
-  const productOfferAmounts = [];
   let totalAmount = 0
   let totalAmountAfter = 0
 

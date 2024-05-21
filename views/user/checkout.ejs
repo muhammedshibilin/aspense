@@ -1206,8 +1206,9 @@ document.getElementById('editAddress').addEventListener('click', function (e) {
                     Swal.fire({
                         icon:"success",
                         text:"coupon removed"
-                    })
+                    }).then(
                     location.reload()
+                )
                 }else if(response.noCoupon){
                     Swal.fire({
                         icon:"error",
@@ -1219,8 +1220,6 @@ document.getElementById('editAddress').addEventListener('click', function (e) {
     }
 
     
-
-
     function applyCoupon() {
         const selectedCouponId = $('#selectedCouponId').val();
         const couponNameElement = document.querySelector('#coupon-name');
@@ -1275,9 +1274,6 @@ document.getElementById('applyCouponButton').addEventListener('click', applyCoup
     
             </script>
             
-            
-           
-           
-
+        
 
     <%- include("../layouts/user/footer.ejs") %>

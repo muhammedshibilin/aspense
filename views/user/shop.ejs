@@ -63,43 +63,41 @@
                         <!-- Start Shop Minimal Product -->
                         <div class="shop-minimal-product">
                             <div class="row row--25">
-
-                                <% if(productData) {  %> 
-                                <% productData.forEach((product) => { %>  
-
-
-                                <div class="col-lg-4 col-md-6 col-sm-6 col-12 col-xl-3 mt--60">
-                                    <div class="product">
-                                        <div class="inner">
-                                            <div class="thumbnail" >
-                                                <a href="/product-details?_id=<%= product._id %>">
-                                                    <img src="/images/product/original/<%= product.images[0] %>" alt="<%= product.name %>"  loading="lazy">
-                                                </a>
-                                            </div>
-                                            <div class="product-hover-action">
-                                                <div class="hover-inner">
-                                                    
-                                                    <a  onclick="toCart('<%= product._id %>')"><i class="fa fa-cart-plus"></i></a>
-                                                    <a onclick="addToWishlist('<%= product._id %>')" id="wishlistLink" class="wishlist-button">
-                                                        <i class="fa fa-heart-o" id="heartIcon"></i>
-                                                    </a>
-                                                   
+                                <% if (productData && productData.length > 0) { %>
+                                    <% productData.forEach((product) => { %>  
+                                        <div class="col-lg-4 col-md-6 col-sm-6 col-12 col-xl-3 mt--60">
+                                            <div class="product">
+                                                <div class="inner">
+                                                    <div class="thumbnail">
+                                                        <a href="/product-details?_id=<%= product._id %>">
+                                                            <img src="/images/product/original/<%= product.images[0] %>" alt="<%= product.name %>" loading="lazy">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-hover-action">
+                                                        <div class="hover-inner">
+                                                            <a onclick="toCart('<%= product._id %>')"><i class="fa fa-cart-plus"></i></a>
+                                                            <a onclick="addToWishlist('<%= product._id %>')" id="wishlistLink" class="wishlist-button">
+                                                                <i class="fa fa-heart-o" id="heartIcon"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="content">
+                                                    <h2><a href="/product-details?_id=<%= product._id %>"><%= product.name %></a></h2>
+                                                    <span class="prize">$<%= product.price %>.00</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="content">
-                                            <h2><a href="/product-details?_id=<%= product._id %>"><%= product.name %></a></h2>
-                                            <span class="prize">$<%= product.price %>.00</span>
+                                    <% }) %>
+                                    <% } else { %>
+                                        <div class="col-12" style="display: flex; justify-content: center; align-items: center; height: 60vh;">
+                                            <video src="user/videos/emptyProduct.webm" loop autoplay muted style="width:15rem; height:15rem;"></video>
+                                            <h3 style="transform: scale(1.1)">NO PRODUCTS AVAILABLE</h3>
                                         </div>
-                                    </div>
-                                </div>
-                                <% }) %>  
-                                <% } else {  %> 
-                                    <p>no products available!..</p>
-
                                     <% } %>
-
+                                    
                             </div>
+                            
                         </div>
 
                            
@@ -124,136 +122,6 @@
      
         <!-- End Shop Area -->
 
-   
-
-    <!-- Quick View Modal -->
-    <div class="quick-view-modal">
-        <div class="quick-view-modal-inner">
-            <div class="container">
-                <div class="product-details">
-                    <!-- Product Details Left -->
-                    <div class="product-details-left">
-                        <div class="product-details-images slider-navigation-2">
-                            <a href="#">
-                                <img class="w-100" src="user/images/product/product-01.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="user/images/product/product-02.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="user/images/product/product-03.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="user/images/product/product-04.jpg" alt="product image">
-                            </a>
-                            <a href="#">
-                                <img class="w-100" src="user/images/product/product-05.jpg" alt="product image">
-                            </a>
-                        </div>
-                        <div class="product-details-thumbs slider-navigation-2">
-                            <img src="user/images/product/product-01.jpg" alt="product image thumb">
-                            <img src="user/images/product/product-02.jpg" alt="product image thumb">
-                            <img src="user/images/product/product-03.jpg" alt="product image thumb">
-                            <img src="user/images/product/product-04.jpg" alt="product image thumb">
-                            <img src="user/images/product/product-05.jpg" alt="product image thumb">
-                        </div>
-                    </div>
-                    <!--// Product Details Left -->
-
-                    <!-- Product Details Right -->
-                    <div class="product-details-right">
-                        <h5 class="product-title">Demo Product Name</h5>
-
-                        <div class="ratting-stock-availbility">
-                            <div class="ratting-box">
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                                <span><i class="fa fa-star"></i></span>
-                            </div>
-                            <span class="stock-available">In stock</span>
-                        </div>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est
-                            tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis
-                            justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id
-                            nulla. adipiscing cursus eu, suscipit id nulla.</p>
-
-                        <div class="price-box">
-                            <span class="pricebox-price">£80.00</span>
-                        </div>
-
-                        <div class="product-details-quantity">
-                            <div class="quantity-select">
-                                <div class="pro-quantity">
-                                    <div class="pro-qty"><input type="text" value="1"></div>
-                                </div>
-                            </div>
-                            <a href="#" class="add-to-cart-button">
-                                <span>ADD TO CART</span>
-                            </a>
-                        </div>
-
-                        <div class="product-details-color">
-                            <span>Color :</span>
-                            <ul>
-                                <li class="red"><span></span></li>
-                                <li class="green checked"><span></span></li>
-                                <li class="blue"><span></span></li>
-                                <li class="black"><span></span></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-size">
-                            <span>Size :</span>
-                            <ul>
-                                <li class="checked"><span>S</span></li>
-                                <li><span>M</span></li>
-                                <li><span>L</span></li>
-                                <li><span>XL</span></li>
-                                <li><span>XXL</span></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-categories">
-                            <span>Categories :</span>
-                            <ul>
-                                <li><a href="shop.html">Accessories</a></li>
-                                <li><a href="shop.html">Kids</a></li>
-                                <li><a href="shop.html">Women</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-tags">
-                            <span>Tags :</span>
-                            <ul>
-                                <li><a href="shop.html">Electronic</a></li>
-                                <li><a href="shop.html">Television</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="product-details-socialshare">
-                            <span>Share :</span>
-                            <ul>
-                                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--// Product Details Right -->
-
-                </div>
-            </div>
-        </div>
-        <button class="close-quickview-modal"><i class="fa fa-close"></i></button>
-    </div>
-    <!--// Quick View Modal -->
-    <!-- Start Footer Area -->
-
 
 
 <script>
@@ -277,13 +145,7 @@ document.getElementById('searchInput').addEventListener('keypress', function(eve
     }
 });
 
-
-
-
-    function toCart(productId) {
-    
- 
-    
+ function toCart(productId) {
             $.ajax({
     
                 url: "/add-to-cart",
@@ -413,11 +275,7 @@ document.getElementById('searchInput').addEventListener('keypress', function(eve
         }
     });
 }
-            
-    
-    
-    
-                </script>
+</script>
     
 
     <%- include('../layouts/user/footer.ejs') %>

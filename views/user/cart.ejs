@@ -104,53 +104,63 @@ td.pro-price {
                                 </thead>
                                 <tbody id="carttable">
                                     <% if (cart && cart.products && cart.products.length > 0) { %>
-                                        <% cart.products.forEach(product => { %>
-                                            <tr>
-                                                <td class="pro-thumbnail">
-                                                    <a href="/product-details?_id=<%= product.productId._id %>">
-                                                        <% if (product.productId.images && product.productId.images.length > 0) { %>
-                                                            <img src="/images/product/original/<%= product.productId.images[0] %>" alt="Product" style="width: 50px; height: 60px;">
-                                                        <% } else { %>
-                                                            <img src="/placeholder-image.jpg" alt="Placeholder Image" style="width: 50px; height: 60px;">
-                                                        <% } %>
-                                                    </a>
-                                                </td>
-                                                <td class="pro-title">
-                                                    <a href="/product-details?_id=<%= product.productId._id %>">
-                                                        <%= product.productId.name %>
-                                                    </a>
-                                                    <% if (product.productId.quantity === 0) { %>
-                                                        <div style="color: red; font-weight: bold;"> out of stock</div>
-                                                    <% } %>
-                                                </td>
-                                                <td class="pro-price"><span><%= product.productId.price %></span></td>
-                                                <td class="pro-quantity">
-                                                    <div class="cart-product-quantity">
-                                                        <button class="btn btn-decrement" type="button">-</button>
-                                                        <input type="text" id="cartProductQuantity_<%= product.productId._id %>" class="form-control quantity-input" value="<%= product.count %>" min="1" max="<%= product.quantity %>" readonly>
-                                                        <button class="btn btn-increment" type="button">+</button>
-                                                    </div>
-                                                </td>
-                                                <td class="pro-total" id="totalprice<%= product.productId._id %>"><%= product.totalPrice ? product.totalPrice.toFixed(2) : 'N/A' %></td>
-                                                <td>
-                                                    <button type="button" onclick="removeItem('<%= product.productId._id %>')">
-                                                        <i class="fa fa-trash-o"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        <% }); %>
-                                    <% } else { %>
+                                      <% cart.products.forEach(product => { %>
                                         <tr>
-                                            <td colspan="6">
-                                                <% if (message) { %>
-                                                    <%= message %>
-                                                <% } else { %>
-                                                    No products available
-                                                <% } %>
-                                            </td>
+                                          <td class="pro-thumbnail">
+                                            <a href="/product-details?_id=<%= product.productId._id %>">
+                                              <% if (product.productId.images && product.productId.images.length > 0) { %>
+                                                <img src="/images/product/original/<%= product.productId.images[0] %>" alt="Product" style="width: 50px; height: 60px;">
+                                              <% } else { %>
+                                                <img src="/placeholder-image.jpg" alt="Placeholder Image" style="width: 50px; height: 60px;">
+                                              <% } %>
+                                            </a>
+                                          </td>
+                                          <td class="pro-title">
+                                            <a href="/product-details?_id=<%= product.productId._id %>">
+                                              <%= product.productId.name %>
+                                            </a>
+                                            <% if (product.productId.quantity === 0) { %>
+                                              <div style="color: red; font-weight: bold;">Out of stock</div>
+                                            <% } %>
+                                          </td>
+                                          <td class="pro-price">
+                                            <% if (product.discountedPrice < product.productId.price) { %>
+                                              <span style="text-decoration: line-through;"><%= product.productId.price.toFixed(2) %></span>
+                                              <span style="color: green;"><%= product.discountedPrice.toFixed(2) %></span>
+                                            <% } else { %>
+                                              <span><%= product.productId.price.toFixed(2) %></span>
+                                            <% } %>
+                                          </td>
+                                          <td class="pro-quantity">
+                                            <div class="cart-product-quantity">
+                                              <button class="btn btn-decrement" type="button">-</button>
+                                              <input type="text" id="cartProductQuantity_<%= product.productId._id %>" class="form-control quantity-input" value="<%= product.count %>" min="1" max="<%= product.productId.quantity %>" readonly>
+                                              <button class="btn btn-increment" type="button">+</button>
+                                            </div>
+                                          </td>
+                                          <td class="pro-total" id="totalprice<%= product.productId._id %>">
+                                            <%= product.totalPrice ? product.totalPrice.toFixed(2) : 'N/A' %>
+                                          </td>
+                                          <td>
+                                            <button type="button" onclick="removeItem('<%= product.productId._id %>')">
+                                              <i class="fa fa-trash-o"></i>
+                                            </button>
+                                          </td>
                                         </tr>
+                                      <% }); %>
+                                    <% } else { %>
+                                      <tr>
+                                        <td colspan="6">
+                                          <% if (message) { %>
+                                            <%= message %>
+                                          <% } else { %>
+                                            No products available
+                                          <% } %>
+                                        </td>
+                                      </tr>
                                     <% } %>
-                                </tbody>
+                                  </tbody>
+                                  
                             </table>
                         </div>
                     </form>
@@ -432,10 +442,14 @@ td.pro-price {
                     $(".btn-increment").prop("disabled", true);
                         location.reload();
                         });
-                }else if(response.limit){
+                }else if(response.count){
                     Swal.fire({
                         icon:"warning",
-                        
+                        text:"count must be one"
+                    })
+            }else if(response.limit){
+                    Swal.fire({
+                        icon:"warning",
                         text:"you can buy only 5 pieces at a time"
                     }).then(()=> {                   
                         $(".btn-increment").prop("disabled", true);

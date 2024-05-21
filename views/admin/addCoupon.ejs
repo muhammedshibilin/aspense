@@ -189,7 +189,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="code">Coupon code </label>
-                                                    <input class="form-control" id="code" name="couponCode" >
+                                                    <input class="form-control" id="code" name="couponCode" readonly>
                                                     <button type="button" id="generateButton" class="btn btn-warning my-3">Generate</button>
                                                 <div id="codeError" class="text-danger error-message"></div>
                                             </div>
@@ -263,7 +263,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const discount = document.getElementById('discount').value;
     const expiryDate = document.getElementById('expiredate').value;
     const criteriaAmount = document.getElementById('criteriAmount').value;
-
+    const couponCode = document.getElementById("code").value
+    const pattern = /^[a-zA-Z0-9]+$/;
 
     if (!name || !code || !discount || !expiryDate || !criteriaAmount) {
       Swal.fire({
@@ -272,6 +273,13 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       return;
     }
+    if (!pattern.test(couponCode)) {
+    swal.fire({
+        icon:"error",
+        text:"doesn't contain special characters"
+    })
+    return 
+} 
     if(discount<=0&&criteriaAmount<=0){
         Swal.fire({
       icon:"error",
@@ -309,17 +317,24 @@ if (expiryDateObj <= currentDate) {
     .then(response => response.json())
     .then(data => {
       console.log('Success:', data);
-Swal.fire({
-    icon:"success",
-    text:"coupon added successfully"
-}).then(()=>{
-    window.location.href = "/admin/coupon"
-})
+
 if(data.exist){
     Swal.fire({
         icon:"error",
         text:"name already exist"
     })
+}else if (data.existCode){
+    swal.fire({
+        icon:"error",
+        text:"coupon code exist"
+    })
+}else if(data.success){
+    Swal.fire({
+    icon:"success",
+    text:"coupon added successfully"
+}).then(()=>{
+    window.location.href = "/admin/coupon"
+})
 }
     })
     .catch((error) => {

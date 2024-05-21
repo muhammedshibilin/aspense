@@ -49,14 +49,6 @@
                                         class="mr-3">
                                         <span>Login</span>
                                     </button>
-                                    <div class="checkbox-input">
-                                        <input type="checkbox"
-                                            name="login-form-remember"
-                                            id="login-form-remember">
-                                        <label
-                                            for="login-form-remember">Remember
-                                            me</label>
-                                    </div>
                                 </div>
                                 <div class="single-input">
                                     <a href="/forgot-password" style="font-size: 20px; font-weight: bold;">forgot
@@ -260,29 +252,6 @@
             emailMessage.textContent = 'Email must end with "@gmail.com"';
             return
         }
-
-       
-            
-         if (password.length < 8) {
-            passwordMessage.style.display= "block"
-            passwordMessage.textContent = 'Password must be at least 8 characters';
-            return
-        } else if (!/[A-Z]/.test(password)) {
-            passwordMessage.style.display= "block"
-            passwordMessage.textContent = 'Password must contain at least one uppercase letter';
-             return
-        } else if (!/[a-z]/.test(password)) {
-            passwordMessage.style.display= "block"
-            passwordMessage.textContent = 'Password must contain at least one lowercase letter';
-            return
-        } else if (!/\d/.test(password)) {
-            passwordMessage.style.display= "block"
-            passwordMessage.textContent = 'Password must contain at least one number';
-            return
-        }
-
-
-      
 
         
     $.ajax({

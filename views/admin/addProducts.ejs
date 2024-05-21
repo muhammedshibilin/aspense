@@ -182,7 +182,7 @@
       </div>
     </nav>
     <!-- partial -->
-
+    <div class="container-fluid page-body-wrapper">
 <%- include("../layouts/admin/sidebar.ejs")
 %>
  
@@ -301,7 +301,15 @@
                   const files = event.target.files;
                   if (files && files.length > 0) {
                       for (let i = 0; i < files.length; i++) {
-                          handleImageCrop(files[i]);
+                        const fileType = files.type;
+                if (fileType === 'image/jpeg' || fileType === 'image/png') {
+                    handleImageCrop(file);
+                } else {
+                    Swal.fire({
+                      icon:"error",
+                      text:"image type must be jpeg or png file format"
+                    })
+                }
                       }
                   }
               });
