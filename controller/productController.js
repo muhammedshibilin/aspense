@@ -76,7 +76,7 @@ const addProduct = async (req, res) => {
     const categoryName = req.body.category;
     const category = await Category.findOne({ _id: categoryName });
     
-    const imageDir = 'C:/aspense/public/images/product/original';
+    const imageDir = '/images/product/original';
     if (!fs.existsSync(imageDir)) {
       await fs.mkdirSync(imageDir, { recursive: true });
     }
@@ -144,7 +144,7 @@ const editProduct = async (req, res) => {
      const _id = req.body.productId;
      const categoryData = await Category.findOne({ _id: req.body.category });
      
-     const imageDir = 'C:/aspense/public/images/product/original';
+     const imageDir = '/images/product/original';
      if (!fs.existsSync(imageDir)) {
        await fs.mkdirSync(imageDir, { recursive: true });
      }
