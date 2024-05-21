@@ -2,7 +2,7 @@ const multer = require('multer')
 
 
 const productStorage = multer.diskStorage({
-    destination: "/images/product/original",
+    destination: "public/images/product/original",
     filename: (req, file, cb) => {
         const filename = file.originalname;
         cb(null, filename)
