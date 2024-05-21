@@ -2,14 +2,17 @@ const multer = require('multer')
 
 
 const productStorage = multer.diskStorage({
-    destination: "public/images/product/original",
+    destination: "/aspense/public/images/product/original",
     filename: (req, file, cb) => {
         const filename = file.originalname;
         cb(null, filename)
     }
 })
 
-const productUpload = multer({ storage: productStorage });
+const productUpload = multer({ 
+  storage: productStorage ,
+  limits: { fileSize: 10 * 1024 * 1024 } 
+});
 
 const uploadProduct = productUpload.array('images[]');
 
