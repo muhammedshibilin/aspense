@@ -31,8 +31,6 @@ async function calculateTotalAmountWithOffers(cartData) {
     let mostSignificantOffer = null;
     let productOffer = null;
     let categoryOffer = null;
-
-    // Check if applicable offers have productId that matches item.productId._id
     if (applicableOffers.length > 0) {
       productOffer = applicableOffers.find((offer) =>
         offer.productId.some((id) => id.equals(item.productId._id))
@@ -321,9 +319,11 @@ const updateCart = async (req, res) => {
 const checkoutLoad = async (req, res) => {
   try {
     const user_id = req.session.user_id;
-    const cartData = await Cart.findOne({ user: user_id }).populate(
-      "products.productId"
-    );
+    const cartData = await Cart.findOne({ user: user_id }).populate({
+      path: "products.productId",
+      model: "Product",
+      match: { is_block: 0 },
+  });
     let subTotal
     const allCoupons = await Coupon.find();
 

@@ -149,9 +149,9 @@
                                         <a href="/admin/block-product?_id=<%= product._id %>" class="btn btn-outline-danger block-button" data-initial-status="<%= product.is_block %>" onclick="return confirmAction('block', this.href)">
                                             <%= product.is_block == 0 ? "Block" : "Unblock" %>
                                         </a>
-                                        <a href="/admin/delete-product?_id=<%= product._id %>" data-category-id="<%= product._id %>" class="btn btn-outline-primary delete-button" onclick="return confirmAction('delete', this.href)">
+                                        <!-- <a href="/admin/delete-product?_id=<%= product._id %>" data-category-id="<%= product._id %>" class="btn btn-outline-primary delete-button" onclick="return confirmAction('delete', this.href)">
                                             Delete
-                                        </a>
+                                        </a> -->
                                     </div>
                                 </td>
                             </tr>
