@@ -565,7 +565,7 @@ const excelDownload = async (req, res) => {
       worksheet.addRow([
         order._id,
         order.deliveryDetails.fullName,
-        order.date,
+        order.date.toISOString().slice(0,10),
         order.totalAmount,
         order.paymentMethod,
         order.products.name,

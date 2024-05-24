@@ -144,7 +144,7 @@ const editProduct = async (req, res) => {
      const _id = req.body.productId;
      const categoryData = await Category.findOne({ _id: req.body.category });
      
-     const imageDir = 'public/images/product/original';
+     const imageDir = 'publi/images/product/original';
      if (!fs.existsSync(imageDir)) {
        await fs.mkdirSync(imageDir, { recursive: true });
      }

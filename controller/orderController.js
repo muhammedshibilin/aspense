@@ -567,7 +567,7 @@ const cancelOrder = async (req, res) => {
     );
     if (
       orderedData.paymentMethod == "paypal" ||
-      orderedData.paymentMethod == "wallet"
+      orderedData.paymentMethod == "wallet"||orderedData.paymentMethod=="razorpay"
     ) {
       const date = new Date();
       const UpdateWallet = await User.findOneAndUpdate(
@@ -780,6 +780,8 @@ const generateInvoicePDF = async (req, res) => {
       return res.status(404).json({ error: "Order not found" });
     }
 
+    
+
     let document = new PDFDocument({ margin: 50 });
     let y = 220; 
     
@@ -877,8 +879,6 @@ const generateInvoicePDF = async (req, res) => {
     return res.status(500).render("500")
   }
 };
-
-
 
 const invoiceSuccess = async (req, res) => {
   res.json({ invoice: true });

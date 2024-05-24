@@ -1,5 +1,6 @@
 
 const Category = require("../model/categoryModel");
+const Product = require("../model/productModel")
 
 const loadCategory = async (req, res) => {
     try {
@@ -58,6 +59,12 @@ const blockCategory = async (req, res) => {
     try {
         const categoryId = req.query.id;
         console.log(categoryId);
+        const productsToUpdate = await Product.updateMany(
+            { category:categoryId}, 
+            { $set: { is_block: 1 } }
+        );
+
+        console.log(`${productsToUpdate.nModified} products updated.`);
         const result = await Category.findOneAndUpdate({_id: categoryId}, { $set: { is_block: 1 } });
         console.log(result);
         res.redirect("/admin/category");
@@ -75,6 +82,10 @@ const unblockCategory = async (req, res) => {
         console.log("unblock category ID : ", categoryId);
 
         const result = await Category.findOneAndUpdate({_id: categoryId}, { $set: { is_block: 0 } });
+        const productsToUpdate = await Product.updateMany(
+            { category:categoryId}, // Find products belonging to the category
+            { $set: { is_block: 0 } }
+        );
         console.log("result : ", result);
         res.redirect("/admin/category");
     } catch (error) {

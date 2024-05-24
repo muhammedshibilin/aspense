@@ -641,7 +641,7 @@ const shopLoad = async (req, res) => {
         const productData = await Product.find(filter)
             .populate({
                 path: 'category',
-                match: { is_block: 0 }
+                match: {is_block: 0 }
             })
             .sort(sortOption)
             .skip(skip)
